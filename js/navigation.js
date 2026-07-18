@@ -189,9 +189,16 @@
             commitSubmenuState(trigger, isOpen);
           }, true);
 
-          // The inherited keyboard layer cancels native activation in Firefox
-          // and WebKit, leaving visual and ARIA state out of sync.
+          // Preserve the inherited focus-open panel before native Tab resolves
+          // its next target. The inherited keyboard layer also cancels native
+          // activation in Firefox and WebKit.
           trigger.addEventListener('keydown', (event) => {
+            if (event.key === 'Tab' && !event.shiftKey && trigger.getAttribute('aria-expanded') !== 'true') {
+              closeSubmenus(trigger);
+              commitSubmenuState(trigger, true);
+              return;
+            }
+
             if (event.key === 'Enter' || event.key === ' ' || event.key === 'Spacebar') {
               event.preventDefault();
               event.stopImmediatePropagation();

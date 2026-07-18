@@ -102,6 +102,7 @@ requireText('navigation', 'navigation.classList.toggle(\'active\', drawerOpen)',
 requireText('navigation', "attributeFilter: ['aria-expanded', 'class']", 'Submenu button state must stay synchronized with inherited navigation behavior.');
 requireText('navigation', "window.matchMedia('(min-width: 75rem)')", 'Wide-screen submenu buttons must bridge the inherited 1200px event gap.');
 requireText('navigation', "item.addEventListener('focusout'", 'Submenus must close when keyboard focus leaves their complete menu item.');
+requireText('navigation', "event.key === 'Tab' && !event.shiftKey", 'Forward Tab must preserve the focused submenu for native destination navigation.');
 requireText('navigation', "event.key === 'Enter' || event.key === ' ' || event.key === 'Spacebar'", 'Submenu buttons must preserve Enter and Space activation across supported browsers.');
 requireText('navigation', "input.removeAttribute('required')", 'Sitewide search must not expose a false required state.');
 requireText('navigation', "Drupal.t('Search Moody College site')", 'Sitewide search must retain its accurate accessible label.');
