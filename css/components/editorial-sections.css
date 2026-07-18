@@ -1,0 +1,454 @@
+/* Hallmark · macrostructure: Split Studio · components: S2 · C3 · T3
+ * pairings: alternating 5/7 · section heads: hanging · quote: roman display
+ * audience: mixed Moody community · use: discover and choose a next task
+ * theme: UT custom · states: default · hover · focus · active · disabled
+ */
+/* Hallmark · pre-emit critique: P5 H4 E5 S4 R5 V4 */
+
+:where(.node-page, .node-moody_landing_page, .node-moody_standard_page) .layout__region--main > .block {
+  min-width: 0;
+}
+
+:where(.node-page, .node-moody_landing_page, .node-moody_standard_page) .utexas-layout--twocol-wrapper.moody26-single-region {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+}
+
+:where(.node-page, .node-moody_landing_page, .node-moody_standard_page) .utexas-layout--twocol-wrapper.moody26-single-region > .layout__region {
+  width: 100%;
+  max-width: none;
+  flex-basis: 100%;
+}
+
+/* A prose-only first section becomes an editorial lead without requiring a
+   new Layout Builder component or changing the authored heading text. */
+.node-moody_landing_page .node__content > .section-wrapper:first-child:has(.block-bundle-basic) {
+  padding-block: var(--space-xl);
+}
+
+.node-moody_landing_page .node__content > .section-wrapper:first-child
+  .block-bundle-basic .ut-copy > p:first-child {
+  max-width: 18ch;
+  margin: 0;
+  font-family: var(--font-display);
+  font-size: var(--text-heading);
+  font-style: normal;
+  font-weight: 700;
+  letter-spacing: -0.025em;
+  line-height: var(--leading-heading);
+  text-wrap: balance;
+}
+
+.node-moody_landing_page .node__content > .section-wrapper:nth-child(2):has(.moody26-single-region) {
+  padding-block: 0 var(--space-2xl);
+}
+
+.node-moody_landing_page .node__content > .section-wrapper:nth-child(2)
+  .moody26-single-region .block-bundle-basic {
+  max-width: var(--content-narrow);
+  /* The inherited spacing utility is important, so this scoped reset must be. */
+  margin-block-start: 0 !important;
+  padding-block: var(--space-xl) var(--space-2xl);
+  border-block-start: var(--rule-hair) solid var(--color-rule-strong);
+}
+
+.node-moody_landing_page .node__content > .section-wrapper:nth-child(2)
+  .moody26-single-region .ut-copy > div:first-child {
+  color: var(--color-ink);
+  font-family: var(--font-display);
+  font-size: var(--text-heading-sm);
+  font-style: normal;
+  font-weight: 700;
+  line-height: var(--leading-heading);
+}
+
+.node-moody_landing_page .node__content > .section-wrapper:nth-child(2)
+  .moody26-single-region .ut-copy :where(p, a) {
+  font-family: var(--font-body);
+  font-size: var(--text-base);
+  font-weight: 400;
+  line-height: var(--leading-body);
+}
+
+:where(.node-page, .node-moody_landing_page, .node-moody_standard_page) .section-wrapper:has(.block-headline-h2) {
+  padding-block-start: var(--space-3xl);
+}
+
+:where(.node-page, .node-moody_landing_page, .node-moody_standard_page) .block-headline-h2 {
+  width: min(100%, var(--content-max));
+  margin-inline: auto;
+  padding: var(--space-3xl) var(--page-gutter) var(--space-xl);
+}
+
+:where(.node-page, .node-moody_landing_page, .node-moody_standard_page) .block-headline-h2 :where(h2, .ut-headline) {
+  max-width: 18ch;
+  margin: 0;
+  color: var(--color-ink);
+  font-family: var(--font-display);
+  font-size: var(--text-heading);
+  font-style: normal;
+  font-weight: 700;
+  letter-spacing: -0.025em;
+  line-height: var(--leading-heading);
+  text-align: start;
+  text-transform: none;
+  text-wrap: balance;
+}
+
+/* Homepage photo-content blocks become portable Split Studio pairings without
+   changing their Layout Builder authoring model. */
+.node-page .layout__region--main > .block-bundle-utexas-photo-content-area {
+  container-type: inline-size;
+  padding: 0;
+}
+
+.node-page .layout__region--main > .block-bundle-utexas-photo-content-area:nth-of-type(even) {
+  background: var(--color-paper-2);
+  color: var(--color-ink);
+}
+
+.node-page .ut-photo-content-area {
+  display: grid;
+  width: min(100%, var(--page-max));
+  grid-template-columns: minmax(0, 1fr);
+  align-items: stretch;
+  gap: 0;
+  margin-inline: auto;
+}
+
+.node-page .ut-photo-content-area .photo-wrapper {
+  min-width: 0;
+  overflow: clip;
+}
+
+.node-page .ut-photo-content-area .photo-wrapper :where(picture, img) {
+  display: block;
+  width: 100%;
+  height: 100%;
+}
+
+.node-page .ut-photo-content-area .photo-wrapper img {
+  aspect-ratio: var(--media-feature-ratio);
+  border-radius: 0;
+  object-fit: cover;
+}
+
+.node-page .ut-photo-content-area .content-wrapper {
+  display: grid;
+  align-content: center;
+  gap: var(--space-md);
+  padding: var(--space-2xl) var(--page-gutter);
+}
+
+.node-page .ut-photo-content-area .content-wrapper :where(h2, h3, .ut-headline) {
+  max-width: 18ch;
+  margin: 0;
+  font-family: var(--font-display);
+  font-size: var(--text-heading-sm);
+  font-style: normal;
+  font-weight: 700;
+  text-transform: none;
+  text-wrap: balance;
+}
+
+.node-page .ut-photo-content-area .content-wrapper :where(p, .ut-copy) {
+  max-width: var(--measure);
+  margin: 0;
+  font-size: var(--text-lead);
+}
+
+@container (min-width: 48rem) {
+  .node-page .ut-photo-content-area {
+    grid-template-columns: minmax(0, 5fr) minmax(0, 7fr);
+  }
+
+  .node-page .layout__region--main > .block-bundle-utexas-photo-content-area:nth-of-type(even) .ut-photo-content-area {
+    grid-template-columns: minmax(0, 7fr) minmax(0, 5fr);
+  }
+
+  .node-page .layout__region--main > .block-bundle-utexas-photo-content-area:nth-of-type(even) .photo-wrapper {
+    order: 2;
+  }
+}
+
+/* Moody Showcase is already the correct content model for a diptych. The
+   theme removes legacy card chrome and makes its media/copy rhythm coherent. */
+:where(.node-page, .node-moody_landing_page, .node-moody_standard_page) .field--type-moody-showcase {
+  container-type: inline-size;
+  padding-inline: 0;
+}
+
+:where(.node-page, .node-moody_landing_page, .node-moody_standard_page) .field--type-moody-showcase > .field__item {
+  margin: 0;
+  padding: 0;
+  background: var(--color-paper);
+  color: var(--color-ink);
+}
+
+:where(.node-page, .node-moody_landing_page, .node-moody_standard_page) .field--type-moody-showcase > .field__item:nth-child(even) {
+  background: var(--color-paper-2);
+  color: var(--color-ink);
+}
+
+:where(.node-page, .node-moody_landing_page, .node-moody_standard_page) .moody-showcase {
+  display: grid;
+  width: min(100%, var(--page-max));
+  grid-template-columns: minmax(0, 1fr);
+  align-items: center;
+  gap: var(--component-gap);
+  margin-inline: auto;
+  padding: var(--space-2xl) var(--page-gutter);
+}
+
+:where(.node-page, .node-moody_landing_page, .node-moody_standard_page) .moody-showcase :where(.showcase-image, .showcase-video) {
+  min-width: 0;
+  overflow: clip;
+}
+
+:where(.node-page, .node-moody_landing_page, .node-moody_standard_page) .moody-showcase :where(.showcase-image, .showcase-video, picture, img, video) {
+  width: 100%;
+}
+
+:where(.node-page, .node-moody_landing_page, .node-moody_standard_page) .moody-showcase img {
+  aspect-ratio: var(--media-feature-ratio);
+  border-radius: 0;
+  object-fit: cover;
+}
+
+:where(.node-page, .node-moody_landing_page, .node-moody_standard_page) .moody-showcase .showcase-text {
+  max-width: var(--content-narrow);
+  padding: 0;
+}
+
+:where(.node-page, .node-moody_landing_page, .node-moody_standard_page) .moody-showcase .showcase-headline {
+  max-width: 18ch;
+  margin-block-end: var(--space-lg);
+  color: var(--color-ink);
+  font-family: var(--font-display);
+  font-size: var(--text-heading);
+  font-style: normal;
+  font-weight: 700;
+  line-height: var(--leading-heading);
+  text-transform: none;
+  text-wrap: balance;
+}
+
+:where(.node-page, .node-moody_landing_page, .node-moody_standard_page) .moody-showcase :where(.showcase-copy, .showcase-copy p) {
+  max-width: var(--measure);
+  margin: 0;
+  color: var(--color-ink);
+  font-size: var(--text-lead);
+  line-height: var(--leading-body);
+}
+
+@container (min-width: 60rem) {
+  :where(.node-page, .node-moody_landing_page, .node-moody_standard_page) .moody-showcase {
+    grid-template-columns: minmax(0, 5fr) minmax(0, 7fr);
+    padding-block: var(--space-3xl);
+  }
+
+  :where(.node-page, .node-moody_landing_page, .node-moody_standard_page) .field--type-moody-showcase > .field__item:nth-child(even) .moody-showcase {
+    grid-template-columns: minmax(0, 7fr) minmax(0, 5fr);
+  }
+
+  :where(.node-page, .node-moody_landing_page, .node-moody_standard_page) .field--type-moody-showcase > .field__item:nth-child(even) :where(.showcase-image, .showcase-video) {
+    order: 2;
+  }
+}
+
+/* Featured highlights use the same media/copy contract, regardless of the
+   legacy colour selection stored on the block. */
+:where(.node-moody_landing_page, .node-moody_standard_page) .field--type-utexas-featured-highlight {
+  container-type: inline-size;
+}
+
+:where(.node-moody_landing_page, .node-moody_standard_page) .field--type-utexas-featured-highlight :is(.fh-background, .fh-background.medium, .fh-background.dark) {
+  background: var(--color-paper-2);
+  color: var(--color-ink);
+}
+
+:where(.node-moody_landing_page, .node-moody_standard_page) .utexas-featured-highlight {
+  display: grid;
+  width: min(100%, var(--page-max));
+  grid-template-columns: minmax(0, 1fr);
+  align-items: center;
+  gap: var(--component-gap);
+  margin-inline: auto;
+  padding: var(--space-2xl) var(--page-gutter);
+}
+
+:where(.node-moody_landing_page, .node-moody_standard_page) .utexas-featured-highlight :where(.image-wrapper, .content-wrapper) {
+  min-width: 0;
+  margin: 0;
+  padding: 0 !important;
+}
+
+:where(.node-moody_landing_page, .node-moody_standard_page) .utexas-featured-highlight :where(h2, h3, p, a) {
+  color: var(--color-ink);
+}
+
+@container (min-width: 60rem) {
+  :where(.node-moody_landing_page, .node-moody_standard_page) .utexas-featured-highlight {
+    grid-template-columns: minmax(0, 7fr) minmax(0, 5fr);
+    padding-block: var(--space-3xl);
+  }
+}
+
+/* Legacy colour-block choices become a neutral task index. Burnt orange stays
+   a signal instead of filling a large surface. */
+:where(.node-moody_landing_page, .node-moody_standard_page) .field--type-moody-flex-color-blocks {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 16rem), 1fr));
+  gap: var(--space-lg);
+}
+
+:where(.node-moody_landing_page, .node-moody_standard_page) .field--type-moody-flex-color-blocks .flex-color-blocks-wrapper,
+:where(.node-moody_landing_page, .node-moody_standard_page) .field--type-moody-flex-color-blocks :is(.orange, .green, .blue, .gray) {
+  min-height: 12rem;
+  align-items: flex-start;
+  justify-content: end;
+  margin: 0;
+  padding: var(--space-xl);
+  border-block-start: var(--rule-strong) solid var(--color-accent);
+  background: var(--color-paper);
+  color: var(--color-ink);
+  text-align: start;
+  transition: var(--transition-background);
+}
+
+:where(.node-moody_landing_page, .node-moody_standard_page) .field--type-moody-flex-color-blocks .flex-color-blocks-wrapper :where(.headline, .subheadline) {
+  color: var(--color-ink);
+  font-style: normal;
+  text-transform: none;
+}
+
+:where(.node-moody_landing_page, .node-moody_standard_page) .field--type-moody-flex-color-blocks .flex-color-blocks-wrapper .headline {
+  font-family: var(--font-display);
+  font-size: var(--text-heading-sm);
+  font-weight: 700;
+}
+
+@media (hover: hover) and (pointer: fine) {
+  :where(.node-moody_landing_page, .node-moody_standard_page) .field--type-moody-flex-color-blocks a.flex-color-blocks-wrapper:hover {
+    background: var(--color-paper-2);
+    color: var(--color-ink);
+    text-decoration: underline;
+    text-decoration-color: var(--color-accent);
+    text-decoration-thickness: var(--rule-strong);
+    transform: none;
+  }
+}
+
+/* T4 proof strips remain compact and numeric; no invented figures are added. */
+:where(.node-page, .node-moody_landing_page, .node-moody_standard_page) .moody-impact-facts-wrapper {
+  padding: var(--space-3xl) var(--page-gutter);
+  background: var(--color-paper-2);
+  color: var(--color-ink);
+}
+
+:where(.node-page, .node-moody_landing_page, .node-moody_standard_page) .moody-impact-facts-wrapper .impact-fact-items {
+  width: min(100%, var(--content-max));
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 14rem), 1fr));
+  gap: var(--space-xl);
+  margin-inline: auto;
+}
+
+:where(.node-page, .node-moody_landing_page, .node-moody_standard_page) .moody-impact-facts-wrapper .impact-fact {
+  padding-block-start: var(--space-lg);
+  border-block-start: var(--rule-hair) solid var(--color-rule-strong);
+  text-align: start;
+}
+
+:where(.node-page, .node-moody_landing_page, .node-moody_standard_page) .moody-impact-facts-wrapper .if-headline {
+  border: 0;
+  color: var(--color-ink);
+  font-family: var(--font-display);
+  font-size: var(--text-display-s);
+  font-style: normal;
+  font-variant-numeric: tabular-nums;
+  font-weight: 700;
+  line-height: var(--leading-tight);
+}
+
+:where(.node-page, .node-moody_landing_page, .node-moody_standard_page) .moody-impact-facts-wrapper .if-subheadline {
+  max-width: 24ch;
+  margin: var(--space-sm) 0 0;
+  color: var(--color-ink);
+  font-size: var(--text-base);
+}
+
+/* T3 proof room: one authored quote gets room without a card or fake proof. */
+:where(.node-page, .node-moody_landing_page, .node-moody_standard_page) .quotation-wrapper {
+  padding: var(--space-3xl) var(--page-gutter);
+  background: var(--color-ink);
+  color: var(--color-paper);
+}
+
+:where(.node-page, .node-moody_landing_page, .node-moody_standard_page) .quotation-wrapper .quote-wrapper {
+  width: min(100%, var(--content-max));
+  margin-inline: auto;
+}
+
+:where(.node-page, .node-moody_landing_page, .node-moody_standard_page) .quotation-wrapper .quote {
+  max-width: 38ch;
+  margin-inline: auto;
+  color: var(--color-paper);
+  font-family: var(--font-display);
+  font-size: var(--text-heading);
+  font-style: normal;
+  font-weight: 700;
+  letter-spacing: -0.02em;
+  line-height: var(--leading-heading);
+  text-align: center;
+  text-wrap: balance;
+}
+
+:where(.node-page, .node-moody_landing_page, .node-moody_standard_page) .quotation-wrapper .author {
+  max-width: var(--measure);
+  margin: var(--space-xl) auto 0;
+  color: var(--color-paper);
+  font-size: var(--text-sm);
+  font-style: normal;
+  text-align: center;
+}
+
+/* C3 typographic links preserve a 44px target while dropping generic button
+   chrome inside editorial content blocks. */
+:where(
+  .ut-photo-content-area,
+  .moody-showcase,
+  .utexas-featured-highlight,
+  .field--type-moody-flex-grid
+) :is(.ut-btn, .ut-btn--homepage, .moody-btn--arrow) {
+  display: inline-flex;
+  width: max-content;
+  max-width: 100%;
+  min-height: var(--target-min);
+  align-items: center;
+  margin-block-start: var(--space-lg);
+  padding: var(--space-xs) 0;
+  border: 0;
+  border-block-end: var(--rule-hair) solid var(--color-accent);
+  border-radius: 0;
+  background: var(--color-transparent);
+  color: var(--color-link);
+  font-family: var(--font-body);
+  font-size: var(--text-base);
+  font-weight: 700;
+  text-decoration: none;
+  transform: none;
+}
+
+@media (hover: hover) and (pointer: fine) {
+  :where(
+    .ut-photo-content-area,
+    .moody-showcase,
+    .utexas-featured-highlight,
+    .field--type-moody-flex-grid
+  ) :is(.ut-btn, .ut-btn--homepage, .moody-btn--arrow):hover {
+    border-block-end-width: var(--rule-strong);
+    background: var(--color-transparent);
+    color: var(--color-link);
+    transform: none;
+  }
+}

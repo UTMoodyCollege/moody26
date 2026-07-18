@@ -1,0 +1,19 @@
+global:
+  version: 0.1.0
+  css:
+    base:
+      tokens.css: { weight: 100 }
+    theme:
+      css/moody26.css: { weight: 100 }
+      css/components/quick-actions.css: { weight: 105 }
+      css/components/landing-hero.css: { weight: 110 }
+      css/components/editorial-sections.css: { weight: 120 }
+      css/components/discovery-index.css: { weight: 130 }
+  js:
+    js/accessibility.js: {}
+    js/navigation.js: {}
+    js/quick-actions.js: {}
+  dependencies:
+    - core/drupal
+    - core/drupalSettings
+    - core/once

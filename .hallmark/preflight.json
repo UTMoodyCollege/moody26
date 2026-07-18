@@ -1,0 +1,23 @@
+{
+  "date": "2026-07-18",
+  "framework": "Drupal 11 / UT Drupal Kit",
+  "base_theme": "moody -> forty_acres -> stable9",
+  "font_stack": "Charis SIL + Libre Franklin inherited from Forty Acres",
+  "palette": "UT primary and secondary palette; legacy Sass variables in the Moody parent",
+  "motion": "motion-cut; no motion library; property-limited CSS state transitions only",
+  "spacing": "new 4-point CSS token scale",
+  "preserve": [
+    "Moody content-type templates",
+    "UTDK Layout Builder integration",
+    "UT brand bar and required-links block",
+    "approved UT font files from Forty Acres"
+  ],
+  "introduce": [
+    "locked CSS design tokens",
+    "responsive and interaction-state discipline",
+    "dependency-free compliance verification",
+    "Hallmark Ecosystem Index design language",
+    "live-menu-backed native command palette",
+    "route and interaction-state visual regression coverage"
+  ]
+}

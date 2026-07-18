@@ -1,0 +1,24 @@
+[
+  {
+    "date": "2026-07-17",
+    "macrostructure": "Split Studio",
+    "theme": "custom",
+    "theme_axes": "light / roman-serif / warm",
+    "vibe": "youthful editorial, academic, unmistakably Texas",
+    "enrichment": "E8 content-owned photography and video",
+    "nav": "N11 Mega-menu retained for fleet information architecture",
+    "footer": "Ft1 Mast-headed retained for university compliance",
+    "brief": "Homepage and primary navigation destination modernization"
+  },
+  {
+    "date": "2026-07-16",
+    "macrostructure": "Ecosystem Index",
+    "theme": "custom",
+    "theme_axes": "light / roman-serif / warm",
+    "vibe": "youthful editorial, academic, unmistakably Texas",
+    "enrichment": "none",
+    "nav": "N11 Mega-menu",
+    "footer": "Ft1 Mast-headed",
+    "brief": "Moody26 shared Drupal theme foundation"
+  }
+]

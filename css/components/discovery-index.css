@@ -1,0 +1,289 @@
+/* Hallmark · macrostructure: Split Studio · component: F1 Discovery index
+ * F1 knobs: tiles=variable · spans=irregular · border=hairline top
+ * content: programs · people · research · news · no invented proof
+ * theme: UT custom · motion: one signal per interactive item
+ */
+/* Hallmark · pre-emit critique: P5 H4 E5 S5 R5 V4 */
+
+:where(.node-page, .node-moody_landing_page, .node-moody_standard_page) :where(
+  .field--type-moody-flex-grid,
+  .block-moody-feature-page-feature-pages-editors-picks,
+  .block-moody-flip-things-flip-image-grid,
+  .block-moody-image-grid-image-grid
+) {
+  container-type: inline-size;
+}
+
+/* Flexible content grids become an editorial 12-track index. The first two
+   entries establish hierarchy; remaining entries form a quieter cadence. */
+:where(.node-page, .node-moody_landing_page, .node-moody_standard_page) .flex-grid-wrapper .flex-grid-items {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  gap: var(--space-xl);
+}
+
+:where(.node-page, .node-moody_landing_page, .node-moody_standard_page) .flex-grid-wrapper .flex-grid-item {
+  min-width: 0;
+  height: auto;
+}
+
+:where(.node-page, .node-moody_landing_page, .node-moody_standard_page) .flex-grid-wrapper .mfg--item {
+  height: 100%;
+  padding: 0 0 var(--space-xl);
+  border-block-start: var(--rule-hair) solid var(--color-rule-strong);
+  border-radius: 0;
+  background: var(--color-transparent);
+  box-shadow: none;
+}
+
+:where(.node-page, .node-moody_landing_page, .node-moody_standard_page) .flex-grid-wrapper .mfg--image {
+  margin-block-start: var(--space-md);
+  overflow: clip;
+}
+
+:where(.node-page, .node-moody_landing_page, .node-moody_standard_page) .flex-grid-wrapper .mfg--image img {
+  width: 100%;
+  aspect-ratio: var(--media-feature-ratio);
+  border-radius: 0;
+  object-fit: cover;
+  transition: var(--transition-transform);
+}
+
+:where(.node-page, .node-moody_landing_page, .node-moody_standard_page) .flex-grid-wrapper .mfg--headline {
+  margin-block: var(--space-lg) var(--space-xs);
+  color: var(--color-ink);
+  font-family: var(--font-display);
+  font-size: var(--text-heading-sm);
+  font-style: normal;
+  font-weight: 700;
+  line-height: var(--leading-heading);
+  text-transform: none;
+  text-wrap: balance;
+}
+
+:where(.node-page, .node-moody_landing_page, .node-moody_standard_page) .flex-grid-wrapper :where(.mfg--copy, .mfg--copy p) {
+  max-width: var(--measure);
+  color: var(--color-ink);
+}
+
+@media (hover: hover) and (pointer: fine) {
+  :where(.node-page, .node-moody_landing_page, .node-moody_standard_page) .flex-grid-wrapper .linked-flex-grid-item:hover .mfg--image img {
+    transform: translateY(calc(-1 * var(--rule-hair)));
+  }
+}
+
+@container (min-width: 48rem) {
+  :where(.node-page, .node-moody_landing_page, .node-moody_standard_page) .flex-grid-wrapper .flex-grid-items {
+    grid-template-columns: repeat(12, minmax(0, 1fr));
+  }
+
+  :where(.node-page, .node-moody_landing_page, .node-moody_standard_page) .flex-grid-wrapper .flex-grid-item {
+    grid-column: span 4;
+  }
+
+  :where(.node-page, .node-moody_landing_page, .node-moody_standard_page) .flex-grid-wrapper .flex-grid-item:first-child {
+    grid-column: span 7;
+  }
+
+  :where(.node-page, .node-moody_landing_page, .node-moody_standard_page) .flex-grid-wrapper .flex-grid-item:nth-child(2) {
+    grid-column: span 5;
+  }
+}
+
+/* Home people and program indexes retain their content and links while
+   dropping equal-column card repetition and large burnt-orange surfaces. */
+.node-page .moody-flip-things-image-grid-container,
+.node-page .moody-image-grid-container {
+  padding: var(--space-3xl) var(--page-gutter);
+  background: var(--color-ink);
+  color: var(--color-paper);
+}
+
+.node-page :where(.moody-flip-things-image-grid-container, .moody-image-grid-container) > .container {
+  width: min(100%, var(--content-max));
+  margin-inline: auto;
+  padding: 0;
+}
+
+.node-page :where(.moody-flip-things-image-grid-container, .moody-image-grid-container) :where(h2, h3, h4, h5, p, .headline) {
+  color: var(--color-paper);
+  font-style: normal;
+  text-transform: none;
+}
+
+.node-page .moody-flip-things-image-grid-container .contents-row-max-w {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  gap: var(--space-xl);
+  margin: 0;
+}
+
+.node-page .moody-flip-things-image-grid-container .contents-row-max-w > .col {
+  min-width: 0;
+  padding: 0;
+}
+
+.node-page .moody-flip-things-image-grid {
+  height: 100%;
+  border-block-start: var(--rule-hair) solid var(--color-rule-strong);
+}
+
+.node-page .moody-flip-things-image-grid :where(a, button) {
+  color: var(--color-paper);
+}
+
+@container (min-width: 48rem) {
+  .node-page .moody-flip-things-image-grid-container .contents-row-max-w {
+    grid-template-columns: repeat(12, minmax(0, 1fr));
+  }
+
+  .node-page .moody-flip-things-image-grid-container .contents-row-max-w > .col {
+    grid-column: span 4;
+  }
+
+  .node-page .moody-flip-things-image-grid-container .contents-row-max-w > .col:first-child {
+    grid-column: span 7;
+  }
+
+  .node-page .moody-flip-things-image-grid-container .contents-row-max-w > .col:nth-child(2) {
+    grid-column: span 5;
+  }
+}
+
+/* UTDK promo units read as task entries, not inset cards. */
+:where(.node-moody_landing_page, .node-moody_standard_page) .utexas-promo-unit-items {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  gap: var(--space-xl);
+}
+
+:where(.node-moody_landing_page, .node-moody_standard_page) .utexas-promo-unit {
+  min-width: 0;
+  margin: 0;
+  padding-block-start: var(--space-md);
+  border-block-start: var(--rule-hair) solid var(--color-rule-strong);
+  background: var(--color-transparent);
+  color: var(--color-ink);
+}
+
+:where(.node-moody_landing_page, .node-moody_standard_page) .utexas-promo-unit :where(.image-wrapper, .data-wrapper) {
+  min-width: 0;
+  margin: 0;
+  padding: 0;
+}
+
+:where(.node-moody_landing_page, .node-moody_standard_page) .utexas-promo-unit img {
+  aspect-ratio: var(--media-feature-ratio);
+  border-radius: 0;
+  object-fit: cover;
+}
+
+@container (min-width: 48rem) {
+  :where(.node-moody_landing_page, .node-moody_standard_page) .utexas-promo-unit-items {
+    grid-template-columns: repeat(12, minmax(0, 1fr));
+  }
+
+  :where(.node-moody_landing_page, .node-moody_standard_page) .utexas-promo-unit {
+    grid-column: span 4;
+  }
+
+  :where(.node-moody_landing_page, .node-moody_standard_page) .utexas-promo-unit:first-child {
+    grid-column: span 7;
+  }
+
+  :where(.node-moody_landing_page, .node-moody_standard_page) .utexas-promo-unit:nth-child(2) {
+    grid-column: span 5;
+  }
+}
+
+/* News is a first-class discovery surface. The lead pair is asymmetric; the
+   remaining stories settle into a denser editorial index. */
+.node-moody_landing_page .block-moody-feature-page-feature-pages-editors-picks .row {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  gap: var(--space-xl);
+  margin: 0;
+}
+
+.node-moody_landing_page .block-moody-feature-page-feature-pages-editors-picks .views-row {
+  width: auto;
+  max-width: none;
+  min-width: 0;
+  padding: 0;
+  border: 0;
+  background: var(--color-transparent);
+}
+
+.node-moody_landing_page .latest-news-block {
+  height: 100%;
+  padding-block-start: var(--space-md);
+  border-block-start: var(--rule-hair) solid var(--color-rule-strong);
+}
+
+.node-moody_landing_page .latest-news-block a {
+  color: var(--color-ink);
+  text-decoration: none;
+}
+
+.node-moody_landing_page .latest-news-block-image-field {
+  margin-block-end: var(--space-lg);
+  overflow: clip;
+}
+
+.node-moody_landing_page .latest-news-block-image-field img {
+  display: block;
+  width: 100%;
+  aspect-ratio: var(--media-feature-ratio);
+  border-radius: 0;
+  object-fit: cover;
+  transition: var(--transition-transform);
+}
+
+.node-moody_landing_page .latest-news-block :where(h2, h3, h4, .news-title) {
+  color: var(--color-ink);
+  font-family: var(--font-display);
+  font-size: var(--text-heading-sm);
+  font-style: normal;
+  font-weight: 700;
+  line-height: var(--leading-heading);
+  text-transform: none;
+  text-wrap: balance;
+}
+
+.node-moody_landing_page .latest-news-block .news-categories a {
+  color: var(--color-link);
+  font-size: var(--text-sm);
+  text-decoration: underline;
+  text-decoration-color: var(--color-accent);
+  text-underline-offset: var(--space-3xs);
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .node-moody_landing_page .latest-news-block a:hover .latest-news-block-image-field img {
+    transform: translateY(calc(-1 * var(--rule-hair)));
+  }
+}
+
+@container (min-width: 48rem) {
+  .node-moody_landing_page .block-moody-feature-page-feature-pages-editors-picks .row {
+    grid-template-columns: repeat(12, minmax(0, 1fr));
+  }
+
+  .node-moody_landing_page .block-moody-feature-page-feature-pages-editors-picks .views-row {
+    grid-column: span 4;
+  }
+
+  .node-moody_landing_page .block-moody-feature-page-feature-pages-editors-picks .views-row:first-child {
+    grid-column: span 7;
+  }
+
+  .node-moody_landing_page .block-moody-feature-page-feature-pages-editors-picks .views-row:nth-child(2) {
+    grid-column: span 5;
+  }
+}
+
+.node-moody_landing_page .moody-media-mentions {
+  padding-block: var(--space-3xl);
+  background: var(--color-paper-2);
+  color: var(--color-ink);
+}

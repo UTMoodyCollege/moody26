@@ -1,0 +1,79 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Moody26 quick actions — eight states</title>
+  <link rel="stylesheet" href="../../tokens.css">
+  <link rel="stylesheet" href="../moody26.css">
+  <link rel="stylesheet" href="quick-actions.css">
+</head>
+<body>
+  <main class="moody-quick-actions-preview">
+    <section aria-labelledby="state-title">
+      <h1 id="state-title">Quick actions — eight states</h1>
+      <div class="moody-quick-actions-preview__states">
+        <div class="moody-quick-actions-preview__row">
+          <span class="moody-quick-actions-preview__label">Default</span>
+          <button class="moody-quick-actions__trigger" type="button">Quick actions <kbd>⌘ K</kbd></button>
+        </div>
+        <div class="moody-quick-actions-preview__row">
+          <span class="moody-quick-actions-preview__label">Hover</span>
+          <button class="moody-quick-actions__trigger is-hover" type="button">Quick actions <kbd>⌘ K</kbd></button>
+        </div>
+        <div class="moody-quick-actions-preview__row">
+          <span class="moody-quick-actions-preview__label">Focus</span>
+          <button class="moody-quick-actions__trigger is-focus" type="button">Quick actions <kbd>⌘ K</kbd></button>
+        </div>
+        <div class="moody-quick-actions-preview__row">
+          <span class="moody-quick-actions-preview__label">Active</span>
+          <button class="moody-quick-actions__trigger is-active" type="button">Quick actions <kbd>⌘ K</kbd></button>
+        </div>
+        <div class="moody-quick-actions-preview__row">
+          <span class="moody-quick-actions-preview__label">Disabled</span>
+          <button class="moody-quick-actions__trigger" type="button" disabled>Quick actions <kbd>⌘ K</kbd></button>
+        </div>
+        <div class="moody-quick-actions-preview__row">
+          <span class="moody-quick-actions-preview__label">Loading</span>
+          <button class="moody-quick-actions__trigger" type="button" aria-busy="true">Loading actions</button>
+        </div>
+        <div class="moody-quick-actions-preview__row">
+          <span class="moody-quick-actions-preview__label">Error</span>
+          <button class="moody-quick-actions__trigger" type="button" data-state="error">Try quick actions again</button>
+        </div>
+        <div class="moody-quick-actions-preview__row">
+          <span class="moody-quick-actions-preview__label">Success</span>
+          <button class="moody-quick-actions__trigger" type="button" data-state="success">Action ready</button>
+        </div>
+      </div>
+    </section>
+
+    <dialog class="moody-quick-actions moody-quick-actions--preview" open aria-labelledby="preview-title" aria-describedby="preview-description">
+      <div class="moody-quick-actions__header">
+        <div class="moody-quick-actions__heading-group">
+          <h2 id="preview-title" class="moody-quick-actions__title">Quick actions</h2>
+          <p id="preview-description" class="moody-quick-actions__description">Jump to a Moody destination or search the site.</p>
+        </div>
+        <button class="moody-quick-actions__button" type="button">Close</button>
+      </div>
+      <div class="moody-quick-actions__search">
+        <label class="moody-quick-actions__label" for="preview-search">Search actions</label>
+        <input id="preview-search" class="moody-quick-actions__input" type="search" role="combobox" value="research" aria-controls="preview-list" aria-expanded="true" aria-activedescendant="preview-option-1">
+      </div>
+      <div class="moody-quick-actions__results">
+        <ul id="preview-list" class="moody-quick-actions__list" role="listbox" aria-label="Quick actions">
+          <li id="preview-option-1" class="moody-quick-actions__option" role="option" aria-selected="true">
+            <span class="moody-quick-actions__option-label">Research</span>
+            <span class="moody-quick-actions__option-context">Research &amp; Creative</span>
+          </li>
+          <li class="moody-quick-actions__option" role="option" aria-selected="false">
+            <span class="moody-quick-actions__option-label">Search Moody for “research”</span>
+            <span class="moody-quick-actions__option-context">Site search</span>
+          </li>
+        </ul>
+      </div>
+      <p class="moody-quick-actions__help"><span><kbd>↑ ↓</kbd> Move</span><span><kbd>Enter</kbd> Open</span><span><kbd>Esc</kbd> Close</span></p>
+    </dialog>
+  </main>
+</body>
+</html>

@@ -1,0 +1,9 @@
+{
+  "name": "moody-college/moody26",
+  "description": "Accessible UT-branded Drupal subtheme for the Moody College site fleet.",
+  "type": "drupal-custom-theme",
+  "license": "GPL-2.0-or-later",
+  "require": {
+    "moody-college/moody": "dev-master"
+  }
+}

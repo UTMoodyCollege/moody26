@@ -1,0 +1,69 @@
+{# Semantic Moody26 override of the inherited two-level primary menu. #}
+{% import _self as menus %}
+
+{{ menus.menu_links(items, attributes, 0, null) }}
+
+{% macro menu_links(items, attributes, menu_level, panel_id) %}
+  {% import _self as menus %}
+  {% if items %}
+    {% if menu_level == 0 %}
+      <ul{{ attributes.addClass('main-menu__list') }}>
+    {% else %}
+      <div
+        class="sub-nav-wrapper sub-nav"
+        id="{{ panel_id }}"
+        role="region"
+        aria-hidden="true"
+        aria-labelledby="{{ panel_id }}-trigger"
+      >
+        <ul class="main-menu__list--subnav">
+    {% endif %}
+    {% for item in items %}
+      {% set item_classes = [
+        item.is_expanded ? 'menu-item-has-children',
+        menu_level == 0 ? 'main-menu__list-item' : 'main-menu__list-item--subnav',
+        item.in_active_trail ? 'active',
+      ] %}
+      {% set link_classes = [
+        menu_level == 0 ? 'main-menu__link' : 'main-menu__link--subnav',
+        item.in_active_trail ? 'is-active',
+      ] %}
+      {% set link_attributes = {'class': link_classes} %}
+      {% set submenu_id = 'moody26-submenu-' ~ item.title|clean_class ~ '-' ~ loop.index %}
+
+      {% if item.url.isRouted() and (item.url.getRouteName() == '<nolink>' or item.url.getRouteName() == '<none>') %}
+        {% set link_attributes = item.is_expanded
+          ? link_attributes|merge({'tabindex': -1, 'aria-hidden': 'true'})
+          : link_attributes|merge({'tabindex': 0})
+        %}
+      {% endif %}
+
+      <li{{ item.attributes.addClass(item_classes) }}>
+        {% if item.is_expanded and menu_level == 0 %}
+          <button
+            type="button"
+            class="main-menu__link moody-subnav-trigger{{ item.in_active_trail ? ' is-active' }}"
+            id="{{ submenu_id }}-trigger"
+            aria-controls="{{ submenu_id }}"
+            aria-expanded="false"
+            aria-haspopup="true"
+          >
+            <span class="moody-subnav-label">{{ item.title }}</span>
+            <svg class="svg angle-down" viewBox="0 0 20 20" aria-hidden="true" focusable="false">
+              <path d="m5 7.5 5 5 5-5" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"></path>
+            </svg>
+          </button>
+        {% else %}
+          {{ link(item.title, item.url, link_attributes) }}
+        {% endif %}
+        {% if item.below and menu_level == 0 %}
+          {{ menus.menu_links(item.below, attributes, menu_level + 1, submenu_id) }}
+        {% endif %}
+      </li>
+    {% endfor %}
+    </ul>
+    {% if menu_level != 0 %}
+      </div>
+    {% endif %}
+  {% endif %}
+{% endmacro %}
