@@ -1,0 +1,29 @@
+<footer class="ut-footer moody26-footer" role="contentinfo">
+  <div class="moody26-container">
+    <div class="moody26-footer__masthead">
+      {% if page.footer_left %}
+        <div class="moody26-footer__identity">{{ page.footer_left }}</div>
+      {% endif %}
+      {% if page.footer_middle %}
+        <div class="moody26-footer__navigation">{{ page.footer_middle }}</div>
+      {% endif %}
+      {% if page.footer_right %}
+        <div class="moody26-footer__details">{{ page.footer_right }}</div>
+      {% endif %}
+    </div>
+
+    <div class="moody26-footer__legal">
+      <p class="text--copyright">
+        &copy; <a href="https://www.utexas.edu/">The University of Texas at Austin</a> {{ copyright_year }}
+      </p>
+      {% if not page.footer_right %}
+        <nav class="moody26-footer__required" aria-label="{{ 'University-wide links'|t }}">
+          <a href="https://emergency.utexas.edu/">{{ 'Emergency Information'|t }}</a>
+          <a href="https://www.utexas.edu/site-policies">{{ 'Site Policies'|t }}</a>
+          <a href="https://www.utexas.edu/digital-accessibility-policy">{{ 'Digital Accessibility Policy'|t }}</a>
+          <a href="https://www.utexas.edu/web-privacy-policy">{{ 'Web Privacy Policy'|t }}</a>
+        </nav>
+      {% endif %}
+    </div>
+  </div>
+</footer>

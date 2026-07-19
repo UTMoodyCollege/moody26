@@ -1,12 +1,13 @@
 core_version_requirement: ^10 || ^11
 type: theme
-base theme: moody
+base theme: false
 name: Moody 26
-description: Accessible, youth-aware UT-branded subtheme for the Moody College site fleet.
+description: Standalone, accessible, youth-aware UT-branded theme for the Moody College site fleet.
 package: Moody College
 
 regions:
   hidden: Hidden
+  utility_nav: Utility Navigation
   header_primary: Header Primary
   header_secondary: Header Secondary
   header_tertiary: Header Tertiary
@@ -28,5 +29,6 @@ libraries:
   - moody26/global
 
 ckeditor5-stylesheets:
+  - css/fonts.css
   - tokens.css
   - css/moody26.css

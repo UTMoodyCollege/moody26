@@ -1,0 +1,15 @@
+<div class="ut-brandbar moody26-brandbar">
+  <div class="moody26-container moody26-brandbar__inner">
+    <a class="moody26-brandbar__university" href="https://www.utexas.edu/" aria-label="{{ 'The University of Texas at Austin home'|t }}">
+      utexas.edu
+    </a>
+    {% if parent_entity_title and parent_entity_link %}
+      <a class="ut-parent-entity moody26-brandbar__parent" href="{{ parent_entity_link }}">
+        {{ parent_entity_title }}
+      </a>
+    {% endif %}
+    {% if page.utility_nav %}
+      <div class="moody26-brandbar__utility">{{ page.utility_nav }}</div>
+    {% endif %}
+  </div>
+</div>

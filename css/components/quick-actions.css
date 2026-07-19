@@ -392,19 +392,19 @@
   padding: var(--space-2xs);
 }
 
-#moody-header .moody-quick-actions__trigger {
+#moody26-header .moody-quick-actions__trigger {
   display: inline-flex;
   height: var(--target-min);
   align-self: center;
   margin: 0;
 }
 
-#moody-header .search-social-give > .give-button {
+#moody26-header .moody26-header__actions > .moody26-give {
   align-self: center;
 }
 
 @media (min-width: 75rem) {
-  #moody-header .moody-quick-actions__trigger {
+  #moody26-header .moody-quick-actions__trigger {
     width: auto;
     flex: 0 0 auto;
   }

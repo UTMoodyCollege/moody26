@@ -2,6 +2,7 @@ global:
   version: 0.1.0
   css:
     base:
+      css/fonts.css: { weight: 90 }
       tokens.css: { weight: 100 }
     theme:
       css/moody26.css: { weight: 100 }
@@ -15,5 +16,4 @@ global:
     js/quick-actions.js: {}
   dependencies:
     - core/drupal
-    - core/drupalSettings
     - core/once

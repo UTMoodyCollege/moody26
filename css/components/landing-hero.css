@@ -54,7 +54,7 @@
   background: var(--color-transparent);
 }
 
-/* The installed parent theme's legacy landing variant carries four classes in
+/* The upstream content component's landing variant carries four classes in
    its selectors. Match that boundary here so Moody26 owns its composition. */
 :where(.node-moody_landing_page, .node-moody_standard_page)
   .moody-hero.extrabold-headline.moody-homepage-hero .hero-content.hero-content.hero-content {
@@ -152,6 +152,10 @@
 
 /* The homepage keeps its authored ambient media, but the title and poster are
    always readable before video playback or when motion is reduced. */
+.node-page .section-wrapper:first-child:has(.moody-ambient-video) {
+  padding-block: 0;
+}
+
 .node-page .moody-ambient-video-short {
   min-height: var(--hero-block-size);
   max-height: var(--hero-block-size);
@@ -160,8 +164,31 @@
 
 .node-page .moody-ambient-video .homepage-hero__video,
 .node-page .moody-ambient-video #hidden-overflow-container {
+  position: relative;
   width: 100%;
   min-height: var(--hero-block-size);
+  overflow: clip;
+}
+
+.node-page .moody-ambient-video .homepage-hero__fallback-image {
+  position: absolute;
+  inset: 0;
+  display: none;
+  overflow: clip;
+  background: var(--color-ink);
+}
+
+.node-page .moody-ambient-video .homepage-hero__fallback-image::after {
+  position: absolute;
+  inset: 0;
+  background: var(--color-overlay);
+  content: "";
+}
+
+.node-page .moody-ambient-video .homepage-hero__fallback-image img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
 }
 
 .node-page .moody-ambient-video .textual-content {

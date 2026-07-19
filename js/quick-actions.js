@@ -1,6 +1,6 @@
 /**
  * @file
- * Adds a native, navigation-backed quick-action palette to the Moody header.
+ * Adds a native, navigation-backed quick-action palette to the Moody26 header.
  */
 
 (function (Drupal, once) {
@@ -17,10 +17,10 @@
 
   Drupal.behaviors.moody26QuickActions = {
     attach(context) {
-      once('moody26-quick-actions', '#moody-header', context).forEach((header) => {
-        const actionBar = header.querySelector('.search-social-give');
-        const searchForm = header.querySelector('.ut-search-form form');
-        if (!actionBar || !searchForm) {
+      once('moody26-quick-actions', '#moody26-header', context).forEach((header) => {
+        const actionBar = header.querySelector('.moody26-header__actions');
+        const searchForm = header.querySelector('.moody26-header__search form');
+        if (!actionBar) {
           return;
         }
 
@@ -114,7 +114,7 @@
         }
 
         dialog.append(dialogHeader, search, results, help);
-        actionBar.insertBefore(trigger, actionBar.querySelector('.give-button'));
+        actionBar.insertBefore(trigger, actionBar.querySelector('.moody26-give'));
         document.body.append(dialog);
 
         let actions = [];
@@ -140,21 +140,21 @@
           const home = header.querySelector('.region-header-primary a[href]');
           add(home, Drupal.t('Moody home'), Drupal.t('Home'), true);
 
-          header.querySelectorAll('.main-menu__list > .main-menu__list-item').forEach((item) => {
-            const group = item.querySelector(':scope > .moody-subnav-trigger .moody-subnav-label')?.textContent.trim()
+          header.querySelectorAll('.moody26-menu > .moody26-menu__item').forEach((item) => {
+            const group = item.querySelector(':scope > .moody26-menu__trigger .moody26-menu__label')?.textContent.trim()
               || Drupal.t('Navigate');
-            item.querySelectorAll('.main-menu__link--subnav[href], :scope > .main-menu__link[href]').forEach((link, index) => {
+            item.querySelectorAll('.moody26-submenu__link[href], :scope > .moody26-menu__link[href]').forEach((link, index) => {
               add(link, link.textContent, group, index === 0);
             });
           });
 
-          const give = actionBar.querySelector('.give-button[href]');
+          const give = actionBar.querySelector('.moody26-give[href]');
           add(give, give?.textContent, Drupal.t('Support Moody'), true);
           return collected;
         };
 
         const searchAction = (query) => {
-          const field = searchForm.querySelector('input[type="search"]');
+          const field = searchForm?.querySelector('input[type="search"]');
           if (!field || !query) {
             return null;
           }
@@ -240,8 +240,8 @@
           if (dialog.open) {
             return;
           }
-          header.querySelectorAll('.moody-subnav-trigger[aria-expanded="true"]').forEach((button) => button.click());
-          const menuButton = header.querySelector('#menu-icon[aria-expanded="true"]');
+          header.querySelectorAll('.moody26-menu__trigger[aria-expanded="true"]').forEach((button) => button.click());
+          const menuButton = header.querySelector('.moody26-menu-toggle[aria-expanded="true"]');
           menuButton?.click();
           actions = collectActions();
           input.value = '';

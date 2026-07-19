@@ -1,5 +1,16 @@
 [
   {
+    "date": "2026-07-19",
+    "macrostructure": "Ecosystem Index with Split Studio landing compositions",
+    "theme": "custom standalone Drupal theme",
+    "theme_axes": "light / roman-serif / warm",
+    "vibe": "youthful editorial, academic, unmistakably Texas",
+    "enrichment": "E8 content-owned photography and video",
+    "nav": "N11 two-level disclosure mega-menu owned by Moody26",
+    "footer": "Ft1 Mast-headed with required University destinations",
+    "brief": "Decouple Moody26 from legacy Moody and Speedway runtime dependencies"
+  },
+  {
     "date": "2026-07-17",
     "macrostructure": "Split Studio",
     "theme": "custom",

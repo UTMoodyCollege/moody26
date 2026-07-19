@@ -1,0 +1,38 @@
+{% include '@moody26/partials/brandbar.html.twig' %}
+{% include '@moody26/partials/header.html.twig' %}
+
+{{ page.site_announcement }}
+
+{% set highlighted_content = page.highlighted|render %}
+{% set help_content = page.help|render %}
+
+{% if page.breadcrumb %}
+  <div class="moody26-container moody26-breadcrumb">{{ page.breadcrumb }}</div>
+{% endif %}
+
+{% if highlighted_content|striptags|trim or help_content|striptags|trim %}
+  <div class="moody26-container moody26-system-messages">
+    {{ highlighted_content }}
+    {{ help_content }}
+  </div>
+{% endif %}
+
+<div class="moody26-page">
+  {% if page.sidebar_first %}
+    <aside class="layout-sidebar-first moody26-sidebar" aria-label="{{ 'Related information'|t }}">
+      {{ page.sidebar_first }}
+    </aside>
+  {% endif %}
+
+  <main{{ main_content_attributes }}>
+    {{ page.content }}
+  </main>
+
+  {% if page.sidebar_second %}
+    <aside class="layout-sidebar-second moody26-sidebar" aria-label="{{ 'More information'|t }}">
+      {{ page.sidebar_second }}
+    </aside>
+  {% endif %}
+</div>
+
+{% include '@moody26/partials/footer.html.twig' %}

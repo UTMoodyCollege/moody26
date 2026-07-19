@@ -1,0 +1,14 @@
+{% extends "block.html.twig" %}
+
+{% block content %}
+  {% set logo_src = site_logo ?: base_path ~ active_theme_path() ~ '/logo.svg' %}
+  <a class="moody26-site-branding" href="{{ path('<front>') }}" title="{{ 'Home'|t }}" rel="home">
+    <img class="moody26-site-branding__logo" src="{{ logo_src }}" alt="{{ logo_alt_text }}">
+    {% if site_name %}
+      <span class="moody26-site-branding__name">{{ site_name }}</span>
+    {% endif %}
+  </a>
+  {% if site_slogan %}
+    <p class="moody26-site-branding__slogan">{{ site_slogan }}</p>
+  {% endif %}
+{% endblock %}

@@ -1,0 +1,63 @@
+@font-face {
+  font-family: "CharisSil";
+  src: url("../fonts/charis-sil-regular.woff2") format("woff2");
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "CharisSil";
+  src: url("../fonts/charis-sil-bold.woff") format("woff");
+  font-style: normal;
+  font-weight: 700;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "LibreFrank";
+  src: url("../fonts/libre-franklin-regular.woff2") format("woff2");
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "LibreFrank";
+  src: url("../fonts/libre-franklin-italic.woff2") format("woff2");
+  font-style: italic;
+  font-weight: 400;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "LibreFrank";
+  src: url("../fonts/libre-franklin-medium.woff2") format("woff2");
+  font-style: normal;
+  font-weight: 500;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "LibreFrank";
+  src: url("../fonts/libre-franklin-semibold.woff2") format("woff2");
+  font-style: normal;
+  font-weight: 600;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "LibreFrank";
+  src: url("../fonts/libre-franklin-bold.woff2") format("woff2");
+  font-style: normal;
+  font-weight: 700;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "LibreFrank";
+  src: url("../fonts/libre-franklin-black.woff2") format("woff2");
+  font-style: normal;
+  font-weight: 900;
+  font-display: swap;
+}

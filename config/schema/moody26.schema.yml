@@ -1,0 +1,13 @@
+moody26.settings:
+  type: theme_settings
+  label: 'Moody 26 settings'
+  mapping:
+    give_link:
+      type: uri
+      label: 'Give link'
+    parent_link_title:
+      type: label
+      label: 'Parent-unit link label'
+    parent_link:
+      type: uri
+      label: 'Parent-unit link URL'

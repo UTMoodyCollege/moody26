@@ -1,16 +1,16 @@
 {
-  "date": "2026-07-18",
+  "date": "2026-07-19",
   "framework": "Drupal 11 / UT Drupal Kit",
-  "base_theme": "moody -> forty_acres -> stable9",
-  "font_stack": "Charis SIL + Libre Franklin inherited from Forty Acres",
-  "palette": "UT primary and secondary palette; legacy Sass variables in the Moody parent",
+  "base_theme": false,
+  "font_stack": "Charis SIL + Libre Franklin bundled locally by Moody26",
+  "palette": "Moody26-owned locked tokens using exact UT brand values",
   "motion": "motion-cut; no motion library; property-limited CSS state transitions only",
   "spacing": "new 4-point CSS token scale",
   "preserve": [
-    "Moody content-type templates",
+    "rendered UT Drupal Kit content structures",
     "UTDK Layout Builder integration",
     "UT brand bar and required-links block",
-    "approved UT font files from Forty Acres"
+    "approved Moody CSU logo artwork"
   ],
   "introduce": [
     "locked CSS design tokens",
@@ -18,6 +18,7 @@
     "dependency-free compliance verification",
     "Hallmark Ecosystem Index design language",
     "live-menu-backed native command palette",
-    "route and interaction-state visual regression coverage"
+    "route and interaction-state visual regression coverage",
+    "theme-owned page shell, disclosure navigation, and local font delivery"
   ]
 }

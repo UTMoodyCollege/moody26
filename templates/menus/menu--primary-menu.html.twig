@@ -1,4 +1,4 @@
-{# Semantic Moody26 override of the inherited two-level primary menu. #}
+{# Moody26-owned two-level disclosure navigation. #}
 {% import _self as menus %}
 
 {{ menus.menu_links(items, attributes, 0, null) }}
@@ -7,58 +7,54 @@
   {% import _self as menus %}
   {% if items %}
     {% if menu_level == 0 %}
-      <ul{{ attributes.addClass('main-menu__list') }}>
+      <ul{{ attributes.addClass('moody26-menu') }}>
     {% else %}
       <div
-        class="sub-nav-wrapper sub-nav"
+        class="moody26-submenu"
         id="{{ panel_id }}"
-        aria-hidden="true"
         aria-labelledby="{{ panel_id }}-trigger"
+        hidden
       >
-        <ul class="main-menu__list--subnav">
+        <ul class="moody26-submenu__list">
     {% endif %}
+
     {% for item in items %}
       {% set item_classes = [
-        item.is_expanded ? 'menu-item-has-children',
-        menu_level == 0 ? 'main-menu__list-item' : 'main-menu__list-item--subnav',
-        item.in_active_trail ? 'active',
+        menu_level == 0 ? 'moody26-menu__item' : 'moody26-submenu__item',
+        item.is_expanded ? 'has-children',
+        item.in_active_trail ? 'is-active-trail',
       ] %}
       {% set link_classes = [
-        menu_level == 0 ? 'main-menu__link' : 'main-menu__link--subnav',
+        menu_level == 0 ? 'moody26-menu__link' : 'moody26-submenu__link',
         item.in_active_trail ? 'is-active',
       ] %}
       {% set link_attributes = {'class': link_classes} %}
       {% set submenu_id = 'moody26-submenu-' ~ item.title|clean_class ~ '-' ~ loop.index %}
 
-      {% if item.url.isRouted() and (item.url.getRouteName() == '<nolink>' or item.url.getRouteName() == '<none>') %}
-        {% set link_attributes = item.is_expanded
-          ? link_attributes|merge({'tabindex': -1, 'aria-hidden': 'true'})
-          : link_attributes|merge({'tabindex': 0})
-        %}
-      {% endif %}
-
       <li{{ item.attributes.addClass(item_classes) }}>
         {% if item.is_expanded and menu_level == 0 %}
           <button
             type="button"
-            class="main-menu__link moody-subnav-trigger{{ item.in_active_trail ? ' is-active' }}"
+            class="moody26-menu__trigger{{ item.in_active_trail ? ' is-active' }}"
             id="{{ submenu_id }}-trigger"
             aria-controls="{{ submenu_id }}"
             aria-expanded="false"
           >
-            <span class="moody-subnav-label">{{ item.title }}</span>
-            <svg class="svg angle-down" viewBox="0 0 20 20" aria-hidden="true" focusable="false">
-              <path d="m5 7.5 5 5 5-5" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"></path>
+            <span class="moody26-menu__label">{{ item.title }}</span>
+            <svg class="moody26-menu__chevron" viewBox="0 0 20 20" aria-hidden="true" focusable="false">
+              <path d="m5 7.5 5 5 5-5" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2.25"></path>
             </svg>
           </button>
         {% else %}
           {{ link(item.title, item.url, link_attributes) }}
         {% endif %}
+
         {% if item.below and menu_level == 0 %}
           {{ menus.menu_links(item.below, attributes, menu_level + 1, submenu_id) }}
         {% endif %}
       </li>
     {% endfor %}
+
     </ul>
     {% if menu_level != 0 %}
       </div>

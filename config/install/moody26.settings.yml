@@ -1,0 +1,11 @@
+features:
+  favicon: true
+logo:
+  use_default: true
+  path: ''
+favicon:
+  use_default: true
+  path: ''
+give_link: 'https://moody.utexas.edu/about/support-moody-college'
+parent_link_title: ''
+parent_link: ''
