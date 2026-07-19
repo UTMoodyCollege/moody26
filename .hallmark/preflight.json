@@ -4,7 +4,7 @@
   "base_theme": false,
   "font_stack": "Charis SIL + Libre Franklin bundled locally by Moody26",
   "palette": "Moody26-owned locked tokens using exact UT brand values",
-  "motion": "motion-cut; no motion library; property-limited CSS state transitions only",
+  "motion": "progressive GSAP orchestration plus tree-shaken Anime.js WAAPI disclosure feedback; reduced-motion and Save-Data cut",
   "spacing": "new 4-point CSS token scale",
   "preserve": [
     "rendered UT Drupal Kit content structures",
@@ -19,6 +19,7 @@
     "Hallmark Ecosystem Index design language",
     "live-menu-backed native command palette",
     "route and interaction-state visual regression coverage",
-    "theme-owned page shell, disclosure navigation, and local font delivery"
+    "theme-owned page shell, disclosure navigation, and local font delivery",
+    "token-governed motion with local assets, failure-safe loading, and live preference cleanup"
   ]
 }

@@ -1,15 +1,21 @@
 {
   "name": "@moody-college/moody26",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "private": true,
-  "description": "Dependency-free compliance checks for the Moody 26 Drupal theme.",
+  "description": "Build and compliance checks for the standalone Moody 26 Drupal theme.",
   "type": "module",
   "scripts": {
-    "build": "node scripts/verify.mjs",
-    "check": "node scripts/verify.mjs",
-    "test": "node scripts/verify.mjs"
+    "build": "node scripts/build.mjs",
+    "verify": "node scripts/verify.mjs",
+    "check": "npm run build && npm run verify",
+    "test": "npm run check"
   },
   "engines": {
     "node": ">=20"
+  },
+  "devDependencies": {
+    "animejs": "4.5.0",
+    "esbuild": "0.28.1",
+    "gsap": "3.15.0"
   }
 }

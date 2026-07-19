@@ -17,9 +17,17 @@
 
         const setSubmenuState = (trigger, isOpen) => {
           const panel = document.getElementById(trigger.getAttribute('aria-controls'));
+          const isNewlyOpen = panel?.hidden && isOpen;
           trigger.setAttribute('aria-expanded', String(isOpen));
           if (panel) {
             panel.hidden = !isOpen;
+            if (isNewlyOpen && !panel.hasAttribute('data-moody26-motion-seen')) {
+              panel.setAttribute('data-moody26-motion-seen', '');
+              panel.dispatchEvent(new CustomEvent('moody26:reveal', {
+                bubbles: true,
+                detail: { kind: 'submenu' },
+              }));
+            }
           }
         };
 
@@ -95,6 +103,14 @@
               closeSubmenus(trigger);
               setSubmenuState(trigger, true);
               firstDestination.focus({ preventScroll: true });
+            }
+          });
+
+          panel.addEventListener('keydown', (event) => {
+            const firstDestination = panel.querySelector('a[href]');
+            if (event.key === 'Tab' && event.shiftKey && event.target === firstDestination) {
+              event.preventDefault();
+              trigger.focus({ preventScroll: true });
             }
           });
 

@@ -1,5 +1,5 @@
 global:
-  version: 0.1.0
+  version: 0.2.0
   css:
     base:
       css/fonts.css: { weight: 90 }
@@ -10,6 +10,7 @@ global:
       css/components/landing-hero.css: { weight: 110 }
       css/components/editorial-sections.css: { weight: 120 }
       css/components/discovery-index.css: { weight: 130 }
+      css/components/motion.css: { weight: 140 }
   js:
     js/accessibility.js: {}
     js/navigation.js: {}
@@ -17,3 +18,10 @@ global:
   dependencies:
     - core/drupal
     - core/once
+
+motion:
+  version: 0.2.0
+  js:
+    js/dist/motion.min.js: { minified: true }
+  dependencies:
+    - moody26/global

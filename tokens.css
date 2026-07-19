@@ -72,6 +72,9 @@
   --dur-micro: 120ms;
   --dur-short: 220ms;
   --dur-long: 420ms;
+  --motion-distance: 0.75rem;
+  --motion-stagger: 48ms;
+  --motion-stagger-tight: 28ms;
   --transition-control: background-color 220ms cubic-bezier(0.16, 1, 0.3, 1), color 220ms cubic-bezier(0.16, 1, 0.3, 1), transform 120ms cubic-bezier(0.16, 1, 0.3, 1);
   --transition-background: background-color 220ms cubic-bezier(0.16, 1, 0.3, 1);
   --transition-color: color 220ms cubic-bezier(0.16, 1, 0.3, 1);

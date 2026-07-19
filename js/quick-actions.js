@@ -121,6 +121,7 @@
         let visibleActions = [];
         let activeIndex = 0;
         let announceTimer;
+        let hasAnimatedFirstOpen = false;
 
         const collectActions = () => {
           const collected = [];
@@ -249,6 +250,13 @@
           trigger.setAttribute('aria-expanded', 'true');
           dialog.showModal();
           input.focus({ preventScroll: true });
+          if (!hasAnimatedFirstOpen) {
+            hasAnimatedFirstOpen = true;
+            list.dispatchEvent(new CustomEvent('moody26:reveal', {
+              bubbles: true,
+              detail: { kind: 'quick-actions' },
+            }));
+          }
         };
 
         const isEditing = (target) => target instanceof Element

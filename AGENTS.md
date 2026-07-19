@@ -29,6 +29,9 @@ render a usable site.
 - Footer archetype: Ft1 Mast-headed.
 - Enrichment: real, content-owned photography and media. Never ship invented
   stock images, decorative AI imagery, fabricated metrics, or fake proof.
+- Motion language: one coordinated entrance, one optional discovery reveal,
+  and one disclosure-feedback primitive. Motion clarifies hierarchy and state;
+  it is never a substitute for either.
 
 `tokens.css` is the source of truth for every color, font, spacing, type,
 motion, rule, radius, target, container, shadow, and z-index value. Component
@@ -94,6 +97,47 @@ not belong outside the token and font declaration files.
 - Never intercept the shortcut from an input, textarea, select, or
   contenteditable editor, including CKEditor.
 - Keep the palette explicitly centered and usable at 320 CSS pixels.
+
+### Motion and animation
+
+- GSAP owns coordinated sequences only: the first-view header entrance and at
+  most one discovery-group reveal per page. Anime.js owns short disclosure
+  feedback only: submenu destinations and the first command-palette result
+  set. Do not give both libraries responsibility for the same interaction.
+- Use Anime.js’s tree-shaken WAAPI implementation. Do not add its full UMD
+  bundle. Use GSAP core only; ScrollTrigger, ScrollSmoother, SplitText, text
+  scrambling, physics, draggable, morphing, and premium plugins require a new,
+  documented content need and accessibility review.
+- Reuse a compatible page-provided `window.gsap` when available. Otherwise
+  lazily load Moody26’s local GSAP fallback. Never load two GSAP runtimes and
+  never load either motion library from a CDN.
+- Motion is progressive enhancement. Navigation, dialogs, links, content,
+  focus, and state changes must remain complete when JavaScript, Anime.js, or
+  GSAP fails. Never hide readable content in the base CSS while waiting for an
+  animation runtime.
+- Animate only `transform` and `opacity`. Cap spatial travel at
+  `--motion-distance`, individual duration at `--dur-long`, a sequence at
+  500ms, and a page at three distinct motion primitives. Use one-shot effects;
+  do not reanimate content during ordinary scrolling.
+- Honor `prefers-reduced-motion: reduce` in both CSS and JavaScript. In reduced
+  mode, skip spatial animation entirely and render the final state immediately.
+  Also skip optional motion when the browser reports Save-Data.
+- Adopt WCAG 2.3.3 as a Moody26 design requirement even though it is Level AAA:
+  interaction-triggered motion must be suppressible through the user’s reduced
+  motion preference unless it is essential. No Moody26 motion is essential.
+- Do not ship parallax, smooth scrolling, scroll scrubbing, cursor followers,
+  animated focus rings, auto-rotating carousels, animated approved marks,
+  flashing, bouncing, elastic overshoot, or infinite decorative motion.
+- Automatic motion must finish well inside five seconds. Anything that moves,
+  blinks, scrolls, or auto-updates for longer requires a nearby persistent
+  pause, stop, or hide control. Content must never flash more than three times
+  in one second.
+- Keyboard state changes and focus restoration happen before any visual
+  feedback. A motion timeline must never delay focus, alter DOM order, change
+  accessible names, add live-region chatter, or make a control unavailable.
+- Drupal behaviors attach with `once()`. Observers, media-query contexts, and
+  animation instances must be scoped and reversible so AJAX and Layout Builder
+  do not create duplicate listeners or stale inline transforms.
 
 ### Footer
 
@@ -179,6 +223,8 @@ Texas requirements. The current University compliance date is March 1, 2026.
 - Hover rules live inside `(hover: hover) and (pointer: fine)` queries.
 - Motion communicates change, uses property-specific transitions, and has a
   truthful `prefers-reduced-motion` path.
+- Optional scripted motion also respects Save-Data, never starts below 40rem
+  for scroll-triggered reveals, and cannot affect document or focus order.
 - Every interactive component accounts for default, hover, focus, active,
   disabled, loading, error, and success where those states can occur.
 
@@ -208,14 +254,21 @@ Texas requirements. The current University compliance date is March 1, 2026.
   behavior.
 - `js/accessibility.js`: narrow, progressive safeguards for rendered content
   modules; it must not repair a base theme.
+- `js/motion.js`: source for the narrow GSAP/Anime.js progressive-enhancement
+  layer; it owns no functional UI state.
+- `js/dist/motion.min.js`: committed, tree-shaken Anime.js WAAPI integration.
+- `js/vendor/gsap.min.js`: committed local GSAP core fallback, loaded only when
+  a compatible global is absent.
+- `scripts/build.mjs`: deterministic motion build and GSAP fallback sync.
 - `scripts/verify.mjs`: self-contained architecture, brand, accessibility, and
   Hallmark guardrails.
 - `.hallmark/`: design preflight and diversification memory.
 
 Prefer native HTML, CSS, JavaScript, Drupal behaviors, and core render
-structures. Do not add a bundler, Sass layer, component framework, icon set,
-utility-CSS framework, or motion library without a demonstrated requirement the
-platform cannot meet.
+structures. The approved build exception is esbuild for the narrow Anime.js
+integration and deterministic GSAP fallback. Do not add Sass, a component
+framework, icon set, utility-CSS framework, another motion library, or another
+build layer without a demonstrated requirement the platform cannot meet.
 
 ## Change and validation workflow
 
@@ -244,3 +297,6 @@ changes. Do not export broad configuration from a stale database.
 Before production, inspect every changed visual baseline, manually test
 keyboard and screen-reader paths, zoom/reflow, reduced motion and color vision,
 then request an Acquia Optimize scan or Digital Accessibility Center review.
+For motion changes, test both `reducedMotion: reduce` and `no-preference`, verify
+that a failed motion bundle leaves all content visible, and confirm no optional
+animation survives a live preference change.

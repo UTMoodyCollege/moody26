@@ -9,6 +9,8 @@ const themeRoot = resolve(dirname(fileURLToPath(import.meta.url)), '..');
 const files = {
   readme: 'README.md',
   agents: 'AGENTS.md',
+  package: 'package.json',
+  packageLock: 'package-lock.json',
   composer: 'composer.json',
   info: 'moody26.info.yml',
   libraries: 'moody26.libraries.yml',
@@ -24,9 +26,14 @@ const files = {
   landingHero: 'css/components/landing-hero.css',
   editorialSections: 'css/components/editorial-sections.css',
   discoveryIndex: 'css/components/discovery-index.css',
+  motionCss: 'css/components/motion.css',
   accessibility: 'js/accessibility.js',
   navigation: 'js/navigation.js',
   quickActions: 'js/quick-actions.js',
+  motion: 'js/motion.js',
+  motionBundle: 'js/dist/motion.min.js',
+  gsapFallback: 'js/vendor/gsap.min.js',
+  motionBuild: 'scripts/build.mjs',
   html: 'templates/html.html.twig',
   page: 'templates/pages/page.html.twig',
   brandbar: 'templates/partials/brandbar.html.twig',
@@ -38,6 +45,8 @@ const files = {
   logo: 'logo.svg',
   sourceLicense: 'LICENSE',
   fontLicense: 'LICENSES/OFL-1.1.txt',
+  animeLicense: 'LICENSES/ANIMEJS-MIT.txt',
+  gsapLicense: 'LICENSES/GSAP-NOTICE.txt',
   preflight: '.hallmark/preflight.json',
   log: '.hallmark/log.json',
 };
@@ -95,6 +104,32 @@ const forbidText = (file, needle, message) => {
 };
 
 try {
+  const packageJson = JSON.parse(contents.package ?? '');
+  if (packageJson.version !== '0.2.0') {
+    errors.push('The motion-system release must remain versioned as 0.2.0.');
+  }
+  for (const [dependency, version] of [
+    ['animejs', '4.5.0'],
+    ['gsap', '3.15.0'],
+    ['esbuild', '0.28.1'],
+  ]) {
+    if (packageJson.devDependencies?.[dependency] !== version) {
+      errors.push(`${dependency} must remain exactly pinned to ${version}.`);
+    }
+  }
+  if (packageJson.scripts?.check !== 'npm run build && npm run verify') {
+    errors.push('npm run check must rebuild motion before verification.');
+  }
+  const packageLock = JSON.parse(contents.packageLock ?? '');
+  if (packageLock.packages?.['']?.version !== packageJson.version) {
+    errors.push('package-lock.json must match the package version.');
+  }
+}
+catch {
+  errors.push('package.json and package-lock.json must contain valid JSON.');
+}
+
+try {
   const composer = JSON.parse(contents.composer ?? '');
   if (composer.name !== 'moody-college/moody26') {
     errors.push('Composer package name must remain moody-college/moody26.');
@@ -114,6 +149,9 @@ requireText('libraries', 'css/fonts.css: { weight: 90 }', 'Local fonts must load
 requireText('libraries', 'tokens.css: { weight: 100 }', 'Tokens must load before component CSS.');
 requireText('libraries', 'js/navigation.js', 'Theme-owned navigation behavior must remain attached.');
 requireText('libraries', 'js/quick-actions.js', 'Quick actions must remain attached.');
+requireText('libraries', 'css/components/motion.css', 'Motion safeguards must remain attached.');
+requireText('libraries', 'js/dist/motion.min.js', 'The built motion integration must remain attached.');
+requireText('libraries', 'version: 0.2.0', 'The Drupal asset version must match the motion release.');
 
 requireText('tokens', '--color-ut-burnt-orange: #bf5700;', 'Use exact UT burnt orange #bf5700.');
 requireText('tokens', '--font-display: "CharisSil", Georgia, serif;', 'Use the approved UT digital serif role.');
@@ -121,11 +159,16 @@ requireText('tokens', '--font-body: "LibreFrank", Arial, Helvetica, sans-serif;'
 requireText('tokens', '--target-min: 2.75rem;', 'Interactive targets must retain the 44 CSS-pixel floor.');
 requireText('tokens', '--color-accent-ink:', 'Accent surfaces need a verified text-color pair.');
 requireText('tokens', '--focus-outline:', 'Visible focus must use a named token.');
+requireText('tokens', '--motion-distance: 0.75rem;', 'Spatial motion must retain its capped distance token.');
+requireText('tokens', '--motion-stagger: 48ms;', 'Motion stagger must remain tokenized.');
+requireText('tokens', '--motion-stagger-tight: 28ms;', 'Disclosure stagger must remain tokenized.');
 
 for (const weight of ['400', '500', '600', '700', '900']) {
   requireText('fontsCss', `font-weight: ${weight};`, `Local font CSS must include weight ${weight}.`);
 }
 requireText('fontLicense', 'SIL OPEN FONT LICENSE Version 1.1', 'Bundled fonts must include their OFL license.');
+requireText('animeLicense', 'The MIT License', 'Bundled Anime.js code must retain its MIT license.');
+requireText('gsapLicense', 'https://gsap.com/standard-license/', 'Bundled GSAP must retain its license notice.');
 requireText('sourceLicense', 'GNU GENERAL PUBLIC LICENSE', 'Theme source must include the declared GPL license.');
 requireText('logo', 'viewBox=', 'The approved Moody mark must remain a scalable SVG.');
 requirePattern('logo', /#bf5700/i, 'The approved Moody mark must retain exact burnt orange.');
@@ -155,6 +198,7 @@ forbidText('menu', 'aria-haspopup="true"', 'Disclosure navigation must not claim
 requireText('navigation', "once('moody26-navigation', '#moody26-header'", 'Navigation must attach only to the Moody26 shell.');
 requireText('navigation', "event.key === 'Tab' && !event.shiftKey", 'Forward Tab must open a submenu before focus advances.');
 requireText('navigation', 'firstDestination.focus({ preventScroll: true })', 'Forward Tab must move into the newly opened submenu deterministically.');
+requireText('navigation', 'event.key === \'Tab\' && event.shiftKey && event.target === firstDestination', 'Reverse Tab from the first submenu link must return to its disclosure button.');
 requireText('navigation', 'event.relatedTarget && item.contains(event.relatedTarget)', 'Submenus must remain open while focus moves between their links.');
 requireText('navigation', "event.key !== 'Escape'", 'Escape must close the current navigation layer.');
 requireText('navigation', "document.addEventListener('keydown'", 'Escape handling must support Safari click-focus behavior.');
@@ -171,6 +215,43 @@ requireText('quickActions', 'dialog.showModal()', 'Quick actions must use a nati
 requireText('quickActions', '.moody26-submenu__link[href]', 'Quick actions must discover the rendered Drupal menu.');
 requireText('quickActions', "target.closest('input, textarea, select, [contenteditable]", 'Editor shortcuts must remain untouched.');
 requireText('accessibility', "icon.removeAttribute('tabindex')", 'Decorative scroll hints must stay out of the tab order.');
+requireText('navigation', "new CustomEvent('moody26:reveal'", 'Submenus must expose a progressive motion hook.');
+requireText('quickActions', "detail: { kind: 'quick-actions' }", 'Quick actions must expose a first-open motion hook.');
+
+requireText('motion', "from 'animejs/waapi'", 'Use Anime.js’s tree-shaken WAAPI integration.');
+requireText('motion', "from 'animejs/utils'", 'Anime.js stagger must use its modular utility import.');
+requireText('motion', "window.gsap", 'Motion must reuse a compatible page-provided GSAP runtime.');
+requireText('motion', "new URL('../vendor/gsap.min.js'", 'Motion must retain its local GSAP fallback.');
+requireText('motion', 'gsap.matchMedia()', 'GSAP motion must be scoped to responsive media conditions.');
+requireText('motion', 'IntersectionObserver', 'Discovery motion must use IntersectionObserver rather than scroll listeners.');
+requireText('motion', "'(prefers-reduced-motion: reduce)'", 'Scripted motion must detect reduced-motion preference.');
+requireText('motion', 'navigator.connection?.saveData === true', 'Optional motion must honor Save-Data.');
+requireText('motion', "markMode('reduced')", 'Reduced motion must render a truthful document state.');
+requireText('motion', 'animation.revert()', 'Anime.js effects must clean up their inline state.');
+forbidText('motion', 'ScrollTrigger', 'Moody26 motion must not ship ScrollTrigger.');
+forbidText('motion', 'ScrollSmoother', 'Moody26 motion must not ship smooth scrolling.');
+forbidText('motion', "addEventListener('scroll'", 'Motion must not attach scroll event listeners.');
+requireText('motionCss', '@media (prefers-reduced-motion: reduce)', 'Motion CSS must expose an immediate reduced-motion state.');
+requireText('motionCss', 'opacity: 1 !important;', 'Reduced motion must never leave animated content hidden.');
+forbidText('motionCss', 'opacity: 0', 'Base motion CSS must never hide readable content before JavaScript.');
+requireText('motionBuild', "legalComments: 'eof'", 'The motion build must retain third-party legal comments.');
+requireText('motionBuild', "target: ['chrome110', 'firefox109', 'safari15.6']", 'The motion bundle must preserve the compatibility floor.');
+requireText('motionBundle', 'Anime.js', 'The committed motion bundle must retain its Anime.js attribution.');
+requireText('gsapFallback', 'GSAP 3.15.0', 'The committed local fallback must remain GSAP 3.15.0.');
+
+for (const [path, maximum] of [
+  ['js/dist/motion.min.js', 30_000],
+  ['js/vendor/gsap.min.js', 80_000],
+]) {
+  try {
+    if (statSync(resolve(themeRoot, path)).size > maximum) {
+      errors.push(`${path} exceeds its ${maximum}-byte performance budget.`);
+    }
+  }
+  catch {
+    errors.push(`Missing built motion asset: ${path}`);
+  }
+}
 
 requireText('css', 'overflow-x: clip;', 'Viewport overflow must be clipped without hiding focus.');
 requireText('css', ':focus-visible', 'Visible keyboard focus styling is required.');
@@ -198,7 +279,7 @@ requireText('discoveryIndex', 'repeat(12, minmax(0, 1fr))', 'Discovery grids mus
 const runtimeFiles = [
   'info', 'libraries', 'theme', 'themeSettings', 'fontsCss', 'css',
   'quickActionsCss', 'landingHero', 'editorialSections', 'discoveryIndex',
-  'accessibility', 'navigation', 'quickActions', 'html', 'page', 'brandbar',
+  'motionCss', 'accessibility', 'navigation', 'quickActions', 'motion', 'html', 'page', 'brandbar',
   'header', 'footer', 'brandingBlock', 'menuBlock', 'menu',
 ];
 const forbiddenLegacy = [
@@ -216,7 +297,7 @@ for (const file of runtimeFiles) {
   }
 }
 
-const cssFiles = ['css', 'quickActionsCss', 'landingHero', 'editorialSections', 'discoveryIndex'];
+const cssFiles = ['css', 'quickActionsCss', 'landingHero', 'editorialSections', 'discoveryIndex', 'motionCss'];
 const forbiddenCss = [
   [/#(?:[0-9a-f]{3}|[0-9a-f]{6}|[0-9a-f]{8})\b/i, 'Raw hex colors belong only in tokens.css.'],
   [/\b(?:rgb|rgba|hsl|hsla|oklch)\(/i, 'Raw color functions belong only in tokens.css.'],
@@ -251,6 +332,8 @@ for (const file of ['preflight', 'log']) {
 requirePattern('readme', /standalone/i, 'README must describe the standalone architecture.');
 forbidText('readme', 'Base theme | `moody`', 'README must not advertise the legacy base theme.');
 requirePattern('agents', /base theme:\s*false/i, 'AGENTS.md must preserve the standalone theme contract.');
+requireText('agents', 'WCAG 2.3.3', 'AGENTS.md must preserve the interaction-animation accessibility gate.');
+requireText('agents', 'Save-Data', 'AGENTS.md must preserve the data-saving motion gate.');
 
 if (errors.length) {
   console.error(`Moody26 verification failed (${errors.length}):`);
@@ -260,5 +343,5 @@ if (errors.length) {
   process.exitCode = 1;
 }
 else {
-  console.log(`Moody26 verification passed (${Object.keys(files).length} source files, ${fonts.length} local fonts, standalone shell, UT brand, accessibility, responsive, and Hallmark gates).`);
+  console.log(`Moody26 verification passed (${Object.keys(files).length} source files, ${fonts.length} local fonts, standalone shell, UT brand, accessible motion, responsive, and Hallmark gates).`);
 }

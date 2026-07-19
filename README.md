@@ -6,7 +6,7 @@ visual identity with an accessible, editorial system that can serve academic,
 research, film, journalism, advertising, alumni, event, and public-facing
 sites without requiring the legacy Moody or Speedway themes.
 
-> **Project status:** pre-release (`0.1.0`). The theme is being validated in
+> **Project status:** pre-release (`0.2.0`). The theme is being validated in
 > [Moody Core](https://github.com/UTMoodyCollege/moody-core) before its first
 > stable tag. Pin an exact commit when evaluating the `main` branch.
 
@@ -25,7 +25,9 @@ sites without requiring the legacy Moody or Speedway themes.
   focus, motion, target sizes, responsive containers, and elevation.
 - Layout Builder-friendly landing heroes, editorial pairings, calls to action,
   forms, proof treatments, and discovery grids.
-- Matching CKEditor 5 styles and a dependency-free structural verifier.
+- A restrained GSAP + Anime.js motion layer with no CDN requests, no functional
+  dependency on animation, and immediate reduced-motion fallbacks.
+- Matching CKEditor 5 styles and a standalone structural verifier.
 
 Moody 26 provides presentation and interaction—not site content, menu items,
 Drupal block placement, editorial policy, or a substitute for testing the
@@ -135,6 +137,8 @@ The theme enforces or documents these release gates:
   targets for touch controls.
 - Support keyboard operation, 200% zoom, reflow, reduced motion, useful
   accessible names, and non-color state cues.
+- Suppress all optional spatial animation for `prefers-reduced-motion: reduce`
+  and Save-Data; never delay focus, reading, or interaction for an effect.
 - Keep UT Austin Home, Emergency Information, Site Policies, Digital
   Accessibility Policy, and Web Privacy Policy available in the footer, with
   a dynamic copyright year.
@@ -151,13 +155,21 @@ Authoritative sources:
 
 ## Development
 
-There is no asset compilation step and no runtime JavaScript dependency beyond
-Drupal core. CSS, native JavaScript behaviors, Twig, and PHP are committed as
-source. Run the self-contained package verifier from the theme root:
+Runtime assets are committed, so production installations do not need Node.js.
+Theme development uses a small esbuild step to tree-shake Anime.js and sync the
+local GSAP fallback. Install exact development dependencies, build, and run the
+structural verifier from the theme root:
 
 ```sh
+npm ci
+npm run build
 npm run check
 ```
+
+`npm run check` rebuilds the motion artifact before verifying it. Moody26 reuses
+an existing compatible `window.gsap` when a content module provides one; on
+other pages and sites it lazily loads its own local GSAP core. It never loads a
+motion library from a CDN.
 
 In a Drupal host project, rebuild caches and exercise the installed theme:
 
@@ -192,7 +204,11 @@ than replace manual assistive-technology review.
 | `js/navigation.js` | Drawer and disclosure navigation state |
 | `js/quick-actions.js` | Native dialog and rendered-destination discovery |
 | `js/accessibility.js` | Progressive safeguards for rendered content components |
+| `js/motion.js` | GSAP orchestration and Anime.js WAAPI source |
+| `js/dist/motion.min.js` | Committed tree-shaken motion artifact |
+| `js/vendor/gsap.min.js` | Local GSAP core fallback |
 | `templates/` | Theme-owned HTML, page, shell, block, and menu markup |
+| `scripts/build.mjs` | Deterministic motion build and fallback sync |
 | `scripts/verify.mjs` | Standalone brand, accessibility, and architecture gates |
 | `AGENTS.md` | Maintainer design and compliance contract |
 
@@ -227,6 +243,8 @@ Theme source code is licensed under
 [GPL-2.0-or-later](LICENSE).
 The bundled Charis SIL and Libre Franklin font files are distributed under the
 [SIL Open Font License 1.1](LICENSES/OFL-1.1.txt).
+[Anime.js](LICENSES/ANIMEJS-MIT.txt) is included under the MIT License. GSAP is
+included under GreenSock’s [Standard “no charge” License](LICENSES/GSAP-NOTICE.txt).
 
 The code license does not grant permission to use University of Texas at Austin
 or Moody College names, wordmarks, logos, or other trademarks. Their use
