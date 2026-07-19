@@ -163,11 +163,25 @@ main.layout-content,
   transition-property: background-color, color, transform !important;
 }
 
-/* The inherited arrow is larger than its label. Flex alignment keeps both
-   vertically centered instead of sharing a visually low inline baseline. */
+/* Give the larger inherited arrow its own centered slot so link decoration
+   stays with the label instead of extending beneath the arrow. */
 .layout-content a.moody-btn--arrow {
+  position: relative;
   display: inline-flex;
   align-items: center;
+  padding-inline-end: calc(var(--space-md) + var(--space-xl));
+}
+
+.layout-content a.moody-btn--arrow::after {
+  position: absolute;
+  inset-block: 0;
+  inset-inline-end: var(--space-md);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  inline-size: var(--space-xl);
+  margin-inline-start: 0;
+  text-decoration: none;
 }
 
 @media (hover: hover) and (pointer: fine) {
