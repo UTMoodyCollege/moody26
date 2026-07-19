@@ -42,9 +42,12 @@ do not edit the Composer-installed parent theme from here.
   document order from each top-level button through its destinations and on to
   the next top-level button. `Enter` and `Space` toggle a disclosure; leaving
   its complete menu item closes it without trapping focus; `Escape` closes it
-  and returns focus to its trigger. Preserve this contract on desktop and in
-  the mobile drawer. Safari must also preserve its standard `Option+Tab` link-
-  navigation path when full webpage keyboard navigation is disabled.
+  and returns focus to its trigger. Give the primary navigation landmark one
+  concise accessible name. Only the disclosure button owns `aria-expanded`;
+  submenu containers do not claim menu-popup semantics or create redundant
+  landmarks. Preserve this contract on desktop and in the mobile drawer.
+  Safari must also preserve its standard `Option+Tab` link-navigation path
+  when full webpage keyboard navigation is disabled.
 - Quick actions: expose one visible header button and the truthful `Cmd+K` or
   `Ctrl+K` shortcut for a native `<dialog>` command palette. Build its actions
   from the rendered Drupal primary menu, branding link, Give link, and search

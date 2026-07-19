@@ -55,6 +55,12 @@ const requirePattern = (file, pattern, message) => {
   }
 };
 
+const forbidText = (file, needle, message) => {
+  if (contents[file]?.includes(needle)) {
+    errors.push(message);
+  }
+};
+
 requireText('info', 'base theme: moody', 'The theme must retain Moody as its compatibility base.');
 requireText('info', 'moody26/global', 'The global Moody26 library must be attached.');
 requireText('libraries', 'tokens.css: { weight: 100 }', 'Tokens must load before theme CSS.');
@@ -91,6 +97,9 @@ requirePattern('css', /\[data-state="error"\]/, 'Error states must be styled.');
 requirePattern('css', /\[data-state="success"\]/, 'Success states must be styled.');
 requireText('menu', '<button', 'Submenu triggers must use native buttons.');
 requireText('menu', 'aria-controls="{{ submenu_id }}"', 'Submenu triggers must identify their panels.');
+requireText('menu', 'aria-labelledby="{{ panel_id }}-trigger"', 'Submenu panels must retain their disclosure-button label relationship.');
+forbidText('menu', 'aria-haspopup="true"', 'Disclosure navigation must not claim ARIA menu-popup semantics.');
+forbidText('menu', 'role="region"', 'Each submenu must not create a redundant landmark.');
 requireText('accessibility', "image.setAttribute('alt', '')", 'The inherited decorative ambient-video fallback must expose empty alt text.');
 requireText('accessibility', "image.setAttribute('fetchpriority', 'high')", 'The ambient-video LCP fallback must load at high priority.');
 requireText('accessibility', "control.setAttribute('aria-label', 'Scroll to page content')", 'The inherited scroll cue must expose an accessible name.');
@@ -98,14 +107,18 @@ requireText('accessibility', "'Pause background video'", 'The inherited ambient-
 requireText('navigation', "menuButton.removeAttribute('href')", 'The inherited menu button must not retain an invalid href attribute.');
 requireText('navigation', "menuButton.setAttribute('aria-controls', navigation.id)", 'The menu control must identify its navigation region.');
 requireText('navigation', "menuButton.setAttribute('aria-expanded', 'false')", 'The menu control must expose its initial state.');
+requireText('navigation', "Drupal.t('Primary navigation')", 'The primary navigation landmark must retain a concise accessible name.');
+requireText('navigation', "labelSource === primaryNavigation", 'The primary navigation must repair inherited self-referential labelling.');
 requireText('navigation', 'navigation.classList.toggle(\'active\', drawerOpen)', 'The mobile drawer must preserve user intent across the inherited delayed reset.');
 requireText('navigation', "attributeFilter: ['aria-expanded', 'class']", 'Submenu button state must stay synchronized with inherited navigation behavior.');
+requireText('navigation', "trigger.classList.remove('focus', 'add-border', 'icon--open')", 'Closing a submenu must clear inherited visual state classes.');
 requireText('navigation', "window.matchMedia('(min-width: 75rem)')", 'Wide-screen submenu buttons must bridge the inherited 1200px event gap.');
 requireText('navigation', "item.addEventListener('focusout'", 'Submenus must close when keyboard focus leaves their complete menu item.');
 requireText('navigation', "event.key === 'Tab' && !event.shiftKey", 'Forward Tab must preserve the focused submenu for native destination navigation.');
 requireText('navigation', "event.key === 'Enter' || event.key === ' ' || event.key === 'Spacebar'", 'Submenu buttons must preserve Enter and Space activation across supported browsers.');
 requireText('navigation', "input.removeAttribute('required')", 'Sitewide search must not expose a false required state.');
 requireText('navigation', "Drupal.t('Search Moody College site')", 'Sitewide search must retain its accurate accessible label.');
+requireText('css', '.block__ut-social-links--link', 'Footer social links must retain the theme target-size override.');
 requireText('quickActionsCss', 'component: command palette', 'The quick-action stylesheet must retain its Hallmark component contract.');
 requirePattern('quickActionsCss', /:focus-visible/, 'Quick actions need visible keyboard focus.');
 requirePattern('quickActionsCss', /:disabled/, 'Quick actions must style disabled controls.');

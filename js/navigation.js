@@ -13,6 +13,19 @@
         const navigation = header.querySelector('.nav-wrapper');
         const wideMenu = window.matchMedia('(min-width: 75rem)');
         const hoverMenu = window.matchMedia('(hover: hover) and (pointer: fine)');
+        const primaryNavigation = header.querySelector('.region-primary-menu nav');
+
+        if (primaryNavigation) {
+          const labelledBy = primaryNavigation.getAttribute('aria-labelledby');
+          const labelSource = labelledBy ? document.getElementById(labelledBy) : null;
+
+          if (!labelSource || labelSource === primaryNavigation) {
+            primaryNavigation.removeAttribute('aria-labelledby');
+            if (!primaryNavigation.hasAttribute('aria-label')) {
+              primaryNavigation.setAttribute('aria-label', Drupal.t('Primary navigation'));
+            }
+          }
+        }
 
         if (menuButton && navigation) {
           navigation.id = 'moody26-primary-navigation';
@@ -85,8 +98,14 @@
           trigger.classList.toggle('open', isOpen);
           panel?.classList.toggle('open', isOpen);
           panel?.setAttribute('aria-hidden', String(!isOpen));
-          panel?.setAttribute('aria-expanded', String(isOpen));
+          panel?.removeAttribute('aria-expanded');
           list?.classList.toggle('open', isOpen);
+
+          if (!isOpen) {
+            trigger.classList.remove('focus', 'add-border', 'icon--open');
+            panel?.classList.remove('focus', 'hover');
+            list?.classList.remove('focus', 'hover');
+          }
         };
 
         const triggers = [...header.querySelectorAll('.moody-subnav-trigger')];
@@ -118,7 +137,9 @@
               falseTrigger.removeAttribute('tabindex');
             }
 
+            panel?.removeAttribute('aria-expanded');
             panel?.setAttribute('aria-labelledby', trigger.id);
+            panel?.removeAttribute('role');
           });
         };
 
@@ -160,13 +181,19 @@
 
             const isOpen = trigger.getAttribute('aria-expanded') === 'true' || trigger.classList.contains('open') || trigger.classList.contains('focus');
             panel.setAttribute('aria-hidden', String(!isOpen));
-            panel.setAttribute('aria-expanded', String(isOpen));
             panel.querySelector('.main-menu__list--subnav')?.classList.toggle('open', isOpen);
           };
 
           syncState();
           new MutationObserver(syncState).observe(trigger, {
             attributeFilter: ['aria-expanded', 'class'],
+          });
+          new MutationObserver(() => {
+            if (panel.hasAttribute('aria-expanded')) {
+              panel.removeAttribute('aria-expanded');
+            }
+          }).observe(panel, {
+            attributeFilter: ['aria-expanded'],
           });
 
           // Stop the parent's split-label handlers at the real target without
@@ -222,7 +249,7 @@
 
             window.clearTimeout(closeTimer);
             closeSubmenus(trigger);
-            commitSubmenuState(trigger, true);
+            setSubmenuState(trigger, true);
           });
 
           item.addEventListener('pointerleave', () => {
@@ -238,7 +265,7 @@
 
             window.clearTimeout(closeTimer);
             closeSubmenus(trigger);
-            commitSubmenuState(trigger, true);
+            setSubmenuState(trigger, true);
           });
         });
 

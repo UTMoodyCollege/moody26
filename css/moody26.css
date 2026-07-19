@@ -957,6 +957,26 @@ body:is(.toolbar-fixed, .toolbar-horizontal, .toolbar-vertical) #moody-header .r
   align-items: center;
 }
 
+.ut-footer nav a {
+  display: inline-flex !important;
+  min-height: var(--target-min);
+  align-items: center;
+}
+
+.ut-footer a[href^="tel:"] {
+  display: inline-flex;
+  min-height: var(--target-min);
+  align-items: center;
+}
+
+.ut-footer .block__ut-social-links--link {
+  display: inline-flex;
+  min-width: var(--target-min);
+  min-height: var(--target-min);
+  align-items: center;
+  justify-content: center;
+}
+
 .ut-footer .text--copyright {
   padding-block-start: var(--space-md);
   border-block-start: var(--rule-hair) solid var(--color-rule-strong);
