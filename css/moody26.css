@@ -173,14 +173,17 @@ main.layout-content,
 }
 
 .layout-content a.moody-btn--arrow::after {
+  content: "";
   position: absolute;
   inset-block: 0;
   inset-inline-end: var(--space-md);
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  inline-size: var(--space-xl);
+  display: block;
+  inline-size: calc(var(--space-lg) + var(--space-xs));
+  block-size: var(--space-md);
+  margin-block: auto;
   margin-inline-start: 0;
+  background: currentColor;
+  clip-path: polygon(0 40%, 68% 40%, 68% 0, 100% 50%, 68% 100%, 68% 60%, 0 60%);
   text-decoration: none;
 }
 
