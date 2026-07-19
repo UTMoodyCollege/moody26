@@ -163,11 +163,24 @@ main.layout-content,
   transition-property: background-color, color, transform !important;
 }
 
+/* The inherited arrow is larger than its label. Flex alignment keeps both
+   vertically centered instead of sharing a visually low inline baseline. */
+.layout-content a.moody-btn--arrow {
+  display: inline-flex;
+  align-items: center;
+}
+
 @media (hover: hover) and (pointer: fine) {
   :is(.ut-btn, .button, button, input[type="button"], input[type="submit"], input[type="reset"]):not(:disabled, [aria-disabled="true"]):hover {
     background: var(--color-paper);
     color: var(--color-ink);
     transform: translateY(-0.0625rem);
+  }
+
+  /* Moody's compound arrow-button rule forces white with !important. */
+  .layout-content a.moody-btn--arrow:hover {
+    background: var(--color-ut-white);
+    color: var(--color-accent) !important;
   }
 }
 
