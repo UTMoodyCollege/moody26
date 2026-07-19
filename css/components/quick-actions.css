@@ -392,7 +392,13 @@
   padding: var(--space-2xs);
 }
 
-#moody-header .moody-quick-actions__trigger,
+#moody-header .moody-quick-actions__trigger {
+  display: inline-flex;
+  height: var(--target-min);
+  align-self: center;
+  margin: 0;
+}
+
 #moody-header .search-social-give > .give-button {
   align-self: center;
 }
