@@ -96,6 +96,73 @@ function moody26_preprocess_node(array &$variables): void {
 }
 
 /**
+ * Builds resilient, deterministic data for the legacy Moody Flex Tabs field.
+ */
+function moody26_preprocess_field(array &$variables): void {
+  if (($variables['field_type'] ?? '') !== 'moody_flex_tabs') {
+    return;
+  }
+
+  $entity = $variables['element']['#object'] ?? NULL;
+  $identity = [
+    $variables['entity_type'] ?? 'entity',
+    $variables['field_name'] ?? 'moody-flex-tabs',
+    $variables['langcode'] ?? 'und',
+  ];
+  if (is_object($entity) && method_exists($entity, 'uuid')) {
+    $identity[] = $entity->uuid();
+  }
+
+  $component_id = Html::getUniqueId(
+    'moody26-flex-tabs-' . substr(hash('sha256', implode(':', $identity)), 0, 12),
+  );
+  $tabs = [];
+  $supplemental = [];
+  $active_assigned = FALSE;
+
+  foreach ($variables['items'] ?? [] as $delta => $item) {
+    $content = $item['content']['#tab_content'] ?? '';
+    $markup = trim((string) $content);
+    $text = Html::decodeEntities(strip_tags($markup));
+    $has_text_content = preg_replace('/(?:\s|\x{00A0}|\x{200B})+/u', '', $text) !== '';
+    $has_embedded_content = (bool) preg_match(
+      '/<(?:audio|drupal-media|iframe|img|picture|svg|table|video)\b/i',
+      $markup,
+    );
+    if (!$has_text_content && !$has_embedded_content) {
+      continue;
+    }
+
+    $title = trim((string) preg_replace(
+      '/(?:\s|\x{00A0}|\x{200B})+/u',
+      ' ',
+      Html::decodeEntities(strip_tags((string) ($item['content']['#tab_title'] ?? ''))),
+    ));
+    if ($title === '') {
+      $supplemental[] = ['content' => $content];
+      continue;
+    }
+
+    $is_active = !$active_assigned && !empty($item['content']['#set_active']);
+    $active_assigned = $active_assigned || $is_active;
+    $tabs[] = [
+      'active' => $is_active,
+      'content' => $content,
+      'panel_id' => $component_id . '-panel-' . $delta,
+      'tab_id' => $component_id . '-tab-' . $delta,
+      'title' => $title,
+    ];
+  }
+
+  if (!$active_assigned && $tabs) {
+    $tabs[0]['active'] = TRUE;
+  }
+
+  $variables['flex_tabs'] = $tabs;
+  $variables['flex_tabs_supplemental'] = $supplemental;
+}
+
+/**
  * Supplies intrinsic dimensions omitted by the UT Hero default formatter.
  */
 function moody26_preprocess_utexas_hero(array &$variables): void {

@@ -6,7 +6,7 @@ visual identity with an accessible, editorial system that can serve academic,
 research, film, journalism, advertising, alumni, event, and public-facing
 sites without requiring the legacy Moody or Speedway themes.
 
-> **Project status:** pre-release (`0.24.0`). The theme is being validated in
+> **Project status:** pre-release (`0.25.0`). The theme is being validated in
 > [Moody Core](https://github.com/UTMoodyCollege/moody-core) before its first
 > stable tag. Pin an exact commit when evaluating the `main` branch.
 
@@ -257,6 +257,31 @@ dimensions when the source is available. Failed media collapses its own track
 without removing the resource heading or any destination. The static component
 adds no decorative motion, replacement content, or fabricated asynchronous
 states.
+
+### Shared Flex Tabs
+
+Moody26 gives the legacy Moody Flex Tabs field a dependency-free progressive
+contract. Before JavaScript runs, tab names are ordinary fragment links and
+every labelled content section remains visible in document flow. Once Drupal
+behaviors attach, the same markup becomes a WAI-ARIA tablist with one selected
+tab, one visible panel, and inactive panel content removed from sequential
+keyboard order. The component does not require Bootstrap’s tab plugin.
+
+Left and Right Arrow move and activate the adjacent tab, Home and End move to
+the first and last tab, and Tab enters the selected panel. Shift+Tab returns to
+the selected tab because the remaining tabs use roving `tabindex`. Focus moves
+without an avoidable page jump. At narrow widths, labels stay on one line in a
+component-owned horizontal rail instead of widening the document; every tab
+and panel retains immediate visible focus and a 44 CSS-pixel minimum target.
+
+The theme also normalizes historical content safely. When no stored item is
+active, the first usable tab is selected. When several are marked active, only
+the first usable one wins. Items with a title but no meaningful content do not
+create dead controls, while meaningful content without a usable title remains
+visible outside the tab interaction. Drupal continues to own processed editor
+copy, ordering, field attributes, cacheability, and Layout Builder placement.
+Panel changes are immediate and add no decorative animation or fabricated
+loading, error, or success states.
 
 ### Shared Moody Contact Info
 

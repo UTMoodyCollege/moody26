@@ -1,0 +1,67 @@
+{#
+/**
+ * @file
+ * Progressive, keyboard-complete Moody Flex Tabs markup for Moody26.
+ *
+ * Without JavaScript, the tab names remain ordinary fragment links and every
+ * panel stays in document flow. The global behavior upgrades the same markup
+ * to the WAI-ARIA Tabs pattern only after it can manage state safely.
+ */
+#}
+{%
+  set classes = [
+    'field',
+    'field--name-' ~ field_name|clean_class,
+    'field--type-' ~ field_type|clean_class,
+    'field--label-' ~ label_display,
+    'flex-tabs',
+  ]
+%}
+{% set rendered_label = label|default('')|render %}
+
+{% if flex_tabs or flex_tabs_supplemental %}
+  <div{{ attributes.addClass(classes) }} data-flex-tabs>
+    {% if not label_hidden and rendered_label|trim %}
+      <div{{ title_attributes.addClass('flex-tabs__label') }}>{{ rendered_label }}</div>
+    {% endif %}
+
+    {% if flex_tabs %}
+      <div class="flex-tabs__index">
+        <ul class="flex-tabs__list" role="list" aria-label="{{ 'Content sections'|t }}" data-flex-tab-list>
+          {% for tab in flex_tabs %}
+            <li class="flex-tabs__item">
+              <a
+                id="{{ tab.tab_id }}"
+                class="flex-tabs__tab"
+                href="#{{ tab.panel_id }}"
+                data-flex-tab
+                {% if tab.active %}data-flex-tab-active{% endif %}
+              >{{ tab.title }}</a>
+            </li>
+          {% endfor %}
+        </ul>
+      </div>
+
+      <div class="flex-tabs__panels">
+        {% for tab in flex_tabs %}
+          <section
+            id="{{ tab.panel_id }}"
+            class="flex-tabs__panel"
+            aria-labelledby="{{ tab.tab_id }}"
+            data-flex-tab-panel
+          >
+            <div class="flex-tabs__body">{{ tab.content }}</div>
+          </section>
+        {% endfor %}
+      </div>
+    {% endif %}
+
+    {% if flex_tabs_supplemental %}
+      <div class="flex-tabs__supplemental">
+        {% for item in flex_tabs_supplemental %}
+          <div class="flex-tabs__body">{{ item.content }}</div>
+        {% endfor %}
+      </div>
+    {% endif %}
+  </div>
+{% endif %}

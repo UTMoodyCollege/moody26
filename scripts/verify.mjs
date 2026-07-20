@@ -38,6 +38,7 @@ const files = {
   contactInfoCss: 'css/components/contact-info.css',
   callToActionCss: 'css/components/call-to-action.css',
   resourceGroupCss: 'css/components/resource-group.css',
+  flexTabsCss: 'css/components/flex-tabs.css',
   discoveryIndex: 'css/components/discovery-index.css',
   accordionCss: 'css/components/accordion.css',
   peopleDirectory: 'css/components/people-directory.css',
@@ -87,6 +88,7 @@ const files = {
   contactInfoTemplate: 'templates/components/moody-contact-info.html.twig',
   utexasResourcesTemplate: 'templates/components/utexas-resources.html.twig',
   moodyResourceGroupTemplate: 'templates/components/moody-resource-group.html.twig',
+  flexTabsTemplate: 'templates/components/field--moody-flex-tabs.html.twig',
   heroTemplate: 'templates/components/moody-hero.html.twig',
   heroStyle1Template: 'templates/components/moody-hero-1.html.twig',
   heroStyle2Template: 'templates/components/moody-hero-2.html.twig',
@@ -173,8 +175,8 @@ const forbidPattern = (file, pattern, message) => {
 
 try {
   const packageJson = JSON.parse(contents.package ?? '');
-  if (packageJson.version !== '0.24.0') {
-    errors.push('The shared Resource Group release must remain versioned as 0.24.0.');
+  if (packageJson.version !== '0.25.0') {
+    errors.push('The progressive Flex Tabs release must remain versioned as 0.25.0.');
   }
   for (const [dependency, version] of [
     ['animejs', '4.5.0'],
@@ -234,8 +236,9 @@ requireText('libraries', 'css/components/showcase.css', 'Shared Moody Showcase s
 requireText('libraries', 'css/components/contact-info.css', 'Shared Moody Contact Info styles must remain attached.');
 requireText('libraries', 'css/components/call-to-action.css', 'Shared Call to Action styles must remain attached.');
 requireText('libraries', 'css/components/resource-group.css', 'Shared Resource Group styles must remain attached.');
+requireText('libraries', 'css/components/flex-tabs.css', 'Shared Flex Tabs styles must remain attached.');
 requireText('libraries', 'js/dist/motion.min.js', 'The built motion integration must remain attached.');
-requireText('libraries', 'version: 0.24.0', 'The Drupal asset version must match the shared Resource Group release.');
+requireText('libraries', 'version: 0.25.0', 'The Drupal asset version must match the progressive Flex Tabs release.');
 forbidText('info', '- moody26/motion', 'Optional motion must be attached from theme settings rather than globally.');
 
 requireText('settings', "header_social_links_block: ''", 'Header social links must be optional for new installs.');
@@ -516,6 +519,38 @@ requireText('theme', "Html::getUniqueId('resource-group-heading')", 'Resource Gr
 requireText('theme', "moody26_add_intrinsic_image_dimensions($item['image'])", 'UT Resource Groups must reuse the formatter-safe intrinsic media helper.');
 requireText('accessibility', '.resource-group__media img', 'Resource Group media must reuse the shared failure safeguard.');
 requireText('accessibility', ".resource-group__item')", 'Failed Resource Group media must preserve its item content.');
+requireText('flexTabsCss', 'component: progressive editorial tab index', 'Flex Tabs must retain the Hallmark component contract.');
+requireText('flexTabsCss', 'container: flex-tabs / inline-size;', 'Flex Tabs must remain container-aware.');
+requireText('flexTabsCss', 'overflow-x: auto;', 'Long tab indexes must scroll inside their own component.');
+requireText('flexTabsCss', 'white-space: nowrap;', 'Tab labels must remain one-line affordances.');
+requireText('flexTabsCss', '.flex-tabs__tab:focus-visible', 'Flex Tabs need immediate visible tab focus.');
+requireText('flexTabsCss', '.flex-tabs__panel:focus-visible', 'Flex Tab panels need immediate visible keyboard focus.');
+requireText('flexTabsCss', '[aria-selected="true"]', 'Flex Tabs need a non-color selected-state rule.');
+requireText('flexTabsCss', '[aria-disabled="true"]', 'Flex Tabs must honor a truthful disabled state if one is supplied.');
+requireText('flexTabsCss', '@media (hover: hover) and (pointer: fine)', 'Flex Tab hover feedback must be capability-gated.');
+requireText('flexTabsTemplate', 'data-flex-tabs', 'Flex Tabs must expose a progressive enhancement root.');
+requireText('flexTabsTemplate', 'href="#{{ tab.panel_id }}"', 'Flex Tabs must remain usable fragment links without JavaScript.');
+requireText('flexTabsTemplate', '<section', 'Flex Tab fallback content must remain labelled document sections.');
+requireText('flexTabsTemplate', 'aria-labelledby="{{ tab.tab_id }}"', 'Flex Tab fallback panels must retain accessible names.');
+requireText('flexTabsTemplate', 'flex_tabs_supplemental', 'Untitled authored content must survive outside the tab interaction.');
+forbidText('flexTabsTemplate', 'data-bs-toggle', 'Flex Tabs must not depend on Bootstrap state.');
+forbidText('flexTabsTemplate', 'role="tab"', 'Flex Tabs must add tab semantics only after JavaScript can manage them.');
+forbidText('flexTabsTemplate', '|raw', 'Flex Tabs must not bypass Drupal render safety.');
+forbidText('flexTabsTemplate', ' hidden', 'Flex Tab fallback content must remain visible before enhancement.');
+requireText('theme', 'function moody26_preprocess_field', 'Flex Tabs need theme-owned stored-state normalization.');
+requireText('theme', "($variables['field_type'] ?? '') !== 'moody_flex_tabs'", 'Flex Tab preprocessing must remain field-type scoped.');
+requireText('theme', '$active_assigned', 'Flex Tabs must normalize missing and duplicate authored active states.');
+requireText('theme', "['flex_tabs_supplemental']", 'Flex Tabs must preserve meaningful content without a usable title.');
+requireText('accessibility', "once('moody26-flex-tabs'", 'Flex Tab enhancement must remain idempotent.');
+requireText('accessibility', "setAttribute('role', 'tablist')", 'Flex Tabs must expose a managed tablist after enhancement.');
+requireText('accessibility', "setAttribute('role', 'tabpanel')", 'Flex Tabs must expose managed tab panels after enhancement.');
+requireText('accessibility', "event.key === 'ArrowLeft'", 'Flex Tabs must support previous-tab keyboard movement.');
+requireText('accessibility', "event.key === 'ArrowRight'", 'Flex Tabs must support next-tab keyboard movement.');
+requireText('accessibility', "event.key === 'Home'", 'Flex Tabs must support first-tab keyboard movement.');
+requireText('accessibility', "event.key === 'End'", 'Flex Tabs must support last-tab keyboard movement.');
+requireText('accessibility', 'focus({ preventScroll: true })', 'Flex Tab keyboard activation must avoid focus scroll jumps.');
+requireText('accessibility', 'tabList.scrollLeft', 'Flex Tabs must reveal the selected label without scrolling the page.');
+requireText('accessibility', 'panels[index].hidden = !selected;', 'Flex Tabs must remove inactive panel content from keyboard order.');
 requireText('discoveryIndex', 'repeat(12, minmax(0, 1fr))', 'Discovery grids must use safe image-bearing tracks.');
 requireText('discoveryIndex', '.linked-focus-area-item:focus-visible', 'Focus Area tasks need immediate visible focus.');
 requireText('discoveryIndex', '.utexas-promo-unit .data-wrapper > a:focus-visible', 'Promo Unit links need immediate visible focus.');
@@ -917,6 +952,7 @@ const runtimeFiles = [
   'showcaseCss', 'showcaseFieldTemplate', 'showcaseTemplate',
   'contactInfoCss', 'contactInfoTemplate', 'callToActionCss',
   'resourceGroupCss', 'utexasResourcesTemplate', 'moodyResourceGroupTemplate',
+  'flexTabsCss', 'flexTabsTemplate',
   'heroTemplate', 'heroStyle1Template', 'heroStyle2Template', 'heroStyle3Template',
   'heroStyle4Template', 'heroStyle5Template', 'heroStyle6Template', 'heroStyle6ShortTemplate',
   'heroStyle7Template', 'heroStyle8Template',
@@ -944,7 +980,7 @@ for (const file of runtimeFiles) {
   }
 }
 
-const cssFiles = ['css', 'headerSocialCss', 'quickActionsCss', 'landingHero', 'editorialSections', 'featuredHighlightCss', 'promoListCss', 'flexContentCss', 'imageLinkCss', 'flexColorBlocksCss', 'quotationCss', 'flexGridCss', 'impactFactsCss', 'showcaseCss', 'contactInfoCss', 'callToActionCss', 'resourceGroupCss', 'discoveryIndex', 'accordionCss', 'peopleDirectory', 'newsroom', 'motionCss', 'settingsCss'];
+const cssFiles = ['css', 'headerSocialCss', 'quickActionsCss', 'landingHero', 'editorialSections', 'featuredHighlightCss', 'promoListCss', 'flexContentCss', 'imageLinkCss', 'flexColorBlocksCss', 'quotationCss', 'flexGridCss', 'impactFactsCss', 'showcaseCss', 'contactInfoCss', 'callToActionCss', 'resourceGroupCss', 'flexTabsCss', 'discoveryIndex', 'accordionCss', 'peopleDirectory', 'newsroom', 'motionCss', 'settingsCss'];
 const forbiddenCss = [
   [/#(?:[0-9a-f]{3}|[0-9a-f]{6}|[0-9a-f]{8})\b/i, 'Raw hex colors belong only in tokens.css.'],
   [/\b(?:rgb|rgba|hsl|hsla|oklch)\(/i, 'Raw color functions belong only in tokens.css.'],
@@ -975,10 +1011,11 @@ for (const file of ['preflight', 'log']) {
     errors.push(`${file} must contain valid JSON.`);
   }
 }
-requireText('preflight', '"package_version": "0.24.0"', 'Hallmark preflight must match the shared Resource Group release.');
+requireText('preflight', '"package_version": "0.25.0"', 'Hallmark preflight must match the progressive Flex Tabs release.');
 requireText('log', 'Conversational FAQ within the Ecosystem Index', 'Hallmark memory must record the shared accordion macrostructure.');
 requireText('log', 'Editorial media directory within the Ecosystem Index', 'Hallmark memory must record the shared Moody Flex Grid component.');
 requireText('log', 'Editorial Signal Band within the Ecosystem Index', 'Hallmark memory must record the shared Moody Promotion signal band.');
+requireText('log', 'Progressive tab index within the Ecosystem Index', 'Hallmark memory must record the shared Flex Tabs component.');
 
 requirePattern('readme', /standalone/i, 'README must describe the standalone architecture.');
 forbidText('readme', 'Base theme | `moody`', 'README must not advertise the legacy base theme.');
@@ -1009,6 +1046,7 @@ requireText('readme', 'Shared UT Drupal Kit Heroes', 'README must document the r
 requireText('readme', 'Shared Moody Contact Info', 'README must document the reusable Moody Contact Info layer.');
 requireText('readme', 'Shared Call to Action blocks', 'README must document the reusable Call to Action layer.');
 requireText('readme', 'Shared Resource Groups', 'README must document the shared Resource Group layer.');
+requireText('readme', 'Shared Flex Tabs', 'README must document the progressive shared Flex Tabs layer.');
 requireText('agents', '`header_social_links_block`', 'AGENTS.md must preserve the header Social Links contract.');
 requireText('agents', 'Missing, unpublished, non-reusable, inaccessible, wrong-bundle, or malformed', 'AGENTS.md must require Social Links to fail closed.');
 requireText('agents', '### People directories', 'AGENTS.md must preserve the people-directory contract.');
@@ -1024,6 +1062,7 @@ requireText('agents', '### Flex Color Blocks', 'AGENTS.md must preserve the Flex
 requireText('agents', '### Moody Quotations', 'AGENTS.md must preserve the Moody Quotation component contract.');
 requireText('agents', '### Moody Flex Grids', 'AGENTS.md must preserve the Moody Flex Grid component contract.');
 requireText('agents', '### Moody Impact Facts', 'AGENTS.md must preserve the Moody Impact Facts component contract.');
+requireText('agents', '### Flex Tabs', 'AGENTS.md must preserve the progressive Flex Tabs component contract.');
 requireText('agents', '### Moody Showcases', 'AGENTS.md must preserve the Moody Showcase component contract.');
 requireText('agents', '### Moody Heroes', 'AGENTS.md must preserve the Moody Hero component contract.');
 requireText('agents', '### UT Drupal Kit Heroes', 'AGENTS.md must preserve the UT Drupal Kit Hero component contract.');
@@ -1039,5 +1078,5 @@ if (errors.length) {
   process.exitCode = 1;
 }
 else {
-  console.log(`Moody26 verification passed (${Object.keys(files).length} source files, ${fonts.length} local fonts, standalone shell, UT brand, accessible directories, resource hubs, Resource Groups, newsroom, accordions, Featured Highlights, Moody Promotions, Promo Lists, Flex Content Areas, Image Links, Flex Color Blocks, Moody Quotations, Moody Flex Grids, Moody Impact Facts, Moody and UT Drupal Kit Heroes, Moody Showcases, Moody Contact Info, and Call to Action blocks, header social links, motion, responsive, and Hallmark gates).`);
+  console.log(`Moody26 verification passed (${Object.keys(files).length} source files, ${fonts.length} local fonts, standalone shell, UT brand, accessible directories, resource hubs, Resource Groups, Flex Tabs, newsroom, accordions, Featured Highlights, Moody Promotions, Promo Lists, Flex Content Areas, Image Links, Flex Color Blocks, Moody Quotations, Moody Flex Grids, Moody Impact Facts, Moody and UT Drupal Kit Heroes, Moody Showcases, Moody Contact Info, and Call to Action blocks, header social links, motion, responsive, and Hallmark gates).`);
 }

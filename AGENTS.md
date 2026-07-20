@@ -294,6 +294,43 @@ not belong outside the token and font declaration files.
   fixtures without route IDs, node IDs, block UUIDs, or headline selectors in
   the runtime contract.
 
+### Flex Tabs
+
+- Treat Moody Flex Tabs as one shared progressive content index, not as
+  route-specific navigation, a carousel, or a Bootstrap-dependent effect.
+  Keep titles, processed panel content, ordering, active choices, field
+  attributes, cacheability, and Layout Builder placement under Drupal and
+  editor control.
+- Moody26 owns `field--moody-flex-tabs.html.twig`, `flex-tabs__*` presentation,
+  stored-state normalization in `moody26_preprocess_field()`, and the
+  idempotent behavior in `js/accessibility.js`. Do not edit the
+  Composer-installed provider or duplicate the interaction in another
+  library.
+- Preserve a complete no-JavaScript fallback: titles are ordinary fragment
+  links and every usable panel remains visible in document flow. Add
+  `tablist`, `tab`, `tabpanel`, `aria-selected`, roving `tabindex`, and hidden
+  inactive panels only after JavaScript can manage the entire state model.
+- Normalize authored state defensively. The first usable marked-active item
+  wins; when none is marked, the first usable item becomes active. Omit an item
+  with no meaningful panel content instead of creating a dead control. Keep
+  meaningful untitled content visible outside the tab interaction rather than
+  hiding it or inventing a title.
+- Support automatic activation with Left Arrow and Right Arrow, wrap at each
+  end, support Home and End, and keep direction-aware behavior for RTL. Tab
+  enters the selected panel; Shift+Tab returns to the one sequentially
+  focusable tab. Keyboard activation must use `preventScroll` and must not
+  create a page-position jump.
+- Keep tab labels as one-line affordances in a component-owned horizontal
+  scroller at narrow widths. The document itself must not overflow. Each tab
+  and panel requires immediate visible focus, tabs require at least a 44
+  CSS-pixel target, and selected state must use weight plus a burnt-orange rule
+  so color is never the only signal.
+- Panel content remains ordinary editorial flow with processed links and
+  headings intact. Do not add duplicate panel headings, synthetic arrows,
+  forced height, lateral content slides, or decorative animation. Flex Tabs
+  have no asynchronous work, so do not fabricate loading, error, or success
+  states.
+
 ### Moody Contact Info
 
 - Treat Moody Contact Info as a shared page-bundle-independent service band,

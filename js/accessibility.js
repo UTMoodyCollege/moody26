@@ -253,6 +253,99 @@
           hideFailedPortrait();
         }
       });
+
+      once('moody26-flex-tabs', '[data-flex-tabs]', context).forEach((component) => {
+        const tabList = component.querySelector(':scope > .flex-tabs__index > [data-flex-tab-list]');
+        const panelGroup = component.querySelector(':scope > .flex-tabs__panels');
+        const tabs = tabList
+          ? [...tabList.querySelectorAll(':scope > li > [data-flex-tab]')]
+          : [];
+        const panels = panelGroup
+          ? [...panelGroup.querySelectorAll(':scope > [data-flex-tab-panel]')]
+          : [];
+        if (!tabList || !tabs.length || tabs.length !== panels.length) {
+          return;
+        }
+
+        const revealTab = (index) => {
+          const listBox = tabList.getBoundingClientRect();
+          const tabBox = tabs[index].getBoundingClientRect();
+          if (tabBox.left < listBox.left) {
+            tabList.scrollLeft -= listBox.left - tabBox.left;
+          }
+          else if (tabBox.right > listBox.right) {
+            tabList.scrollLeft += tabBox.right - listBox.right;
+          }
+        };
+
+        const activate = (activeIndex, moveFocus = false) => {
+          tabs.forEach((tab, index) => {
+            const selected = index === activeIndex;
+            tab.setAttribute('aria-selected', String(selected));
+            tab.tabIndex = selected ? 0 : -1;
+            tab.toggleAttribute('data-flex-tab-active', selected);
+            panels[index].hidden = !selected;
+          });
+
+          if (moveFocus) {
+            tabs[activeIndex].focus({ preventScroll: true });
+          }
+          revealTab(activeIndex);
+        };
+
+        tabList.setAttribute('role', 'tablist');
+        tabList.setAttribute('aria-orientation', 'horizontal');
+        tabList.querySelectorAll(':scope > li').forEach((item) => item.setAttribute('role', 'presentation'));
+        tabs.forEach((tab, index) => {
+          tab.setAttribute('role', 'tab');
+          tab.setAttribute('aria-controls', panels[index].id);
+          panels[index].setAttribute('role', 'tabpanel');
+          panels[index].setAttribute('aria-labelledby', tab.id);
+          panels[index].tabIndex = 0;
+
+          tab.addEventListener('click', (event) => {
+            event.preventDefault();
+            activate(index);
+          });
+        });
+
+        tabList.addEventListener('keydown', (event) => {
+          if (event.altKey || event.ctrlKey || event.metaKey || event.shiftKey) {
+            return;
+          }
+
+          const currentIndex = tabs.indexOf(document.activeElement);
+          if (currentIndex < 0) {
+            return;
+          }
+
+          const isRtl = getComputedStyle(tabList).direction === 'rtl';
+          let nextIndex = currentIndex;
+          if (event.key === 'Home') {
+            nextIndex = 0;
+          }
+          else if (event.key === 'End') {
+            nextIndex = tabs.length - 1;
+          }
+          else if (event.key === 'ArrowLeft') {
+            nextIndex = (currentIndex + (isRtl ? 1 : -1) + tabs.length) % tabs.length;
+          }
+          else if (event.key === 'ArrowRight') {
+            nextIndex = (currentIndex + (isRtl ? -1 : 1) + tabs.length) % tabs.length;
+          }
+          else {
+            return;
+          }
+
+          event.preventDefault();
+          activate(nextIndex, true);
+        });
+
+        const hashIndex = panels.findIndex((panel) => `#${panel.id}` === window.location.hash);
+        const authoredIndex = tabs.findIndex((tab) => tab.hasAttribute('data-flex-tab-active'));
+        component.classList.add('flex-tabs--enhanced');
+        activate(hashIndex >= 0 ? hashIndex : Math.max(0, authoredIndex));
+      });
     },
   };
 })(Drupal, once);

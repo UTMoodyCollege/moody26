@@ -1,6 +1,6 @@
 {
   "date": "2026-07-20",
-  "package_version": "0.24.0",
+  "package_version": "0.25.0",
   "framework": "Drupal 11 / UT Drupal Kit",
   "base_theme": false,
   "font_stack": "Charis SIL + Libre Franklin bundled locally by Moody26",
@@ -40,6 +40,7 @@
     "UT Drupal Kit Heroes routed through the shared responsive editorial hero contract",
     "semantic Moody Contact Info as a page-bundle-independent editorial service band",
     "formatter-owned Call to Action blocks as responsive branded action rules",
-    "shared Moody and UT Drupal Kit Resource Groups as semantic responsive resource ledgers"
+    "shared Moody and UT Drupal Kit Resource Groups as semantic responsive resource ledgers",
+    "progressively enhanced Moody Flex Tabs with resilient stored-state normalization and complete keyboard operation"
   ]
 }
