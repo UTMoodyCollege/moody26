@@ -431,51 +431,6 @@
   }
 }
 
-/* Legacy colour-block choices become a neutral task index. Burnt orange stays
-   a signal instead of filling a large surface. */
-:where(.node-moody_landing_page, .node-moody_standard_page) .field--type-moody-flex-color-blocks {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(min(100%, 16rem), 1fr));
-  gap: var(--space-lg);
-}
-
-:where(.node-moody_landing_page, .node-moody_standard_page) .field--type-moody-flex-color-blocks .flex-color-blocks-wrapper,
-:where(.node-moody_landing_page, .node-moody_standard_page) .field--type-moody-flex-color-blocks :is(.orange, .green, .blue, .gray) {
-  min-height: 12rem;
-  align-items: flex-start;
-  justify-content: end;
-  margin: 0;
-  padding: var(--space-xl);
-  border-block-start: var(--rule-strong) solid var(--color-accent);
-  background: var(--color-paper);
-  color: var(--color-ink);
-  text-align: start;
-  transition: var(--transition-background);
-}
-
-:where(.node-moody_landing_page, .node-moody_standard_page) .field--type-moody-flex-color-blocks .flex-color-blocks-wrapper :where(.headline, .subheadline) {
-  color: var(--color-ink);
-  font-style: normal;
-  text-transform: none;
-}
-
-:where(.node-moody_landing_page, .node-moody_standard_page) .field--type-moody-flex-color-blocks .flex-color-blocks-wrapper .headline {
-  font-family: var(--font-display);
-  font-size: var(--text-heading-sm);
-  font-weight: 700;
-}
-
-@media (hover: hover) and (pointer: fine) {
-  :where(.node-moody_landing_page, .node-moody_standard_page) .field--type-moody-flex-color-blocks a.flex-color-blocks-wrapper:hover {
-    background: var(--color-paper-2);
-    color: var(--color-ink);
-    text-decoration: underline;
-    text-decoration-color: var(--color-accent);
-    text-decoration-thickness: var(--rule-strong);
-    transform: none;
-  }
-}
-
 /* T4 proof strips remain compact and numeric; no invented figures are added. */
 :where(.node-page, .node-moody_landing_page, .node-moody_standard_page) .moody-impact-facts-wrapper {
   padding: var(--space-3xl) var(--page-gutter);

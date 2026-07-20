@@ -399,6 +399,36 @@ not belong outside the token and font declaration files.
 - Image Links are static server-rendered content. Do not add decorative motion
   or fabricate disabled, loading, error, or success states.
 
+### Flex Color Blocks
+
+- Treat Moody Flex Color Blocks as a shared task collection, not route-specific
+  color tiles or a generic card grid. Keep headlines, subheadlines,
+  destinations, block labels, ordering, and Layout Builder placement under
+  Drupal and editor control.
+- Moody26 owns the specific field and item Twig overrides plus the
+  `flex-color-blocks__*` presentation contract. Preserve sanitized formatter
+  text, its URL object, field/item attributes, and cacheability. Never rebuild
+  a destination with a raw `href` or add JavaScript navigation.
+- Render every collection as a real `<ul role="list">` with direct `<li>`
+  children. Item titles are descriptive link text, not repeated headings. The
+  visible Layout Builder block label or surrounding authored heading owns the
+  section level.
+- A linked item is one full-row target with a 44 CSS-pixel minimum, immediate
+  visible focus, active feedback, readable contrast, and capability-gated
+  hover. An item without a destination must remain plain content with no fake
+  pointer, role, tabindex, arrow, or other interactive styling.
+- Use one safe track at narrow component widths and two safe tracks only when
+  the block container reaches 48rem. For an odd item count, let the first item
+  span both tracks; never restore an equal three-card grid. Long titles and
+  subheadlines may wrap without splitting words, truncating, or overflowing.
+- Keep stored orange, gray, blue, and green values only as migration classes.
+  Do not render them as large surfaces or invent tints. Exact UT burnt orange
+  remains a rule, underline, and focus signal; secondary colors must not
+  compete with it.
+- Flex Color Blocks are static server-rendered content. Do not add decorative
+  motion, generated arrow text, invented calls to action, or fabricated
+  disabled, loading, error, or success states.
+
 ### Accordions
 
 - Treat Moody Accordion blocks as one shared component used across the fleet,
@@ -547,6 +577,8 @@ Texas requirements. The current University compliance date is March 1, 2026.
   container-aware author variants, responsive media, and failure recovery.
 - `css/components/image-link.css`: intrinsic linked-media plates, compact
   labels, accessible target states, and honest unavailable-media recovery.
+- `css/components/flex-color-blocks.css`: semantic task ledgers, linked and
+  non-linked states, migration-safe legacy classes, and asymmetric reflow.
 - `css/components/people-directory.css`: responsive filters, semantic people
   indexes, linked profile treatments, current-directory state, and empty-state
   presentation.

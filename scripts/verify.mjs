@@ -30,6 +30,7 @@ const files = {
   promoListCss: 'css/components/promo-list.css',
   flexContentCss: 'css/components/flex-content.css',
   imageLinkCss: 'css/components/image-link.css',
+  flexColorBlocksCss: 'css/components/flex-color-blocks.css',
   discoveryIndex: 'css/components/discovery-index.css',
   accordionCss: 'css/components/accordion.css',
   peopleDirectory: 'css/components/people-directory.css',
@@ -63,6 +64,8 @@ const files = {
   flexContentFieldTemplate: 'templates/components/field--block-content--field-block-fca--utexas-flex-content-area.html.twig',
   flexContentTemplate: 'templates/components/utexas-flex-content-area.html.twig',
   imageLinkTemplate: 'templates/components/utexas-image-link.html.twig',
+  flexColorBlocksFieldTemplate: 'templates/components/field--block-content--field-block-flex-color-blocks--moody-flex-color-blocks.html.twig',
+  flexColorBlocksTemplate: 'templates/components/moody-flex-color-blocks.html.twig',
   accordionTemplate: 'templates/components/field--moody-accordion.html.twig',
   logo: 'logo.svg',
   sourceLicense: 'LICENSE',
@@ -127,8 +130,8 @@ const forbidText = (file, needle, message) => {
 
 try {
   const packageJson = JSON.parse(contents.package ?? '');
-  if (packageJson.version !== '0.13.0') {
-    errors.push('The Image Link release must remain versioned as 0.13.0.');
+  if (packageJson.version !== '0.14.0') {
+    errors.push('The Flex Color Blocks release must remain versioned as 0.14.0.');
   }
   for (const [dependency, version] of [
     ['animejs', '4.5.0'],
@@ -180,8 +183,9 @@ requireText('libraries', 'css/components/featured-highlight.css', 'Shared Featur
 requireText('libraries', 'css/components/promo-list.css', 'Shared Promo List styles must remain attached.');
 requireText('libraries', 'css/components/flex-content.css', 'Shared Flex Content Area styles must remain attached.');
 requireText('libraries', 'css/components/image-link.css', 'Shared Image Link styles must remain attached.');
+requireText('libraries', 'css/components/flex-color-blocks.css', 'Shared Flex Color Block styles must remain attached.');
 requireText('libraries', 'js/dist/motion.min.js', 'The built motion integration must remain attached.');
-requireText('libraries', 'version: 0.13.0', 'The Drupal asset version must match the Image Link release.');
+requireText('libraries', 'version: 0.14.0', 'The Drupal asset version must match the Flex Color Blocks release.');
 forbidText('info', '- moody26/motion', 'Optional motion must be attached from theme settings rather than globally.');
 
 requireText('settings', "header_social_links_block: ''", 'Header social links must be optional for new installs.');
@@ -481,6 +485,26 @@ requireText('imageLinkTemplate', "'aria-label': link_label", 'Image Links must e
 forbidText('imageLinkTemplate', 'attach_library', 'Image Links must use the theme global library without duplicate attachments.');
 forbidText('imageLinkTemplate', 'href=', 'Image Link destinations must not be reconstructed in Twig.');
 forbidText('imageLinkTemplate', '|raw', 'Image Links must not bypass Drupal render safety.');
+requireText('flexColorBlocksCss', 'component: editorial task ledger', 'Flex Color Blocks must retain the Hallmark component contract.');
+requireText('flexColorBlocksCss', 'container: flex-color-blocks-block / inline-size;', 'Flex Color Blocks must respond to their Layout Builder container.');
+requireText('flexColorBlocksCss', 'grid-template-columns: minmax(0, 1fr);', 'Flex Color Blocks must retain a safe narrow track.');
+requireText('flexColorBlocksCss', 'grid-template-columns: repeat(2, minmax(0, 1fr));', 'Flex Color Blocks must retain two safe wide tracks.');
+requireText('flexColorBlocksCss', '.flex-color-blocks__item:first-child:nth-last-child(odd)', 'Odd Flex Color Block collections must retain their lead-plus-pair composition.');
+requireText('flexColorBlocksCss', '.flex-color-blocks__target:focus-visible', 'Flex Color Block links need immediate visible focus.');
+requireText('flexColorBlocksCss', 'min-height: var(--target-min);', 'Flex Color Block links must preserve a 44 CSS-pixel target.');
+requireText('flexColorBlocksCss', '@media (hover: hover) and (pointer: fine)', 'Flex Color Block hover feedback must be capability-gated.');
+requireText('flexColorBlocksFieldTemplate', 'role="list"', 'Flex Color Block collections must expose list semantics.');
+requireText('flexColorBlocksFieldTemplate', '<li{{ item.attributes.addClass', 'Flex Color Block entries must expose direct list-item semantics.');
+requireText('flexColorBlocksFieldTemplate', 'rendered_item|striptags|trim', 'Flex Color Blocks must omit structurally empty stored entries.');
+requireText('flexColorBlocksTemplate', 'link(item_content, link', 'Flex Color Block destinations must remain formatter-owned URL objects.');
+requireText('flexColorBlocksTemplate', 'flex-color-blocks__content', 'Unlinked Flex Color Blocks must retain an honest non-interactive state.');
+requireText('flexColorBlocksTemplate', 'flex-color-blocks__legacy-', 'Legacy Flex Color Block colors must remain available as migration classes.');
+forbidText('flexColorBlocksTemplate', 'href=', 'Flex Color Block destinations must not be reconstructed in Twig.');
+forbidText('flexColorBlocksTemplate', '<h', 'Flex Color Block item labels must not create repeated section headings.');
+forbidText('flexColorBlocksTemplate', 'attach_library', 'Flex Color Blocks must use the theme global library without duplicate attachments.');
+forbidText('flexColorBlocksTemplate', '|raw', 'Flex Color Blocks must not bypass Drupal render safety.');
+forbidText('editorialSections', 'field--type-moody-flex-color-blocks', 'Flex Color Block layout must live in its dedicated component stylesheet.');
+forbidText('newsroom', 'flex-color-blocks-wrapper', 'Newsroom routes must use the shared Flex Color Block contract.');
 requireText('theme', 'function moody26_preprocess_views_view_unformatted', 'Faculty directory rows need a translated result summary.');
 requireText('theme', 'function moody26_preprocess_views_view_fields', 'Faculty directory profiles need entity-backed names and URLs.');
 requireText('theme', "'moody26-directory-' . Html::getClass($directory->label())", 'Landing compositions must use portable directory-term classes.');
@@ -540,6 +564,7 @@ const runtimeFiles = [
   'featuredHighlightCss', 'featuredHighlightTemplate', 'promoListCss', 'promoListTemplate',
   'flexContentCss', 'flexContentFieldTemplate', 'flexContentTemplate',
   'imageLinkCss', 'imageLinkTemplate',
+  'flexColorBlocksCss', 'flexColorBlocksFieldTemplate', 'flexColorBlocksTemplate',
   'accordionCss', 'accordionTemplate',
   'peopleDirectory', 'peopleDirectoryView', 'peopleDirectoryRows', 'peopleDirectoryFields',
   'newsroom', 'newsRows', 'newsFields',
@@ -562,7 +587,7 @@ for (const file of runtimeFiles) {
   }
 }
 
-const cssFiles = ['css', 'headerSocialCss', 'quickActionsCss', 'landingHero', 'editorialSections', 'featuredHighlightCss', 'promoListCss', 'flexContentCss', 'imageLinkCss', 'discoveryIndex', 'accordionCss', 'peopleDirectory', 'newsroom', 'motionCss', 'settingsCss'];
+const cssFiles = ['css', 'headerSocialCss', 'quickActionsCss', 'landingHero', 'editorialSections', 'featuredHighlightCss', 'promoListCss', 'flexContentCss', 'imageLinkCss', 'flexColorBlocksCss', 'discoveryIndex', 'accordionCss', 'peopleDirectory', 'newsroom', 'motionCss', 'settingsCss'];
 const forbiddenCss = [
   [/#(?:[0-9a-f]{3}|[0-9a-f]{6}|[0-9a-f]{8})\b/i, 'Raw hex colors belong only in tokens.css.'],
   [/\b(?:rgb|rgba|hsl|hsla|oklch)\(/i, 'Raw color functions belong only in tokens.css.'],
@@ -593,7 +618,7 @@ for (const file of ['preflight', 'log']) {
     errors.push(`${file} must contain valid JSON.`);
   }
 }
-requireText('preflight', '"package_version": "0.13.0"', 'Hallmark preflight must match the Image Link release.');
+requireText('preflight', '"package_version": "0.14.0"', 'Hallmark preflight must match the Flex Color Blocks release.');
 requireText('log', 'Conversational FAQ within the Ecosystem Index', 'Hallmark memory must record the shared accordion macrostructure.');
 
 requirePattern('readme', /standalone/i, 'README must describe the standalone architecture.');
@@ -614,6 +639,7 @@ requireText('readme', 'Shared Featured Highlights', 'README must document the re
 requireText('readme', 'Shared Promo Lists', 'README must document the reusable Promo List layer.');
 requireText('readme', 'Shared Flex Content Areas', 'README must document the reusable Flex Content Area layer.');
 requireText('readme', 'Shared Image Links', 'README must document the reusable Image Link layer.');
+requireText('readme', 'Shared Flex Color Blocks', 'README must document the reusable Flex Color Block layer.');
 requireText('agents', '`header_social_links_block`', 'AGENTS.md must preserve the header Social Links contract.');
 requireText('agents', 'Missing, unpublished, non-reusable, inaccessible, wrong-bundle, or malformed', 'AGENTS.md must require Social Links to fail closed.');
 requireText('agents', '### People directories', 'AGENTS.md must preserve the people-directory contract.');
@@ -624,6 +650,7 @@ requireText('agents', '### Featured Highlights', 'AGENTS.md must preserve the Fe
 requireText('agents', '### Promo Lists', 'AGENTS.md must preserve the Promo List component contract.');
 requireText('agents', '### Flex Content Areas', 'AGENTS.md must preserve the Flex Content Area component contract.');
 requireText('agents', '### Image Links', 'AGENTS.md must preserve the Image Link component contract.');
+requireText('agents', '### Flex Color Blocks', 'AGENTS.md must preserve the Flex Color Block component contract.');
 
 if (errors.length) {
   console.error(`Moody26 verification failed (${errors.length}):`);
@@ -633,5 +660,5 @@ if (errors.length) {
   process.exitCode = 1;
 }
 else {
-  console.log(`Moody26 verification passed (${Object.keys(files).length} source files, ${fonts.length} local fonts, standalone shell, UT brand, accessible directories, resource hubs, newsroom, accordions, Featured Highlights, Promo Lists, Flex Content Areas, and Image Links, header social links, motion, responsive, and Hallmark gates).`);
+  console.log(`Moody26 verification passed (${Object.keys(files).length} source files, ${fonts.length} local fonts, standalone shell, UT brand, accessible directories, resource hubs, newsroom, accordions, Featured Highlights, Promo Lists, Flex Content Areas, Image Links, and Flex Color Blocks, header social links, motion, responsive, and Hallmark gates).`);
 }

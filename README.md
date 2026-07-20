@@ -6,7 +6,7 @@ visual identity with an accessible, editorial system that can serve academic,
 research, film, journalism, advertising, alumni, event, and public-facing
 sites without requiring the legacy Moody or Speedway themes.
 
-> **Project status:** pre-release (`0.13.0`). The theme is being validated in
+> **Project status:** pre-release (`0.14.0`). The theme is being validated in
 > [Moody Core](https://github.com/UTMoodyCollege/moody-core) before its first
 > stable tag. Pin an exact commit when evaluating the `main` branch.
 
@@ -39,6 +39,8 @@ sites without requiring the legacy Moody or Speedway themes.
   media, and container-aware one- through four-column authoring variants.
 - Shared UT Image Links with formatter-owned responsive media, intrinsic
   proportions, reliable accessible names, and useful unavailable-media links.
+- Shared Moody Flex Color Blocks with semantic list structure, full-row link
+  targets, honest non-linked content, and migration-safe legacy color data.
 - Shared people directories with semantic list and heading structure,
   accessible linked profiles, responsive filters, honest result counts, and a
   useful empty state.
@@ -215,8 +217,8 @@ Missing media collapses cleanly without removing the title or destination.
 
 The same layer gives Media Mentions a source-led editorial ledger and removes
 the duplicate generic “Read More” tab stop in favor of the descriptive
-headline link. It also aligns Moody Hero, Moody Showcase, and one-item Flex
-Color Blocks with the theme’s flat, token-governed Layout Builder system. A
+headline link. It also aligns Moody Hero and Moody Showcase with the theme’s
+flat, token-governed Layout Builder system. A
 landing page whose `field_moody_url_generator` term is `News` receives the
 portable `moody26-directory-news` composition class—never a node-ID selector.
 
@@ -310,6 +312,31 @@ its alternative becomes a visible, underlined text link with a 44 CSS-pixel
 minimum target. The destination and its external/new-window context remain
 available. An unlinked failed image collapses instead of leaving a broken-image
 glyph. No placeholder art, caption, or call to action is invented.
+
+### Shared Flex Color Blocks
+
+Moody26 turns the legacy Moody Flex Color Blocks field into a semantic
+editorial task ledger without changing its four-item editor workflow. Each
+collection is a real list with direct list items. A linked item is one full-row
+destination; an item without a destination remains visibly non-interactive.
+Headlines are descriptive link labels rather than repeated section headings,
+so a visible Layout Builder block label remains the collection heading and
+document outlines do not acquire a heading for every shortcut.
+
+The component begins as one readable column. Once its own Layout Builder block
+has at least 48rem, two safe tracks become available; an odd first item spans
+both tracks so three items form a deliberate lead-plus-pair composition rather
+than a generic three-card grid. One-item calls to action retain a stronger
+typographic scale without becoming a large color tile. Long editor-authored
+titles and explanatory text wrap without splitting words or causing page
+overflow.
+
+Stored orange, gray, blue, and green choices remain on stable migration classes
+but do not create competing brand surfaces. Exact UT burnt orange is reserved
+for the collection rule, link underline, and focus signal. Drupal continues to
+own sanitized text, URL objects, block labels, placement, and cacheability. The
+component adds no JavaScript, synthetic arrow, invented CTA, or fabricated
+loading, disabled, error, or success state.
 
 ### Shared accordions
 
@@ -410,7 +437,7 @@ than replace manual assistive-technology review.
 | `tokens.css` | Brand, type, spacing, motion, focus, and layout tokens |
 | `css/fonts.css` | Local approved digital font declarations |
 | `css/moody26.css` | Global foundation, shell, navigation, forms, and footer |
-| `css/components/` | Header social, landing, editorial, discovery, resource-hub, accordion, Featured Highlight, Promo List, Flex Content Area, Image Link, people-directory, newsroom, quick-action, and settings components |
+| `css/components/` | Header social, landing, editorial, discovery, resource-hub, accordion, Featured Highlight, Promo List, Flex Content Area, Image Link, Flex Color Block, people-directory, newsroom, quick-action, and settings components |
 | `js/navigation.js` | Drawer and disclosure navigation state |
 | `js/quick-actions.js` | Native dialog and rendered-destination discovery |
 | `js/accessibility.js` | Progressive safeguards for rendered content components |

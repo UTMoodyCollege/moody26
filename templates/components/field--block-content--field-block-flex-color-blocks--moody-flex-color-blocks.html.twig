@@ -1,0 +1,30 @@
+{#
+/**
+ * @file
+ * Semantic collection wrapper for Moody Flex Color Blocks.
+ *
+ * The field's legacy colour choices remain available as migration metadata on
+ * each item while Moody26 presents the collection as an accessible task list.
+ */
+#}
+{% set classes = [
+  'field',
+  'field--name-' ~ field_name|clean_class,
+  'field--type-' ~ field_type|clean_class,
+  'field--label-' ~ label_display,
+  'flex-color-blocks',
+] %}
+
+{% if not label_hidden %}
+  <h2{{ title_attributes.addClass('flex-color-blocks__field-label') }}>{{ label }}</h2>
+{% endif %}
+<ul{{ attributes.addClass(classes) }} role="list">
+  {% for item in items %}
+    {% set rendered_item = item.content|render %}
+    {% if rendered_item|striptags|trim %}
+      <li{{ item.attributes.addClass('flex-color-blocks__item') }}>
+        {{ rendered_item }}
+      </li>
+    {% endif %}
+  {% endfor %}
+</ul>

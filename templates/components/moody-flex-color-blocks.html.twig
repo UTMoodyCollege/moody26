@@ -1,0 +1,34 @@
+{#
+/**
+ * @file
+ * Accessible, theme-owned Moody Flex Color Block item markup.
+ *
+ * The formatter remains responsible for sanitized text and the URL object.
+ */
+#}
+{% set rendered_headline = headline|render %}
+{% set rendered_subheadline = subheadline|render %}
+{% set legacy_color_class = color_scheme ? color_scheme|clean_class : 'gray' %}
+{% set item_classes = [
+  'flex-color-blocks__target',
+  'flex-color-blocks__legacy-' ~ legacy_color_class,
+] %}
+
+{% if rendered_headline|striptags|trim or rendered_subheadline|striptags|trim %}
+  {% set item_content %}
+    {% if rendered_headline|striptags|trim %}
+      <span class="flex-color-blocks__title">{{ rendered_headline }}</span>
+    {% endif %}
+    {% if rendered_subheadline|striptags|trim %}
+      <p class="flex-color-blocks__subheadline">{{ rendered_subheadline }}</p>
+    {% endif %}
+  {% endset %}
+
+  {% if link %}
+    {{ link(item_content, link, {'class': item_classes}) }}
+  {% else %}
+    <div class="flex-color-blocks__content flex-color-blocks__legacy-{{ legacy_color_class }}">
+      {{ item_content }}
+    </div>
+  {% endif %}
+{% endif %}

@@ -278,29 +278,6 @@
   }
 }
 
-/* A one-item colour block becomes a quiet onward link instead of a giant
-   legacy colour tile. */
-.moody26-directory-news .moody-mini-nav-anchor-target:has(.news-index)
-  + .block-bundle-moody-flex-color-blocks .field--type-moody-flex-color-blocks {
-  display: block;
-}
-
-.moody26-directory-news .moody-mini-nav-anchor-target:has(.news-index)
-  + .block-bundle-moody-flex-color-blocks .flex-color-blocks-wrapper {
-  min-height: 0;
-  justify-content: start;
-  padding: var(--space-lg) 0;
-  border-block-start: var(--rule-strong) solid var(--color-accent);
-  background: var(--color-paper);
-  color: var(--color-ink);
-}
-
-.moody26-directory-news .moody-mini-nav-anchor-target:has(.news-index)
-  + .block-bundle-moody-flex-color-blocks .headline {
-  margin: 0;
-  font-size: var(--text-heading-sm);
-}
-
 /* Media mentions are a compact source ledger. The descriptive headline is
    the sole destination; the legacy duplicate Read More control is removed. */
 .moody-media-mentions {
@@ -455,30 +432,6 @@
 
 .moody-showcase.moody-showcase--media-unavailable .showcase-text {
   max-width: var(--content-narrow);
-}
-
-/* A final one-item panel closes the newsroom with a strong typographic route,
-   not a new colour surface. */
-.moody26-directory-news .node__content > .section-wrapper:last-child
-  .field--type-moody-flex-color-blocks {
-  display: block;
-  padding-block: var(--space-2xl) var(--space-3xl);
-}
-
-.moody26-directory-news .node__content > .section-wrapper:last-child
-  .flex-color-blocks-wrapper {
-  min-height: 0;
-  justify-content: start;
-  padding: var(--space-2xl) 0;
-  border-block-start: var(--rule-strong) solid var(--color-accent);
-  background: var(--color-paper);
-  color: var(--color-ink);
-}
-
-.moody26-directory-news .node__content > .section-wrapper:last-child .headline {
-  max-width: 28ch;
-  margin: 0;
-  font-size: var(--text-heading);
 }
 
 @media (min-width: 60rem) {
