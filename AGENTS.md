@@ -212,6 +212,34 @@ not belong outside the token and font declaration files.
   equivalent. Keep the card flat with a hairline rule; do not add repeated
   rounded containers, image zoom, or decorative scroll animation.
 
+### Newsroom components
+
+- Treat the `news_filtered` View’s `block_filtered` display as the reference
+  latest-stories implementation. Future news indexes add targeted template suggestions and
+  reuse the `news-index__*` and `news-teaser__*` vocabulary.
+- Keep story selection, sort order, dates, topics, summaries, images, and
+  Layout Builder placement in the consuming site. The theme owns semantic
+  teaser markup and presentation, not editorial content or View configuration.
+- Render the latest-stories index as a labelled list of article entries. Each
+  story title is an `h2`; the publication value is a real `time` element; and
+  the title, summary, and teaser image share one clear story destination.
+- Keep topic links outside the story link and give them 44-pixel targets. A
+  teaser image is decorative inside the already-labelled story destination;
+  preserve its authored alternative in Drupal for full-story contexts.
+- Failed teaser or Showcase media must collapse without a broken-image glyph,
+  invented placeholder art, missing title, lost destination, or grid gap.
+- Media Mentions use the descriptive headline as the sole external
+  destination. Hide the redundant generic `Read More` link from visual and
+  accessibility trees rather than adding a second tab stop to the same URL.
+- A landing node referenced by the `News` directory-structure term receives a
+  portable `moody26-directory-news` class. Never scope the composition to a
+  node ID, block UUID, or editor-authored headline.
+- Normalize a nested authored `h1` in the News lead to `h2`; the page-title
+  block remains the sole document `h1`. Do not change the author’s wording.
+- Use one column on narrow screens, two safe tracks when the component allows,
+  and an asymmetric 12-track ledger at wide container sizes. Keep cards flat,
+  motion static by default, hover capability-gated, and focus immediate.
+
 ### Footer
 
 - Render real site identity and navigation before the legal row.
@@ -332,6 +360,9 @@ Texas requirements. The current University compliance date is March 1, 2026.
 - `css/components/people-directory.css`: responsive filters, semantic people
   indexes, linked profile treatments, current-directory state, and empty-state
   presentation.
+- `css/components/newsroom.css`: semantic news ledgers, source mentions,
+  directory-aware landing composition, resilient media, and shared newsroom
+  support components.
 - `templates/`: theme-owned document, page, shell, block, menu, and targeted
   shared-View markup.
 - `js/navigation.js`: the sole drawer and disclosure state owner.

@@ -28,6 +28,7 @@ const files = {
   editorialSections: 'css/components/editorial-sections.css',
   discoveryIndex: 'css/components/discovery-index.css',
   peopleDirectory: 'css/components/people-directory.css',
+  newsroom: 'css/components/newsroom.css',
   motionCss: 'css/components/motion.css',
   settingsCss: 'css/components/theme-settings.css',
   accessibility: 'js/accessibility.js',
@@ -48,6 +49,8 @@ const files = {
   peopleDirectoryView: 'templates/views/views-view--faculty-bio-view.html.twig',
   peopleDirectoryRows: 'templates/views/views-view-unformatted--faculty-bio-view.html.twig',
   peopleDirectoryFields: 'templates/views/views-view-fields--faculty-bio-view.html.twig',
+  newsRows: 'templates/views/views-view-unformatted--news-filtered--block-filtered.html.twig',
+  newsFields: 'templates/views/views-view-fields--news-filtered--block-filtered.html.twig',
   logo: 'logo.svg',
   sourceLicense: 'LICENSE',
   fontLicense: 'LICENSES/OFL-1.1.txt',
@@ -111,8 +114,8 @@ const forbidText = (file, needle, message) => {
 
 try {
   const packageJson = JSON.parse(contents.package ?? '');
-  if (packageJson.version !== '0.6.0') {
-    errors.push('The shared-directory release must remain versioned as 0.6.0.');
+  if (packageJson.version !== '0.7.0') {
+    errors.push('The shared-newsroom release must remain versioned as 0.7.0.');
   }
   for (const [dependency, version] of [
     ['animejs', '4.5.0'],
@@ -158,8 +161,9 @@ requireText('libraries', 'js/quick-actions.js', 'Quick actions must remain attac
 requireText('libraries', 'css/components/motion.css', 'Motion safeguards must remain attached.');
 requireText('libraries', 'css/components/header-social.css', 'Responsive header social styles must remain attached.');
 requireText('libraries', 'css/components/people-directory.css', 'Shared people-directory styles must remain attached.');
+requireText('libraries', 'css/components/newsroom.css', 'Shared newsroom styles must remain attached.');
 requireText('libraries', 'js/dist/motion.min.js', 'The built motion integration must remain attached.');
-requireText('libraries', 'version: 0.6.0', 'The Drupal asset version must match the shared-directory release.');
+requireText('libraries', 'version: 0.7.0', 'The Drupal asset version must match the shared-newsroom release.');
 forbidText('info', '- moody26/motion', 'Optional motion must be attached from theme settings rather than globally.');
 
 requireText('settings', "header_social_links_block: ''", 'Header social links must be optional for new installs.');
@@ -360,8 +364,17 @@ requireText('peopleDirectory', 'container: people-directory / inline-size;', 'Pe
 requireText('peopleDirectory', 'repeat(4, minmax(0, 1fr))', 'People-directory image grids must use safe tracks.');
 requireText('peopleDirectory', '.people-directory__profile:focus-visible', 'People profile links need a visible focus-equivalent detail.');
 requireText('peopleDirectory', '@media (hover: hover) and (pointer: fine)', 'People-directory hover feedback must be capability-gated.');
+requireText('newsroom', 'component: shared newsroom index', 'Newsroom components must retain the Hallmark component contract.');
+requireText('newsroom', 'container: news-index / inline-size;', 'News indexes must remain container-aware.');
+requireText('newsroom', 'repeat(12, minmax(0, 1fr))', 'News indexes must retain safe asymmetric tracks.');
+requireText('newsroom', '.news-teaser__story:focus-visible', 'News story links need a visible focus-equivalent detail.');
+requireText('newsroom', '@media (hover: hover) and (pointer: fine)', 'Newsroom hover feedback must be capability-gated.');
 requireText('theme', 'function moody26_preprocess_views_view_unformatted', 'Faculty directory rows need a translated result summary.');
 requireText('theme', 'function moody26_preprocess_views_view_fields', 'Faculty directory profiles need entity-backed names and URLs.');
+requireText('theme', "'moody26-directory-' . Html::getClass($directory->label())", 'Landing compositions must use portable directory-term classes.');
+requireText('theme', "preg_match('/<h1", 'News leads must normalize nested authored h1 markup.');
+requireText('theme', "gmdate('Y-m-d'", 'News teasers need machine-readable publication dates.');
+requireText('theme', "$variables['content_attributes']['class'][] = 'node__content';", 'Standalone node output must expose the shared content contract.');
 requireText('theme', "mb_strtoupper(mb_substr($variables['person_name'], 0, 1))", 'Missing portraits need a content-derived initial.');
 requireText('theme', "'#theme' => 'image_style'", 'Faculty portraits must retain Drupal image-style delivery.');
 requireText('theme', "'#alt' => ''", 'Linked directory portraits must remain decorative beside the visible person name.');
@@ -377,11 +390,21 @@ requireText('accessibility', "setAttribute('aria-current', 'page')", 'Directory 
 requireText('accessibility', "Drupal.t('Faculty directories')", 'Directory switchers need a translated landmark name.');
 requireText('accessibility', "once('moody26-person-image'", 'Directory portrait fallbacks must be idempotent.');
 requireText('accessibility', "classList.add('people-directory__media--fallback')", 'Failed portraits must reveal the stable fallback tile.');
+requireText('accessibility', "once('moody26-showcase-image'", 'Showcase media fallbacks must be idempotent.');
+requireText('accessibility', "classList.add('moody-showcase--media-unavailable')", 'Failed Showcase media must preserve its text composition.');
+requireText('newsRows', '<section class="news-index"', 'The latest-stories display must expose a labelled section.');
+requireText('newsRows', '<ul class="news-index__list" role="list">', 'The latest-stories display must expose list semantics.');
+requireText('newsFields', '<article class="news-teaser">', 'Each latest-story result must remain an article.');
+requireText('newsFields', '<time class="news-teaser__date"', 'News publication dates must remain semantic time elements.');
+requireText('newsFields', '<h2 class="news-teaser__title"', 'Each news story title must remain a navigable heading.');
+requireText('newsFields', 'aria-labelledby="{{ story_title_id }}"', 'Each news teaser must keep one descriptive story destination.');
+requireText('newsFields', "'Story topics'|t", 'News topic destinations need a translated accessible label.');
 
 const runtimeFiles = [
   'info', 'libraries', 'theme', 'themeSettings', 'fontsCss', 'css',
   'headerSocialCss', 'quickActionsCss', 'landingHero', 'editorialSections', 'discoveryIndex',
   'peopleDirectory', 'peopleDirectoryView', 'peopleDirectoryRows', 'peopleDirectoryFields',
+  'newsroom', 'newsRows', 'newsFields',
   'motionCss', 'settingsCss', 'accessibility', 'navigation', 'quickActions', 'motion', 'html', 'page', 'brandbar',
   'header', 'footer', 'brandingBlock', 'menuBlock', 'menu',
 ];
@@ -400,7 +423,7 @@ for (const file of runtimeFiles) {
   }
 }
 
-const cssFiles = ['css', 'headerSocialCss', 'quickActionsCss', 'landingHero', 'editorialSections', 'discoveryIndex', 'peopleDirectory', 'motionCss', 'settingsCss'];
+const cssFiles = ['css', 'headerSocialCss', 'quickActionsCss', 'landingHero', 'editorialSections', 'discoveryIndex', 'peopleDirectory', 'newsroom', 'motionCss', 'settingsCss'];
 const forbiddenCss = [
   [/#(?:[0-9a-f]{3}|[0-9a-f]{6}|[0-9a-f]{8})\b/i, 'Raw hex colors belong only in tokens.css.'],
   [/\b(?:rgb|rgba|hsl|hsla|oklch)\(/i, 'Raw color functions belong only in tokens.css.'],
@@ -443,9 +466,11 @@ requireText('readme', 'Interface motion (Anime.js)', 'README must document the A
 requireText('readme', 'Header social links', 'README must document the responsive Social Links option.');
 requireText('readme', 'stores the selected block’s UUID', 'README must explain Social Links configuration portability.');
 requireText('readme', 'Shared people directories', 'README must document the reusable directory layer.');
+requireText('readme', 'Shared newsroom components', 'README must document the reusable newsroom layer.');
 requireText('agents', '`header_social_links_block`', 'AGENTS.md must preserve the header Social Links contract.');
 requireText('agents', 'Missing, unpublished, non-reusable, inaccessible, wrong-bundle, or malformed', 'AGENTS.md must require Social Links to fail closed.');
 requireText('agents', '### People directories', 'AGENTS.md must preserve the people-directory contract.');
+requireText('agents', '### Newsroom components', 'AGENTS.md must preserve the newsroom component contract.');
 
 if (errors.length) {
   console.error(`Moody26 verification failed (${errors.length}):`);
@@ -455,5 +480,5 @@ if (errors.length) {
   process.exitCode = 1;
 }
 else {
-  console.log(`Moody26 verification passed (${Object.keys(files).length} source files, ${fonts.length} local fonts, standalone shell, UT brand, accessible directories, header social links, motion, responsive, and Hallmark gates).`);
+  console.log(`Moody26 verification passed (${Object.keys(files).length} source files, ${fonts.length} local fonts, standalone shell, UT brand, accessible directories and newsroom, header social links, motion, responsive, and Hallmark gates).`);
 }

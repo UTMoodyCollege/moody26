@@ -1,0 +1,36 @@
+{#
+/**
+ * @file
+ * Shared news teaser with one story destination and separate topic links.
+ */
+#}
+<article class="news-teaser">
+  <a
+    class="news-teaser__story"
+    href="{{ story_url }}"
+    aria-labelledby="{{ story_title_id }}"
+    {% if story_summary %}aria-describedby="{{ story_summary_id }}"{% endif %}
+  >
+    {% if story_image %}
+      <div class="news-teaser__media latest-news-block-image-field" aria-hidden="true">
+        {{ story_image }}
+      </div>
+    {% endif %}
+
+    <div class="news-teaser__content">
+      {% if story_date %}
+        <time class="news-teaser__date" datetime="{{ story_date_iso }}">{{ story_date }}</time>
+      {% endif %}
+      <h2 class="news-teaser__title" id="{{ story_title_id }}">{{ story_title }}</h2>
+      {% if story_summary %}
+        <p class="news-teaser__summary" id="{{ story_summary_id }}">{{ story_summary }}</p>
+      {% endif %}
+    </div>
+  </a>
+
+  {% if story_categories %}
+    <div class="news-teaser__topics" aria-label="{{ 'Story topics'|t }}">
+      {{ story_categories }}
+    </div>
+  {% endif %}
+</article>

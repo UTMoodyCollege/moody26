@@ -6,6 +6,7 @@
  */
 
 use Drupal\Component\Uuid\Uuid;
+use Drupal\Component\Utility\Html;
 use Drupal\Core\Cache\CacheableMetadata;
 use Drupal\Core\Form\FormStateInterface;
 use Drupal\Core\Template\Attribute;
@@ -17,6 +18,12 @@ use Drupal\node\NodeInterface;
 function moody26_preprocess_html(array &$variables): void {
   if (!empty($variables['node_type'])) {
     $variables['attributes']['class'][] = 'node-' . $variables['node_type'];
+  }
+
+  $directory = moody26_current_directory();
+  if ($directory) {
+    $variables['attributes']['class'][] = 'moody26-directory-' . Html::getClass($directory->label());
+    CacheableMetadata::createFromObject($directory)->applyTo($variables);
   }
 
   $gsap_enabled = (bool) (theme_get_setting('motion_gsap_enabled') ?? TRUE);
@@ -81,10 +88,46 @@ function moody26_preprocess_page(array &$variables): void {
 }
 
 /**
+ * Implements hook_preprocess_node().
+ */
+function moody26_preprocess_node(array &$variables): void {
+  $variables['content_attributes']['class'][] = 'node__content';
+  $variables['content_attributes']['class'][] = 'moody26-node-content';
+}
+
+/**
  * Implements hook_preprocess_block().
  */
 function moody26_preprocess_block(array &$variables): void {
   $plugin_id = $variables['base_plugin_id'] ?? '';
+
+  // The news landing page's authored lead predates the one-h1 page contract.
+  // Preserve its wording while rendering the nested heading at level two.
+  $lead_text = $variables['content']['body'][0]['#text'] ?? NULL;
+  if (
+    moody26_current_directory()?->label() === 'News'
+    && is_string($lead_text)
+    && preg_match('/<h1(?:\s[^>]*)?>(.*?)<\/h1>/is', $lead_text, $lead_heading)
+  ) {
+    $heading = trim(preg_replace(
+      '/\s+/u',
+      ' ',
+      Html::decodeEntities(strip_tags($lead_heading[1])),
+    ));
+    $variables['content']['body'][0]['#text'] = preg_replace(
+      '/<h1(?:\s[^>]*)?>.*?<\/h1>/is',
+      '',
+      $lead_text,
+    );
+    $variables['content']['moody26_news_lead_heading'] = [
+      '#type' => 'html_tag',
+      '#tag' => 'h2',
+      '#value' => Html::escape($heading),
+      '#attributes' => ['class' => ['moody26-news-lead__heading']],
+      '#weight' => -100,
+    ];
+    $variables['attributes']['class'][] = 'moody26-news-lead';
+  }
 
   if ($plugin_id === 'system_branding_block') {
     $variables['logo_alt_text'] = t('@name, The University of Texas at Austin', [
@@ -122,7 +165,52 @@ function moody26_preprocess_views_view_unformatted(array &$variables): void {
  * Implements hook_preprocess_views_view_fields().
  */
 function moody26_preprocess_views_view_fields(array &$variables): void {
-  if (($variables['view']->id() ?? '') !== 'faculty_bio_view') {
+  $view_id = $variables['view']->id() ?? '';
+  $display_id = $variables['view']->current_display ?? '';
+
+  if ($view_id === 'news_filtered' && $display_id === 'block_filtered') {
+    $story = $variables['row']->_entity ?? NULL;
+    if (!$story instanceof NodeInterface) {
+      return;
+    }
+
+    $variables['story_title'] = $story->label();
+    $variables['story_title_id'] = 'moody26-news-story-' . $story->id();
+    $variables['story_summary_id'] = $variables['story_title_id'] . '-summary';
+    $variables['story_url'] = $story->toUrl('canonical')->toString();
+    $variables['story_date'] = \Drupal::service('date.formatter')->format(
+      $story->getCreatedTime(),
+      'custom',
+      'F j, Y',
+    );
+    $variables['story_date_iso'] = gmdate('Y-m-d', $story->getCreatedTime());
+    $variables['story_summary'] = $story->hasField('field_moody_subtitle')
+      ? trim((string) $story->get('field_moody_subtitle')->value)
+      : '';
+    $variables['story_image'] = $story->hasField('field_thumbnail_image_for_summar')
+      && !$story->get('field_thumbnail_image_for_summar')->isEmpty()
+      ? $story->get('field_thumbnail_image_for_summar')->view([
+        'label' => 'hidden',
+        'type' => 'media_thumbnail',
+        'settings' => [
+          'image_link' => '',
+          'image_style' => 'wide',
+          'image_loading' => ['attribute' => 'lazy'],
+        ],
+      ])
+      : [];
+    $variables['story_categories'] = $story->hasField('field_news_categories')
+      && !$story->get('field_news_categories')->isEmpty()
+      ? $story->get('field_news_categories')->view([
+        'label' => 'hidden',
+        'type' => 'entity_reference_label',
+        'settings' => ['link' => TRUE],
+      ])
+      : [];
+    return;
+  }
+
+  if ($view_id !== 'faculty_bio_view') {
     return;
   }
 
@@ -161,6 +249,19 @@ function moody26_preprocess_views_view_fields(array &$variables): void {
     ->addCacheableDependency($person)
     ->addCacheableDependency($headshot->entity)
     ->applyTo($variables['person_image']);
+}
+
+/**
+ * Returns the active landing page's directory term, when one is available.
+ */
+function moody26_current_directory(): ?object {
+  $node = \Drupal::routeMatch()->getParameter('node');
+  if (!$node instanceof NodeInterface || !$node->hasField('field_moody_url_generator')) {
+    return NULL;
+  }
+
+  $directory = $node->get('field_moody_url_generator')->entity;
+  return $directory && method_exists($directory, 'label') ? $directory : NULL;
 }
 
 /**

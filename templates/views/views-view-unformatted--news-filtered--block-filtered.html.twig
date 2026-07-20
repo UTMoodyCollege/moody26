@@ -1,0 +1,20 @@
+{#
+/**
+ * @file
+ * Shared semantic story index for the filtered News View's selected stories.
+ */
+#}
+{% if title %}
+  <h2>{{ title }}</h2>
+{% endif %}
+
+<section class="news-index" aria-labelledby="moody26-latest-news-heading">
+  <h2 class="news-index__heading" id="moody26-latest-news-heading">{{ 'Latest news stories'|t }}</h2>
+  <ul class="news-index__list" role="list">
+    {% for row in rows %}
+      <li{{ row.attributes.addClass('news-index__item') }}>
+        {{ row.content }}
+      </li>
+    {% endfor %}
+  </ul>
+</section>

@@ -6,7 +6,7 @@ visual identity with an accessible, editorial system that can serve academic,
 research, film, journalism, advertising, alumni, event, and public-facing
 sites without requiring the legacy Moody or Speedway themes.
 
-> **Project status:** pre-release (`0.6.0`). The theme is being validated in
+> **Project status:** pre-release (`0.7.0`). The theme is being validated in
 > [Moody Core](https://github.com/UTMoodyCollege/moody-core) before its first
 > stable tag. Pin an exact commit when evaluating the `main` branch.
 
@@ -32,6 +32,9 @@ sites without requiring the legacy Moody or Speedway themes.
 - Shared people directories with semantic list and heading structure,
   accessible linked profiles, responsive filters, honest result counts, and a
   useful empty state.
+- A shared newsroom layer with semantic story lists, one descriptive story
+  link per teaser, separate topic destinations, resilient media, compact media
+  mentions, and reusable Layout Builder callouts.
 - A restrained GSAP + Anime.js motion layer with no CDN requests, no functional
   dependency on animation, and immediate reduced-motion fallbacks.
 - Matching CKEditor 5 styles and a standalone structural verifier.
@@ -172,6 +175,22 @@ their own container grows. Future fleet directory Views should reuse the
 `people-directory__*` vocabulary and add a targeted template suggestion rather
 than broadening selectors to every Drupal View.
 
+### Shared newsroom components
+
+The `news_filtered` View’s `block_filtered` display is the reference
+latest-stories index. Moody26 renders its rows as a labelled list of articles with an `h2` story
+title, machine-readable publication date, one descriptive story destination,
+and separate topic links. Teaser images keep their editor-authored alternative
+text in Drupal, but are decorative inside the already-labelled story link.
+Missing media collapses cleanly without removing the title or destination.
+
+The same layer gives Media Mentions a source-led editorial ledger and removes
+the duplicate generic “Read More” tab stop in favor of the descriptive
+headline link. It also aligns Moody Hero, Moody Showcase, and one-item Flex
+Color Blocks with the theme’s flat, token-governed Layout Builder system. A
+landing page whose `field_moody_url_generator` term is `News` receives the
+portable `moody26-directory-news` composition class—never a node-ID selector.
+
 ## Accessibility and University identity
 
 Moody 26 is designed and tested toward WCAG 2.1 Level AA and the standards
@@ -256,7 +275,7 @@ than replace manual assistive-technology review.
 | `tokens.css` | Brand, type, spacing, motion, focus, and layout tokens |
 | `css/fonts.css` | Local approved digital font declarations |
 | `css/moody26.css` | Global foundation, shell, navigation, forms, and footer |
-| `css/components/` | Header social, landing, editorial, discovery, people-directory, quick-action, and settings components |
+| `css/components/` | Header social, landing, editorial, discovery, people-directory, newsroom, quick-action, and settings components |
 | `js/navigation.js` | Drawer and disclosure navigation state |
 | `js/quick-actions.js` | Native dialog and rendered-destination discovery |
 | `js/accessibility.js` | Progressive safeguards for rendered content components |
