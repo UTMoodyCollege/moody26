@@ -27,7 +27,7 @@
 ] %}
 
 {% if has_media or has_content %}
-  <div class="{{ classes|filter|join(' ') }}">
+  <div class="{{ classes|join(' ') }}">
     <div class="featured-highlight__inner">
       {% if has_media %}
         <div class="featured-highlight__media image-wrapper">

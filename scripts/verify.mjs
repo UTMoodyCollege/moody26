@@ -94,6 +94,12 @@ const files = {
   heroStyle6ShortTemplate: 'templates/components/moody-hero-6-short.html.twig',
   heroStyle7Template: 'templates/components/moody-hero-7.html.twig',
   heroStyle8Template: 'templates/components/moody-hero-8.html.twig',
+  utexasHeroTemplate: 'templates/components/utexas-hero.html.twig',
+  utexasHero1Template: 'templates/components/utexas-hero-1.html.twig',
+  utexasHero2Template: 'templates/components/utexas-hero-2.html.twig',
+  utexasHero3Template: 'templates/components/utexas-hero-3.html.twig',
+  utexasHero4Template: 'templates/components/utexas-hero-4.html.twig',
+  utexasHero5Template: 'templates/components/utexas-hero-5.html.twig',
   accordionTemplate: 'templates/components/field--moody-accordion.html.twig',
   logo: 'logo.svg',
   sourceLicense: 'LICENSE',
@@ -164,8 +170,8 @@ const forbidPattern = (file, pattern, message) => {
 
 try {
   const packageJson = JSON.parse(contents.package ?? '');
-  if (packageJson.version !== '0.22.0') {
-    errors.push('The Moody Promotion component release must remain versioned as 0.22.0.');
+  if (packageJson.version !== '0.23.0') {
+    errors.push('The shared UT Drupal Kit Hero release must remain versioned as 0.23.0.');
   }
   for (const [dependency, version] of [
     ['animejs', '4.5.0'],
@@ -225,7 +231,7 @@ requireText('libraries', 'css/components/showcase.css', 'Shared Moody Showcase s
 requireText('libraries', 'css/components/contact-info.css', 'Shared Moody Contact Info styles must remain attached.');
 requireText('libraries', 'css/components/call-to-action.css', 'Shared Call to Action styles must remain attached.');
 requireText('libraries', 'js/dist/motion.min.js', 'The built motion integration must remain attached.');
-requireText('libraries', 'version: 0.22.0', 'The Drupal asset version must match the Moody Promotion component release.');
+requireText('libraries', 'version: 0.23.0', 'The Drupal asset version must match the shared UT Drupal Kit Hero release.');
 forbidText('info', '- moody26/motion', 'Optional motion must be attached from theme settings rather than globally.');
 
 requireText('settings', "header_social_links_block: ''", 'Header social links must be optional for new installs.');
@@ -419,7 +425,7 @@ for (const state of ['Default', 'Hover', 'Focus', 'Active', 'Disabled', 'Loading
   requireText('quickActionsPreview', `>${state}<`, `The state sheet must include ${state.toLowerCase()}.`);
 }
 requireText('landingHero', 'macrostructure: Split Studio', 'Landing components must preserve the Split Studio decision.');
-requireText('landingHero', ':has(.block-bundle-moody-hero)', 'Full-bleed heroes must remove generic section padding.');
+requireText('landingHero', ':has(:is(.block-bundle-moody-hero, .block-bundle-utexas-hero))', 'Full-bleed heroes from both providers must remove generic section padding.');
 requireText('editorialSections', 'container-type: inline-size', 'Editorial components must remain container-aware.');
 requireText('editorialSections', 'var(--drupal-displace-offset-top, 0rem)', 'Layout Builder anchors must clear the optional Drupal toolbar.');
 requireText('editorialSections', '.moody26-directory-students .node__content > .section-wrapper:nth-child(2)', 'The Students reference composition must remain directory-scoped rather than route-scoped.');
@@ -508,6 +514,7 @@ requireText('promotionTemplate', '{% if has_media or has_content %}', 'Completel
 forbidText('promotionTemplate', 'attach_library', 'Moody Promotions must reuse the global signal-band library.');
 forbidText('promotionTemplate', 'href=', 'Moody Promotion destinations must remain formatter-owned.');
 forbidText('promotionTemplate', '|raw', 'Moody Promotions must not bypass Drupal render safety.');
+forbidText('promotionTemplate', '|filter|', 'Moody Promotion class lists must remain compatible with Drupal Twig.');
 forbidText('promotionTemplate', '<h3', 'Moody Promotions must not retain the legacy unconditional h3.');
 forbidText('promotionTemplate', 'moody-promotion-wrapper', 'Moody Promotions must not retain legacy theme layout wrappers.');
 forbidText('editorialSections', 'field--type-utexas-featured-highlight', 'Featured Highlight layout must live in its dedicated component stylesheet.');
@@ -704,9 +711,11 @@ forbidText('showcaseTemplate', '→', 'Moody Showcase must not invent a syntheti
 forbidText('editorialSections', '.moody-showcase', 'Showcase presentation must live in its dedicated component stylesheet.');
 forbidText('newsroom', '.moody-showcase', 'Showcase presentation must not be duplicated in newsroom styles.');
 forbidText('motion', "'.moody-showcase'", 'Static Moody Showcases must not receive decorative reveal motion.');
-requireText('landingHero', 'component: responsive editorial hero', 'Moody Heroes must retain the Hallmark component contract.');
+requireText('landingHero', 'component: Moody + UT Drupal Kit responsive editorial hero', 'Moody and UT Drupal Kit Heroes must retain the Hallmark component contract.');
 requireText('landingHero', 'container: moody-hero / inline-size;', 'Moody Heroes must respond to their Layout Builder container.');
-requireText('landingHero', '.node__content > .section-wrapper:has(.block-bundle-moody-hero)', 'Moody Heroes must cover every page bundle without a route or bundle whitelist.');
+requireText('landingHero', ':where(.block-bundle-moody-hero, .block-bundle-utexas-hero)', 'Both hero providers must share one component container contract.');
+requireText('landingHero', ':where(.field--type-moody-hero, .field--type-utexas-hero)', 'Both hero field providers must retain safe media tracks.');
+requireText('landingHero', '.node__content > .section-wrapper:has(:is(.block-bundle-moody-hero, .block-bundle-utexas-hero))', 'Shared Heroes must cover every page bundle without a route or bundle whitelist.');
 requireText('landingHero', 'grid-template-columns: minmax(0, 7fr) minmax(0, 5fr);', 'Split Moody Heroes must retain safe 7/5 media-copy tracks.');
 requireText('landingHero', '.moody26-hero--layout-overlay .moody26-hero__media::after', 'Overlay Moody Heroes must retain the readable tokenized scrim.');
 requireText('landingHero', '.moody26-hero__action > a:visited', 'Moody Hero CTA visited states must preserve compliant link contrast.');
@@ -727,6 +736,10 @@ requireText('heroTemplate', 'aria-label="{{ media_alt }}"', 'Meaningful backgrou
 requireText('heroTemplate', 'aria-hidden="true"', 'Decorative background Moody Hero media must leave the accessibility tree.');
 requireText('heroTemplate', 'media|default', 'Moody Heroes must preserve formatter-owned responsive media output.');
 requireText('heroTemplate', 'cta|default', 'Moody Heroes must preserve formatter-owned CTA output.');
+requireText('heroTemplate', 'Moody and UT Drupal Kit Hero modes', 'The shared semantic Hero template must document both formatter providers.');
+requireText('heroTemplate', 'hero_source_scope_class|default', 'The shared Hero must accept a formatter-owned background source scope.');
+requireText('heroTemplate', 'hero_background_source_class|default', 'The shared Hero must accept a formatter-owned background selector hook.');
+requireText('heroTemplate', 'class="hero-img moody26-hero__background', 'Background Heroes must retain the formatter source hook used by style 1.');
 for (const [file, variant, layout] of [
   ['heroStyle1Template', 'style-1', 'split'],
   ['heroStyle2Template', 'style-2', 'overlay'],
@@ -742,6 +755,25 @@ for (const [file, variant, layout] of [
   requireText(file, `hero_variant: '${variant}'`, `${variant} Moody Hero output must retain its migration variant.`);
   requireText(file, `hero_layout: '${layout}'`, `${variant} Moody Hero output must retain the ${layout} family.`);
 }
+for (const [file, variant, layout] of [
+  ['utexasHeroTemplate', 'default', 'media'],
+  ['utexasHero1Template', 'style-1', 'split'],
+  ['utexasHero2Template', 'style-2', 'overlay'],
+  ['utexasHero3Template', 'style-3', 'overlay'],
+  ['utexasHero4Template', 'style-4', 'split'],
+  ['utexasHero5Template', 'style-5', 'split'],
+]) {
+  requireText(file, "@moody26/components/moody-hero.html.twig", `${variant} UT Drupal Kit Hero output must reuse the shared template.`);
+  requireText(file, `hero_variant: '${variant}'`, `${variant} UT Drupal Kit Hero output must retain its migration variant.`);
+  requireText(file, `hero_layout: '${layout}'`, `${variant} UT Drupal Kit Hero output must retain the ${layout} family.`);
+  forbidText(file, 'attach_library', `${variant} UT Drupal Kit Hero output must preserve formatter attachments without duplication.`);
+  forbidText(file, 'href=', `${variant} UT Drupal Kit Hero destinations must not be reconstructed in Twig.`);
+  forbidText(file, '|raw', `${variant} UT Drupal Kit Hero output must not bypass Drupal render safety.`);
+  forbidText(file, 'class="ut-hero', `${variant} UT Drupal Kit Hero must not restore the inactive profile-theme wrapper.`);
+}
+requireText('utexasHero2Template', "hero_background_source_class: 'hero--photo-gradient'", 'Style 2 UT Drupal Kit Hero must bind the formatter responsive background rules.');
+requireText('utexasHero3Template', "hero_background_source_class: 'ut-hero'", 'Style 3 UT Drupal Kit Hero must bind the formatter responsive background rules.');
+requireText('utexasHero5Template', "hero_source_scope_class: 'hero--half-n-half'", 'Style 5 UT Drupal Kit Hero must bind the formatter responsive background rules.');
 forbidText('heroTemplate', '<h3', 'Moody Hero summaries must not distort the page heading hierarchy.');
 forbidText('heroTemplate', 'href=', 'Moody Hero destinations must not be reconstructed in Twig.');
 forbidText('heroTemplate', '|raw', 'Moody Heroes must not bypass Drupal render safety.');
@@ -751,6 +783,12 @@ forbidPattern('landingHero', /\.moody-hero(?:\s|[.#:{>+~\[]|$)/, 'Legacy Moody H
 forbidPattern('newsroom', /\.moody-hero(?:\s|[.#:{>+~\[]|$)/, 'Moody Hero presentation must not be duplicated in newsroom styles.');
 forbidText('motion', "'.moody26-hero'", 'Static Moody Heroes must not receive decorative reveal motion.');
 requireText('theme', 'function moody26_preprocess_views_view_unformatted', 'Faculty directory rows need a translated result summary.');
+requireText('theme', 'function moody26_preprocess_utexas_hero', 'Default UT Drupal Kit Heroes need intrinsic image dimensions.');
+requireText('theme', 'function moody26_preprocess_utexas_hero_4', 'Style 4 UT Drupal Kit Heroes need intrinsic image dimensions.');
+requireText('theme', "'responsive_image_formatter'", 'UT Drupal Kit Heroes must preserve responsive image formatter output.');
+requireText('theme', "\\Drupal::service('image.factory')->get($uri)", 'UT Drupal Kit Hero dimensions must come from the formatter-owned source image.');
+requireText('theme', "$media['#width'] ??= $width", 'Default UT Drupal Kit Hero images must reserve intrinsic width.');
+requireText('theme', '$item->height ??= $height', 'Responsive UT Drupal Kit Hero images must reserve intrinsic height.');
 requireText('theme', 'function moody26_preprocess_views_view_fields', 'Faculty directory profiles need entity-backed names and URLs.');
 requireText('theme', "'moody26-directory-' . Html::getClass($directory->label())", 'Landing compositions must use portable directory-term classes.');
 requireText('theme', "preg_match('/<h1", 'News leads must normalize nested authored h1 markup.');
@@ -825,6 +863,8 @@ const runtimeFiles = [
   'heroTemplate', 'heroStyle1Template', 'heroStyle2Template', 'heroStyle3Template',
   'heroStyle4Template', 'heroStyle5Template', 'heroStyle6Template', 'heroStyle6ShortTemplate',
   'heroStyle7Template', 'heroStyle8Template',
+  'utexasHeroTemplate', 'utexasHero1Template', 'utexasHero2Template',
+  'utexasHero3Template', 'utexasHero4Template', 'utexasHero5Template',
   'accordionCss', 'accordionTemplate',
   'peopleDirectory', 'peopleDirectoryView', 'peopleDirectoryRows', 'peopleDirectoryFields',
   'newsroom', 'newsRows', 'newsFields',
@@ -878,7 +918,7 @@ for (const file of ['preflight', 'log']) {
     errors.push(`${file} must contain valid JSON.`);
   }
 }
-requireText('preflight', '"package_version": "0.22.0"', 'Hallmark preflight must match the Moody Promotion component release.');
+requireText('preflight', '"package_version": "0.23.0"', 'Hallmark preflight must match the shared UT Drupal Kit Hero release.');
 requireText('log', 'Conversational FAQ within the Ecosystem Index', 'Hallmark memory must record the shared accordion macrostructure.');
 requireText('log', 'Editorial media directory within the Ecosystem Index', 'Hallmark memory must record the shared Moody Flex Grid component.');
 requireText('log', 'Editorial Signal Band within the Ecosystem Index', 'Hallmark memory must record the shared Moody Promotion signal band.');
@@ -908,6 +948,7 @@ requireText('readme', 'Shared Moody Quotations', 'README must document the reusa
 requireText('readme', 'Shared Moody Flex Grids', 'README must document the reusable Moody Flex Grid layer.');
 requireText('readme', 'Shared Moody Impact Facts', 'README must document the reusable Moody Impact Facts layer.');
 requireText('readme', 'Shared Moody Heroes', 'README must document the reusable Moody Hero layer.');
+requireText('readme', 'Shared UT Drupal Kit Heroes', 'README must document the reusable UT Drupal Kit Hero layer.');
 requireText('readme', 'Shared Moody Contact Info', 'README must document the reusable Moody Contact Info layer.');
 requireText('readme', 'Shared Call to Action blocks', 'README must document the reusable Call to Action layer.');
 requireText('agents', '`header_social_links_block`', 'AGENTS.md must preserve the header Social Links contract.');
@@ -927,6 +968,7 @@ requireText('agents', '### Moody Flex Grids', 'AGENTS.md must preserve the Moody
 requireText('agents', '### Moody Impact Facts', 'AGENTS.md must preserve the Moody Impact Facts component contract.');
 requireText('agents', '### Moody Showcases', 'AGENTS.md must preserve the Moody Showcase component contract.');
 requireText('agents', '### Moody Heroes', 'AGENTS.md must preserve the Moody Hero component contract.');
+requireText('agents', '### UT Drupal Kit Heroes', 'AGENTS.md must preserve the UT Drupal Kit Hero component contract.');
 requireText('agents', '### Moody Contact Info', 'AGENTS.md must preserve the Moody Contact Info component contract.');
 requireText('agents', '### Call to Action blocks', 'AGENTS.md must preserve the Call to Action component contract.');
 
@@ -938,5 +980,5 @@ if (errors.length) {
   process.exitCode = 1;
 }
 else {
-  console.log(`Moody26 verification passed (${Object.keys(files).length} source files, ${fonts.length} local fonts, standalone shell, UT brand, accessible directories, resource hubs, newsroom, accordions, Featured Highlights, Moody Promotions, Promo Lists, Flex Content Areas, Image Links, Flex Color Blocks, Moody Quotations, Moody Flex Grids, Moody Impact Facts, Moody Showcases, Moody Heroes, Moody Contact Info, and Call to Action blocks, header social links, motion, responsive, and Hallmark gates).`);
+  console.log(`Moody26 verification passed (${Object.keys(files).length} source files, ${fonts.length} local fonts, standalone shell, UT brand, accessible directories, resource hubs, newsroom, accordions, Featured Highlights, Moody Promotions, Promo Lists, Flex Content Areas, Image Links, Flex Color Blocks, Moody Quotations, Moody Flex Grids, Moody Impact Facts, Moody and UT Drupal Kit Heroes, Moody Showcases, Moody Contact Info, and Call to Action blocks, header social links, motion, responsive, and Hallmark gates).`);
 }

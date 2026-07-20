@@ -6,7 +6,7 @@ visual identity with an accessible, editorial system that can serve academic,
 research, film, journalism, advertising, alumni, event, and public-facing
 sites without requiring the legacy Moody or Speedway themes.
 
-> **Project status:** pre-release (`0.22.0`). The theme is being validated in
+> **Project status:** pre-release (`0.23.0`). The theme is being validated in
 > [Moody Core](https://github.com/UTMoodyCollege/moody-core) before its first
 > stable tag. Pin an exact commit when evaluating the `main` branch.
 
@@ -309,6 +309,29 @@ keyboard states, and a paper halo around visible focus over photography. A
 failed inline image removes only its media wrapper and recomposes the remaining
 content; background media always retains an ink fallback. Heroes remain static
 and never add parallax, scroll scrubbing, or fabricated actions.
+
+### Shared UT Drupal Kit Heroes
+
+The theme also routes the UT Drupal Kit Hero’s Default and five numbered view
+modes through the same semantic Moody26 hero component. Existing editor
+choices remain migration-safe: Default is an intrinsic media plate, styles 2
+and 3 use the photographic overlay, and styles 1, 4, and 5 use the responsive
+media-and-copy split. Drupal continues to own responsive image output,
+preloading, background sources, alternative text, copy, captions, credits,
+links, anchor choices, cacheability, and Layout Builder placement.
+
+The adapters retain the minimal formatter selector hooks needed to bind its
+generated responsive background URLs. They do not restore the legacy Hero
+wrapper or depend on a parent theme’s visual stylesheet. For Default and style
+4 images, Moody26 adds the omitted intrinsic width and height to the existing
+render array when the local source is readable, so browsers can reserve space
+without replacing Drupal’s media.
+
+This removes the UT Drupal Kit Hero’s dependency on another theme’s visual
+CSS while preserving its formatter behavior. The shared component provides
+real heading and paragraph semantics, readable image fallbacks, safe narrow
+tracks, 44-pixel CTA targets, complete keyboard states, and tested reflow at
+320, 375, 414, and 768 CSS pixels without page-specific selectors.
 
 ### Shared newsroom components
 

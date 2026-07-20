@@ -1,7 +1,7 @@
 {#
 /**
  * @file
- * Semantic, theme-owned output shared by every Moody Hero view mode.
+ * Semantic, theme-owned output shared by Moody and UT Drupal Kit Hero modes.
  *
  * The formatter remains responsible for processed values, responsive media,
  * background-image sources, link attributes, cacheability, and attachments.
@@ -27,6 +27,8 @@
 {% set layout = hero_layout|default(has_content ? 'overlay' : 'media')|clean_class %}
 {% set position = text_position|default('bottom-left')|clean_class %}
 {% set anchor = anchor_position|default('center')|clean_class %}
+{% set source_scope_class = hero_source_scope_class|default('')|clean_class %}
+{% set background_source_class = hero_background_source_class|default('')|clean_class %}
 {% set hero_classes = [
   'moody26-hero',
   'moody26-hero--layout-' ~ layout,
@@ -34,6 +36,7 @@
   'moody26-hero--position-' ~ position,
   has_media ? 'moody26-hero--with-media' : 'moody26-hero--without-media',
   has_content ? 'moody26-hero--with-content' : 'moody26-hero--without-content',
+  source_scope_class,
 ] %}
 
 {% if has_media or has_content or has_caption or has_credit %}
@@ -47,7 +50,7 @@
         {% elseif background_media_id %}
           <div
             id="{{ background_media_id }}"
-            class="hero-img moody26-hero__background moody26-hero__background--anchor-{{ anchor }}"
+            class="hero-img moody26-hero__background moody26-hero__background--anchor-{{ anchor }} {{ background_source_class }}"
             {% if media_alt %}
               role="img"
               aria-label="{{ media_alt }}"

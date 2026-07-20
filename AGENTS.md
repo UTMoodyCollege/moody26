@@ -383,6 +383,45 @@ not belong outside the token and font declaration files.
   scrubbing, reveal motion, viewport-forced panels, or fabricated loading,
   error, success, or disabled states.
 
+### UT Drupal Kit Heroes
+
+- Treat `utexas_hero` as a second provider of the shared Moody26 editorial
+  hero contract, not as a separate design system. The Default and five numbered
+  view modes must use thin `utexas-hero*.html.twig` adapters that pass the
+  formatter output unchanged into `moody-hero.html.twig`.
+- Preserve formatter-owned responsive media and preload attachments,
+  background identifiers and inline source rules, authored alternatives,
+  headings, summaries, captions, credits, CTA render arrays, link attributes,
+  cacheability, anchor choices, view modes, and Layout Builder placement. Do
+  not edit the Composer-managed UT Drupal Kit module or reconstruct its media
+  and links.
+- The upstream Default and style 4 formatters omit intrinsic image dimensions.
+  Keep the narrow `moody26_preprocess_utexas_hero*()` correction that reads the
+  formatter URI and, when that local source is readable, supplies width and
+  height on the existing render array; never replace the media, its responsive
+  style, or its cache metadata.
+- Preserve the formatter’s source-selector compatibility hooks only where its
+  generated responsive background rules require them: `hero-img` for style 1,
+  `hero--photo-gradient` for style 2, `ut-hero` for style 3, and an ancestor
+  `hero--half-n-half` for style 5. These are source metadata, not permission to
+  restore the legacy wrappers or their visual CSS.
+- Map Default to the intrinsic media plate; styles 2 and 3 to the readable
+  photographic overlay; and styles 1, 4, and 5 to the neutral media-copy split.
+  Keep the formatter style and anchor as migration classes so re-enabling an
+  existing author choice remains safe.
+- Apply the contract anywhere `.block-bundle-utexas-hero` or
+  `.field--type-utexas-hero` is rendered. Never bind the implementation to a
+  route, node ID, block UUID, bundle whitelist, or authored phrase.
+- Use the shared `h2`/paragraph semantics, meaningful-background naming,
+  decorative-background suppression, tokenized scrim, one-line 44-pixel CTA,
+  immediate focus, and visited, hover, active, and truthful disabled states.
+  At 320, 375, 414, and 768 CSS pixels, media-bearing tracks remain safe and
+  headings can wrap within long words without causing horizontal overflow.
+- A failed intrinsic image collapses through the shared
+  `moody26-hero--media-unavailable` state. A failed CSS background leaves the
+  authored content readable on the ink fallback. Never insert placeholder art
+  or duplicate a destination.
+
 ### Newsroom components
 
 - Treat the `news_filtered` View’s `block_filtered` display as the reference

@@ -1,4 +1,4 @@
-/* Hallmark · component: responsive editorial hero · macrostructure: Split Studio
+/* Hallmark · component: Moody + UT Drupal Kit responsive editorial hero · macrostructure: Split Studio
  * genre: editorial · theme: UT custom · media: content-owned · motion: static
  * states: media unavailable · link default/visited/hover/focus/active/disabled
  * contrast: overlay and paper pairs verified · responsive: 320/375/414/768
@@ -6,8 +6,8 @@
  */
 /* Hallmark · pre-emit critique: P5 H5 E5 S5 R5 V5 */
 
-.block-bundle-moody-hero,
-.field--type-moody-hero,
+:where(.block-bundle-moody-hero, .block-bundle-utexas-hero),
+:where(.field--type-moody-hero, .field--type-utexas-hero),
 .moody26-hero,
 .moody26-hero__media,
 .moody26-hero__media-inner,
@@ -16,13 +16,13 @@
   min-width: 0;
 }
 
-.block-bundle-moody-hero {
+:where(.block-bundle-moody-hero, .block-bundle-utexas-hero) {
   container: moody-hero / inline-size;
   max-width: none;
 }
 
 /* A page-leading hero owns its vertical edge on every Moody page bundle. */
-.node__content > .section-wrapper:has(.block-bundle-moody-hero) {
+.node__content > .section-wrapper:has(:is(.block-bundle-moody-hero, .block-bundle-utexas-hero)) {
   padding-block: 0;
 }
 
