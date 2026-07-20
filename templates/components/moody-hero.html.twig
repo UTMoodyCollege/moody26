@@ -1,0 +1,89 @@
+{#
+/**
+ * @file
+ * Semantic, theme-owned output shared by every Moody Hero view mode.
+ *
+ * The formatter remains responsible for processed values, responsive media,
+ * background-image sources, link attributes, cacheability, and attachments.
+ */
+#}
+
+{% set rendered_media = media|default('')|render %}
+{% set rendered_heading = heading|default('')|render %}
+{% set rendered_subheading = subheading|default('')|render %}
+{% set rendered_caption = caption|default('')|render %}
+{% set rendered_credit = credit|default('')|render %}
+{% set rendered_cta = cta|default('')|render %}
+{% set background_media_id = media_identifier|default('')|trim %}
+{% set media_alt = alt|default('')|striptags|trim %}
+{% set has_media = rendered_media|trim or background_media_id %}
+{% set has_heading = rendered_heading|striptags|trim %}
+{% set has_subheading = rendered_subheading|striptags|trim %}
+{% set has_caption = rendered_caption|striptags|trim %}
+{% set has_credit = rendered_credit|striptags|trim %}
+{% set has_cta = rendered_cta|trim %}
+{% set has_content = has_heading or has_subheading or has_cta %}
+{% set variant = hero_variant|default('default')|clean_class %}
+{% set layout = hero_layout|default(has_content ? 'overlay' : 'media')|clean_class %}
+{% set position = text_position|default('bottom-left')|clean_class %}
+{% set anchor = anchor_position|default('center')|clean_class %}
+{% set hero_classes = [
+  'moody26-hero',
+  'moody26-hero--layout-' ~ layout,
+  'moody26-hero--legacy-' ~ variant,
+  'moody26-hero--position-' ~ position,
+  has_media ? 'moody26-hero--with-media' : 'moody26-hero--without-media',
+  has_content ? 'moody26-hero--with-content' : 'moody26-hero--without-content',
+] %}
+
+{% if has_media or has_content or has_caption or has_credit %}
+  <div class="{{ hero_classes|join(' ') }}">
+    {% if has_media or has_caption or has_credit %}
+      <figure class="moody26-hero__media">
+        {% if rendered_media|trim %}
+          <div class="moody26-hero__media-inner">
+            {{ rendered_media }}
+          </div>
+        {% elseif background_media_id %}
+          <div
+            id="{{ background_media_id }}"
+            class="hero-img moody26-hero__background moody26-hero__background--anchor-{{ anchor }}"
+            {% if media_alt %}
+              role="img"
+              aria-label="{{ media_alt }}"
+            {% else %}
+              aria-hidden="true"
+            {% endif %}
+          ></div>
+        {% endif %}
+
+        {% if has_caption or has_credit %}
+          <figcaption class="moody26-hero__caption">
+            {% if has_caption %}
+              <span class="moody26-hero__caption-text">{{ rendered_caption }}</span>
+            {% endif %}
+            {% if has_credit %}
+              <span class="moody26-hero__credit">{{ rendered_credit }}</span>
+            {% endif %}
+          </figcaption>
+        {% endif %}
+      </figure>
+    {% endif %}
+
+    {% if has_content %}
+      <div class="moody26-hero__content">
+        <div class="moody26-hero__callout">
+          {% if has_heading %}
+            <h2 class="moody26-hero__title">{{ rendered_heading }}</h2>
+          {% endif %}
+          {% if has_subheading %}
+            <p class="moody26-hero__summary">{{ rendered_subheading }}</p>
+          {% endif %}
+          {% if has_cta %}
+            <div class="moody26-hero__action">{{ rendered_cta }}</div>
+          {% endif %}
+        </div>
+      </div>
+    {% endif %}
+  </div>
+{% endif %}

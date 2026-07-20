@@ -390,30 +390,6 @@
   margin-block: var(--space-3xl) !important;
 }
 
-.moody26-directory-news .moody-hero .ut-btn--hero {
-  display: inline-flex;
-  min-height: var(--target-min);
-  align-items: center;
-  padding: var(--space-xs) var(--space-lg);
-  border: var(--rule-strong) solid var(--color-paper);
-  border-radius: var(--radius-sm);
-  background: var(--color-paper);
-  color: var(--color-ink);
-  font-family: var(--font-body);
-  font-size: var(--text-base);
-  font-weight: 700;
-  line-height: 1.2;
-  text-decoration: none;
-  white-space: nowrap;
-}
-
-@media (hover: hover) and (pointer: fine) {
-  .moody26-directory-news .moody-hero .ut-btn--hero:hover {
-    background: var(--color-paper-2);
-    color: var(--color-ink);
-  }
-}
-
 /* Showcase block headings sit in the same column as the shared media ledger. */
 .block-bundle-moody-showcase > .ut-headline--xl {
   max-width: 16ch;

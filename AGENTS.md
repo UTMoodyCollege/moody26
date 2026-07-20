@@ -287,6 +287,44 @@ not belong outside the token and font declaration files.
   error, or success states that cannot occur; the only supported disabled state
   is a formatter-supplied `aria-disabled="true"` destination.
 
+### Moody Heroes
+
+- Treat Moody Hero as a shared editorial page lead, not a route-specific
+  billboard or a set of visually unrelated formatter styles. Keep headings,
+  summaries, responsive media, background-image sources, alternatives,
+  captions, credits, destinations, positions, view modes, block labels, and
+  Layout Builder placement under Drupal and editor control.
+- Moody26 owns `moody-hero.html.twig`, its thin formatter wrappers, and the
+  `moody26-hero__*` presentation contract. Preserve processed values, media and
+  CTA render arrays, link attributes, cacheability, and upstream attachments.
+  Do not edit the Composer-installed formatter or reconstruct media and links.
+- Render a real authored hero heading as `h2` and a summary as a paragraph.
+  Never emit an empty heading or preserve the formatter's `div`/`h3` heading
+  skips. Background media with a meaningful authored alternative uses
+  `role="img"` and `aria-label`; decorative background media is
+  `aria-hidden="true"`. Intrinsic media retains its formatter-owned alternative.
+- Normalize styles 2, 3, 6, 6-short, 7, and 8 into one readable photographic
+  overlay. Normalize styles 1, 4, and 5 into one neutral media-copy split that
+  changes from one safe column to `minmax(0, 7fr) minmax(0, 5fr)` only at a
+  60rem component width. Legacy variant and position values remain migration
+  classes, not separate design systems.
+- Cover every page bundle that can place the block, including subsite pages.
+  Never scope the shared component to a route, node ID, bundle whitelist,
+  block UUID, or editor-authored heading.
+- Keep exact UT burnt orange as a rule, border, and focus signal; never restore
+  a large orange hero slab, tint, or competing headline color. Overlay text
+  stays white over the tokenized dark scrim; split content stays ink on paper.
+- Formatter-owned CTA links require readable default and visited colors,
+  immediate focus with a paper halo, active feedback, capability-gated hover,
+  an `aria-disabled` treatment, a 44 CSS-pixel minimum target, and a one-line
+  label. Do not add a synthetic arrow, destination, or replacement label.
+- A failed intrinsic image hides only its media wrapper, adds
+  `moody26-hero--media-unavailable`, and recomposes the authored content.
+  Background images retain an ink fallback. Do not invent placeholder art.
+- Heroes are static server-rendered content. Do not add parallax, scroll
+  scrubbing, reveal motion, viewport-forced panels, or fabricated loading,
+  error, success, or disabled states.
+
 ### Newsroom components
 
 - Treat the `news_filtered` View’s `block_filtered` display as the reference
@@ -740,8 +778,8 @@ Texas requirements. The current University compliance date is March 1, 2026.
   scale, and interaction states for formatter-owned Social Links output.
 - `css/components/theme-settings.css`: narrowly scoped 44-pixel target support
   for the native Drupal visual-options form.
-- `css/components/landing-hero.css`: Split Studio photographic and ambient
-  media leads.
+- `css/components/landing-hero.css`: semantic Moody Hero overlay/split system
+  and restrained ambient-video composition.
 - `css/components/editorial-sections.css`: shared editorial pairings, proof,
   CTA, and form treatments for Layout Builder output not yet promoted to a
   dedicated component contract.

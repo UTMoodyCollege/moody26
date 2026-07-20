@@ -6,7 +6,7 @@ visual identity with an accessible, editorial system that can serve academic,
 research, film, journalism, advertising, alumni, event, and public-facing
 sites without requiring the legacy Moody or Speedway themes.
 
-> **Project status:** pre-release (`0.18.0`). The theme is being validated in
+> **Project status:** pre-release (`0.19.0`). The theme is being validated in
 > [Moody Core](https://github.com/UTMoodyCollege/moody-core) before its first
 > stable tag. Pin an exact commit when evaluating the `main` branch.
 
@@ -48,6 +48,8 @@ sites without requiring the legacy Moody or Speedway themes.
   circular, promo, rectangular, card, and legacy flip authoring modes.
 - Shared Moody Impact Facts with semantic list structure, optional authored
   headings, tabular figures, and migration-aware responsive compositions.
+- Shared Moody Heroes with one page-safe heading contract, named background
+  media, resilient image handling, and container-aware overlay or split layouts.
 - Shared people directories with semantic list and heading structure,
   accessible linked profiles, responsive filters, honest result counts, and a
   useful empty state.
@@ -234,6 +236,28 @@ Formatter-owned CTAs keep 44-pixel targets, visible focus, active feedback,
 capability-gated hover, and one-line labels. A failed image hides only its media
 wrapper and recomposes the row around the remaining headline, copy, and links;
 the theme never invents replacement art or text.
+
+### Shared Moody Heroes
+
+Moody26 renders every Moody Hero formatter variant through one semantic,
+theme-owned component. Authored hero headings are `h2` elements, summaries are
+ordinary paragraphs, and formatter-owned responsive media, captions, credits,
+CTA markup, attributes, alternatives, and destinations stay under Drupal and
+editor control. A background hero becomes a named image when its authored
+alternative is meaningful and is removed from the accessibility tree when it
+is decorative.
+
+Legacy styles 2, 3, 6, 7, and 8 share a readable photographic overlay; styles
+1, 4, and 5 share a neutral media-and-copy split that becomes a safe 7/5 grid
+only when its component container reaches 60rem. The component works across
+landing, standard, and subsite page bundles without route or node selectors.
+Burnt orange stays a rule and focus signal rather than a large panel.
+
+Formatter-owned CTA links keep 44-pixel targets, one-line labels, complete
+keyboard states, and a paper halo around visible focus over photography. A
+failed inline image removes only its media wrapper and recomposes the remaining
+content; background media always retains an ink fallback. Heroes remain static
+and never add parallax, scroll scrubbing, or fabricated actions.
 
 ### Shared newsroom components
 
@@ -559,7 +583,7 @@ than replace manual assistive-technology review.
 | `tokens.css` | Brand, type, spacing, motion, focus, and layout tokens |
 | `css/fonts.css` | Local approved digital font declarations |
 | `css/moody26.css` | Global foundation, shell, navigation, forms, and footer |
-| `css/components/` | Header social, landing, editorial, discovery, resource-hub, accordion, Featured Highlight, Promo List, Flex Content Area, Image Link, Flex Color Block, Moody Quotation, Moody Flex Grid, Impact Facts, people-directory, newsroom, quick-action, and settings components |
+| `css/components/` | Header social, Moody Hero, editorial, discovery, resource-hub, accordion, Featured Highlight, Promo List, Flex Content Area, Image Link, Flex Color Block, Moody Quotation, Moody Flex Grid, Impact Facts, people-directory, newsroom, quick-action, and settings components |
 | `js/navigation.js` | Drawer and disclosure navigation state |
 | `js/quick-actions.js` | Native dialog and rendered-destination discovery |
 | `js/accessibility.js` | Progressive safeguards for rendered content components |

@@ -1,162 +1,362 @@
-/* Hallmark · macrostructure: Split Studio · component: H6 Photographic fold
- * H6 knobs: image=16/7 · caption=lower-left · text=overlaid
- * enrichment: E8 content-owned photography/video · motion: control feedback only
- * theme: UT custom · contrast: overlay pair verified · Hallmark v1.1.0
+/* Hallmark · component: responsive editorial hero · macrostructure: Split Studio
+ * genre: editorial · theme: UT custom · media: content-owned · motion: static
+ * states: media unavailable · link default/visited/hover/focus/active/disabled
+ * contrast: overlay and paper pairs verified · responsive: 320/375/414/768
+ * audit: slop pass (42–49) · mobile pass (34, 49–57)
  */
-/* Hallmark · pre-emit critique: P4 H5 E4 S5 R5 V4 */
+/* Hallmark · pre-emit critique: P5 H5 E5 S5 R5 V5 */
 
-:where(.node-moody_landing_page, .node-moody_standard_page) .field--type-moody-hero {
-  container-type: inline-size;
+.block-bundle-moody-hero,
+.field--type-moody-hero,
+.moody26-hero,
+.moody26-hero__media,
+.moody26-hero__media-inner,
+.moody26-hero__content,
+.moody26-hero__callout {
+  min-width: 0;
 }
 
-/* A full-bleed hero owns its vertical edge; the generic section wrapper must
-   not insert a blank paper band above or below it. */
-:where(.node-moody_landing_page, .node-moody_standard_page)
-  .node__content > .section-wrapper:has(.block-bundle-moody-hero) {
+.block-bundle-moody-hero {
+  container: moody-hero / inline-size;
+  max-width: none;
+}
+
+/* A page-leading hero owns its vertical edge on every Moody page bundle. */
+.node__content > .section-wrapper:has(.block-bundle-moody-hero) {
   padding-block: 0;
 }
 
-:where(.node-moody_landing_page, .node-moody_standard_page) .moody-hero {
+.moody26-hero {
   position: relative;
   isolation: isolate;
-  min-height: var(--hero-block-size);
+  display: grid;
+  width: 100%;
+  overflow: clip;
+  background: var(--color-paper);
+  color: var(--color-ink);
+}
+
+.moody26-hero__media {
+  position: relative;
+  min-height: 0;
+  margin: 0;
   overflow: clip;
   background: var(--color-ink);
   color: var(--color-ut-white);
 }
 
-:where(.node-moody_landing_page, .node-moody_standard_page) .moody-hero .hero-img {
-  position: absolute;
-  inset: 0;
+.moody26-hero__media-inner,
+.moody26-hero__media-inner > :where(div, picture),
+.moody26-hero__media-inner :where(picture, img, video) {
+  display: block;
   width: 100%;
-  height: 100% !important;
-  min-height: 0;
+  max-width: 100%;
+}
+
+.moody26-hero__media-inner img,
+.moody26-hero__media-inner video {
+  height: auto;
+}
+
+.moody26-hero__background {
+  width: 100%;
+  min-height: var(--hero-block-size);
   background-color: var(--color-ink);
   background-position: center;
+  background-repeat: no-repeat;
   background-size: cover;
 }
 
-:where(.node-moody_landing_page, .node-moody_standard_page) .moody-hero .hero-img::after {
+.moody26-hero__background--anchor-left {
+  background-position: left center;
+}
+
+.moody26-hero__background--anchor-right {
+  background-position: right center;
+}
+
+.moody26-hero__caption {
+  display: grid;
+  gap: var(--space-2xs);
+  max-width: var(--measure);
+  padding: var(--space-sm) var(--page-gutter);
+  background: var(--color-paper-2);
+  color: var(--color-ink);
+  font-family: var(--font-body);
+  font-size: var(--text-sm);
+  line-height: var(--leading-body);
+}
+
+.moody26-hero__credit {
+  color: var(--color-muted);
+}
+
+.moody26-hero__content {
+  display: grid;
+  width: 100%;
+  align-content: end;
+  padding: var(--space-2xl) var(--page-gutter) var(--space-3xl);
+}
+
+.moody26-hero__callout {
+  display: grid;
+  width: min(100%, var(--content-narrow));
+  gap: var(--space-lg);
+  padding-block-start: var(--space-lg);
+  border-block-start: var(--rule-strong) solid var(--color-accent);
+}
+
+.moody26-hero__title {
+  max-width: 18ch;
+  min-width: 0;
+  margin: 0;
+  color: inherit;
+  font-family: var(--font-display);
+  font-size: var(--text-heading);
+  font-style: normal;
+  font-weight: 700;
+  letter-spacing: -0.03em;
+  line-height: var(--leading-tight);
+  overflow-wrap: anywhere;
+  text-transform: none;
+  text-wrap: balance;
+  word-break: normal;
+}
+
+.moody26-hero__summary {
+  max-width: var(--measure);
+  margin: 0;
+  color: inherit;
+  font-family: var(--font-body);
+  font-size: var(--text-lead);
+  font-style: normal;
+  line-height: 1.45;
+  overflow-wrap: anywhere;
+}
+
+.moody26-hero__action {
+  min-width: 0;
+}
+
+.moody26-hero__action > a {
+  display: inline-flex;
+  width: max-content;
+  max-width: 100%;
+  min-height: var(--target-min);
+  align-items: center;
+  padding: var(--space-xs) var(--space-lg);
+  border: var(--rule-strong) solid var(--color-accent);
+  border-radius: var(--radius-sm);
+  background: var(--color-paper);
+  color: var(--color-link);
+  font-family: var(--font-body);
+  font-size: var(--text-base);
+  font-weight: 700;
+  line-height: 1.4;
+  text-decoration: none;
+  transform: none;
+  transition: none;
+  white-space: nowrap;
+}
+
+.moody26-hero__action > a:visited {
+  color: var(--color-link);
+}
+
+.moody26-hero__action > a:focus-visible {
+  outline: var(--focus-outline);
+  outline-offset: var(--space-2xs);
+  box-shadow: var(--focus-halo);
+}
+
+.moody26-hero__action > a:active {
+  background: var(--color-paper-3);
+  color: var(--color-link);
+  transform: none;
+}
+
+.moody26-hero__action > a[aria-disabled="true"] {
+  cursor: not-allowed;
+  opacity: 0.55;
+  pointer-events: none;
+}
+
+/* Default/full formatters remain an intrinsic media plate. */
+.moody26-hero--layout-media .moody26-hero__media-inner img,
+.moody26-hero--layout-media .moody26-hero__media-inner video {
+  width: 100%;
+  height: auto;
+}
+
+/* Styles 1, 4, and 5 become one restrained media-copy split. */
+.moody26-hero--layout-split {
+  grid-template-columns: minmax(0, 1fr);
+}
+
+.moody26-hero--layout-split .moody26-hero__media-inner,
+.moody26-hero--layout-split .moody26-hero__media-inner > :where(div, picture),
+.moody26-hero--layout-split .moody26-hero__media-inner :where(picture, img, video) {
+  height: 100%;
+}
+
+.moody26-hero--layout-split .moody26-hero__media-inner img,
+.moody26-hero--layout-split .moody26-hero__media-inner video {
+  object-fit: cover;
+}
+
+.moody26-hero--layout-split .moody26-hero__content {
+  background: var(--color-paper);
+  color: var(--color-ink);
+}
+
+/* Styles 2, 3, 6, 7, and 8 share one readable photographic fold. */
+.moody26-hero--layout-overlay {
+  min-height: var(--hero-block-size);
+  background: var(--color-ink);
+  color: var(--color-ut-white);
+}
+
+.moody26-hero--layout-overlay .moody26-hero__media {
+  position: absolute;
+  inset: 0;
+  height: 100%;
+}
+
+.moody26-hero--layout-overlay .moody26-hero__media::after {
   position: absolute;
   inset: 0;
   background: var(--color-overlay);
   content: "";
 }
 
-:where(.node-moody_landing_page, .node-moody_standard_page)
-  .moody-hero.extrabold-headline.moody-homepage-hero .hero-img.hero-img::after {
-  background: var(--color-overlay);
+.moody26-hero--layout-overlay .moody26-hero__background,
+.moody26-hero--layout-overlay .moody26-hero__media-inner,
+.moody26-hero--layout-overlay .moody26-hero__media-inner > :where(div, picture),
+.moody26-hero--layout-overlay .moody26-hero__media-inner :where(picture, img, video) {
+  height: 100%;
 }
 
-:where(.node-moody_landing_page, .node-moody_standard_page) .moody-hero .hero-content {
+.moody26-hero--layout-overlay .moody26-hero__media-inner img,
+.moody26-hero--layout-overlay .moody26-hero__media-inner video {
+  object-fit: cover;
+}
+
+.moody26-hero--layout-overlay .moody26-hero__content {
   position: relative;
-  inset: auto;
   z-index: var(--z-media);
-  display: grid;
   width: min(100%, var(--page-max));
   min-height: var(--hero-block-size);
-  align-items: end;
   margin-inline: auto;
-  padding: var(--space-2xl) var(--page-gutter) var(--space-3xl);
-  background: var(--color-transparent);
+  padding-block-end: var(--space-3xl);
 }
 
-/* The upstream content component's landing variant carries four classes in
-   its selectors. Match that boundary here so Moody26 owns its composition. */
-:where(.node-moody_landing_page, .node-moody_standard_page)
-  .moody-hero.extrabold-headline.moody-homepage-hero .hero-content.hero-content.hero-content {
-  position: relative;
-  inset: auto;
-  z-index: var(--z-media);
-  display: grid;
-  width: min(100%, var(--page-max));
-  max-width: none;
-  min-height: var(--hero-block-size);
-  align-items: end;
-  margin-inline: auto;
-  padding: var(--space-2xl) var(--page-gutter) var(--space-3xl);
-  background: var(--color-transparent);
-  text-align: start;
-  transform: none;
-}
-
-:where(.node-moody_landing_page, .node-moody_standard_page) .moody-hero .hero-callout {
-  width: min(100%, var(--content-narrow));
-  margin: 0;
-  padding: 0;
-  background: var(--color-transparent);
-}
-
-:where(.node-moody_landing_page, .node-moody_standard_page)
-  .moody-hero.extrabold-headline.moody-homepage-hero .hero-callout.hero-callout.hero-callout {
-  width: min(100%, var(--content-narrow));
-  max-width: var(--content-narrow);
-  display: block;
-  height: auto;
-  align-self: end;
-  margin: 0;
-  padding: 0 0 0 var(--space-lg);
+.moody26-hero--layout-overlay .moody26-hero__callout {
+  padding-block-start: 0;
+  padding-inline-start: var(--space-lg);
+  border-block-start: 0;
   border-inline-start: var(--rule-strong) solid var(--color-accent);
-  background: var(--color-transparent);
-  text-align: start;
 }
 
-:where(.node-moody_landing_page, .node-moody_standard_page) .moody-hero .hero-headline {
-  max-width: 16ch;
-  min-width: 0;
-  margin: 0;
+.moody26-hero--layout-overlay .moody26-hero__caption {
+  position: absolute;
+  z-index: var(--z-media);
+  inset-block-start: var(--space-sm);
+  inset-inline-end: var(--page-gutter);
+  max-width: min(32ch, calc(100% - var(--page-gutter) - var(--page-gutter)));
+  background: var(--color-ink);
   color: var(--color-ut-white);
-  font-family: var(--font-display);
-  font-size: var(--text-heading);
-  font-style: normal;
-  font-weight: 700;
-  letter-spacing: -0.03em;
-  line-height: var(--leading-tight);
-  overflow-wrap: anywhere;
-  text-transform: none;
-  text-wrap: balance;
 }
 
-:where(.node-moody_landing_page, .node-moody_standard_page)
-  .moody-hero.extrabold-headline.moody-homepage-hero .hero-content .hero-headline.hero-headline {
-  max-width: 16ch;
-  min-width: 0;
-  margin: 0;
-  color: var(--color-ut-white);
-  font-family: var(--font-display);
-  font-size: var(--text-heading);
-  font-style: normal;
-  font-weight: 700;
-  letter-spacing: -0.03em;
-  line-height: var(--leading-tight);
-  overflow-wrap: anywhere;
-  text-transform: none;
-  text-wrap: balance;
+.moody26-hero--legacy-style-6-short,
+.moody26-hero--legacy-style-6-short .moody26-hero__content {
+  min-height: calc(var(--hero-block-size) - var(--space-2xl));
 }
 
-:where(.node-moody_landing_page, .node-moody_standard_page) .moody-hero .hero-subhead {
-  max-width: var(--measure);
-  margin-block-start: var(--space-lg);
-  color: var(--color-ut-white);
-  font-family: var(--font-body);
-  font-size: var(--text-lead);
-  font-style: normal;
-  line-height: 1.45;
+.moody26-hero--without-media {
+  min-height: 0;
+  background: var(--color-paper);
+  color: var(--color-ink);
 }
 
-:where(.node-moody_landing_page, .node-moody_standard_page)
-  .moody-hero.extrabold-headline.moody-homepage-hero .hero-content .hero-subhead.hero-subhead {
-  max-width: var(--measure);
-  margin-block-start: var(--space-lg);
-  color: var(--color-ut-white);
-  font-family: var(--font-body);
-  font-size: var(--text-lead);
-  font-style: normal;
-  line-height: 1.45;
+.moody26-hero--without-media .moody26-hero__content {
+  width: min(100%, var(--page-max));
+  min-height: 0;
+  margin-inline: auto;
 }
 
-:where(.node-moody_landing_page, .node-moody_standard_page) .moody-hero .hero-cta {
-  margin-block-start: var(--space-lg);
+.moody26-hero--media-unavailable {
+  grid-template-columns: minmax(0, 1fr) !important;
+  min-height: 0;
+  background: var(--color-paper);
+  color: var(--color-ink);
+}
+
+.moody26-hero--media-unavailable .moody26-hero__content {
+  position: relative;
+  width: min(100%, var(--page-max));
+  min-height: 0;
+  margin-inline: auto;
+}
+
+.moody26-hero__media[hidden] {
+  display: none;
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .moody26-hero__action > a:hover {
+    background: var(--color-paper-2);
+    color: var(--color-link);
+  }
+}
+
+@container moody-hero (min-width: 60rem) {
+  .moody26-hero__title {
+    font-size: var(--text-display-s);
+  }
+
+  .moody26-hero--layout-split {
+    min-height: var(--hero-block-size);
+    grid-template-columns: minmax(0, 7fr) minmax(0, 5fr);
+  }
+
+  .moody26-hero--layout-split .moody26-hero__media,
+  .moody26-hero--layout-split .moody26-hero__background {
+    min-height: var(--hero-block-size);
+  }
+
+  .moody26-hero--layout-split .moody26-hero__content {
+    align-content: center;
+    padding-block: var(--space-2xl) var(--space-3xl);
+  }
+
+  .moody26-hero--layout-split .moody26-hero__title {
+    font-size: var(--text-heading);
+  }
+
+  .moody26-hero--layout-split .moody26-hero__callout {
+    padding-block-start: 0;
+    padding-inline-start: var(--space-lg);
+    border-block-start: 0;
+    border-inline-start: var(--rule-strong) solid var(--color-accent);
+  }
+
+  .moody26-hero--position-top-left .moody26-hero__content,
+  .moody26-hero--position-top-right .moody26-hero__content {
+    align-content: start;
+  }
+
+  .moody26-hero--position-centered .moody26-hero__content {
+    align-content: center;
+  }
+
+  .moody26-hero--position-top-right .moody26-hero__callout,
+  .moody26-hero--position-bottom-right .moody26-hero__callout {
+    justify-self: end;
+  }
+
+  .moody26-hero--position-centered .moody26-hero__callout {
+    justify-self: center;
+  }
 }
 
 /* The homepage keeps its authored ambient media, but the title and poster are
@@ -236,25 +436,6 @@
   min-width: var(--target-min);
   min-height: var(--target-min);
   padding: var(--space-sm);
-}
-
-@container (min-width: 60rem) {
-  :where(.node-moody_landing_page, .node-moody_standard_page) .moody-hero .hero-headline,
-  :where(.node-moody_landing_page, .node-moody_standard_page)
-    .moody-hero.extrabold-headline.moody-homepage-hero .hero-content .hero-headline.hero-headline {
-    font-size: var(--text-display-s);
-  }
-
-  :where(.node-moody_landing_page, .node-moody_standard_page) .moody-hero .hero-content {
-    padding-block-start: var(--space-2xl);
-    padding-block-end: var(--space-4xl);
-  }
-
-  :where(.node-moody_landing_page, .node-moody_standard_page)
-    .moody-hero.extrabold-headline.moody-homepage-hero .hero-content.hero-content.hero-content {
-    padding-block-start: var(--space-2xl);
-    padding-block-end: var(--space-4xl);
-  }
 }
 
 @media (min-width: 60rem) {

@@ -34,6 +34,17 @@
         }
       });
 
+      once('moody26-hero-image', '.moody26-hero__media-inner img', context).forEach((image) => {
+        const hideFailedMedia = () => {
+          image.closest('.moody26-hero__media')?.setAttribute('hidden', '');
+          image.closest('.moody26-hero')?.classList.add('moody26-hero--media-unavailable');
+        };
+        image.addEventListener('error', hideFailedMedia, { once: true });
+        if (image.complete && image.currentSrc && !image.naturalWidth) {
+          hideFailedMedia();
+        }
+      });
+
       once('moody26-showcase-image', '.showcase img', context).forEach((image) => {
         const hideFailedMedia = () => {
           image.closest('.showcase__media')?.setAttribute('hidden', '');

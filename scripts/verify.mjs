@@ -80,6 +80,16 @@ const files = {
   impactFactsTemplate: 'templates/components/moody-impact-facts.html.twig',
   showcaseFieldTemplate: 'templates/components/field--moody-showcase.html.twig',
   showcaseTemplate: 'templates/components/moody-showcase.html.twig',
+  heroTemplate: 'templates/components/moody-hero.html.twig',
+  heroStyle1Template: 'templates/components/moody-hero-1.html.twig',
+  heroStyle2Template: 'templates/components/moody-hero-2.html.twig',
+  heroStyle3Template: 'templates/components/moody-hero-3.html.twig',
+  heroStyle4Template: 'templates/components/moody-hero-4.html.twig',
+  heroStyle5Template: 'templates/components/moody-hero-5.html.twig',
+  heroStyle6Template: 'templates/components/moody-hero-6.html.twig',
+  heroStyle6ShortTemplate: 'templates/components/moody-hero-6-short.html.twig',
+  heroStyle7Template: 'templates/components/moody-hero-7.html.twig',
+  heroStyle8Template: 'templates/components/moody-hero-8.html.twig',
   accordionTemplate: 'templates/components/field--moody-accordion.html.twig',
   logo: 'logo.svg',
   sourceLicense: 'LICENSE',
@@ -142,10 +152,16 @@ const forbidText = (file, needle, message) => {
   }
 };
 
+const forbidPattern = (file, pattern, message) => {
+  if (pattern.test(contents[file] ?? '')) {
+    errors.push(message);
+  }
+};
+
 try {
   const packageJson = JSON.parse(contents.package ?? '');
-  if (packageJson.version !== '0.18.0') {
-    errors.push('The Moody Showcase release must remain versioned as 0.18.0.');
+  if (packageJson.version !== '0.19.0') {
+    errors.push('The Moody Hero release must remain versioned as 0.19.0.');
   }
   for (const [dependency, version] of [
     ['animejs', '4.5.0'],
@@ -203,7 +219,7 @@ requireText('libraries', 'css/components/flex-grid.css', 'Shared Moody Flex Grid
 requireText('libraries', 'css/components/impact-facts.css', 'Shared Moody Impact Facts styles must remain attached.');
 requireText('libraries', 'css/components/showcase.css', 'Shared Moody Showcase styles must remain attached.');
 requireText('libraries', 'js/dist/motion.min.js', 'The built motion integration must remain attached.');
-requireText('libraries', 'version: 0.18.0', 'The Drupal asset version must match the Moody Showcase release.');
+requireText('libraries', 'version: 0.19.0', 'The Drupal asset version must match the Moody Hero release.');
 forbidText('info', '- moody26/motion', 'Optional motion must be attached from theme settings rather than globally.');
 
 requireText('settings', "header_social_links_block: ''", 'Header social links must be optional for new installs.');
@@ -637,6 +653,52 @@ forbidText('showcaseTemplate', '→', 'Moody Showcase must not invent a syntheti
 forbidText('editorialSections', '.moody-showcase', 'Showcase presentation must live in its dedicated component stylesheet.');
 forbidText('newsroom', '.moody-showcase', 'Showcase presentation must not be duplicated in newsroom styles.');
 forbidText('motion', "'.moody-showcase'", 'Static Moody Showcases must not receive decorative reveal motion.');
+requireText('landingHero', 'component: responsive editorial hero', 'Moody Heroes must retain the Hallmark component contract.');
+requireText('landingHero', 'container: moody-hero / inline-size;', 'Moody Heroes must respond to their Layout Builder container.');
+requireText('landingHero', '.node__content > .section-wrapper:has(.block-bundle-moody-hero)', 'Moody Heroes must cover every page bundle without a route or bundle whitelist.');
+requireText('landingHero', 'grid-template-columns: minmax(0, 7fr) minmax(0, 5fr);', 'Split Moody Heroes must retain safe 7/5 media-copy tracks.');
+requireText('landingHero', '.moody26-hero--layout-overlay .moody26-hero__media::after', 'Overlay Moody Heroes must retain the readable tokenized scrim.');
+requireText('landingHero', '.moody26-hero__action > a:visited', 'Moody Hero CTA visited states must preserve compliant link contrast.');
+requireText('landingHero', '.moody26-hero__action > a:focus-visible', 'Moody Hero CTAs need immediate visible focus.');
+requireText('landingHero', 'box-shadow: var(--focus-halo);', 'Moody Hero CTA focus must retain a paper halo over photography.');
+requireText('landingHero', '.moody26-hero__action > a:active', 'Moody Hero CTAs need active feedback.');
+requireText('landingHero', '.moody26-hero__action > a[aria-disabled="true"]', 'Moody Hero CTAs must retain a truthful disabled treatment.');
+requireText('landingHero', 'min-height: var(--target-min);', 'Moody Hero CTAs must preserve a 44 CSS-pixel target.');
+requireText('landingHero', 'white-space: nowrap;', 'Moody Hero CTA labels must remain one-line affordances.');
+requireText('landingHero', '@media (hover: hover) and (pointer: fine)', 'Moody Hero hover feedback must be capability-gated.');
+requireText('landingHero', '.moody26-hero--media-unavailable', 'Moody Heroes must retain resilient failed-media composition.');
+requireText('heroTemplate', '<figure class="moody26-hero__media">', 'Moody Hero media must expose figure semantics.');
+requireText('heroTemplate', '<figcaption class="moody26-hero__caption">', 'Authored Moody Hero captions must expose figcaption semantics.');
+requireText('heroTemplate', '<h2 class="moody26-hero__title">', 'Authored Moody Hero headings must correct formatter heading skips.');
+requireText('heroTemplate', '<p class="moody26-hero__summary">', 'Moody Hero summaries must remain ordinary paragraph content.');
+requireText('heroTemplate', 'role="img"', 'Meaningful background Moody Hero media must expose image semantics.');
+requireText('heroTemplate', 'aria-label="{{ media_alt }}"', 'Meaningful background Moody Hero media must retain its authored name.');
+requireText('heroTemplate', 'aria-hidden="true"', 'Decorative background Moody Hero media must leave the accessibility tree.');
+requireText('heroTemplate', 'media|default', 'Moody Heroes must preserve formatter-owned responsive media output.');
+requireText('heroTemplate', 'cta|default', 'Moody Heroes must preserve formatter-owned CTA output.');
+for (const [file, variant, layout] of [
+  ['heroStyle1Template', 'style-1', 'split'],
+  ['heroStyle2Template', 'style-2', 'overlay'],
+  ['heroStyle3Template', 'style-3', 'overlay'],
+  ['heroStyle4Template', 'style-4', 'split'],
+  ['heroStyle5Template', 'style-5', 'split'],
+  ['heroStyle6Template', 'style-6', 'overlay'],
+  ['heroStyle6ShortTemplate', 'style-6-short', 'overlay'],
+  ['heroStyle7Template', 'style-7', 'overlay'],
+  ['heroStyle8Template', 'style-8', 'overlay'],
+]) {
+  requireText(file, "@moody26/components/moody-hero.html.twig", `${variant} Moody Hero output must reuse the shared template.`);
+  requireText(file, `hero_variant: '${variant}'`, `${variant} Moody Hero output must retain its migration variant.`);
+  requireText(file, `hero_layout: '${layout}'`, `${variant} Moody Hero output must retain the ${layout} family.`);
+}
+forbidText('heroTemplate', '<h3', 'Moody Hero summaries must not distort the page heading hierarchy.');
+forbidText('heroTemplate', 'href=', 'Moody Hero destinations must not be reconstructed in Twig.');
+forbidText('heroTemplate', '|raw', 'Moody Heroes must not bypass Drupal render safety.');
+forbidText('heroTemplate', 'attach_library', 'Moody Heroes must use the theme global library without duplicate attachments.');
+forbidText('heroTemplate', '→', 'Moody Heroes must not invent a synthetic arrow.');
+forbidPattern('landingHero', /\.moody-hero(?:\s|[.#:{>+~\[]|$)/, 'Legacy Moody Hero presentation must not compete with the theme-owned component.');
+forbidPattern('newsroom', /\.moody-hero(?:\s|[.#:{>+~\[]|$)/, 'Moody Hero presentation must not be duplicated in newsroom styles.');
+forbidText('motion', "'.moody26-hero'", 'Static Moody Heroes must not receive decorative reveal motion.');
 requireText('theme', 'function moody26_preprocess_views_view_unformatted', 'Faculty directory rows need a translated result summary.');
 requireText('theme', 'function moody26_preprocess_views_view_fields', 'Faculty directory profiles need entity-backed names and URLs.');
 requireText('theme', "'moody26-directory-' . Html::getClass($directory->label())", 'Landing compositions must use portable directory-term classes.');
@@ -660,6 +722,8 @@ requireText('accessibility', "once('moody26-person-image'", 'Directory portrait 
 requireText('accessibility', "classList.add('people-directory__media--fallback')", 'Failed portraits must reveal the stable fallback tile.');
 requireText('accessibility', "once('moody26-showcase-image'", 'Showcase media fallbacks must be idempotent.');
 requireText('accessibility', "classList.add('showcase--media-unavailable')", 'Failed Showcase media must preserve its text composition.');
+requireText('accessibility', "once('moody26-hero-image'", 'Moody Hero media fallbacks must be idempotent.');
+requireText('accessibility', "classList.add('moody26-hero--media-unavailable')", 'Failed Moody Hero media must preserve and recompose its content.');
 requireText('accessibility', "'moody26-resource-image'", 'Resource media fallbacks must be idempotent.');
 requireText('accessibility', "classList.add('resource-media--unavailable')", 'Failed resource media must preserve its text and links.');
 requireText('accessibility', "once('moody26-featured-highlight-image'", 'Featured Highlight media fallbacks must be idempotent.');
@@ -706,6 +770,9 @@ const runtimeFiles = [
   'flexGridRectangularTemplate', 'flexGridFlipTemplate', 'flexGridCardTemplate',
   'impactFactsCss', 'impactFactsTemplate',
   'showcaseCss', 'showcaseFieldTemplate', 'showcaseTemplate',
+  'heroTemplate', 'heroStyle1Template', 'heroStyle2Template', 'heroStyle3Template',
+  'heroStyle4Template', 'heroStyle5Template', 'heroStyle6Template', 'heroStyle6ShortTemplate',
+  'heroStyle7Template', 'heroStyle8Template',
   'accordionCss', 'accordionTemplate',
   'peopleDirectory', 'peopleDirectoryView', 'peopleDirectoryRows', 'peopleDirectoryFields',
   'newsroom', 'newsRows', 'newsFields',
@@ -759,7 +826,7 @@ for (const file of ['preflight', 'log']) {
     errors.push(`${file} must contain valid JSON.`);
   }
 }
-requireText('preflight', '"package_version": "0.18.0"', 'Hallmark preflight must match the Moody Showcase release.');
+requireText('preflight', '"package_version": "0.19.0"', 'Hallmark preflight must match the Moody Hero release.');
 requireText('log', 'Conversational FAQ within the Ecosystem Index', 'Hallmark memory must record the shared accordion macrostructure.');
 requireText('log', 'Editorial media directory within the Ecosystem Index', 'Hallmark memory must record the shared Moody Flex Grid component.');
 
@@ -786,6 +853,7 @@ requireText('readme', 'Shared Flex Color Blocks', 'README must document the reus
 requireText('readme', 'Shared Moody Quotations', 'README must document the reusable Moody Quotation layer.');
 requireText('readme', 'Shared Moody Flex Grids', 'README must document the reusable Moody Flex Grid layer.');
 requireText('readme', 'Shared Moody Impact Facts', 'README must document the reusable Moody Impact Facts layer.');
+requireText('readme', 'Shared Moody Heroes', 'README must document the reusable Moody Hero layer.');
 requireText('agents', '`header_social_links_block`', 'AGENTS.md must preserve the header Social Links contract.');
 requireText('agents', 'Missing, unpublished, non-reusable, inaccessible, wrong-bundle, or malformed', 'AGENTS.md must require Social Links to fail closed.');
 requireText('agents', '### People directories', 'AGENTS.md must preserve the people-directory contract.');
@@ -801,6 +869,7 @@ requireText('agents', '### Moody Quotations', 'AGENTS.md must preserve the Moody
 requireText('agents', '### Moody Flex Grids', 'AGENTS.md must preserve the Moody Flex Grid component contract.');
 requireText('agents', '### Moody Impact Facts', 'AGENTS.md must preserve the Moody Impact Facts component contract.');
 requireText('agents', '### Moody Showcases', 'AGENTS.md must preserve the Moody Showcase component contract.');
+requireText('agents', '### Moody Heroes', 'AGENTS.md must preserve the Moody Hero component contract.');
 
 if (errors.length) {
   console.error(`Moody26 verification failed (${errors.length}):`);
@@ -810,5 +879,5 @@ if (errors.length) {
   process.exitCode = 1;
 }
 else {
-  console.log(`Moody26 verification passed (${Object.keys(files).length} source files, ${fonts.length} local fonts, standalone shell, UT brand, accessible directories, resource hubs, newsroom, accordions, Featured Highlights, Promo Lists, Flex Content Areas, Image Links, Flex Color Blocks, Moody Quotations, Moody Flex Grids, Moody Impact Facts, and Moody Showcases, header social links, motion, responsive, and Hallmark gates).`);
+  console.log(`Moody26 verification passed (${Object.keys(files).length} source files, ${fonts.length} local fonts, standalone shell, UT brand, accessible directories, resource hubs, newsroom, accordions, Featured Highlights, Promo Lists, Flex Content Areas, Image Links, Flex Color Blocks, Moody Quotations, Moody Flex Grids, Moody Impact Facts, Moody Showcases, and Moody Heroes, header social links, motion, responsive, and Hallmark gates).`);
 }
