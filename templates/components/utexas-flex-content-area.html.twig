@@ -1,0 +1,45 @@
+{#
+/**
+ * @file
+ * Theme-owned Flex Content Area item markup for Moody26.
+ *
+ * The UT Drupal Kit formatter remains responsible for filtered headlines,
+ * processed copy, link options, responsive media, and cacheability.
+ */
+#}
+{% set rendered_media = media|render %}
+{% set rendered_headline = headline|render %}
+{% set rendered_copy = copy|render %}
+{% set rendered_cta = cta|render %}
+{% set item_classes = [
+  'flex-content__inner',
+  rendered_media|trim ? 'flex-content__inner--has-media' : 'flex-content__inner--without-media',
+] %}
+
+<article class="{{ item_classes|join(' ') }}">
+  {% if rendered_media|trim %}
+    <div class="flex-content__media">
+      {{ rendered_media }}
+    </div>
+  {% endif %}
+  <div class="flex-content__content">
+    {% if rendered_headline|trim %}
+      <h3 class="ut-headline flex-content__title">{{ rendered_headline }}</h3>
+    {% endif %}
+    {% if rendered_copy|striptags|trim %}
+      <div class="ut-copy flex-content__copy">
+        {{ rendered_copy }}
+      </div>
+    {% endif %}
+    {% if links %}
+      <ul class="link-list flex-content__links" role="list">
+        {% for link in links %}
+          <li>{{ link }}</li>
+        {% endfor %}
+      </ul>
+    {% endif %}
+    {% if rendered_cta|trim %}
+      {{ rendered_cta }}
+    {% endif %}
+  </div>
+</article>

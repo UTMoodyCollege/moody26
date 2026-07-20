@@ -28,6 +28,7 @@ const files = {
   editorialSections: 'css/components/editorial-sections.css',
   featuredHighlightCss: 'css/components/featured-highlight.css',
   promoListCss: 'css/components/promo-list.css',
+  flexContentCss: 'css/components/flex-content.css',
   discoveryIndex: 'css/components/discovery-index.css',
   accordionCss: 'css/components/accordion.css',
   peopleDirectory: 'css/components/people-directory.css',
@@ -58,6 +59,8 @@ const files = {
   promoUnits: 'templates/components/utexas-promo-unit.html.twig',
   featuredHighlightTemplate: 'templates/components/utexas-featured-highlight.html.twig',
   promoListTemplate: 'templates/components/utexas-promo-list.html.twig',
+  flexContentFieldTemplate: 'templates/components/field--block-content--field-block-fca--utexas-flex-content-area.html.twig',
+  flexContentTemplate: 'templates/components/utexas-flex-content-area.html.twig',
   accordionTemplate: 'templates/components/field--moody-accordion.html.twig',
   logo: 'logo.svg',
   sourceLicense: 'LICENSE',
@@ -122,8 +125,8 @@ const forbidText = (file, needle, message) => {
 
 try {
   const packageJson = JSON.parse(contents.package ?? '');
-  if (packageJson.version !== '0.11.0') {
-    errors.push('The Promo List release must remain versioned as 0.11.0.');
+  if (packageJson.version !== '0.12.0') {
+    errors.push('The Flex Content Area release must remain versioned as 0.12.0.');
   }
   for (const [dependency, version] of [
     ['animejs', '4.5.0'],
@@ -173,8 +176,9 @@ requireText('libraries', 'css/components/newsroom.css', 'Shared newsroom styles 
 requireText('libraries', 'css/components/accordion.css', 'Shared accordion styles must remain attached.');
 requireText('libraries', 'css/components/featured-highlight.css', 'Shared Featured Highlight styles must remain attached.');
 requireText('libraries', 'css/components/promo-list.css', 'Shared Promo List styles must remain attached.');
+requireText('libraries', 'css/components/flex-content.css', 'Shared Flex Content Area styles must remain attached.');
 requireText('libraries', 'js/dist/motion.min.js', 'The built motion integration must remain attached.');
-requireText('libraries', 'version: 0.11.0', 'The Drupal asset version must match the Promo List release.');
+requireText('libraries', 'version: 0.12.0', 'The Drupal asset version must match the Flex Content Area release.');
 forbidText('info', '- moody26/motion', 'Optional motion must be attached from theme settings rather than globally.');
 
 requireText('settings', "header_social_links_block: ''", 'Header social links must be optional for new installs.');
@@ -433,6 +437,29 @@ requireText('promoListTemplate', 'rendered_copy', 'Promo Lists must preserve pro
 forbidText('promoListTemplate', 'attach_library', 'Promo Lists must use the theme global library without duplicate attachments.');
 forbidText('promoListTemplate', 'href=', 'Promo List destinations must remain formatter-owned.');
 forbidText('promoListTemplate', '|raw', 'Promo Lists must not bypass Drupal render safety.');
+requireText('flexContentCss', 'component: editorial media dossier', 'Flex Content Areas must retain the Hallmark component contract.');
+requireText('flexContentCss', 'container: flex-content / inline-size;', 'Flex Content Areas must remain container-aware.');
+requireText('flexContentCss', 'grid-template-columns: repeat(2, minmax(0, 1fr));', 'Flex Content Areas must retain two safe tracks.');
+requireText('flexContentCss', 'grid-template-columns: repeat(3, minmax(0, 1fr));', 'Flex Content Areas must retain three safe tracks.');
+requireText('flexContentCss', 'grid-template-columns: repeat(4, minmax(0, 1fr));', 'Flex Content Areas must retain four safe tracks.');
+requireText('flexContentCss', 'grid-template-columns: minmax(0, 5fr) minmax(0, 7fr);', 'One-column Flex Content Areas must retain their safe media band.');
+requireText('flexContentCss', 'aspect-ratio: 3 / 2;', 'Flex Content Area images must retain the formatter derivative ratio.');
+requireText('flexContentCss', 'aspect-ratio: 16 / 9;', 'Flex Content Area external video must remain responsive.');
+requireText('flexContentCss', '.flex-content__title a:focus-visible', 'Flex Content Area headline links need immediate visible focus.');
+requireText('flexContentCss', '@media (hover: hover) and (pointer: fine)', 'Flex Content Area hover feedback must be capability-gated.');
+requireText('flexContentCss', '.flex-content--media-unavailable', 'Flex Content Areas must retain a stable failed-media state.');
+requireText('flexContentCss', '.ut-btn[aria-hidden="true"]', 'Redundant Flex Content Area calls to action must remain visually suppressed.');
+requireText('flexContentFieldTemplate', 'role="list"', 'Flex Content Area collections must expose list semantics.');
+requireText('flexContentFieldTemplate', '<li{{ item.attributes.addClass', 'Flex Content Area entries must expose list-item semantics.');
+requireText('flexContentTemplate', '<article class="{{ item_classes|join', 'Each Flex Content Area entry must remain an article.');
+requireText('flexContentTemplate', '<h3 class="ut-headline flex-content__title">', 'Flex Content Area item headlines must preserve their established h3 contract.');
+requireText('flexContentTemplate', 'rendered_media', 'Flex Content Areas must preserve formatter-owned media output.');
+requireText('flexContentTemplate', 'rendered_copy', 'Flex Content Areas must preserve processed editor copy.');
+requireText('flexContentTemplate', '{% if links %}', 'Flex Content Areas must preserve formatter-owned secondary links.');
+requireText('flexContentTemplate', 'rendered_cta', 'Flex Content Areas must preserve formatter-owned CTA attributes.');
+forbidText('flexContentTemplate', 'attach_library', 'Flex Content Areas must use the theme global library without duplicate attachments.');
+forbidText('flexContentTemplate', 'href=', 'Flex Content Area destinations must remain formatter-owned.');
+forbidText('flexContentTemplate', '|raw', 'Flex Content Areas must not bypass Drupal render safety.');
 requireText('theme', 'function moody26_preprocess_views_view_unformatted', 'Faculty directory rows need a translated result summary.');
 requireText('theme', 'function moody26_preprocess_views_view_fields', 'Faculty directory profiles need entity-backed names and URLs.');
 requireText('theme', "'moody26-directory-' . Html::getClass($directory->label())", 'Landing compositions must use portable directory-term classes.');
@@ -462,6 +489,9 @@ requireText('accessibility', "once('moody26-featured-highlight-image'", 'Feature
 requireText('accessibility', "classList.add('featured-highlight--media-unavailable')", 'Failed Featured Highlight media must preserve and recompose its content.');
 requireText('accessibility', "once('moody26-promo-list-image'", 'Promo List media fallbacks must be idempotent.');
 requireText('accessibility', "classList.add('promo-list__item--media-unavailable')", 'Failed Promo List media must preserve and recompose its content.');
+requireText('accessibility', "once('moody26-flex-content-image'", 'Flex Content Area media fallbacks must be idempotent.');
+requireText('accessibility', "classList.add('flex-content--media-unavailable')", 'Failed Flex Content Area media must preserve and recompose its content.');
+requireText('accessibility', 'image.complete && image.currentSrc && !image.naturalWidth', 'Lazy image safeguards must not treat an unselected source as a failure.');
 requireText('focusAreas', '<ul class="focus-areas-items', 'Focus Areas must expose semantic list markup.');
 requireText('focusAreas', 'aria-hidden="true"', 'Focus Area icons must remain decorative beside visible task names.');
 forbidText('focusAreas', 'sr-only', 'Focus Areas must not duplicate their visible task name.');
@@ -479,6 +509,7 @@ const runtimeFiles = [
   'info', 'libraries', 'theme', 'themeSettings', 'fontsCss', 'css',
   'headerSocialCss', 'quickActionsCss', 'landingHero', 'editorialSections', 'discoveryIndex',
   'featuredHighlightCss', 'featuredHighlightTemplate', 'promoListCss', 'promoListTemplate',
+  'flexContentCss', 'flexContentFieldTemplate', 'flexContentTemplate',
   'accordionCss', 'accordionTemplate',
   'peopleDirectory', 'peopleDirectoryView', 'peopleDirectoryRows', 'peopleDirectoryFields',
   'newsroom', 'newsRows', 'newsFields',
@@ -501,7 +532,7 @@ for (const file of runtimeFiles) {
   }
 }
 
-const cssFiles = ['css', 'headerSocialCss', 'quickActionsCss', 'landingHero', 'editorialSections', 'featuredHighlightCss', 'promoListCss', 'discoveryIndex', 'accordionCss', 'peopleDirectory', 'newsroom', 'motionCss', 'settingsCss'];
+const cssFiles = ['css', 'headerSocialCss', 'quickActionsCss', 'landingHero', 'editorialSections', 'featuredHighlightCss', 'promoListCss', 'flexContentCss', 'discoveryIndex', 'accordionCss', 'peopleDirectory', 'newsroom', 'motionCss', 'settingsCss'];
 const forbiddenCss = [
   [/#(?:[0-9a-f]{3}|[0-9a-f]{6}|[0-9a-f]{8})\b/i, 'Raw hex colors belong only in tokens.css.'],
   [/\b(?:rgb|rgba|hsl|hsla|oklch)\(/i, 'Raw color functions belong only in tokens.css.'],
@@ -532,7 +563,7 @@ for (const file of ['preflight', 'log']) {
     errors.push(`${file} must contain valid JSON.`);
   }
 }
-requireText('preflight', '"package_version": "0.11.0"', 'Hallmark preflight must match the Promo List release.');
+requireText('preflight', '"package_version": "0.12.0"', 'Hallmark preflight must match the Flex Content Area release.');
 requireText('log', 'Conversational FAQ within the Ecosystem Index', 'Hallmark memory must record the shared accordion macrostructure.');
 
 requirePattern('readme', /standalone/i, 'README must describe the standalone architecture.');
@@ -551,6 +582,7 @@ requireText('readme', 'Shared newsroom components', 'README must document the re
 requireText('readme', 'Shared accordions', 'README must document the native shared accordion layer.');
 requireText('readme', 'Shared Featured Highlights', 'README must document the reusable Featured Highlight layer.');
 requireText('readme', 'Shared Promo Lists', 'README must document the reusable Promo List layer.');
+requireText('readme', 'Shared Flex Content Areas', 'README must document the reusable Flex Content Area layer.');
 requireText('agents', '`header_social_links_block`', 'AGENTS.md must preserve the header Social Links contract.');
 requireText('agents', 'Missing, unpublished, non-reusable, inaccessible, wrong-bundle, or malformed', 'AGENTS.md must require Social Links to fail closed.');
 requireText('agents', '### People directories', 'AGENTS.md must preserve the people-directory contract.');
@@ -559,6 +591,7 @@ requireText('agents', '### Newsroom components', 'AGENTS.md must preserve the ne
 requireText('agents', '### Accordions', 'AGENTS.md must preserve the native accordion contract.');
 requireText('agents', '### Featured Highlights', 'AGENTS.md must preserve the Featured Highlight component contract.');
 requireText('agents', '### Promo Lists', 'AGENTS.md must preserve the Promo List component contract.');
+requireText('agents', '### Flex Content Areas', 'AGENTS.md must preserve the Flex Content Area component contract.');
 
 if (errors.length) {
   console.error(`Moody26 verification failed (${errors.length}):`);
@@ -568,5 +601,5 @@ if (errors.length) {
   process.exitCode = 1;
 }
 else {
-  console.log(`Moody26 verification passed (${Object.keys(files).length} source files, ${fonts.length} local fonts, standalone shell, UT brand, accessible directories, resource hubs, newsroom, accordions, Featured Highlights, and Promo Lists, header social links, motion, responsive, and Hallmark gates).`);
+  console.log(`Moody26 verification passed (${Object.keys(files).length} source files, ${fonts.length} local fonts, standalone shell, UT brand, accessible directories, resource hubs, newsroom, accordions, Featured Highlights, Promo Lists, and Flex Content Areas, header social links, motion, responsive, and Hallmark gates).`);
 }

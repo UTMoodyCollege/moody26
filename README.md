@@ -6,7 +6,7 @@ visual identity with an accessible, editorial system that can serve academic,
 research, film, journalism, advertising, alumni, event, and public-facing
 sites without requiring the legacy Moody or Speedway themes.
 
-> **Project status:** pre-release (`0.11.0`). The theme is being validated in
+> **Project status:** pre-release (`0.12.0`). The theme is being validated in
 > [Moody Core](https://github.com/UTMoodyCollege/moody-core) before its first
 > stable tag. Pin an exact commit when evaluating the `main` branch.
 
@@ -35,6 +35,8 @@ sites without requiring the legacy Moody or Speedway themes.
   text-only composition, editor-owned links, and normalized legacy variants.
 - Shared UT Promo Lists with semantic list structure, page-safe headings,
   compact responsive media, and one- or two-column resource layouts.
+- Shared UT Flex Content Areas with semantic editorial entries, resilient
+  media, and container-aware one- through four-column authoring variants.
 - Shared people directories with semantic list and heading structure,
   accessible linked profiles, responsive filters, honest result counts, and a
   useful empty state.
@@ -258,6 +260,33 @@ heading, copy, and links intact. Long editorial headline links may wrap as
 prose rather than overflow or be truncated; their visible focus target remains
 at least 44 CSS pixels high.
 
+### Shared Flex Content Areas
+
+Moody26 presents the UT Drupal Kit Flex Content Area as a semantic editorial
+media dossier without changing its editor workflow. Each collection is a real
+list and each item is a list entry containing an article. The upstream
+formatter continues to own filtered headlines, processed copy, destinations,
+link options, responsive image output, external video, and cacheability.
+
+The default and two-column authoring modes gain two safe tracks when their own
+container is at least 38rem wide. Three- and four-column modes progressively
+reach their authored track count only when the component can support it. The
+one-column mode becomes a 5/7 media-and-copy band at 52rem, while remaining a
+single readable column in narrower Layout Builder regions. Images use their
+native 3:2 derivatives; external video uses a CSS-owned 16:9 ratio, making the
+legacy one-time iframe height script inert.
+
+When a linked headline exists, its formatter-provided `aria-hidden` CTA is
+also removed visually so one destination does not appear twice. A standalone
+CTA remains an accessible typographic link. Failed images collapse only their
+media wrapper, leaving every headline, paragraph, and destination available.
+
+The upstream item headline remains an `h3` because real placements occur both
+under authored section `h2` headings and under visible block labels. Editors
+must give a multi-item area a meaningful visible block label or introduce it
+with a preceding `h2`; administrative block labels must not be published as
+content headings.
+
 ### Shared accordions
 
 Moody26 overrides the Moody Accordion field with native `<details>` and
@@ -357,7 +386,7 @@ than replace manual assistive-technology review.
 | `tokens.css` | Brand, type, spacing, motion, focus, and layout tokens |
 | `css/fonts.css` | Local approved digital font declarations |
 | `css/moody26.css` | Global foundation, shell, navigation, forms, and footer |
-| `css/components/` | Header social, landing, editorial, discovery, resource-hub, accordion, Featured Highlight, Promo List, people-directory, newsroom, quick-action, and settings components |
+| `css/components/` | Header social, landing, editorial, discovery, resource-hub, accordion, Featured Highlight, Promo List, Flex Content Area, people-directory, newsroom, quick-action, and settings components |
 | `js/navigation.js` | Drawer and disclosure navigation state |
 | `js/quick-actions.js` | Native dialog and rendered-destination discovery |
 | `js/accessibility.js` | Progressive safeguards for rendered content components |

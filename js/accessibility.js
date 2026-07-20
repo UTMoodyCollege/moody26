@@ -29,7 +29,7 @@
       once('moody26-news-image', '.latest-news-block-image-field img', context).forEach((image) => {
         const hideFailedMedia = () => image.closest('.latest-news-block-image-field')?.setAttribute('hidden', '');
         image.addEventListener('error', hideFailedMedia, { once: true });
-        if (image.complete && !image.naturalWidth) {
+        if (image.complete && image.currentSrc && !image.naturalWidth) {
           hideFailedMedia();
         }
       });
@@ -40,7 +40,7 @@
           image.closest('.moody-showcase')?.classList.add('moody-showcase--media-unavailable');
         };
         image.addEventListener('error', hideFailedMedia, { once: true });
-        if (image.complete && !image.naturalWidth) {
+        if (image.complete && image.currentSrc && !image.naturalWidth) {
           hideFailedMedia();
         }
       });
@@ -56,7 +56,7 @@
             ?.classList.add('resource-media--unavailable');
         };
         image.addEventListener('error', hideFailedMedia, { once: true });
-        if (image.complete && !image.naturalWidth) {
+        if (image.complete && image.currentSrc && !image.naturalWidth) {
           hideFailedMedia();
         }
       });
@@ -67,7 +67,7 @@
           image.closest('.featured-highlight')?.classList.add('featured-highlight--media-unavailable');
         };
         image.addEventListener('error', hideFailedMedia, { once: true });
-        if (image.complete && !image.naturalWidth) {
+        if (image.complete && image.currentSrc && !image.naturalWidth) {
           hideFailedMedia();
         }
       });
@@ -78,7 +78,18 @@
           image.closest('.promo-list__item')?.classList.add('promo-list__item--media-unavailable');
         };
         image.addEventListener('error', hideFailedMedia, { once: true });
-        if (image.complete && !image.naturalWidth) {
+        if (image.complete && image.currentSrc && !image.naturalWidth) {
+          hideFailedMedia();
+        }
+      });
+
+      once('moody26-flex-content-image', '.flex-content__media img', context).forEach((image) => {
+        const hideFailedMedia = () => {
+          image.closest('.flex-content__media')?.setAttribute('hidden', '');
+          image.closest('.flex-content')?.classList.add('flex-content--media-unavailable');
+        };
+        image.addEventListener('error', hideFailedMedia, { once: true });
+        if (image.complete && image.currentSrc && !image.naturalWidth) {
           hideFailedMedia();
         }
       });
@@ -99,7 +110,7 @@
             hideFailedPoster();
           }
         }
-        if (image.complete && !image.naturalWidth) {
+        if (image.complete && image.currentSrc && !image.naturalWidth) {
           hideFailedPoster();
         }
       });
@@ -141,7 +152,7 @@
           image.closest('.people-directory__media')?.classList.add('people-directory__media--fallback');
         };
         image.addEventListener('error', hideFailedPortrait, { once: true });
-        if (image.complete && !image.naturalWidth) {
+        if (image.complete && image.currentSrc && !image.naturalWidth) {
           hideFailedPortrait();
         }
       });

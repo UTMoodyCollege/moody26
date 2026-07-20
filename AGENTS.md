@@ -333,6 +333,42 @@ not belong outside the token and font declaration files.
   loading, error, or success states, add decorative motion, or turn the whole
   item into a duplicate link target.
 
+### Flex Content Areas
+
+- Treat the UT Drupal Kit Flex Content Area as a shared editorial media
+  dossier, not a page-specific card grid. Keep headlines, processed copy,
+  destinations, secondary links, CTAs, media, ordering, author variants, and
+  Layout Builder placement under Drupal and editor control.
+- Preserve the upstream formatter’s filtering, link attributes, processed-text
+  render arrays, responsive image output, external video, CTA accessibility
+  attributes, and cacheability. Twig owns semantic structure and CSS owns
+  presentation; do not duplicate formatter logic in JavaScript or PHP.
+- Render each collection as a semantic list and each entry as a list item
+  containing an article. Preserve the upstream item headline as `h3`: real
+  placements occur under both authored section `h2` headings and visible block
+  labels. Editors must provide one of those meaningful `h2` group headings;
+  never publish an administrative block label or add route-specific heading
+  heuristics in the theme.
+- Keep one safe track by default. At component widths of 38rem, allow the
+  default and two-column modes to use two tracks. Allow three- and four-column
+  modes to reach three tracks at 54rem and four tracks at 68rem. At 52rem, the
+  one-column mode may use a safe 5/7 media-copy band. Every track must use
+  `minmax(0, …)` and remain readable in narrow Layout Builder regions.
+- Preserve intrinsic responsive-image dimensions and editor-authored
+  alternatives. Use a 3:2 image frame and CSS-owned 16:9 external-video frame;
+  do not depend on the legacy one-time jQuery iframe height calculation.
+  Failed images hide only their media wrapper and recompose the item without
+  removing content or destinations.
+- A linked headline is the primary keyboard destination. Suppress the
+  formatter’s redundant `aria-hidden="true"` CTA visually as well as from the
+  accessibility tree. Keep a standalone CTA accessible, descriptive, and at
+  least 44 CSS pixels high; never add two stops for one destination.
+- Provide immediate focus, active feedback, readable link contrast, and
+  capability-gated hover. Long prose and link text may wrap without splitting
+  ordinary words, overflowing, truncating, or being converted to controls.
+- The Flex Content Area is static server-rendered content. Do not fabricate
+  disabled, loading, error, or success states or add decorative motion.
+
 ### Accordions
 
 - Treat Moody Accordion blocks as one shared component used across the fleet,
@@ -477,6 +513,8 @@ Texas requirements. The current University compliance date is March 1, 2026.
   link-state, and container-aware Featured Highlight presentation.
 - `css/components/promo-list.css`: semantic resource-ledger lists, page-safe
   headings, compact media fallbacks, and container-aware authoring variants.
+- `css/components/flex-content.css`: semantic editorial media lists,
+  container-aware author variants, responsive media, and failure recovery.
 - `css/components/people-directory.css`: responsive filters, semantic people
   indexes, linked profile treatments, current-directory state, and empty-state
   presentation.

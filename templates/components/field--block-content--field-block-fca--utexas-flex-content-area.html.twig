@@ -1,0 +1,16 @@
+{#
+/**
+ * @file
+ * Semantic field wrapper for the UT Drupal Kit Flex Content Area.
+ */
+#}
+{% if not label_hidden %}
+  <h2{{ title_attributes.addClass('flex-content-grid__title') }}>{{ label }}</h2>
+{% endif %}
+<ul{{ attributes.addClass('flex-content-grid') }} role="list">
+  {% for item in items %}
+    <li{{ item.attributes.addClass('flex-content') }}>
+      {{ item.content }}
+    </li>
+  {% endfor %}
+</ul>
