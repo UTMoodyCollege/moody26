@@ -33,6 +33,7 @@ const files = {
   flexColorBlocksCss: 'css/components/flex-color-blocks.css',
   quotationCss: 'css/components/quotation.css',
   flexGridCss: 'css/components/flex-grid.css',
+  impactFactsCss: 'css/components/impact-facts.css',
   discoveryIndex: 'css/components/discovery-index.css',
   accordionCss: 'css/components/accordion.css',
   peopleDirectory: 'css/components/people-directory.css',
@@ -75,6 +76,7 @@ const files = {
   flexGridRectangularTemplate: 'templates/components/moody-flex-grid-rectangular.html.twig',
   flexGridFlipTemplate: 'templates/components/moody-flex-grid-flip.html.twig',
   flexGridCardTemplate: 'templates/components/moody-flex-grid-card.html.twig',
+  impactFactsTemplate: 'templates/components/moody-impact-facts.html.twig',
   accordionTemplate: 'templates/components/field--moody-accordion.html.twig',
   logo: 'logo.svg',
   sourceLicense: 'LICENSE',
@@ -139,8 +141,8 @@ const forbidText = (file, needle, message) => {
 
 try {
   const packageJson = JSON.parse(contents.package ?? '');
-  if (packageJson.version !== '0.16.0') {
-    errors.push('The Moody Flex Grid release must remain versioned as 0.16.0.');
+  if (packageJson.version !== '0.17.0') {
+    errors.push('The Moody Impact Facts release must remain versioned as 0.17.0.');
   }
   for (const [dependency, version] of [
     ['animejs', '4.5.0'],
@@ -195,8 +197,9 @@ requireText('libraries', 'css/components/image-link.css', 'Shared Image Link sty
 requireText('libraries', 'css/components/flex-color-blocks.css', 'Shared Flex Color Block styles must remain attached.');
 requireText('libraries', 'css/components/quotation.css', 'Shared Moody Quotation styles must remain attached.');
 requireText('libraries', 'css/components/flex-grid.css', 'Shared Moody Flex Grid styles must remain attached.');
+requireText('libraries', 'css/components/impact-facts.css', 'Shared Moody Impact Facts styles must remain attached.');
 requireText('libraries', 'js/dist/motion.min.js', 'The built motion integration must remain attached.');
-requireText('libraries', 'version: 0.16.0', 'The Drupal asset version must match the Moody Flex Grid release.');
+requireText('libraries', 'version: 0.17.0', 'The Drupal asset version must match the Moody Impact Facts release.');
 forbidText('info', '- moody26/motion', 'Optional motion must be attached from theme settings rather than globally.');
 
 requireText('settings', "header_social_links_block: ''", 'Header social links must be optional for new installs.');
@@ -578,6 +581,27 @@ forbidText('flexGridStandardTemplate', '|raw', 'Moody Flex Grids must not bypass
 forbidText('discoveryIndex', '.flex-grid-wrapper', 'Flex Grid presentation must live in its dedicated component stylesheet.');
 forbidText('editorialSections', 'field--type-moody-flex-grid', 'Flex Grid CTA presentation must live in its dedicated component stylesheet.');
 forbidText('motion', "'.flex-grid-items'", 'Static Moody Flex Grids must not receive decorative reveal motion.');
+requireText('impactFactsCss', 'component: editorial proof ledger', 'Moody Impact Facts must retain the Hallmark component contract.');
+requireText('impactFactsCss', 'container: impact-facts / inline-size;', 'Moody Impact Facts must respond to their Layout Builder container.');
+requireText('impactFactsCss', 'grid-template-columns: minmax(0, 1fr);', 'Moody Impact Facts must retain one safe narrow track.');
+requireText('impactFactsCss', 'grid-template-columns: repeat(2, minmax(0, 1fr));', 'Moody Impact Facts must retain two safe middle tracks.');
+requireText('impactFactsCss', 'grid-template-columns: repeat(12, minmax(0, 1fr));', 'Moody Impact Facts must retain a safe wide editorial grid.');
+requireText('impactFactsCss', 'font-variant-numeric: tabular-nums;', 'Moody Impact Facts must use tabular figures.');
+requireText('impactFactsCss', '.impact-facts--legacy-columns-three-per-row', 'Moody Impact Facts must preserve the three-column migration choice.');
+requireText('impactFactsTemplate', '<ul class="impact-facts__list" role="list">', 'Moody Impact Facts collections must expose list semantics.');
+requireText('impactFactsTemplate', '<li class="impact-facts__item">', 'Moody Impact Facts entries must expose direct list-item semantics.');
+requireText('impactFactsTemplate', '<h2 class="impact-facts__heading">', 'Authored Impact Facts group headings must remain h2 headings.');
+requireText('impactFactsTemplate', '<p class="impact-facts__value">', 'Impact Fact values must remain ordinary content rather than headings.');
+requireText('impactFactsTemplate', '<p class="impact-facts__description">', 'Impact Fact descriptions must remain ordinary content rather than headings.');
+requireText('impactFactsTemplate', 'rendered_items|striptags|trim', 'Moody Impact Facts must omit structurally empty collections.');
+requireText('impactFactsTemplate', 'impact-facts--legacy-style-', 'Legacy Impact Facts styles must remain stable migration classes.');
+requireText('impactFactsTemplate', 'impact-facts--legacy-columns-', 'Legacy Impact Facts column choices must remain stable migration classes.');
+forbidText('impactFactsTemplate', '<h3', 'Impact Fact values must not distort the page heading hierarchy.');
+forbidText('impactFactsTemplate', '<h4', 'Impact Fact descriptions must not distort the page heading hierarchy.');
+forbidText('impactFactsTemplate', 'attach_library', 'Impact Facts must use the theme global library without duplicate attachments.');
+forbidText('impactFactsTemplate', '|raw', 'Impact Facts must not bypass Drupal render safety.');
+forbidText('editorialSections', '.moody-impact-facts-wrapper', 'Impact Facts presentation must live in its dedicated component stylesheet.');
+forbidText('motion', "'.impact-fact-items'", 'Static Moody Impact Facts must not receive decorative reveal motion.');
 requireText('theme', 'function moody26_preprocess_views_view_unformatted', 'Faculty directory rows need a translated result summary.');
 requireText('theme', 'function moody26_preprocess_views_view_fields', 'Faculty directory profiles need entity-backed names and URLs.');
 requireText('theme', "'moody26-directory-' . Html::getClass($directory->label())", 'Landing compositions must use portable directory-term classes.');
@@ -645,6 +669,7 @@ const runtimeFiles = [
   'quotationCss', 'quotationTemplate',
   'flexGridCss', 'flexGridStandardTemplate', 'flexGridCircularTemplate', 'flexGridPromoTemplate',
   'flexGridRectangularTemplate', 'flexGridFlipTemplate', 'flexGridCardTemplate',
+  'impactFactsCss', 'impactFactsTemplate',
   'accordionCss', 'accordionTemplate',
   'peopleDirectory', 'peopleDirectoryView', 'peopleDirectoryRows', 'peopleDirectoryFields',
   'newsroom', 'newsRows', 'newsFields',
@@ -667,7 +692,7 @@ for (const file of runtimeFiles) {
   }
 }
 
-const cssFiles = ['css', 'headerSocialCss', 'quickActionsCss', 'landingHero', 'editorialSections', 'featuredHighlightCss', 'promoListCss', 'flexContentCss', 'imageLinkCss', 'flexColorBlocksCss', 'quotationCss', 'flexGridCss', 'discoveryIndex', 'accordionCss', 'peopleDirectory', 'newsroom', 'motionCss', 'settingsCss'];
+const cssFiles = ['css', 'headerSocialCss', 'quickActionsCss', 'landingHero', 'editorialSections', 'featuredHighlightCss', 'promoListCss', 'flexContentCss', 'imageLinkCss', 'flexColorBlocksCss', 'quotationCss', 'flexGridCss', 'impactFactsCss', 'discoveryIndex', 'accordionCss', 'peopleDirectory', 'newsroom', 'motionCss', 'settingsCss'];
 const forbiddenCss = [
   [/#(?:[0-9a-f]{3}|[0-9a-f]{6}|[0-9a-f]{8})\b/i, 'Raw hex colors belong only in tokens.css.'],
   [/\b(?:rgb|rgba|hsl|hsla|oklch)\(/i, 'Raw color functions belong only in tokens.css.'],
@@ -698,7 +723,7 @@ for (const file of ['preflight', 'log']) {
     errors.push(`${file} must contain valid JSON.`);
   }
 }
-requireText('preflight', '"package_version": "0.16.0"', 'Hallmark preflight must match the Moody Flex Grid release.');
+requireText('preflight', '"package_version": "0.17.0"', 'Hallmark preflight must match the Moody Impact Facts release.');
 requireText('log', 'Conversational FAQ within the Ecosystem Index', 'Hallmark memory must record the shared accordion macrostructure.');
 requireText('log', 'Editorial media directory within the Ecosystem Index', 'Hallmark memory must record the shared Moody Flex Grid component.');
 
@@ -723,6 +748,7 @@ requireText('readme', 'Shared Image Links', 'README must document the reusable I
 requireText('readme', 'Shared Flex Color Blocks', 'README must document the reusable Flex Color Block layer.');
 requireText('readme', 'Shared Moody Quotations', 'README must document the reusable Moody Quotation layer.');
 requireText('readme', 'Shared Moody Flex Grids', 'README must document the reusable Moody Flex Grid layer.');
+requireText('readme', 'Shared Moody Impact Facts', 'README must document the reusable Moody Impact Facts layer.');
 requireText('agents', '`header_social_links_block`', 'AGENTS.md must preserve the header Social Links contract.');
 requireText('agents', 'Missing, unpublished, non-reusable, inaccessible, wrong-bundle, or malformed', 'AGENTS.md must require Social Links to fail closed.');
 requireText('agents', '### People directories', 'AGENTS.md must preserve the people-directory contract.');
@@ -736,6 +762,7 @@ requireText('agents', '### Image Links', 'AGENTS.md must preserve the Image Link
 requireText('agents', '### Flex Color Blocks', 'AGENTS.md must preserve the Flex Color Block component contract.');
 requireText('agents', '### Moody Quotations', 'AGENTS.md must preserve the Moody Quotation component contract.');
 requireText('agents', '### Moody Flex Grids', 'AGENTS.md must preserve the Moody Flex Grid component contract.');
+requireText('agents', '### Moody Impact Facts', 'AGENTS.md must preserve the Moody Impact Facts component contract.');
 
 if (errors.length) {
   console.error(`Moody26 verification failed (${errors.length}):`);
@@ -745,5 +772,5 @@ if (errors.length) {
   process.exitCode = 1;
 }
 else {
-  console.log(`Moody26 verification passed (${Object.keys(files).length} source files, ${fonts.length} local fonts, standalone shell, UT brand, accessible directories, resource hubs, newsroom, accordions, Featured Highlights, Promo Lists, Flex Content Areas, Image Links, Flex Color Blocks, Moody Quotations, and Moody Flex Grids, header social links, motion, responsive, and Hallmark gates).`);
+  console.log(`Moody26 verification passed (${Object.keys(files).length} source files, ${fonts.length} local fonts, standalone shell, UT brand, accessible directories, resource hubs, newsroom, accordions, Featured Highlights, Promo Lists, Flex Content Areas, Image Links, Flex Color Blocks, Moody Quotations, Moody Flex Grids, and Moody Impact Facts, header social links, motion, responsive, and Hallmark gates).`);
 }

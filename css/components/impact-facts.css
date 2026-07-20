@@ -1,0 +1,125 @@
+/* Hallmark · component: editorial proof ledger · macrostructure: Ecosystem Index
+ * genre: editorial · theme: UT custom · states: static · structurally empty
+ * contrast: pass (40–41) · slop: pass (1–58) · mobile: pass (34, 49–57)
+ */
+/* Hallmark · pre-emit critique: P5 H5 E5 S5 R5 V5 */
+
+.block-bundle-moody-impact-facts,
+.moody-impact-facts-wrapper,
+.impact-facts {
+  min-width: 0;
+}
+
+.block-bundle-moody-impact-facts {
+  container: impact-facts / inline-size;
+}
+
+.impact-facts {
+  width: 100%;
+  padding: var(--space-2xl) var(--page-gutter);
+  background: var(--color-paper-2);
+  color: var(--color-ink);
+}
+
+.impact-facts__heading {
+  max-width: 24ch;
+  min-width: 0;
+  margin: 0 0 var(--space-xl);
+  color: var(--color-ink);
+  font-family: var(--font-display);
+  font-size: var(--text-heading);
+  font-style: normal;
+  font-weight: 700;
+  letter-spacing: -0.025em;
+  line-height: var(--leading-heading);
+  overflow-wrap: anywhere;
+  text-wrap: balance;
+}
+
+.impact-facts__list {
+  display: grid;
+  width: min(100%, var(--content-max));
+  min-width: 0;
+  grid-template-columns: minmax(0, 1fr);
+  gap: 0;
+  margin: 0 auto;
+  padding: 0;
+  border-block-start: var(--rule-strong) solid var(--color-accent);
+  list-style: none;
+}
+
+.impact-facts__item {
+  display: grid;
+  min-width: 0;
+  align-content: start;
+  gap: var(--space-xs);
+  margin: 0;
+  padding: var(--space-lg) 0 var(--space-xl);
+  border-block-end: var(--rule-hair) solid var(--color-rule-strong);
+}
+
+.impact-facts__value,
+.impact-facts__description {
+  min-width: 0;
+  margin: 0;
+  color: var(--color-ink);
+  overflow-wrap: anywhere;
+}
+
+.impact-facts__value {
+  max-width: 18ch;
+  font-family: var(--font-display);
+  font-size: var(--text-heading);
+  font-size: clamp(var(--text-heading), 10cqi, var(--text-display-s));
+  font-style: normal;
+  font-variant-numeric: tabular-nums;
+  font-weight: 700;
+  letter-spacing: -0.03em;
+  line-height: var(--leading-tight);
+  text-wrap: balance;
+}
+
+.impact-facts__description {
+  max-width: 30ch;
+  font-family: var(--font-body);
+  font-size: var(--text-base);
+  line-height: var(--leading-body);
+  text-wrap: pretty;
+}
+
+@container impact-facts (min-width: 42rem) {
+  .impact-facts__list {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    column-gap: var(--component-gap);
+  }
+}
+
+@container impact-facts (min-width: 64rem) {
+  .impact-facts__list {
+    grid-template-columns: repeat(12, minmax(0, 1fr));
+  }
+
+  .impact-facts--legacy-columns-two-per-row .impact-facts__item {
+    grid-column: span 6;
+  }
+
+  .impact-facts--legacy-columns-three-per-row .impact-facts__item:nth-child(3n + 1) {
+    grid-column: span 5;
+  }
+
+  .impact-facts--legacy-columns-three-per-row .impact-facts__item:nth-child(3n + 2) {
+    grid-column: span 3;
+  }
+
+  .impact-facts--legacy-columns-three-per-row .impact-facts__item:nth-child(3n + 3) {
+    grid-column: span 4;
+  }
+
+  .impact-facts--legacy-columns-four-per-row .impact-facts__item {
+    grid-column: span 3;
+  }
+
+  .impact-facts__item:only-child {
+    grid-column: 1 / span 7;
+  }
+}

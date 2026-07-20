@@ -527,6 +527,38 @@ not belong outside the token and font declaration files.
   synthetic arrows, invented calls to action, placeholder imagery, or
   fabricated loading, error, or success states.
 
+### Moody Impact Facts
+
+- Treat Moody Impact Facts as shared authored proof ledgers, not route-specific
+  stat cards, heading grids, or decorative claims. Keep group headlines, fact
+  values, descriptions, ordering, column choice, block labels, and Layout
+  Builder placement under Drupal and editor control.
+- Moody26 owns `moody-impact-facts.html.twig` and the `impact-facts__*`
+  presentation contract. Preserve formatter-owned content, migration values,
+  cacheability, and upstream attachments. Do not edit the Composer-installed
+  formatter or duplicate its data mapping in PHP or JavaScript.
+- Render every non-empty collection as one `<ul role="list">` with direct
+  `<li>` children. Render an authored group headline as `h2`; values and
+  descriptions remain ordinary paragraph content, not repeated headings.
+  This structure must support numeric facts, dates and deadlines, and authored
+  `WHAT` / `WHEN` / `WHERE` statements without changing the page outline.
+- Omit structurally empty stored entries while preserving any authored value
+  or description that is present. Never invent a missing pair, placeholder
+  metric, ranking, deadline, outcome, or explanatory label. Editors remain
+  responsible for validating every published claim and date.
+- Use one safe track by default and two tracks at a 42rem component width. At
+  64rem, preserve two-, three-, and four-per-row choices as migration layout
+  classes; use safe `minmax(0, 1fr)` tracks and a deliberate asymmetric
+  composition for three-item rows. Long content may wrap between words without
+  truncating, splitting ordinary words, or causing horizontal overflow.
+- Use approved Charis SIL for prominent values, Libre Franklin for context,
+  and tabular numerals for data. Keep exact UT burnt orange to the collection
+  rule rather than a large surface, tint, or competing headline color. Stored
+  orange/grey style choices remain migration classes and do not alter color.
+- Impact Facts are static server-rendered content with no destinations. Do not
+  add JavaScript, decorative motion, synthetic icons, fake interaction, or
+  fabricated disabled, loading, error, or success states.
+
 ### Accordions
 
 - Treat Moody Accordion blocks as one shared component used across the fleet,
@@ -683,6 +715,8 @@ Texas requirements. The current University compliance date is March 1, 2026.
   migration-safe legacy style classes, CTA states, and failure recovery.
 - `css/components/flex-grid.css`: one semantic media-directory contract across
   six migration-safe formatter variants, link states, and media recovery.
+- `css/components/impact-facts.css`: semantic proof-ledger lists, tabular
+  figures, restored authored headings, and migration-aware responsive tracks.
 - `css/components/people-directory.css`: responsive filters, semantic people
   indexes, linked profile treatments, current-directory state, and empty-state
   presentation.

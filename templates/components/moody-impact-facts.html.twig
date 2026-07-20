@@ -1,0 +1,50 @@
+{#
+/**
+ * @file
+ * Semantic, theme-owned output for Moody Impact Facts.
+ *
+ * The formatter remains responsible for authored values, descriptions,
+ * ordering, migration settings, cacheability, and upstream attachments.
+ */
+#}
+
+{% set rendered_heading = headline|default('')|render %}
+{% set has_heading = rendered_heading|striptags|trim %}
+{% set legacy_style = style|default('default')|clean_class %}
+{% set legacy_columns = col_number|default('one-per-row')|clean_class %}
+{% set component_classes = [
+  'impact-facts',
+  'impact-facts--legacy-style-' ~ legacy_style,
+  'impact-facts--legacy-columns-' ~ legacy_columns,
+  has_heading ? 'impact-facts--with-heading' : 'impact-facts--without-heading',
+] %}
+
+{% set rendered_items %}
+  {% for item in impact_items %}
+    {% set rendered_value = item.headline|default('')|render %}
+    {% set rendered_description = item.subheadline|default('')|render %}
+
+    {% if rendered_value|striptags|trim or rendered_description|striptags|trim %}
+      <li class="impact-facts__item">
+        {% if rendered_value|striptags|trim %}
+          <p class="impact-facts__value">{{ rendered_value }}</p>
+        {% endif %}
+        {% if rendered_description|striptags|trim %}
+          <p class="impact-facts__description">{{ rendered_description }}</p>
+        {% endif %}
+      </li>
+    {% endif %}
+  {% endfor %}
+{% endset %}
+
+{% if rendered_items|striptags|trim %}
+  <div class="{{ component_classes|join(' ')|trim }}">
+    {% if has_heading %}
+      <h2 class="impact-facts__heading">{{ rendered_heading }}</h2>
+    {% endif %}
+
+    <ul class="impact-facts__list" role="list">
+      {{ rendered_items }}
+    </ul>
+  </div>
+{% endif %}

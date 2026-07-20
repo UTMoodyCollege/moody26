@@ -6,7 +6,7 @@ visual identity with an accessible, editorial system that can serve academic,
 research, film, journalism, advertising, alumni, event, and public-facing
 sites without requiring the legacy Moody or Speedway themes.
 
-> **Project status:** pre-release (`0.16.0`). The theme is being validated in
+> **Project status:** pre-release (`0.17.0`). The theme is being validated in
 > [Moody Core](https://github.com/UTMoodyCollege/moody-core) before its first
 > stable tag. Pin an exact commit when evaluating the `main` branch.
 
@@ -46,6 +46,8 @@ sites without requiring the legacy Moody or Speedway themes.
   failure recovery.
 - Shared Moody Flex Grids with one semantic list contract across standard,
   circular, promo, rectangular, card, and legacy flip authoring modes.
+- Shared Moody Impact Facts with semantic list structure, optional authored
+  headings, tabular figures, and migration-aware responsive compositions.
 - Shared people directories with semantic list and heading structure,
   accessible linked profiles, responsive filters, honest result counts, and a
   useful empty state.
@@ -411,6 +413,30 @@ affordances; editors should shorten a label that cannot fit its narrowest
 placement. The static component adds no decorative motion or fabricated
 loading, error, success, or editorial content.
 
+### Shared Moody Impact Facts
+
+Moody26 renders Impact Facts as one semantic `<ul>` of authored statements
+instead of presenting every value and description as nested headings. An
+optional formatter-owned group headline is restored as an `h2`; individual
+facts remain ordinary list content so numeric values, application dates, and
+`WHAT` / `WHEN` / `WHERE` entries do not distort the document outline. Empty
+stored entries are omitted without inventing a replacement value or claim.
+
+The component begins with one safe track and adds two tracks when its own
+Layout Builder container reaches 42rem. At 64rem it honors the existing two-,
+three-, and four-per-row choices as migration classes. Three-item rows use a
+measured 5/3/4 composition rather than a generic equal-card grid; every track
+uses `minmax(0, 1fr)`, and long authored values or descriptions may wrap
+without splitting words or creating horizontal overflow.
+
+Charis SIL supplies the fact value, Libre Franklin supplies its context, and
+tabular figures keep dates and measurements steady. Exact UT burnt orange is
+limited to the collection rule. Drupal continues to own values, descriptions,
+order, block labels, placement, and cacheability; editors remain responsible
+for verifying rankings, dates, outcomes, and other published claims. The
+static component adds no links, JavaScript, decorative motion, placeholder
+figures, or fabricated loading, error, success, and disabled states.
+
 ### Shared accordions
 
 Moody26 overrides the Moody Accordion field with native `<details>` and
@@ -510,7 +536,7 @@ than replace manual assistive-technology review.
 | `tokens.css` | Brand, type, spacing, motion, focus, and layout tokens |
 | `css/fonts.css` | Local approved digital font declarations |
 | `css/moody26.css` | Global foundation, shell, navigation, forms, and footer |
-| `css/components/` | Header social, landing, editorial, discovery, resource-hub, accordion, Featured Highlight, Promo List, Flex Content Area, Image Link, Flex Color Block, Moody Quotation, Moody Flex Grid, people-directory, newsroom, quick-action, and settings components |
+| `css/components/` | Header social, landing, editorial, discovery, resource-hub, accordion, Featured Highlight, Promo List, Flex Content Area, Image Link, Flex Color Block, Moody Quotation, Moody Flex Grid, Impact Facts, people-directory, newsroom, quick-action, and settings components |
 | `js/navigation.js` | Drawer and disclosure navigation state |
 | `js/quick-actions.js` | Native dialog and rendered-destination discovery |
 | `js/accessibility.js` | Progressive safeguards for rendered content components |
