@@ -11,9 +11,25 @@
       once('moody26-navigation', '#moody26-header', context).forEach((header) => {
         const menuButton = header.querySelector('.moody26-menu-toggle');
         const navigation = header.querySelector('[data-moody26-drawer]');
+        const actionBar = header.querySelector('.moody26-header__actions');
+        const mobileActions = navigation?.querySelector('[data-moody26-mobile-actions]');
         const wideMenu = window.matchMedia('(min-width: 75rem)');
         const hoverMenu = window.matchMedia('(hover: hover) and (pointer: fine)');
         const triggers = [...header.querySelectorAll('.moody26-menu__trigger')];
+        const desktopActionsMarker = document.createComment('Moody26 desktop header actions');
+        actionBar?.after(desktopActionsMarker);
+
+        const placeActionBar = () => {
+          if (!actionBar || !mobileActions) {
+            return;
+          }
+          if (wideMenu.matches) {
+            desktopActionsMarker.parentNode?.insertBefore(actionBar, desktopActionsMarker);
+          }
+          else {
+            mobileActions.append(actionBar);
+          }
+        };
 
         const setSubmenuState = (trigger, isOpen) => {
           const panel = document.getElementById(trigger.getAttribute('aria-controls'));
@@ -47,7 +63,6 @@
           navigation.toggleAttribute('data-open', isOpen);
           navigation.setAttribute('aria-hidden', String(!isOpen && !wideMenu.matches));
           navigation.inert = !isOpen && !wideMenu.matches;
-          document.body.classList.toggle('moody26-drawer-open', isOpen && !wideMenu.matches);
           menuButton.querySelector('.moody26-menu-toggle__label').textContent = isOpen
             ? Drupal.t('Close')
             : Drupal.t('Menu');
@@ -57,6 +72,7 @@
         };
 
         const syncViewport = () => {
+          placeActionBar();
           if (wideMenu.matches) {
             navigation?.removeAttribute('aria-hidden');
             if (navigation) {
@@ -64,7 +80,6 @@
               navigation.removeAttribute('data-open');
             }
             menuButton?.setAttribute('aria-expanded', 'false');
-            document.body.classList.remove('moody26-drawer-open');
           }
           else {
             setDrawerState(menuButton?.getAttribute('aria-expanded') === 'true');

@@ -122,6 +122,7 @@
         let activeIndex = 0;
         let announceTimer;
         let hasAnimatedFirstOpen = false;
+        let returnFocus = trigger;
 
         const collectActions = () => {
           const collected = [];
@@ -241,9 +242,10 @@
           if (dialog.open) {
             return;
           }
-          header.querySelectorAll('.moody26-menu__trigger[aria-expanded="true"]').forEach((button) => button.click());
-          const menuButton = header.querySelector('.moody26-menu-toggle[aria-expanded="true"]');
-          menuButton?.click();
+          returnFocus = document.activeElement instanceof HTMLElement
+            && document.activeElement !== document.body
+            ? document.activeElement
+            : trigger;
           actions = collectActions();
           input.value = '';
           render('', true);
@@ -267,7 +269,7 @@
         dialog.addEventListener('close', () => {
           trigger.setAttribute('aria-expanded', 'false');
           window.clearTimeout(announceTimer);
-          trigger.focus({ preventScroll: true });
+          returnFocus.focus({ preventScroll: true });
         });
         dialog.addEventListener('pointerdown', (event) => {
           const box = dialog.getBoundingClientRect();

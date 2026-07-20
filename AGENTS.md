@@ -62,6 +62,10 @@ not belong outside the token and font declaration files.
   required field.
 - Keep the visible Quick actions button and optional Give link aligned to the
   same control height.
+- Keep one canonical header action bar. At 75rem and wider it belongs in the
+  masthead; below 75rem move that same DOM node into the drawer before the
+  primary menu in Search, Quick actions, Give order. Never clone the search
+  form or create duplicate IDs and tab stops.
 - `header_social_links_block` may select one published, reusable `social_links`
   content block by UUID. Render it through Drupal's entity view builder after
   translation and access checks; never copy social destinations or icon assets
@@ -70,6 +74,8 @@ not belong outside the token and font declaration files.
   University bar. Below the 75rem navigation breakpoint, place it in the open
   primary-navigation drawer. Keep the inactive copy hidden from display and
   the accessibility tree.
+- When a theme-selected Social Links block is available, suppress the legacy
+  `header_tertiary` drawer fallback so the same destinations are not repeated.
 - Preserve formatter-provided accessible link names and masks. Each icon link
   keeps a 44-by-44 CSS-pixel target, a visible focus indicator, and a 24-pixel
   mark. The landmark label is `Social media`.
@@ -80,6 +86,9 @@ not belong outside the token and font declaration files.
 - At mobile widths, the closed drawer is `inert` and absent from the assistive
   technology reading order. The toggle exposes `aria-controls` and truthful
   `aria-expanded` state.
+- The narrow drawer is an anchored overlay with its own bounded vertical
+  scrolling. Opening and closing it must preserve the document scroll position
+  and sticky-header position; never toggle body overflow to manage the drawer.
 
 ### Primary navigation
 
@@ -112,6 +121,8 @@ not belong outside the token and font declaration files.
   and search form. Never maintain a second destination registry.
 - Never intercept the shortcut from an input, textarea, select, or
   contenteditable editor, including CKEditor.
+- Opening the command palette from the mobile action group must leave the
+  drawer state intact and return focus to the invoking element without scroll.
 - Keep the palette explicitly centered and usable at 320 CSS pixels.
 
 ### Motion and animation
@@ -247,6 +258,8 @@ Texas requirements. The current University compliance date is March 1, 2026.
 
 - Build mobile-first and verify 320, 375, 414, and 768 CSS-pixel widths.
 - `html` and `body` use `overflow-x: clip`, never `hidden` as an overflow fix.
+- Do not apply a body scroll lock for the mobile drawer; contain scrolling in
+  the anchored navigation overlay.
 - Never use `width: 100vw`, forced `100vh` panels, or device-sniffing layout.
 - Image-bearing grids use `minmax(0, 1fr)` tracks.
 - Headings use `overflow-wrap: anywhere` and remain within their container.

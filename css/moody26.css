@@ -1,5 +1,6 @@
-/* Hallmark · genre: playful editorial · macrostructure: Ecosystem Index
- * theme: custom UT system · enrichment: content-owned · nav: N11 · footer: Ft1
+/* Hallmark · genre: playful editorial · tone: youthful academic restraint
+ * macrostructure: Ecosystem Index · theme: custom UT system
+ * anchor hue: UT burnt orange · enrichment: content-owned · nav: N11 · footer: Ft1
  * contrast: pass (40–41) · slop: pass (1–58) · mobile: pass (34, 49–57)
  */
 /* Hallmark · pre-emit critique: P5 H5 E5 S5 R5 V4 */
@@ -28,10 +29,6 @@ body {
   font-size: var(--text-base);
   line-height: var(--leading-body);
   text-rendering: optimizeLegibility;
-}
-
-body.moody26-drawer-open {
-  overflow: hidden;
 }
 
 ::selection {
@@ -518,8 +515,16 @@ textarea {
 }
 
 .moody26-navigation {
+  position: absolute;
+  inset-block-start: 100%;
+  inset-inline: 0;
+  z-index: var(--z-dropdown);
   display: none;
+  max-height: calc(100dvh - var(--drupal-displace-offset-top, 0px) - var(--header-masthead-min) - var(--target-min));
+  overflow-y: auto;
+  overscroll-behavior: contain;
   background: var(--color-ink);
+  box-shadow: var(--shadow-dialog);
   color: var(--color-paper);
 }
 
@@ -529,6 +534,50 @@ textarea {
 
 .moody26-navigation__inner {
   padding-block: var(--space-xs);
+}
+
+.moody26-navigation__actions {
+  margin-block-end: var(--space-xs);
+  padding: var(--space-md);
+  border-block-end: var(--rule-strong) solid var(--color-accent);
+  background: var(--color-paper-2);
+  color: var(--color-ink);
+}
+
+.moody26-navigation__actions .moody26-header__actions {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  align-items: stretch;
+  gap: var(--space-xs);
+}
+
+.moody26-navigation__actions .moody26-header__search {
+  width: 100%;
+  min-width: 0;
+  grid-column: 1 / -1;
+}
+
+.moody26-navigation__actions .moody-quick-actions__trigger {
+  width: 100%;
+  min-width: 0;
+}
+
+.moody26-navigation__actions .moody26-give {
+  min-width: 4.5rem;
+}
+
+@media (max-width: 22rem) {
+  .moody26-navigation__actions :is(.moody26-search__submit, .moody26-give) {
+    padding-inline: var(--space-md);
+  }
+
+  .moody26-navigation__actions .moody26-search__input {
+    padding-inline: var(--space-sm);
+  }
+
+  .moody26-navigation__actions .moody-quick-actions__trigger kbd {
+    display: none;
+  }
 }
 
 .moody26-primary-nav,
@@ -862,6 +911,14 @@ textarea {
     display: block;
   }
 
+  .moody26-navigation__actions .moody26-header__actions {
+    grid-template-columns: minmax(14rem, 1fr) auto auto;
+  }
+
+  .moody26-navigation__actions .moody26-header__search {
+    grid-column: auto;
+  }
+
   .section-wrapper {
     padding-block: var(--space-2xl);
   }
@@ -923,10 +980,6 @@ textarea {
 }
 
 @media (min-width: 75rem) {
-  body.moody26-drawer-open {
-    overflow: visible;
-  }
-
   .moody26-header__masthead {
     min-height: var(--header-masthead-min);
     grid-template-columns: minmax(20rem, 0.85fr) minmax(0, 1.15fr);
@@ -952,7 +1005,15 @@ textarea {
   .moody26-navigation,
   .moody26-navigation[data-open] {
     position: relative;
+    inset: auto;
     display: block;
+    max-height: none;
+    overflow: visible;
+    box-shadow: none;
+  }
+
+  .moody26-navigation__actions {
+    display: none;
   }
 
   .moody26-navigation__inner {

@@ -26,8 +26,14 @@
 
   <div class="moody26-navigation" id="moody26-primary-navigation" data-moody26-drawer>
     <div class="moody26-container moody26-navigation__inner">
+      <div
+        class="moody26-navigation__actions"
+        data-moody26-mobile-actions
+        role="group"
+        aria-label="{{ 'Site actions'|t }}"
+      ></div>
       {{ page.primary_menu }}
-      {% if page.header_tertiary %}
+      {% if page.header_tertiary and not header_social_links_mobile %}
         <div class="moody26-navigation__utility">{{ page.header_tertiary }}</div>
       {% endif %}
       {% if header_social_links_mobile %}

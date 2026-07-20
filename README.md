@@ -6,7 +6,7 @@ visual identity with an accessible, editorial system that can serve academic,
 research, film, journalism, advertising, alumni, event, and public-facing
 sites without requiring the legacy Moody or Speedway themes.
 
-> **Project status:** pre-release (`0.4.0`). The theme is being validated in
+> **Project status:** pre-release (`0.5.0`). The theme is being validated in
 > [Moody Core](https://github.com/UTMoodyCollege/moody-core) before its first
 > stable tag. Pin an exact commit when evaluating the `main` branch.
 
@@ -17,8 +17,10 @@ sites without requiring the legacy Moody or Speedway themes.
 - An approved Moody CSU mark and locally hosted Charis SIL and Libre Franklin
   web fonts—no third-party font request and no base-theme asset dependency.
 - Keyboard- and touch-operable disclosure navigation with native document tab
-  order, visible focus, Escape handling, and a mobile drawer that leaves the
-  tab order when closed.
+  order, visible focus, Escape handling, and a scroll-preserving mobile drawer
+  that leaves the tab order when closed.
+- A task-first mobile action group that places Search, Quick actions, and Give
+  above the primary menu without duplicating forms, IDs, or tab stops.
 - A `Command+K` / `Control+K` quick-action dialog generated from the site’s
   rendered navigation, home link, search form, and Give link.
 - An optional, theme-selected Social Links content block that uses the site’s
@@ -109,6 +111,13 @@ The quick-action dialog reads the rendered header; it does not maintain a
 second destination registry. Menu, search, home, and Give changes are reflected
 after Drupal’s normal cache rebuild.
 
+The 75rem navigation breakpoint moves the one rendered header action bar
+between the desktop masthead and the mobile drawer. The drawer is an anchored,
+internally scrollable overlay, so opening or closing it does not reflow the page
+or change the reader’s scroll position. Its order is Search, Quick actions,
+Give, primary navigation, utility destinations, and Social Links when those
+optional sources are available.
+
 ### Theme settings
 
 `Appearance → Settings → Moody 26` exposes:
@@ -118,7 +127,9 @@ after Drupal’s normal cache rebuild.
   displayed in the University bar at desktop sizes only.
 - **Header social links:** selects one published, reusable Social Links content
   block. Its links appear in the University bar on desktop and in the primary
-  navigation drawer on smaller screens. Leave the setting empty to omit them.
+  navigation drawer on smaller screens. When selected, it replaces the legacy
+  `header_tertiary` mobile fallback so destinations are not duplicated. Leave
+  the setting empty to omit them.
 - **Coordinated page motion (GSAP):** enables the one-shot masthead entrance
   and first eligible discovery-group reveal.
 - **Interface motion (Anime.js):** enables brief submenu and first-open Quick

@@ -22,6 +22,7 @@
     "theme-owned page shell, disclosure navigation, and local font delivery",
     "theme-selected reusable social-links content in the responsive header",
     "token-governed motion with local assets, failure-safe loading, and live preference cleanup",
-    "native Drupal visual options with upgrade-safe independent motion switches"
+    "native Drupal visual options with upgrade-safe independent motion switches",
+    "one canonical task-first header action group in a scroll-preserving mobile drawer"
   ]
 }

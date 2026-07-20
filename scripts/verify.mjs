@@ -107,8 +107,8 @@ const forbidText = (file, needle, message) => {
 
 try {
   const packageJson = JSON.parse(contents.package ?? '');
-  if (packageJson.version !== '0.4.0') {
-    errors.push('The header-social release must remain versioned as 0.4.0.');
+  if (packageJson.version !== '0.5.0') {
+    errors.push('The mobile-navigation release must remain versioned as 0.5.0.');
   }
   for (const [dependency, version] of [
     ['animejs', '4.5.0'],
@@ -154,7 +154,7 @@ requireText('libraries', 'js/quick-actions.js', 'Quick actions must remain attac
 requireText('libraries', 'css/components/motion.css', 'Motion safeguards must remain attached.');
 requireText('libraries', 'css/components/header-social.css', 'Responsive header social styles must remain attached.');
 requireText('libraries', 'js/dist/motion.min.js', 'The built motion integration must remain attached.');
-requireText('libraries', 'version: 0.4.0', 'The Drupal asset version must match the header-social release.');
+requireText('libraries', 'version: 0.5.0', 'The Drupal asset version must match the mobile-navigation release.');
 forbidText('info', '- moody26/motion', 'Optional motion must be attached from theme settings rather than globally.');
 
 requireText('settings', "header_social_links_block: ''", 'Header social links must be optional for new installs.');
@@ -225,11 +225,14 @@ requireText('page', '<main{{ main_content_attributes }}>', 'The page shell must 
 requireText('page', 'highlighted_content|striptags|trim', 'Empty rendered utility regions must not create layout gaps.');
 requireText('header', 'id="moody26-header"', 'The theme must own its header shell.');
 requireText('header', 'aria-controls="moody26-primary-navigation"', 'The drawer button must identify its navigation.');
+requireText('header', 'data-moody26-mobile-actions', 'The mobile drawer must provide a canonical site-actions position.');
+requireText('header', "'Site actions'|t", 'The mobile action group needs an accessible name.');
 requireText('brandbar', 'https://www.utexas.edu/', 'The University bar must link to UT Austin.');
 requireText('brandbar', 'ut-parent-entity', 'The optional parent-unit hook must remain available.');
 requireText('brandbar', 'header_social_links_desktop', 'The University bar must expose the selected desktop Social Links block.');
 requireText('brandbar', "'Social media'|t", 'Desktop Social Links need an accessible landmark name.');
 requireText('header', 'header_social_links_mobile', 'The navigation drawer must expose the selected mobile Social Links block.');
+requireText('header', 'page.header_tertiary and not header_social_links_mobile', 'Selected Social Links must replace the legacy mobile utility fallback without duplicates.');
 requireText('header', "'Social media'|t", 'Mobile Social Links need an accessible landmark name.');
 requireText('footer', 'Emergency Information', 'Footer must provide Emergency Information.');
 requireText('footer', 'Site Policies', 'Footer must provide Site Policies.');
@@ -254,6 +257,9 @@ requireText('navigation', "event.key !== 'Escape'", 'Escape must close the curre
 requireText('navigation', "document.addEventListener('keydown'", 'Escape handling must support Safari click-focus behavior.');
 requireText('navigation', 'navigation.inert =', 'A closed mobile drawer must leave the tab order.');
 requireText('navigation', "window.matchMedia('(min-width: 75rem)')", 'Navigation must switch at the content-driven desktop breakpoint.');
+requireText('navigation', 'mobileActions.append(actionBar)', 'Mobile navigation must move the canonical action bar into the drawer.');
+requireText('navigation', 'insertBefore(actionBar, desktopActionsMarker)', 'Desktop navigation must restore the canonical action bar without cloning it.');
+forbidText('navigation', 'moody26-drawer-open', 'Drawer state must not change body scrolling or break the sticky header.');
 
 requireText('quickActions', "'aria-keyshortcuts': 'Meta+K Control+K'", 'Quick actions must advertise both platform shortcuts.');
 requireText('quickActions', "role: 'combobox'", 'Quick-action search must expose combobox semantics.');
@@ -264,6 +270,8 @@ requireText('quickActions', "'aria-live': 'polite'", 'Result counts must use a p
 requireText('quickActions', 'dialog.showModal()', 'Quick actions must use a native modal dialog.');
 requireText('quickActions', '.moody26-submenu__link[href]', 'Quick actions must discover the rendered Drupal menu.');
 requireText('quickActions', "target.closest('input, textarea, select, [contenteditable]", 'Editor shortcuts must remain untouched.');
+requireText('quickActions', 'returnFocus = document.activeElement', 'Quick actions must preserve the invoking control or destination.');
+requireText('quickActions', 'returnFocus.focus({ preventScroll: true })', 'Quick actions must return focus without scrolling the drawer.');
 requireText('accessibility', "icon.removeAttribute('tabindex')", 'Decorative scroll hints must stay out of the tab order.');
 requireText('navigation', "new CustomEvent('moody26:reveal'", 'Submenus must expose a progressive motion hook.');
 requireText('quickActions', "detail: { kind: 'quick-actions' }", 'Quick actions must expose a first-open motion hook.');
@@ -318,6 +326,9 @@ requireText('css', '.moody26-menu__trigger[aria-expanded="true"]', 'Navigation n
 requireText('css', '@media (min-width: 40rem)', 'The small responsive breakpoint is required.');
 requireText('css', '@media (min-width: 60rem)', 'The medium responsive breakpoint is required.');
 requireText('css', '@media (min-width: 75rem)', 'The navigation breakpoint is required.');
+requireText('css', '.moody26-navigation__actions', 'The mobile action group needs a deliberate task-first treatment.');
+requireText('css', 'overscroll-behavior: contain;', 'The overlay drawer must contain its own scroll chain.');
+forbidText('css', 'moody26-drawer-open', 'Mobile navigation must not lock body scrolling.');
 requirePattern('css', /\[aria-busy="true"\]/, 'Loading states must be styled.');
 requirePattern('css', /\[data-state="error"\]/, 'Error states must be styled.');
 requirePattern('css', /\[data-state="success"\]/, 'Success states must be styled.');
