@@ -1,0 +1,56 @@
+{#
+/**
+ * @file
+ * Theme-owned semantic output for one Moody Showcase entry.
+ *
+ * The formatter remains responsible for processed copy, responsive media,
+ * link attributes, editor choices, cacheability, and upstream attachments.
+ */
+#}
+
+{% set rendered_image = image|default('')|render %}
+{% set rendered_video = video|default('')|render %}
+{% set rendered_headline = headline|default('')|render %}
+{% set rendered_copy = copy|default('')|render %}
+{% set rendered_cta = cta|default('')|render %}
+{% set has_media = rendered_image|trim or rendered_video|trim %}
+{% set has_headline = rendered_headline|striptags|trim %}
+{% set has_copy = rendered_copy|striptags|trim %}
+{% set has_cta = rendered_cta|striptags|trim %}
+{% set component_classes = [
+  'showcase',
+  'moody-showcase',
+  has_media ? 'showcase--with-media' : 'showcase--without-media',
+  (has_headline or has_copy or has_cta) ? 'showcase--with-content' : 'showcase--without-content',
+  sticky_image ? 'showcase--sticky-media',
+  full_media ? 'showcase--full-media',
+  pinned_reveal_image ? 'showcase--pinned-reveal',
+] %}
+
+{% if has_media or has_headline or has_copy or has_cta %}
+  <article class="{{ component_classes|join(' ')|trim }}">
+    {% if has_media %}
+      <div class="showcase__media{{ rendered_video|trim ? ' showcase__media--video showcase-video' : ' showcase-image' }}">
+        <div class="showcase__media-frame">
+          <div class="showcase__media-inner">
+            {{ rendered_image ?: rendered_video }}
+          </div>
+        </div>
+      </div>
+    {% endif %}
+
+    {% if has_headline or has_copy or has_cta %}
+      <div class="showcase__content showcase-text">
+        {% if has_headline %}
+          <h2 class="showcase__title showcase-headline">{{ rendered_headline }}</h2>
+        {% endif %}
+        {% if has_copy %}
+          <div class="showcase__copy showcase-copy">{{ rendered_copy }}</div>
+        {% endif %}
+        {% if has_cta %}
+          <div class="showcase__action">{{ rendered_cta }}</div>
+        {% endif %}
+      </div>
+    {% endif %}
+  </article>
+{% endif %}

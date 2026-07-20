@@ -206,91 +206,6 @@
   }
 }
 
-/* Moody Showcase is already the correct content model for a diptych. The
-   theme removes legacy card chrome and makes its media/copy rhythm coherent. */
-:where(.node-page, .node-moody_landing_page, .node-moody_standard_page) .field--type-moody-showcase {
-  container-type: inline-size;
-  padding-inline: 0;
-}
-
-:where(.node-page, .node-moody_landing_page, .node-moody_standard_page) .field--type-moody-showcase > .field__item {
-  margin: 0;
-  padding: 0;
-  background: var(--color-paper);
-  color: var(--color-ink);
-}
-
-:where(.node-page, .node-moody_landing_page, .node-moody_standard_page) .field--type-moody-showcase > .field__item:nth-child(even) {
-  background: var(--color-paper-2);
-  color: var(--color-ink);
-}
-
-:where(.node-page, .node-moody_landing_page, .node-moody_standard_page) .moody-showcase {
-  display: grid;
-  width: min(100%, var(--page-max));
-  grid-template-columns: minmax(0, 1fr);
-  align-items: center;
-  gap: var(--component-gap);
-  margin-inline: auto;
-  padding: var(--space-2xl) var(--page-gutter);
-}
-
-:where(.node-page, .node-moody_landing_page, .node-moody_standard_page) .moody-showcase :where(.showcase-image, .showcase-video) {
-  min-width: 0;
-  overflow: clip;
-}
-
-:where(.node-page, .node-moody_landing_page, .node-moody_standard_page) .moody-showcase :where(.showcase-image, .showcase-video, picture, img, video) {
-  width: 100%;
-}
-
-:where(.node-page, .node-moody_landing_page, .node-moody_standard_page) .moody-showcase img {
-  aspect-ratio: var(--media-feature-ratio);
-  border-radius: 0;
-  object-fit: cover;
-}
-
-:where(.node-page, .node-moody_landing_page, .node-moody_standard_page) .moody-showcase .showcase-text {
-  max-width: var(--content-narrow);
-  padding: 0;
-}
-
-:where(.node-page, .node-moody_landing_page, .node-moody_standard_page) .moody-showcase .showcase-headline {
-  max-width: 18ch;
-  margin-block-end: var(--space-lg);
-  color: var(--color-ink);
-  font-family: var(--font-display);
-  font-size: var(--text-heading);
-  font-style: normal;
-  font-weight: 700;
-  line-height: var(--leading-heading);
-  text-transform: none;
-  text-wrap: balance;
-}
-
-:where(.node-page, .node-moody_landing_page, .node-moody_standard_page) .moody-showcase :where(.showcase-copy, .showcase-copy p) {
-  max-width: var(--measure);
-  margin: 0;
-  color: var(--color-ink);
-  font-size: var(--text-lead);
-  line-height: var(--leading-body);
-}
-
-@container (min-width: 60rem) {
-  :where(.node-page, .node-moody_landing_page, .node-moody_standard_page) .moody-showcase {
-    grid-template-columns: minmax(0, 5fr) minmax(0, 7fr);
-    padding-block: var(--space-3xl);
-  }
-
-  :where(.node-page, .node-moody_landing_page, .node-moody_standard_page) .field--type-moody-showcase > .field__item:nth-child(even) .moody-showcase {
-    grid-template-columns: minmax(0, 7fr) minmax(0, 5fr);
-  }
-
-  :where(.node-page, .node-moody_landing_page, .node-moody_standard_page) .field--type-moody-showcase > .field__item:nth-child(even) :where(.showcase-image, .showcase-video) {
-    order: 2;
-  }
-}
-
 /* Contact Info closes a resource path as an editorial service band. Burnt
    orange remains the rule and focus signal rather than a large surface. */
 :where(.node-page, .node-moody_landing_page, .node-moody_standard_page) .block-bundle-moody-contact-info {
@@ -435,7 +350,6 @@
    chrome inside editorial content blocks. */
 :where(
   .ut-photo-content-area,
-  .moody-showcase,
   .utexas-featured-highlight
 ) :is(.ut-btn, .ut-btn--homepage, .moody-btn--arrow) {
   display: inline-flex;
@@ -460,7 +374,6 @@
 @media (hover: hover) and (pointer: fine) {
   :where(
     .ut-photo-content-area,
-    .moody-showcase,
     .utexas-featured-highlight
   ) :is(.ut-btn, .ut-btn--homepage, .moody-btn--arrow):hover {
     border-block-end-width: var(--rule-strong);

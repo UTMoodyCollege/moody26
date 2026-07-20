@@ -1,6 +1,6 @@
 {
   "date": "2026-07-20",
-  "package_version": "0.17.0",
+  "package_version": "0.18.0",
   "framework": "Drupal 11 / UT Drupal Kit",
   "base_theme": false,
   "font_stack": "Charis SIL + Libre Franklin bundled locally by Moody26",
@@ -33,6 +33,7 @@
     "semantic Moody Flex Color Blocks as neutral responsive task ledgers",
     "semantic Moody Quotations as authored editorial figures with resilient media",
     "one semantic Moody Flex Grid contract across six migration-safe formatter variants",
-    "semantic Moody Impact Facts as responsive authored proof ledgers"
+    "semantic Moody Impact Facts as responsive authored proof ledgers",
+    "semantic Moody Showcases as resilient editorial media ledgers"
   ]
 }

@@ -240,6 +240,53 @@ not belong outside the token and font declaration files.
   `moody26-directory-students` for its lead composition. Never use a node ID,
   block UUID, or authored headline as the styling contract.
 
+### Moody Showcases
+
+- Treat Moody Showcase as a shared editorial media ledger, not a route-specific
+  diptych, card stack, or scroll effect. Keep headlines, processed copy,
+  responsive media, alternatives, destinations, link options, ordering, view
+  modes, media options, block labels, and Layout Builder placement under
+  Drupal and editor control.
+- Moody26 owns `field--moody-showcase.html.twig`, `moody-showcase.html.twig`,
+  and the `showcase__*` presentation contract. Preserve the formatter's
+  processed text, responsive image or external-video render array, link render
+  array and attributes, cacheability, and upstream attachments. Do not edit the
+  Composer-installed formatter or rebuild its media and links in JavaScript or
+  PHP.
+- Render each non-empty collection as one `<ul role="list">` with direct
+  `<li>` children and one article per retained item. Item headlines are `h2`
+  headings because most published blocks hide their administrative label;
+  never emit an empty heading or preserve the formatter's unconditional `h3`.
+  A visible field label remains an `h2` without changing editor copy.
+- Omit structurally empty stored items while preserving an item with any real
+  media, headline, copy, or CTA. Missing headlines remain honest heading-free
+  entries; never invent a title, replacement copy, media, or destination.
+- Preserve Default, 33/66, 66/33, and Marketing view modes through stable
+  migration classes. Use one safe column on narrow component containers and
+  asymmetric media-copy tracks only when the component reaches 56rem. Alternate
+  the media edge to create an editorial reading rhythm without changing DOM or
+  keyboard order. Every image-bearing track uses `minmax(0, …)`.
+- Preserve responsive source dimensions and authored alternatives without a
+  universal crop. Only an editor-selected full-media or pinned-media option may
+  use `object-fit: cover`. External video remains responsive and retains the
+  accessible name and playback behavior supplied by its media formatter.
+- Sticky and pinned choices may keep the media in view on wide component
+  containers, but they remain static and text-first. Do not add scroll
+  scrubbing, parallax, reveal transforms, `100vh` geometry, or a second GSAP
+  owner. Narrow and reduced-motion paths stay in ordinary document flow.
+- A failed image hides only its media wrapper, adds the stable
+  `showcase--media-unavailable` state, and recomposes the row without removing
+  headline, copy, rich-text links, or CTA. Never replace failed media with
+  invented artwork.
+- Rich-text links and the formatter-owned CTA require readable default and
+  visited colors, immediate visible focus, active feedback, capability-gated
+  hover, and a 44 CSS-pixel minimum target. Keep CTA text on one line and fix
+  overlong editor labels at the source. Do not append a synthetic arrow or
+  duplicate a destination.
+- Showcase content is server rendered. Do not fabricate disabled, loading,
+  error, or success states that cannot occur; the only supported disabled state
+  is a formatter-supplied `aria-disabled="true"` destination.
+
 ### Newsroom components
 
 - Treat the `news_filtered` View’s `block_filtered` display as the reference
@@ -696,7 +743,8 @@ Texas requirements. The current University compliance date is March 1, 2026.
 - `css/components/landing-hero.css`: Split Studio photographic and ambient
   media leads.
 - `css/components/editorial-sections.css`: shared editorial pairings, proof,
-  CTA, and form treatments for Layout Builder output.
+  CTA, and form treatments for Layout Builder output not yet promoted to a
+  dedicated component contract.
 - `css/components/discovery-index.css`: irregular grids for news, programs,
   people, Focus Areas, Promo Units, and other discovery surfaces.
 - `css/components/accordion.css`: native disclosure layout, state, focus, and
@@ -717,6 +765,9 @@ Texas requirements. The current University compliance date is March 1, 2026.
   six migration-safe formatter variants, link states, and media recovery.
 - `css/components/impact-facts.css`: semantic proof-ledger lists, tabular
   figures, restored authored headings, and migration-aware responsive tracks.
+- `css/components/showcase.css`: semantic editorial media ledgers, intrinsic
+  media, migration-aware view modes, resilient CTA states, and static sticky
+  media options.
 - `css/components/people-directory.css`: responsive filters, semantic people
   indexes, linked profile treatments, current-directory state, and empty-state
   presentation.

@@ -414,24 +414,12 @@
   }
 }
 
-/* Showcase headings sit in the same column as their media/copy ledger. */
+/* Showcase block headings sit in the same column as the shared media ledger. */
 .block-bundle-moody-showcase > .ut-headline--xl {
   max-width: 16ch;
   margin: 0;
   padding-block: var(--space-2xl) var(--space-xl);
   font-size: var(--text-display-s);
-}
-
-.moody26-directory-news .block-bundle-moody-showcase .moody-showcase {
-  padding-inline: 0;
-}
-
-.moody-showcase.moody-showcase--media-unavailable {
-  grid-template-columns: minmax(0, 1fr) !important;
-}
-
-.moody-showcase.moody-showcase--media-unavailable .showcase-text {
-  max-width: var(--content-narrow);
 }
 
 @media (min-width: 60rem) {

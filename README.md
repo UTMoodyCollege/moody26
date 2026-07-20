@@ -6,7 +6,7 @@ visual identity with an accessible, editorial system that can serve academic,
 research, film, journalism, advertising, alumni, event, and public-facing
 sites without requiring the legacy Moody or Speedway themes.
 
-> **Project status:** pre-release (`0.17.0`). The theme is being validated in
+> **Project status:** pre-release (`0.18.0`). The theme is being validated in
 > [Moody Core](https://github.com/UTMoodyCollege/moody-core) before its first
 > stable tag. Pin an exact commit when evaluating the `main` branch.
 
@@ -198,8 +198,8 @@ than broadening selectors to every Drupal View.
 
 ### Shared resource hubs
 
-Moody26 treats Focus Areas, UTDK Promo Units, Moody Showcase, Moody Hero, and
-Moody Contact Info as one reusable resource-hub vocabulary. Focus Areas render
+Moody26 treats Focus Areas, UTDK Promo Units, Moody Hero, and Moody Contact
+Info as one reusable resource-hub vocabulary. Focus Areas render
 as a semantic task list with inline decorative icons and one clear link per
 item. Promo Units remain editor-owned groups of descriptive links, but render
 as a semantic, container-aware resource ledger instead of an oversized image
@@ -213,6 +213,28 @@ band; official burnt orange remains a rule and focus signal rather than a
 large background fill. The `Students` directory term supplies the portable
 `moody26-directory-students` lead composition without relying on node IDs.
 
+### Shared Moody Showcases
+
+Moody26 promotes Moody Showcase into a dedicated semantic media-ledger
+component used by its Default, 33/66, 66/33, and Marketing view modes. Each
+non-empty collection renders as a real list, each item keeps one editorial
+article, and item headlines become `h2` headings instead of the formatter's
+unconditional `h3`. Headlines, processed copy, responsive images, external
+video, alternatives, links, ordering, and authoring choices remain owned by
+Drupal.
+
+The component is single-column in narrow Layout Builder regions, then adopts
+an asymmetric media-copy rhythm only when its own container reaches 56rem.
+Media alternates edges visually without changing DOM or keyboard order.
+Intrinsic image proportions remain intact unless an editor deliberately chose
+full or pinned media. Sticky and pinned options stay static and avoid scroll
+scrubbing, parallax, or viewport-forced panels.
+
+Formatter-owned CTAs keep 44-pixel targets, visible focus, active feedback,
+capability-gated hover, and one-line labels. A failed image hides only its media
+wrapper and recomposes the row around the remaining headline, copy, and links;
+the theme never invents replacement art or text.
+
 ### Shared newsroom components
 
 The `news_filtered` View’s `block_filtered` display is the reference
@@ -224,8 +246,9 @@ Missing media collapses cleanly without removing the title or destination.
 
 The same layer gives Media Mentions a source-led editorial ledger and removes
 the duplicate generic “Read More” tab stop in favor of the descriptive
-headline link. It also aligns Moody Hero and Moody Showcase with the theme’s
-flat, token-governed Layout Builder system. A
+headline link. It also aligns Moody Hero with the theme’s flat, token-governed
+Layout Builder system while the dedicated Showcase contract handles newsroom
+placements. A
 landing page whose `field_moody_url_generator` term is `News` receives the
 portable `moody26-directory-news` composition class—never a node-ID selector.
 

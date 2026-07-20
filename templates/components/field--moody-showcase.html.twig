@@ -1,0 +1,42 @@
+{#
+/**
+ * @file
+ * Semantic field wrapper for Moody Showcase collections.
+ *
+ * The formatter remains responsible for authored content, item ordering,
+ * view-mode migration classes, cacheability, and upstream attachments.
+ */
+#}
+
+{% set classes = [
+  'field',
+  'showcase-field',
+  'field--name-' ~ field_name|clean_class,
+  'field--type-' ~ field_type|clean_class,
+  'field--label-' ~ label_display,
+  'view-mode--' ~ element['#view_mode']|clean_class,
+] %}
+{% set title_classes = [
+  'showcase-field__label',
+  label_display == 'visually_hidden' ? 'visually-hidden',
+] %}
+
+{% set rendered_items %}
+  {% for item in items %}
+    {% set rendered_item = item.content|render %}
+    {% if rendered_item|trim %}
+      <li{{ item.attributes.addClass('showcase-list__item') }}>{{ rendered_item }}</li>
+    {% endif %}
+  {% endfor %}
+{% endset %}
+
+{% if rendered_items|trim %}
+  <div{{ attributes.addClass(classes) }}>
+    {% if not label_hidden %}
+      <h2{{ title_attributes.addClass(title_classes) }}>{{ label }}</h2>
+    {% endif %}
+    <ul class="showcase-list" role="list">
+      {{ rendered_items }}
+    </ul>
+  </div>
+{% endif %}

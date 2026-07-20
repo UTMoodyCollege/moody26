@@ -34,6 +34,7 @@ const files = {
   quotationCss: 'css/components/quotation.css',
   flexGridCss: 'css/components/flex-grid.css',
   impactFactsCss: 'css/components/impact-facts.css',
+  showcaseCss: 'css/components/showcase.css',
   discoveryIndex: 'css/components/discovery-index.css',
   accordionCss: 'css/components/accordion.css',
   peopleDirectory: 'css/components/people-directory.css',
@@ -77,6 +78,8 @@ const files = {
   flexGridFlipTemplate: 'templates/components/moody-flex-grid-flip.html.twig',
   flexGridCardTemplate: 'templates/components/moody-flex-grid-card.html.twig',
   impactFactsTemplate: 'templates/components/moody-impact-facts.html.twig',
+  showcaseFieldTemplate: 'templates/components/field--moody-showcase.html.twig',
+  showcaseTemplate: 'templates/components/moody-showcase.html.twig',
   accordionTemplate: 'templates/components/field--moody-accordion.html.twig',
   logo: 'logo.svg',
   sourceLicense: 'LICENSE',
@@ -141,8 +144,8 @@ const forbidText = (file, needle, message) => {
 
 try {
   const packageJson = JSON.parse(contents.package ?? '');
-  if (packageJson.version !== '0.17.0') {
-    errors.push('The Moody Impact Facts release must remain versioned as 0.17.0.');
+  if (packageJson.version !== '0.18.0') {
+    errors.push('The Moody Showcase release must remain versioned as 0.18.0.');
   }
   for (const [dependency, version] of [
     ['animejs', '4.5.0'],
@@ -198,8 +201,9 @@ requireText('libraries', 'css/components/flex-color-blocks.css', 'Shared Flex Co
 requireText('libraries', 'css/components/quotation.css', 'Shared Moody Quotation styles must remain attached.');
 requireText('libraries', 'css/components/flex-grid.css', 'Shared Moody Flex Grid styles must remain attached.');
 requireText('libraries', 'css/components/impact-facts.css', 'Shared Moody Impact Facts styles must remain attached.');
+requireText('libraries', 'css/components/showcase.css', 'Shared Moody Showcase styles must remain attached.');
 requireText('libraries', 'js/dist/motion.min.js', 'The built motion integration must remain attached.');
-requireText('libraries', 'version: 0.17.0', 'The Drupal asset version must match the Moody Impact Facts release.');
+requireText('libraries', 'version: 0.18.0', 'The Drupal asset version must match the Moody Showcase release.');
 forbidText('info', '- moody26/motion', 'Optional motion must be attached from theme settings rather than globally.');
 
 requireText('settings', "header_social_links_block: ''", 'Header social links must be optional for new installs.');
@@ -602,6 +606,37 @@ forbidText('impactFactsTemplate', 'attach_library', 'Impact Facts must use the t
 forbidText('impactFactsTemplate', '|raw', 'Impact Facts must not bypass Drupal render safety.');
 forbidText('editorialSections', '.moody-impact-facts-wrapper', 'Impact Facts presentation must live in its dedicated component stylesheet.');
 forbidText('motion', "'.impact-fact-items'", 'Static Moody Impact Facts must not receive decorative reveal motion.');
+requireText('showcaseCss', 'component: editorial media ledger', 'Moody Showcase must retain the Hallmark component contract.');
+requireText('showcaseCss', 'container: showcase / inline-size;', 'Moody Showcase must respond to its Layout Builder container.');
+requireText('showcaseCss', 'grid-template-columns: minmax(0, 1fr);', 'Moody Showcase must retain one safe narrow track.');
+requireText('showcaseCss', 'grid-template-columns: minmax(0, 5fr) minmax(0, 7fr);', 'Moody Showcase must retain its safe wide editorial split.');
+requireText('showcaseCss', '.showcase-list__item.moody-showcase-33-66', 'Moody Showcase must preserve the 33/66 migration view mode.');
+requireText('showcaseCss', '.showcase-list__item.moody-showcase-66-33', 'Moody Showcase must preserve the 66/33 migration view mode.');
+requireText('showcaseCss', '.showcase-list__item.moody-showcase-marketing-style', 'Moody Showcase must preserve the Marketing migration view mode.');
+requireText('showcaseCss', '.showcase--media-unavailable', 'Moody Showcase must retain resilient failed-media composition.');
+requireText('showcaseCss', 'white-space: nowrap;', 'Moody Showcase CTAs must remain one-line affordances.');
+requireText('showcaseCss', '.showcase__action > a:visited', 'Moody Showcase CTA visited states must preserve compliant link contrast.');
+requireText('showcaseCss', 'var(--sticky-offset)', 'Sticky Showcase media must clear the theme-owned header offset.');
+requireText('showcaseCss', '@media (prefers-reduced-motion: reduce)', 'Sticky Showcase media must return to ordinary flow for reduced motion.');
+requireText('showcaseFieldTemplate', '<ul class="showcase-list" role="list">', 'Moody Showcase collections must expose list semantics.');
+requireText('showcaseFieldTemplate', "addClass('showcase-list__item')", 'Moody Showcase entries must expose direct list-item semantics.');
+requireText('showcaseFieldTemplate', 'rendered_item|trim', 'Moody Showcase fields must retain media-only entries and omit empty stored items.');
+requireText('showcaseTemplate', '<article class="{{ component_classes', 'Each Moody Showcase item must remain an editorial article.');
+requireText('showcaseTemplate', '<h2 class="showcase__title showcase-headline">', 'Moody Showcase item headings must correct the formatter heading skip.');
+requireText('showcaseTemplate', 'image|default', 'Moody Showcase must preserve formatter-owned responsive image output.');
+requireText('showcaseTemplate', 'video|default', 'Moody Showcase must preserve formatter-owned external-video output.');
+requireText('showcaseTemplate', 'cta|default', 'Moody Showcase must preserve formatter-owned CTA output.');
+requireText('showcaseTemplate', "sticky_image ? 'showcase--sticky-media'", 'Moody Showcase must preserve the sticky-media authoring choice.');
+requireText('showcaseTemplate', "full_media ? 'showcase--full-media'", 'Moody Showcase must preserve the full-media authoring choice.');
+requireText('showcaseTemplate', "pinned_reveal_image ? 'showcase--pinned-reveal'", 'Moody Showcase must preserve the pinned-media authoring choice.');
+forbidText('showcaseTemplate', '<h3', 'Moody Showcase must not preserve the formatter heading skip.');
+forbidText('showcaseTemplate', 'href=', 'Moody Showcase destinations must not be reconstructed in Twig.');
+forbidText('showcaseTemplate', '|raw', 'Moody Showcase must not bypass Drupal render safety.');
+forbidText('showcaseTemplate', 'attach_library', 'Moody Showcase must use existing libraries without duplicate attachments.');
+forbidText('showcaseTemplate', '→', 'Moody Showcase must not invent a synthetic arrow.');
+forbidText('editorialSections', '.moody-showcase', 'Showcase presentation must live in its dedicated component stylesheet.');
+forbidText('newsroom', '.moody-showcase', 'Showcase presentation must not be duplicated in newsroom styles.');
+forbidText('motion', "'.moody-showcase'", 'Static Moody Showcases must not receive decorative reveal motion.');
 requireText('theme', 'function moody26_preprocess_views_view_unformatted', 'Faculty directory rows need a translated result summary.');
 requireText('theme', 'function moody26_preprocess_views_view_fields', 'Faculty directory profiles need entity-backed names and URLs.');
 requireText('theme', "'moody26-directory-' . Html::getClass($directory->label())", 'Landing compositions must use portable directory-term classes.');
@@ -624,7 +659,7 @@ requireText('accessibility', "Drupal.t('Faculty directories')", 'Directory switc
 requireText('accessibility', "once('moody26-person-image'", 'Directory portrait fallbacks must be idempotent.');
 requireText('accessibility', "classList.add('people-directory__media--fallback')", 'Failed portraits must reveal the stable fallback tile.');
 requireText('accessibility', "once('moody26-showcase-image'", 'Showcase media fallbacks must be idempotent.');
-requireText('accessibility', "classList.add('moody-showcase--media-unavailable')", 'Failed Showcase media must preserve its text composition.');
+requireText('accessibility', "classList.add('showcase--media-unavailable')", 'Failed Showcase media must preserve its text composition.');
 requireText('accessibility', "'moody26-resource-image'", 'Resource media fallbacks must be idempotent.');
 requireText('accessibility', "classList.add('resource-media--unavailable')", 'Failed resource media must preserve its text and links.');
 requireText('accessibility', "once('moody26-featured-highlight-image'", 'Featured Highlight media fallbacks must be idempotent.');
@@ -670,6 +705,7 @@ const runtimeFiles = [
   'flexGridCss', 'flexGridStandardTemplate', 'flexGridCircularTemplate', 'flexGridPromoTemplate',
   'flexGridRectangularTemplate', 'flexGridFlipTemplate', 'flexGridCardTemplate',
   'impactFactsCss', 'impactFactsTemplate',
+  'showcaseCss', 'showcaseFieldTemplate', 'showcaseTemplate',
   'accordionCss', 'accordionTemplate',
   'peopleDirectory', 'peopleDirectoryView', 'peopleDirectoryRows', 'peopleDirectoryFields',
   'newsroom', 'newsRows', 'newsFields',
@@ -692,7 +728,7 @@ for (const file of runtimeFiles) {
   }
 }
 
-const cssFiles = ['css', 'headerSocialCss', 'quickActionsCss', 'landingHero', 'editorialSections', 'featuredHighlightCss', 'promoListCss', 'flexContentCss', 'imageLinkCss', 'flexColorBlocksCss', 'quotationCss', 'flexGridCss', 'impactFactsCss', 'discoveryIndex', 'accordionCss', 'peopleDirectory', 'newsroom', 'motionCss', 'settingsCss'];
+const cssFiles = ['css', 'headerSocialCss', 'quickActionsCss', 'landingHero', 'editorialSections', 'featuredHighlightCss', 'promoListCss', 'flexContentCss', 'imageLinkCss', 'flexColorBlocksCss', 'quotationCss', 'flexGridCss', 'impactFactsCss', 'showcaseCss', 'discoveryIndex', 'accordionCss', 'peopleDirectory', 'newsroom', 'motionCss', 'settingsCss'];
 const forbiddenCss = [
   [/#(?:[0-9a-f]{3}|[0-9a-f]{6}|[0-9a-f]{8})\b/i, 'Raw hex colors belong only in tokens.css.'],
   [/\b(?:rgb|rgba|hsl|hsla|oklch)\(/i, 'Raw color functions belong only in tokens.css.'],
@@ -723,7 +759,7 @@ for (const file of ['preflight', 'log']) {
     errors.push(`${file} must contain valid JSON.`);
   }
 }
-requireText('preflight', '"package_version": "0.17.0"', 'Hallmark preflight must match the Moody Impact Facts release.');
+requireText('preflight', '"package_version": "0.18.0"', 'Hallmark preflight must match the Moody Showcase release.');
 requireText('log', 'Conversational FAQ within the Ecosystem Index', 'Hallmark memory must record the shared accordion macrostructure.');
 requireText('log', 'Editorial media directory within the Ecosystem Index', 'Hallmark memory must record the shared Moody Flex Grid component.');
 
@@ -743,6 +779,7 @@ requireText('readme', 'Shared newsroom components', 'README must document the re
 requireText('readme', 'Shared accordions', 'README must document the native shared accordion layer.');
 requireText('readme', 'Shared Featured Highlights', 'README must document the reusable Featured Highlight layer.');
 requireText('readme', 'Shared Promo Lists', 'README must document the reusable Promo List layer.');
+requireText('readme', 'Shared Moody Showcases', 'README must document the reusable Moody Showcase layer.');
 requireText('readme', 'Shared Flex Content Areas', 'README must document the reusable Flex Content Area layer.');
 requireText('readme', 'Shared Image Links', 'README must document the reusable Image Link layer.');
 requireText('readme', 'Shared Flex Color Blocks', 'README must document the reusable Flex Color Block layer.');
@@ -763,6 +800,7 @@ requireText('agents', '### Flex Color Blocks', 'AGENTS.md must preserve the Flex
 requireText('agents', '### Moody Quotations', 'AGENTS.md must preserve the Moody Quotation component contract.');
 requireText('agents', '### Moody Flex Grids', 'AGENTS.md must preserve the Moody Flex Grid component contract.');
 requireText('agents', '### Moody Impact Facts', 'AGENTS.md must preserve the Moody Impact Facts component contract.');
+requireText('agents', '### Moody Showcases', 'AGENTS.md must preserve the Moody Showcase component contract.');
 
 if (errors.length) {
   console.error(`Moody26 verification failed (${errors.length}):`);
@@ -772,5 +810,5 @@ if (errors.length) {
   process.exitCode = 1;
 }
 else {
-  console.log(`Moody26 verification passed (${Object.keys(files).length} source files, ${fonts.length} local fonts, standalone shell, UT brand, accessible directories, resource hubs, newsroom, accordions, Featured Highlights, Promo Lists, Flex Content Areas, Image Links, Flex Color Blocks, Moody Quotations, Moody Flex Grids, and Moody Impact Facts, header social links, motion, responsive, and Hallmark gates).`);
+  console.log(`Moody26 verification passed (${Object.keys(files).length} source files, ${fonts.length} local fonts, standalone shell, UT brand, accessible directories, resource hubs, newsroom, accordions, Featured Highlights, Promo Lists, Flex Content Areas, Image Links, Flex Color Blocks, Moody Quotations, Moody Flex Grids, Moody Impact Facts, and Moody Showcases, header social links, motion, responsive, and Hallmark gates).`);
 }

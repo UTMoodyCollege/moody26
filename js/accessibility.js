@@ -34,10 +34,10 @@
         }
       });
 
-      once('moody26-showcase-image', '.moody-showcase img', context).forEach((image) => {
+      once('moody26-showcase-image', '.showcase img', context).forEach((image) => {
         const hideFailedMedia = () => {
-          image.closest('.showcase-image')?.setAttribute('hidden', '');
-          image.closest('.moody-showcase')?.classList.add('moody-showcase--media-unavailable');
+          image.closest('.showcase__media')?.setAttribute('hidden', '');
+          image.closest('.showcase')?.classList.add('showcase--media-unavailable');
         };
         image.addEventListener('error', hideFailedMedia, { once: true });
         if (image.complete && image.currentSrc && !image.naturalWidth) {
