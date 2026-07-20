@@ -1,0 +1,71 @@
+{#
+/**
+ * @file
+ * Semantic, theme-owned UT Drupal Kit Resources markup for Moody26.
+ *
+ * Keeps the formatter responsible for filtered headings, link options,
+ * responsive images, and cacheability while correcting list and heading
+ * semantics for page-level use.
+ */
+#}
+{% set rendered_group_headline = headline|default('')|render %}
+{% set first_resource_item = resource_items|default([])|first %}
+{% set has_item_landmark = not rendered_group_headline|trim and first_resource_item.headline|default('') %}
+
+{% if rendered_group_headline|trim or resource_items %}
+  {% set group_classes = [
+    'resource-group',
+    'resource-group--utexas',
+    rendered_group_headline|trim ? 'resource-group--with-heading' : 'resource-group--without-heading',
+  ] %}
+  <section class="{{ group_classes|join(' ') }}"{% if rendered_group_headline|trim or has_item_landmark %} aria-labelledby="{{ resource_group_heading_id }}"{% else %} aria-label="{{ 'Resources'|t }}"{% endif %}>
+    {% if rendered_group_headline|trim %}
+      <h2 id="{{ resource_group_heading_id }}" class="resource-group__title ut-headline">
+        {{ rendered_group_headline }}
+      </h2>
+    {% endif %}
+
+    {% if resource_items %}
+      <ul class="resource-group__items" role="list">
+        {% for item in resource_items %}
+          {% set rendered_image = item.image|default([])|render %}
+          {% set rendered_item_headline = item.headline|default('')|render %}
+          {% if rendered_image|trim or rendered_item_headline|trim or item.links|default([]) %}
+            {% set item_classes = [
+              'resource-group__item',
+              rendered_image|trim ? 'resource-group__item--has-media' : 'resource-group__item--without-media',
+            ] %}
+            <li class="{{ item_classes|join(' ') }}">
+              {% if rendered_image|trim %}
+                <div class="image-wrapper resource-group__media">
+                  {{ rendered_image }}
+                </div>
+              {% endif %}
+
+              <div class="resource-group__content">
+                {% if rendered_item_headline|trim %}
+                  {% if rendered_group_headline|trim %}
+                    <h3 class="resource-group__item-title ut-headline">{{ rendered_item_headline }}</h3>
+                  {% else %}
+                    <h2{% if loop.first and has_item_landmark %} id="{{ resource_group_heading_id }}"{% endif %} class="resource-group__item-title ut-headline">{{ rendered_item_headline }}</h2>
+                  {% endif %}
+                {% endif %}
+
+                {% if item.links|default([]) %}
+                  <ul class="resource-group__links" role="list">
+                    {% for link in item.links %}
+                      {% set rendered_link = link|render %}
+                      {% if rendered_link|trim %}
+                        <li>{{ rendered_link }}</li>
+                      {% endif %}
+                    {% endfor %}
+                  </ul>
+                {% endif %}
+              </div>
+            </li>
+          {% endif %}
+        {% endfor %}
+      </ul>
+    {% endif %}
+  </section>
+{% endif %}

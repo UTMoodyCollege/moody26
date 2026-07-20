@@ -110,6 +110,27 @@ function moody26_preprocess_utexas_hero_4(array &$variables): void {
 }
 
 /**
+ * Supplies semantic heading identity and intrinsic Resource Group media.
+ */
+function moody26_preprocess_utexas_resources(array &$variables): void {
+  $variables['resource_group_heading_id'] = Html::getUniqueId('resource-group-heading');
+
+  foreach ($variables['resource_items'] ?? [] as &$item) {
+    if (isset($item['image'])) {
+      moody26_add_intrinsic_image_dimensions($item['image']);
+    }
+  }
+  unset($item);
+}
+
+/**
+ * Supplies semantic heading identity to Moody Resource Groups.
+ */
+function moody26_preprocess_moody_resource_group(array &$variables): void {
+  $variables['resource_group_heading_id'] = Html::getUniqueId('resource-group-heading');
+}
+
+/**
  * Adds layout-stable dimensions without replacing formatter-owned media.
  */
 function moody26_add_intrinsic_image_dimensions(mixed &$media): void {

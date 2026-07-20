@@ -6,7 +6,7 @@ visual identity with an accessible, editorial system that can serve academic,
 research, film, journalism, advertising, alumni, event, and public-facing
 sites without requiring the legacy Moody or Speedway themes.
 
-> **Project status:** pre-release (`0.23.0`). The theme is being validated in
+> **Project status:** pre-release (`0.24.0`). The theme is being validated in
 > [Moody Core](https://github.com/UTMoodyCollege/moody-core) before its first
 > stable tag. Pin an exact commit when evaluating the `main` branch.
 
@@ -31,6 +31,8 @@ sites without requiring the legacy Moody or Speedway themes.
   forms, proof treatments, and discovery grids.
 - Shared resource hubs with compact Focus Area shortcuts, asymmetric Promo
   Unit ledgers, sticky-header-safe anchors, and a reusable contact close.
+- Shared Moody and UT Drupal Kit Resource Groups with semantic nested lists,
+  adaptive heading levels, resilient optional media, and migration-safe views.
 - Shared Featured Highlights with resilient image and video handling,
   text-only composition, editor-owned links, and normalized legacy variants.
 - Shared Moody Promotions with page-safe headings, optional fields, empty-block
@@ -229,6 +231,32 @@ Showcase, and Moody Contact Info. Its browser check covers the five required
 responsive widths, semantic lists and headings, 44-pixel targets, text and
 focus contrast, failed media, sticky-anchor clearance, non-wrapping action
 labels, source-order keyboard movement across components, and page reflow.
+
+### Shared Resource Groups
+
+Moody26 gives the legacy Moody Resource Group field and the UT Drupal Kit
+Resources field one portable `resource-group__*` component vocabulary. Each
+non-empty group is a labelled section, its resources and destinations are real
+lists, and heading levels adapt to whether the editor supplied a group heading.
+Drupal remains responsible for link destinations and options, responsive
+images and alternatives, ordering, view mode, cacheability, and Layout Builder
+placement.
+
+The treatment is a flat editorial resource ledger: warm neutral paper,
+hairline separation, and exact University burnt orange reserved for the top
+rule and focus signal. The Moody field's historical blue, gray, green, and
+orange choices remain as migration classes but intentionally share this one
+compliant treatment. UT Drupal Kit's Default display can form two safe columns
+when the component itself is wide enough; Stacked display stays one column.
+
+Every destination has a 44-pixel minimum target and explicit visited, focus,
+active, disabled, and capability-gated hover styling. Long editor-authored
+labels wrap between words rather than clipping or causing horizontal scroll.
+Optional images retain formatter-owned responsive output and receive intrinsic
+dimensions when the source is available. Failed media collapses its own track
+without removing the resource heading or any destination. The static component
+adds no decorative motion, replacement content, or fabricated asynchronous
+states.
 
 ### Shared Moody Contact Info
 

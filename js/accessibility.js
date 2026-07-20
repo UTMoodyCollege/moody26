@@ -58,12 +58,12 @@
 
       once(
         'moody26-resource-image',
-        '.focus-areas-item img, .utexas-promo-unit img',
+        '.focus-areas-item img, .utexas-promo-unit img, .resource-group__media img',
         context,
       ).forEach((image) => {
         const hideFailedMedia = () => {
           image.closest('.image-wrapper')?.setAttribute('hidden', '');
-          image.closest('.focus-areas-item, .utexas-promo-unit')
+          image.closest('.focus-areas-item, .utexas-promo-unit, .resource-group__item')
             ?.classList.add('resource-media--unavailable');
         };
         image.addEventListener('error', hideFailedMedia, { once: true });

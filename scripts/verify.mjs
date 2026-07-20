@@ -37,6 +37,7 @@ const files = {
   showcaseCss: 'css/components/showcase.css',
   contactInfoCss: 'css/components/contact-info.css',
   callToActionCss: 'css/components/call-to-action.css',
+  resourceGroupCss: 'css/components/resource-group.css',
   discoveryIndex: 'css/components/discovery-index.css',
   accordionCss: 'css/components/accordion.css',
   peopleDirectory: 'css/components/people-directory.css',
@@ -84,6 +85,8 @@ const files = {
   showcaseFieldTemplate: 'templates/components/field--moody-showcase.html.twig',
   showcaseTemplate: 'templates/components/moody-showcase.html.twig',
   contactInfoTemplate: 'templates/components/moody-contact-info.html.twig',
+  utexasResourcesTemplate: 'templates/components/utexas-resources.html.twig',
+  moodyResourceGroupTemplate: 'templates/components/moody-resource-group.html.twig',
   heroTemplate: 'templates/components/moody-hero.html.twig',
   heroStyle1Template: 'templates/components/moody-hero-1.html.twig',
   heroStyle2Template: 'templates/components/moody-hero-2.html.twig',
@@ -170,8 +173,8 @@ const forbidPattern = (file, pattern, message) => {
 
 try {
   const packageJson = JSON.parse(contents.package ?? '');
-  if (packageJson.version !== '0.23.0') {
-    errors.push('The shared UT Drupal Kit Hero release must remain versioned as 0.23.0.');
+  if (packageJson.version !== '0.24.0') {
+    errors.push('The shared Resource Group release must remain versioned as 0.24.0.');
   }
   for (const [dependency, version] of [
     ['animejs', '4.5.0'],
@@ -230,8 +233,9 @@ requireText('libraries', 'css/components/impact-facts.css', 'Shared Moody Impact
 requireText('libraries', 'css/components/showcase.css', 'Shared Moody Showcase styles must remain attached.');
 requireText('libraries', 'css/components/contact-info.css', 'Shared Moody Contact Info styles must remain attached.');
 requireText('libraries', 'css/components/call-to-action.css', 'Shared Call to Action styles must remain attached.');
+requireText('libraries', 'css/components/resource-group.css', 'Shared Resource Group styles must remain attached.');
 requireText('libraries', 'js/dist/motion.min.js', 'The built motion integration must remain attached.');
-requireText('libraries', 'version: 0.23.0', 'The Drupal asset version must match the shared UT Drupal Kit Hero release.');
+requireText('libraries', 'version: 0.24.0', 'The Drupal asset version must match the shared Resource Group release.');
 forbidText('info', '- moody26/motion', 'Optional motion must be attached from theme settings rather than globally.');
 
 requireText('settings', "header_social_links_block: ''", 'Header social links must be optional for new installs.');
@@ -460,6 +464,58 @@ requireText('callToActionCss', ':focus-visible', 'Call to Action links need imme
 requireText('callToActionCss', '[aria-disabled="true"]', 'Call to Action links must honor an authored disabled state.');
 requireText('callToActionCss', '@media (hover: hover) and (pointer: fine)', 'Call to Action hover feedback must be capability-gated.');
 requireText('callToActionCss', 'color: var(--color-accent);', 'Call to Action hover text must remain burnt orange.');
+requireText('resourceGroupCss', 'component: shared editorial resource ledger', 'Resource Groups must retain their Hallmark component contract.');
+requireText('resourceGroupCss', 'container: resource-group / inline-size;', 'Both Resource Group providers must remain container-aware.');
+requireText('resourceGroupCss', ':where(.block-bundle-utexas-resources, .block-bundle-moody-resource-group)', 'Moody and UT Drupal Kit Resource Groups must share one component contract.');
+requireText('resourceGroupCss', 'grid-template-columns: minmax(0, 1fr);', 'Resource Groups must retain one safe narrow track.');
+requireText('resourceGroupCss', 'grid-template-columns: repeat(2, minmax(0, 1fr));', 'Default UT Resource Groups must retain two safe wide tracks.');
+requireText('resourceGroupCss', '.stacked-display .resource-group__items', 'Stacked UT Resource Groups must remain deliberately linear.');
+requireText('resourceGroupCss', 'border-block-start: var(--rule-strong) solid var(--color-accent);', 'Resource Groups must retain their exact burnt-orange rule.');
+requireText('resourceGroupCss', 'min-block-size: var(--target-min);', 'Resource Group links must retain a 44 CSS-pixel target.');
+requireText('resourceGroupCss', '.resource-group__links a:visited', 'Resource Group links need an explicit visited state.');
+requireText('resourceGroupCss', '.resource-group__links a:focus-visible', 'Resource Group links need immediate visible focus.');
+requireText('resourceGroupCss', '.resource-group__links a:not([aria-disabled="true"]):active', 'Resource Group links need active feedback.');
+requireText('resourceGroupCss', '.resource-group__links a[aria-disabled="true"]', 'Resource Group links must honor an authored disabled state.');
+requireText('resourceGroupCss', '@media (hover: hover) and (pointer: fine)', 'Resource Group hover feedback must be capability-gated.');
+requireText('resourceGroupCss', 'white-space: normal;', 'Long Resource Group labels must wrap safely in narrow regions.');
+requireText('resourceGroupCss', 'overflow-wrap: anywhere;', 'Resource Group text must remain contained during reflow.');
+requireText('resourceGroupCss', 'word-break: normal;', 'Resource Group labels must not split ordinary words.');
+requireText('resourceGroupCss', '.resource-group__item.resource-media--unavailable', 'Resource Groups must retain resilient failed-media composition.');
+requireText('utexasResourcesTemplate', '<section class="{{ group_classes|join(\' \') }}"', 'UT Drupal Kit Resources must expose a labelled section.');
+requireText('utexasResourcesTemplate', '<ul class="resource-group__items" role="list">', 'UT Drupal Kit Resources must expose resource-list semantics.');
+requireText('utexasResourcesTemplate', '<ul class="resource-group__links" role="list">', 'UT Drupal Kit Resources must expose destination-list semantics.');
+requireText('utexasResourcesTemplate', '<h2 id="{{ resource_group_heading_id }}"', 'UT Resource Group headings must remain page-safe h2 headings.');
+requireText('utexasResourcesTemplate', '<h3 class="resource-group__item-title ut-headline">', 'UT item headings must remain subordinate when a group heading exists.');
+requireText('utexasResourcesTemplate', 'class="resource-group__item-title ut-headline">', 'Standalone UT item headings must not skip heading levels.');
+requireText('utexasResourcesTemplate', 'loop.first and has_item_landmark', 'The first standalone UT item heading must label its Resource Group landmark.');
+requireText('utexasResourcesTemplate', "'Resources'|t", 'Heading-free UT Resource Groups need a translated landmark name.');
+requireText('utexasResourcesTemplate', 'item.image|default([])|render', 'UT Resource Groups must preserve formatter-owned responsive media.');
+requireText('utexasResourcesTemplate', 'link|render', 'UT Resource Groups must preserve formatter-owned destinations.');
+forbidText('utexasResourcesTemplate', 'href=', 'UT Resource Group destinations must not be reconstructed in Twig.');
+forbidText('utexasResourcesTemplate', '|raw', 'UT Resource Groups must not bypass Drupal render safety.');
+forbidText('utexasResourcesTemplate', 'attach_library', 'UT Resource Groups must use the theme global library without duplicate attachments.');
+forbidText('utexasResourcesTemplate', 'ut-resources-wrapper', 'UT Resource Groups must not retain the inactive profile-theme wrapper.');
+forbidText('utexasResourcesTemplate', 'utexas-resource-items', 'UT Resource Groups must not retain the legacy item wrapper.');
+forbidText('utexasResourcesTemplate', '→', 'UT Resource Groups must not invent a synthetic arrow.');
+requireText('moodyResourceGroupTemplate', '<section class="{{ group_classes|join(\' \') }}"', 'Moody Resource Groups must expose a labelled section.');
+requireText('moodyResourceGroupTemplate', '<ul class="resource-group__links resource-group__links--group" role="list">', 'Moody Resource Group destinations must expose list semantics.');
+requireText('moodyResourceGroupTemplate', '<h2 id="{{ resource_group_heading_id }}"', 'Moody Resource Group headings must correct the legacy heading skip.');
+requireText('moodyResourceGroupTemplate', "headline|default('')|striptags|trim", 'Moody Resource Group headings must remain safely filtered.');
+requireText('moodyResourceGroupTemplate', "'resource-group--legacy-' ~ legacy_style", 'Moody Resource Group color choices must survive only as migration classes.');
+requireText('moodyResourceGroupTemplate', 'link|render', 'Moody Resource Groups must preserve formatter-owned destinations.');
+forbidText('moodyResourceGroupTemplate', '<h3', 'Moody Resource Groups must not preserve the formatter heading skip.');
+forbidText('moodyResourceGroupTemplate', 'href=', 'Moody Resource Group destinations must not be reconstructed in Twig.');
+forbidText('moodyResourceGroupTemplate', '|raw', 'Moody Resource Groups must not bypass Drupal render safety.');
+forbidText('moodyResourceGroupTemplate', 'attach_library', 'Moody Resource Groups must use the theme global library without duplicate attachments.');
+forbidText('moodyResourceGroupTemplate', 'moody-resource-group-wrapper', 'Moody Resource Groups must not retain the legacy presentation wrapper.');
+forbidText('moodyResourceGroupTemplate', 'resource-group-links', 'Moody Resource Groups must not retain the legacy link wrapper.');
+forbidText('moodyResourceGroupTemplate', '→', 'Moody Resource Groups must not invent a synthetic arrow.');
+requireText('theme', 'function moody26_preprocess_utexas_resources', 'UT Resource Groups need intrinsic image dimensions and semantic heading identity.');
+requireText('theme', 'function moody26_preprocess_moody_resource_group', 'Moody Resource Groups need semantic heading identity.');
+requireText('theme', "Html::getUniqueId('resource-group-heading')", 'Resource Group labels must use unique document IDs.');
+requireText('theme', "moody26_add_intrinsic_image_dimensions($item['image'])", 'UT Resource Groups must reuse the formatter-safe intrinsic media helper.');
+requireText('accessibility', '.resource-group__media img', 'Resource Group media must reuse the shared failure safeguard.');
+requireText('accessibility', ".resource-group__item')", 'Failed Resource Group media must preserve its item content.');
 requireText('discoveryIndex', 'repeat(12, minmax(0, 1fr))', 'Discovery grids must use safe image-bearing tracks.');
 requireText('discoveryIndex', '.linked-focus-area-item:focus-visible', 'Focus Area tasks need immediate visible focus.');
 requireText('discoveryIndex', '.utexas-promo-unit .data-wrapper > a:focus-visible', 'Promo Unit links need immediate visible focus.');
@@ -860,6 +916,7 @@ const runtimeFiles = [
   'impactFactsCss', 'impactFactsTemplate',
   'showcaseCss', 'showcaseFieldTemplate', 'showcaseTemplate',
   'contactInfoCss', 'contactInfoTemplate', 'callToActionCss',
+  'resourceGroupCss', 'utexasResourcesTemplate', 'moodyResourceGroupTemplate',
   'heroTemplate', 'heroStyle1Template', 'heroStyle2Template', 'heroStyle3Template',
   'heroStyle4Template', 'heroStyle5Template', 'heroStyle6Template', 'heroStyle6ShortTemplate',
   'heroStyle7Template', 'heroStyle8Template',
@@ -887,7 +944,7 @@ for (const file of runtimeFiles) {
   }
 }
 
-const cssFiles = ['css', 'headerSocialCss', 'quickActionsCss', 'landingHero', 'editorialSections', 'featuredHighlightCss', 'promoListCss', 'flexContentCss', 'imageLinkCss', 'flexColorBlocksCss', 'quotationCss', 'flexGridCss', 'impactFactsCss', 'showcaseCss', 'contactInfoCss', 'callToActionCss', 'discoveryIndex', 'accordionCss', 'peopleDirectory', 'newsroom', 'motionCss', 'settingsCss'];
+const cssFiles = ['css', 'headerSocialCss', 'quickActionsCss', 'landingHero', 'editorialSections', 'featuredHighlightCss', 'promoListCss', 'flexContentCss', 'imageLinkCss', 'flexColorBlocksCss', 'quotationCss', 'flexGridCss', 'impactFactsCss', 'showcaseCss', 'contactInfoCss', 'callToActionCss', 'resourceGroupCss', 'discoveryIndex', 'accordionCss', 'peopleDirectory', 'newsroom', 'motionCss', 'settingsCss'];
 const forbiddenCss = [
   [/#(?:[0-9a-f]{3}|[0-9a-f]{6}|[0-9a-f]{8})\b/i, 'Raw hex colors belong only in tokens.css.'],
   [/\b(?:rgb|rgba|hsl|hsla|oklch)\(/i, 'Raw color functions belong only in tokens.css.'],
@@ -918,7 +975,7 @@ for (const file of ['preflight', 'log']) {
     errors.push(`${file} must contain valid JSON.`);
   }
 }
-requireText('preflight', '"package_version": "0.23.0"', 'Hallmark preflight must match the shared UT Drupal Kit Hero release.');
+requireText('preflight', '"package_version": "0.24.0"', 'Hallmark preflight must match the shared Resource Group release.');
 requireText('log', 'Conversational FAQ within the Ecosystem Index', 'Hallmark memory must record the shared accordion macrostructure.');
 requireText('log', 'Editorial media directory within the Ecosystem Index', 'Hallmark memory must record the shared Moody Flex Grid component.');
 requireText('log', 'Editorial Signal Band within the Ecosystem Index', 'Hallmark memory must record the shared Moody Promotion signal band.');
@@ -951,6 +1008,7 @@ requireText('readme', 'Shared Moody Heroes', 'README must document the reusable 
 requireText('readme', 'Shared UT Drupal Kit Heroes', 'README must document the reusable UT Drupal Kit Hero layer.');
 requireText('readme', 'Shared Moody Contact Info', 'README must document the reusable Moody Contact Info layer.');
 requireText('readme', 'Shared Call to Action blocks', 'README must document the reusable Call to Action layer.');
+requireText('readme', 'Shared Resource Groups', 'README must document the shared Resource Group layer.');
 requireText('agents', '`header_social_links_block`', 'AGENTS.md must preserve the header Social Links contract.');
 requireText('agents', 'Missing, unpublished, non-reusable, inaccessible, wrong-bundle, or malformed', 'AGENTS.md must require Social Links to fail closed.');
 requireText('agents', '### People directories', 'AGENTS.md must preserve the people-directory contract.');
@@ -971,6 +1029,7 @@ requireText('agents', '### Moody Heroes', 'AGENTS.md must preserve the Moody Her
 requireText('agents', '### UT Drupal Kit Heroes', 'AGENTS.md must preserve the UT Drupal Kit Hero component contract.');
 requireText('agents', '### Moody Contact Info', 'AGENTS.md must preserve the Moody Contact Info component contract.');
 requireText('agents', '### Call to Action blocks', 'AGENTS.md must preserve the Call to Action component contract.');
+requireText('agents', '### Resource Groups', 'AGENTS.md must preserve the shared Resource Group component contract.');
 
 if (errors.length) {
   console.error(`Moody26 verification failed (${errors.length}):`);
@@ -980,5 +1039,5 @@ if (errors.length) {
   process.exitCode = 1;
 }
 else {
-  console.log(`Moody26 verification passed (${Object.keys(files).length} source files, ${fonts.length} local fonts, standalone shell, UT brand, accessible directories, resource hubs, newsroom, accordions, Featured Highlights, Moody Promotions, Promo Lists, Flex Content Areas, Image Links, Flex Color Blocks, Moody Quotations, Moody Flex Grids, Moody Impact Facts, Moody and UT Drupal Kit Heroes, Moody Showcases, Moody Contact Info, and Call to Action blocks, header social links, motion, responsive, and Hallmark gates).`);
+  console.log(`Moody26 verification passed (${Object.keys(files).length} source files, ${fonts.length} local fonts, standalone shell, UT brand, accessible directories, resource hubs, Resource Groups, newsroom, accordions, Featured Highlights, Moody Promotions, Promo Lists, Flex Content Areas, Image Links, Flex Color Blocks, Moody Quotations, Moody Flex Grids, Moody Impact Facts, Moody and UT Drupal Kit Heroes, Moody Showcases, Moody Contact Info, and Call to Action blocks, header social links, motion, responsive, and Hallmark gates).`);
 }

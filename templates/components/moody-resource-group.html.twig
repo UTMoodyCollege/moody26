@@ -1,0 +1,39 @@
+{#
+/**
+ * @file
+ * Semantic, theme-owned Moody Resource Group markup for Moody26.
+ *
+ * Keeps formatter-built links and their attributes intact. Legacy color
+ * choices survive only as migration classes; the shared stylesheet maps all
+ * of them to the compliant Moody26 resource-ledger treatment.
+ */
+#}
+{% set rendered_headline = headline|default('')|striptags|trim %}
+{% set legacy_style = style|default('')|clean_class %}
+
+{% if rendered_headline or links %}
+  {% set group_classes = [
+    'resource-group',
+    'resource-group--moody',
+    rendered_headline ? 'resource-group--with-heading' : 'resource-group--without-heading',
+    legacy_style ? 'resource-group--legacy-' ~ legacy_style : '',
+  ] %}
+  <section class="{{ group_classes|join(' ') }}"{% if rendered_headline %} aria-labelledby="{{ resource_group_heading_id }}"{% else %} aria-label="{{ 'Resources'|t }}"{% endif %}>
+    {% if rendered_headline %}
+      <h2 id="{{ resource_group_heading_id }}" class="resource-group__title ut-headline">
+        {{ rendered_headline }}
+      </h2>
+    {% endif %}
+
+    {% if links %}
+      <ul class="resource-group__links resource-group__links--group" role="list">
+        {% for link in links %}
+          {% set rendered_link = link|render %}
+          {% if rendered_link|trim %}
+            <li>{{ rendered_link }}</li>
+          {% endif %}
+        {% endfor %}
+      </ul>
+    {% endif %}
+  </section>
+{% endif %}

@@ -251,6 +251,49 @@ not belong outside the token and font declaration files.
   Units, Showcase, and Contact Info together at 320, 375, 414, 768, and 1280
   CSS pixels; component tests remain responsible for optional-field variants.
 
+### Resource Groups
+
+- Treat Moody Resource Groups and UT Drupal Kit Resources as two authoring
+  providers for one shared editorial resource-ledger contract. Keep group and
+  item headings, links, destinations, link options, responsive media,
+  alternatives, ordering, view mode, block labels, and Layout Builder
+  placement under Drupal and editor control.
+- Moody26 owns `moody-resource-group.html.twig`, `utexas-resources.html.twig`,
+  and the `resource-group__*` presentation vocabulary. Preserve every
+  formatter-built link and media render array, including attributes,
+  cacheability, and attachments. Never reconstruct an `href`, use `|raw`, or
+  edit either Composer-managed provider.
+- Render each non-empty component as a labelled `<section>`. A group headline
+  is an `h2`; a UT item headline is `h3` beneath it and promotes to `h2` when
+  the group headline is absent. A heading-free group uses the translated
+  `Resources` landmark label. Never preserve either provider's unconditional
+  `h3` or emit an empty heading.
+- Use real `<ul role="list">` and `<li>` structures for both resource items
+  and destinations. Keep DOM and keyboard order identical to author order;
+  never add positive `tabindex`, a component-local focus loop, synthetic link
+  text, a synthetic arrow, or a duplicate destination.
+- Keep UT Drupal Kit Default responsive and Stacked deliberately linear. The
+  default variant may form two safe `minmax(0, 1fr)` tracks when its own
+  container reaches 54rem; `.stacked-display` must remain one column. Every
+  image-bearing track and text wrapper needs `min-width: 0` protection.
+- Preserve the Moody provider's blue, gray, green, and orange values only as
+  migration classes. All four map to the same neutral paper-and-ink treatment
+  with exact burnt orange limited to the rule and focus signal; do not restore
+  legacy color slabs or burnt-orange tints.
+- Preserve authored image alternatives and responsive-image output. Add
+  intrinsic dimensions from the formatter-owned source when readable. A failed
+  image hides its wrapper, adds `resource-media--unavailable` to that item, and
+  recomposes the remaining heading and destinations without invented artwork.
+- Resource links are at least 44 CSS pixels high and expose explicit default,
+  visited, immediate focus, active, authored disabled, and capability-gated
+  hover states. Long CMS-authored labels may wrap between words at 320 CSS
+  pixels; never clip, truncate, split ordinary words, or cause page overflow.
+- Resource Groups are static server-rendered navigation. Do not add decorative
+  reveal motion or fabricate loading, error, empty, success, or disabled
+  controls that the providers do not supply. Test the published Moody and UTDK
+  fixtures without route IDs, node IDs, block UUIDs, or headline selectors in
+  the runtime contract.
+
 ### Moody Contact Info
 
 - Treat Moody Contact Info as a shared page-bundle-independent service band,
