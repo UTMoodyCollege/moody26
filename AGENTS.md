@@ -231,6 +231,10 @@ not belong outside the token and font declaration files.
   on legacy Bootstrap or base-theme layout CSS.
 - Keep content links at least 44 CSS pixels high with immediate focus. Hover
   feedback is capability-gated and has a visible keyboard equivalent.
+- Preserve source-order keyboard flow across component boundaries: the last
+  Focus Area task must advance to the first Promo Unit link, and the last
+  Promo Unit link must advance to the following Showcase action. Do not add
+  positive `tabindex` values or component-local focus loops.
 - Mini-navigation targets clear the sticky Moody26 header and Drupal’s
   optional displaced toolbar. Never allow an anchored component to land fully
   behind sticky chrome.
@@ -239,6 +243,13 @@ not belong outside the token and font declaration files.
 - A landing node referenced by the `Students` directory-structure term may use
   `moody26-directory-students` for its lead composition. Never use a node ID,
   block UUID, or authored headline as the styling contract.
+- Scope that lead treatment to the first Basic block in the main Layout
+  Builder region. A Basic block in the footer, header, or a later editorial
+  section is not a resource-hub lead and must not inherit its rule or scale.
+- Keep `/students` as the browser-level reference fixture for the complete
+  resource-hub composition. Test its Hero, Basic lead, Focus Areas, Promo
+  Units, Showcase, and Contact Info together at 320, 375, 414, 768, and 1280
+  CSS pixels; component tests remain responsible for optional-field variants.
 
 ### Moody Contact Info
 

@@ -6,7 +6,7 @@ visual identity with an accessible, editorial system that can serve academic,
 research, film, journalism, advertising, alumni, event, and public-facing
 sites without requiring the legacy Moody or Speedway themes.
 
-> **Project status:** pre-release (`0.21.0`). The theme is being validated in
+> **Project status:** pre-release (`0.21.1`). The theme is being validated in
 > [Moody Core](https://github.com/UTMoodyCollege/moody-core) before its first
 > stable tag. Pin an exact commit when evaluating the `main` branch.
 
@@ -218,6 +218,15 @@ administration toolbar. Contact Info closes the path with a neutral service
 band; official burnt orange remains a rule and focus signal rather than a
 large background fill. The `Students` directory term supplies the portable
 `moody26-directory-students` lead composition without relying on node IDs.
+That lead is limited to the first Basic block in the main Layout Builder
+region, so shared footer and later editorial Basic blocks remain untouched.
+
+The `/students` route is the reference integration fixture for the complete
+resource-hub sequence: Moody Hero, Basic lead, Focus Areas, Promo Units, Moody
+Showcase, and Moody Contact Info. Its browser check covers the five required
+responsive widths, semantic lists and headings, 44-pixel targets, text and
+focus contrast, failed media, sticky-anchor clearance, non-wrapping action
+labels, source-order keyboard movement across components, and page reflow.
 
 ### Shared Moody Contact Info
 

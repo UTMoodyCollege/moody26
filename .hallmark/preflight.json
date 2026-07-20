@@ -1,6 +1,6 @@
 {
   "date": "2026-07-20",
-  "package_version": "0.21.0",
+  "package_version": "0.21.1",
   "framework": "Drupal 11 / UT Drupal Kit",
   "base_theme": false,
   "font_stack": "Charis SIL + Libre Franklin bundled locally by Moody26",

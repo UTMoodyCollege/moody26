@@ -163,8 +163,8 @@ const forbidPattern = (file, pattern, message) => {
 
 try {
   const packageJson = JSON.parse(contents.package ?? '');
-  if (packageJson.version !== '0.21.0') {
-    errors.push('The shared Call to Action release must remain versioned as 0.21.0.');
+  if (packageJson.version !== '0.21.1') {
+    errors.push('The resource-hub coverage release must remain versioned as 0.21.1.');
   }
   for (const [dependency, version] of [
     ['animejs', '4.5.0'],
@@ -224,7 +224,7 @@ requireText('libraries', 'css/components/showcase.css', 'Shared Moody Showcase s
 requireText('libraries', 'css/components/contact-info.css', 'Shared Moody Contact Info styles must remain attached.');
 requireText('libraries', 'css/components/call-to-action.css', 'Shared Call to Action styles must remain attached.');
 requireText('libraries', 'js/dist/motion.min.js', 'The built motion integration must remain attached.');
-requireText('libraries', 'version: 0.21.0', 'The Drupal asset version must match the shared Call to Action release.');
+requireText('libraries', 'version: 0.21.1', 'The Drupal asset version must match the resource-hub coverage release.');
 forbidText('info', '- moody26/motion', 'Optional motion must be attached from theme settings rather than globally.');
 
 requireText('settings', "header_social_links_block: ''", 'Header social links must be optional for new installs.');
@@ -421,6 +421,10 @@ requireText('landingHero', 'macrostructure: Split Studio', 'Landing components m
 requireText('landingHero', ':has(.block-bundle-moody-hero)', 'Full-bleed heroes must remove generic section padding.');
 requireText('editorialSections', 'container-type: inline-size', 'Editorial components must remain container-aware.');
 requireText('editorialSections', 'var(--drupal-displace-offset-top, 0rem)', 'Layout Builder anchors must clear the optional Drupal toolbar.');
+requireText('editorialSections', '.moody26-directory-students .node__content > .section-wrapper:nth-child(2)', 'The Students reference composition must remain directory-scoped rather than route-scoped.');
+requireText('editorialSections', '.layout__region--main > .block-bundle-basic:first-child', 'The Students lead treatment must stay isolated to the first main-region Basic block.');
+requireText('agents', 'Preserve source-order keyboard flow across component boundaries', 'Resource-hub guidance must protect cross-component keyboard order.');
+requireText('readme', 'The `/students` route is the reference integration fixture', 'Public documentation must identify the complete resource-hub fixture.');
 requireText('contactInfoCss', 'component: editorial service band', 'Moody Contact Info must retain its Hallmark component contract.');
 requireText('contactInfoCss', 'container: contact-info / inline-size;', 'Moody Contact Info must remain container-aware.');
 requireText('contactInfoCss', ':has(.block-bundle-moody-contact-info)', 'Contact Info closes must remove generic outer section padding.');
@@ -858,7 +862,7 @@ for (const file of ['preflight', 'log']) {
     errors.push(`${file} must contain valid JSON.`);
   }
 }
-requireText('preflight', '"package_version": "0.21.0"', 'Hallmark preflight must match the shared Call to Action release.');
+requireText('preflight', '"package_version": "0.21.1"', 'Hallmark preflight must match the resource-hub coverage release.');
 requireText('log', 'Conversational FAQ within the Ecosystem Index', 'Hallmark memory must record the shared accordion macrostructure.');
 requireText('log', 'Editorial media directory within the Ecosystem Index', 'Hallmark memory must record the shared Moody Flex Grid component.');
 
