@@ -1,0 +1,97 @@
+{#
+/**
+ * @file
+ * Semantic, theme-owned output shared by every Moody Flex Grid view mode.
+ *
+ * The formatter remains responsible for sanitized text, processed copy,
+ * responsive media, URL objects, cacheability, and upstream attachments.
+ */
+#}
+
+{% set variant = variant|default('standard')|clean_class %}
+{% set legacy_columns = style|default('one')|clean_class %}
+{% set rendered_group_headline = headline|default('')|render %}
+{% set has_group_headline = rendered_group_headline|striptags|trim %}
+{% set grid_classes = [
+  'flex-grid',
+  'flex-grid--' ~ variant,
+  'flex-grid--legacy-columns-' ~ legacy_columns,
+  has_group_headline ? 'flex-grid--with-heading' : 'flex-grid--without-heading',
+  rounded_edges ? 'flex-grid--legacy-rounded' : '',
+  overlay_text ? 'flex-grid--legacy-overlay' : '',
+] %}
+
+{% if flex_grid_items %}
+  <div class="{{ grid_classes|join(' ')|trim }}">
+    {% if has_group_headline %}
+      <h2 class="flex-grid__heading">{{ rendered_group_headline }}</h2>
+    {% endif %}
+
+    <ul class="flex-grid__list" role="list">
+      {% for item in flex_grid_items %}
+        {% set rendered_media = '' %}
+        {% if variant != 'flip' and item.image %}
+          {% set rendered_media = item.image|render %}
+        {% endif %}
+        {% set rendered_title = item.title|default('')|render %}
+        {% set rendered_copy = item.copy|default('')|render %}
+        {% set plain_headline = item.headline|default('')|striptags|trim %}
+        {% set plain_cta = item.link_button_text|default('')|striptags|trim %}
+        {% set item_classes = [
+          'flex-grid__article',
+          rendered_media|trim ? 'flex-grid__article--with-media' : 'flex-grid__article--without-media',
+          item.headline_alignment ? 'flex-grid__article--legacy-align-' ~ item.headline_alignment|clean_class : '',
+          item.headline_color ? 'flex-grid__article--legacy-color-' ~ item.headline_color|clean_class : '',
+        ] %}
+
+        <li class="flex-grid__item">
+          <article class="{{ item_classes|join(' ')|trim }}">
+            {% set item_content %}
+              {% if rendered_media|trim %}
+                <div class="flex-grid__media">
+                  {{ rendered_media }}
+                </div>
+              {% endif %}
+
+              {% if plain_headline or rendered_title|striptags|trim or rendered_copy|striptags|trim %}
+                <div class="flex-grid__body">
+                  {% if plain_headline %}
+                    {% if has_group_headline %}
+                      <h3 class="flex-grid__title">{{ item.headline }}</h3>
+                    {% else %}
+                      <h2 class="flex-grid__title">{{ item.headline }}</h2>
+                    {% endif %}
+                  {% endif %}
+
+                  {% if rendered_title|striptags|trim %}
+                    <p class="flex-grid__subtitle">{{ rendered_title }}</p>
+                  {% endif %}
+
+                  {% if rendered_copy|striptags|trim %}
+                    <div class="flex-grid__copy">{{ rendered_copy }}</div>
+                  {% endif %}
+                </div>
+              {% endif %}
+            {% endset %}
+
+            {% if item.link and not plain_cta %}
+              {% set target_attributes = {'class': ['flex-grid__target']} %}
+              {% if plain_headline %}
+                {% set target_attributes = target_attributes|merge({'aria-label': plain_headline}) %}
+              {% endif %}
+              {{ link(item_content, item.link, target_attributes) }}
+            {% else %}
+              <div class="flex-grid__content">{{ item_content }}</div>
+
+              {% if item.link and plain_cta %}
+                <div class="flex-grid__action flex-grid__action--legacy-{{ item.link_button_alignment|default('left')|clean_class }}">
+                  {{ link(item.link_button_text, item.link, {'class': ['flex-grid__cta']}) }}
+                </div>
+              {% endif %}
+            {% endif %}
+          </article>
+        </li>
+      {% endfor %}
+    </ul>
+  </div>
+{% endif %}

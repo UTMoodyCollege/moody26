@@ -110,6 +110,22 @@
         }
       });
 
+      once('moody26-flex-grid-image', '.flex-grid__media img', context).forEach((image) => {
+        const hideFailedMedia = () => {
+          const article = image.closest('.flex-grid__article');
+          const media = image.closest('.flex-grid__media');
+          if (!article || !media || article.classList.contains('flex-grid__article--media-unavailable')) {
+            return;
+          }
+          media.hidden = true;
+          article.classList.add('flex-grid__article--media-unavailable');
+        };
+        image.addEventListener('error', hideFailedMedia, { once: true });
+        if (image.complete && image.currentSrc && !image.naturalWidth) {
+          hideFailedMedia();
+        }
+      });
+
       once('moody26-image-link-image', '.image-link__media img', context).forEach((image) => {
         const media = image.closest('.image-link__media');
         const target = image.closest('.image-link__target');

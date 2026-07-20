@@ -32,6 +32,7 @@ const files = {
   imageLinkCss: 'css/components/image-link.css',
   flexColorBlocksCss: 'css/components/flex-color-blocks.css',
   quotationCss: 'css/components/quotation.css',
+  flexGridCss: 'css/components/flex-grid.css',
   discoveryIndex: 'css/components/discovery-index.css',
   accordionCss: 'css/components/accordion.css',
   peopleDirectory: 'css/components/people-directory.css',
@@ -68,6 +69,12 @@ const files = {
   flexColorBlocksFieldTemplate: 'templates/components/field--block-content--field-block-flex-color-blocks--moody-flex-color-blocks.html.twig',
   flexColorBlocksTemplate: 'templates/components/moody-flex-color-blocks.html.twig',
   quotationTemplate: 'templates/components/moody-quotation.html.twig',
+  flexGridStandardTemplate: 'templates/components/moody-flex-grid-standard.html.twig',
+  flexGridCircularTemplate: 'templates/components/moody-flex-grid-circular.html.twig',
+  flexGridPromoTemplate: 'templates/components/moody-flex-grid-promo.html.twig',
+  flexGridRectangularTemplate: 'templates/components/moody-flex-grid-rectangular.html.twig',
+  flexGridFlipTemplate: 'templates/components/moody-flex-grid-flip.html.twig',
+  flexGridCardTemplate: 'templates/components/moody-flex-grid-card.html.twig',
   accordionTemplate: 'templates/components/field--moody-accordion.html.twig',
   logo: 'logo.svg',
   sourceLicense: 'LICENSE',
@@ -132,8 +139,8 @@ const forbidText = (file, needle, message) => {
 
 try {
   const packageJson = JSON.parse(contents.package ?? '');
-  if (packageJson.version !== '0.15.0') {
-    errors.push('The Moody Quotation release must remain versioned as 0.15.0.');
+  if (packageJson.version !== '0.16.0') {
+    errors.push('The Moody Flex Grid release must remain versioned as 0.16.0.');
   }
   for (const [dependency, version] of [
     ['animejs', '4.5.0'],
@@ -187,8 +194,9 @@ requireText('libraries', 'css/components/flex-content.css', 'Shared Flex Content
 requireText('libraries', 'css/components/image-link.css', 'Shared Image Link styles must remain attached.');
 requireText('libraries', 'css/components/flex-color-blocks.css', 'Shared Flex Color Block styles must remain attached.');
 requireText('libraries', 'css/components/quotation.css', 'Shared Moody Quotation styles must remain attached.');
+requireText('libraries', 'css/components/flex-grid.css', 'Shared Moody Flex Grid styles must remain attached.');
 requireText('libraries', 'js/dist/motion.min.js', 'The built motion integration must remain attached.');
-requireText('libraries', 'version: 0.15.0', 'The Drupal asset version must match the Moody Quotation release.');
+requireText('libraries', 'version: 0.16.0', 'The Drupal asset version must match the Moody Flex Grid release.');
 forbidText('info', '- moody26/motion', 'Optional motion must be attached from theme settings rather than globally.');
 
 requireText('settings', "header_social_links_block: ''", 'Header social links must be optional for new installs.');
@@ -528,6 +536,48 @@ forbidText('quotationTemplate', 'attach_library', 'Moody Quotations must use exi
 forbidText('quotationTemplate', '|raw', 'Moody Quotations must not bypass Drupal render safety.');
 forbidText('css', '.quotation-wrapper', 'Legacy quotation presentation must not leak into the global stylesheet.');
 forbidText('editorialSections', '.quotation-wrapper', 'Quotation presentation must live in its dedicated component stylesheet.');
+requireText('flexGridCss', 'component: editorial media directory', 'Moody Flex Grids must retain the Hallmark component contract.');
+requireText('flexGridCss', 'container: flex-grid / inline-size;', 'Moody Flex Grids must respond to their Layout Builder container.');
+requireText('flexGridCss', 'grid-template-columns: minmax(0, 1fr);', 'Moody Flex Grids must retain a safe narrow track.');
+requireText('flexGridCss', 'grid-template-columns: repeat(2, minmax(0, 1fr));', 'Moody Flex Grids must retain two safe tracks.');
+requireText('flexGridCss', 'grid-template-columns: repeat(3, minmax(0, 1fr));', 'Moody Flex Grids must retain three safe tracks.');
+requireText('flexGridCss', 'grid-template-columns: repeat(4, minmax(0, 1fr));', 'Moody Flex Grids must retain four safe tracks.');
+requireText('flexGridCss', '.flex-grid__target:focus-visible', 'Full-entry Flex Grid links need immediate visible focus.');
+requireText('flexGridCss', '.flex-grid__cta:focus-visible', 'Flex Grid CTAs need immediate visible focus.');
+requireText('flexGridCss', 'min-height: var(--target-min);', 'Flex Grid links must preserve a 44 CSS-pixel target.');
+requireText('flexGridCss', 'white-space: nowrap;', 'Flex Grid CTA labels must remain one-line affordances.');
+requireText('flexGridCss', '@media (hover: hover) and (pointer: fine)', 'Flex Grid hover feedback must be capability-gated.');
+requireText('flexGridCss', '.flex-grid__article--media-unavailable', 'Moody Flex Grids must retain a stable failed-media state.');
+requireText('flexGridStandardTemplate', '<ul class="flex-grid__list" role="list">', 'Moody Flex Grid collections must expose list semantics.');
+requireText('flexGridStandardTemplate', '<li class="flex-grid__item">', 'Moody Flex Grid entries must expose direct list-item semantics.');
+requireText('flexGridStandardTemplate', '<article class="{{ item_classes|join', 'Each Moody Flex Grid entry must remain an article.');
+requireText('flexGridStandardTemplate', '<h2 class="flex-grid__heading">', 'Authored Flex Grid group headlines must remain h2 headings.');
+requireText('flexGridStandardTemplate', '<h3 class="flex-grid__title">', 'Grouped Flex Grid items must remain h3 headings.');
+requireText('flexGridStandardTemplate', '<h2 class="flex-grid__title">', 'Ungrouped Flex Grid items must remain page-safe h2 headings.');
+requireText('flexGridStandardTemplate', 'link(item_content, item.link', 'Full-entry Flex Grid destinations must remain formatter-owned URL objects.');
+requireText('flexGridStandardTemplate', 'link(item.link_button_text, item.link', 'Authored Flex Grid CTAs must remain formatter-owned URL objects.');
+requireText('flexGridStandardTemplate', "variant != 'flip' and item.image", 'Legacy flip output must remain static and avoid inaccessible URL-only media.');
+requireText('flexGridStandardTemplate', 'item.image|render', 'Moody Flex Grids must preserve formatter-owned responsive media output.');
+requireText('flexGridStandardTemplate', 'item.copy|default', 'Moody Flex Grids must preserve processed editor copy.');
+for (const [file, variant] of [
+  ['flexGridCircularTemplate', 'circular'],
+  ['flexGridPromoTemplate', 'promo'],
+  ['flexGridRectangularTemplate', 'rectangular'],
+  ['flexGridFlipTemplate', 'flip'],
+  ['flexGridCardTemplate', 'card'],
+]) {
+  requireText(file, "@moody26/components/moody-flex-grid-standard.html.twig", `${variant} Flex Grid output must reuse the shared template.`);
+  requireText(file, `variant: '${variant}'`, `${variant} Flex Grid output must retain its migration variant.`);
+}
+forbidText('flexGridStandardTemplate', 'href=', 'Flex Grid destinations must not be reconstructed in Twig.');
+forbidText('flexGridStandardTemplate', 'sr-only', 'Flex Grid links must not duplicate visible headings with hidden text.');
+forbidText('flexGridStandardTemplate', '>View<', 'Flex Grid templates must not invent generic View destinations.');
+forbidText('flexGridStandardTemplate', 'View more', 'Flex Grid templates must not invent generic View more destinations.');
+forbidText('flexGridStandardTemplate', 'attach_library', 'Moody Flex Grids must use existing libraries without duplicate attachments.');
+forbidText('flexGridStandardTemplate', '|raw', 'Moody Flex Grids must not bypass Drupal render safety.');
+forbidText('discoveryIndex', '.flex-grid-wrapper', 'Flex Grid presentation must live in its dedicated component stylesheet.');
+forbidText('editorialSections', 'field--type-moody-flex-grid', 'Flex Grid CTA presentation must live in its dedicated component stylesheet.');
+forbidText('motion', "'.flex-grid-items'", 'Static Moody Flex Grids must not receive decorative reveal motion.');
 requireText('theme', 'function moody26_preprocess_views_view_unformatted', 'Faculty directory rows need a translated result summary.');
 requireText('theme', 'function moody26_preprocess_views_view_fields', 'Faculty directory profiles need entity-backed names and URLs.');
 requireText('theme', "'moody26-directory-' . Html::getClass($directory->label())", 'Landing compositions must use portable directory-term classes.');
@@ -569,6 +619,8 @@ requireText('accessibility', "classList.add('image-link__media--unavailable')", 
 requireText('accessibility', "image.closest('picture') ?? image", 'Failed Image Links must hide the broken responsive image source.');
 requireText('accessibility', "once('moody26-quotation-image'", 'Moody Quotation media recovery must be idempotent.');
 requireText('accessibility', "classList.add('moody-quotation--media-unavailable')", 'Failed quotation media must preserve and recompose its authored content.');
+requireText('accessibility', "once('moody26-flex-grid-image'", 'Moody Flex Grid media recovery must be idempotent.');
+requireText('accessibility', "classList.add('flex-grid__article--media-unavailable')", 'Failed Flex Grid media must preserve its article text and destination.');
 requireText('accessibility', 'image.complete && image.currentSrc && !image.naturalWidth', 'Lazy image safeguards must not treat an unselected source as a failure.');
 requireText('focusAreas', '<ul class="focus-areas-items', 'Focus Areas must expose semantic list markup.');
 requireText('focusAreas', 'aria-hidden="true"', 'Focus Area icons must remain decorative beside visible task names.');
@@ -591,6 +643,8 @@ const runtimeFiles = [
   'imageLinkCss', 'imageLinkTemplate',
   'flexColorBlocksCss', 'flexColorBlocksFieldTemplate', 'flexColorBlocksTemplate',
   'quotationCss', 'quotationTemplate',
+  'flexGridCss', 'flexGridStandardTemplate', 'flexGridCircularTemplate', 'flexGridPromoTemplate',
+  'flexGridRectangularTemplate', 'flexGridFlipTemplate', 'flexGridCardTemplate',
   'accordionCss', 'accordionTemplate',
   'peopleDirectory', 'peopleDirectoryView', 'peopleDirectoryRows', 'peopleDirectoryFields',
   'newsroom', 'newsRows', 'newsFields',
@@ -613,7 +667,7 @@ for (const file of runtimeFiles) {
   }
 }
 
-const cssFiles = ['css', 'headerSocialCss', 'quickActionsCss', 'landingHero', 'editorialSections', 'featuredHighlightCss', 'promoListCss', 'flexContentCss', 'imageLinkCss', 'flexColorBlocksCss', 'discoveryIndex', 'accordionCss', 'peopleDirectory', 'newsroom', 'motionCss', 'settingsCss'];
+const cssFiles = ['css', 'headerSocialCss', 'quickActionsCss', 'landingHero', 'editorialSections', 'featuredHighlightCss', 'promoListCss', 'flexContentCss', 'imageLinkCss', 'flexColorBlocksCss', 'quotationCss', 'flexGridCss', 'discoveryIndex', 'accordionCss', 'peopleDirectory', 'newsroom', 'motionCss', 'settingsCss'];
 const forbiddenCss = [
   [/#(?:[0-9a-f]{3}|[0-9a-f]{6}|[0-9a-f]{8})\b/i, 'Raw hex colors belong only in tokens.css.'],
   [/\b(?:rgb|rgba|hsl|hsla|oklch)\(/i, 'Raw color functions belong only in tokens.css.'],
@@ -644,8 +698,9 @@ for (const file of ['preflight', 'log']) {
     errors.push(`${file} must contain valid JSON.`);
   }
 }
-requireText('preflight', '"package_version": "0.15.0"', 'Hallmark preflight must match the Moody Quotation release.');
+requireText('preflight', '"package_version": "0.16.0"', 'Hallmark preflight must match the Moody Flex Grid release.');
 requireText('log', 'Conversational FAQ within the Ecosystem Index', 'Hallmark memory must record the shared accordion macrostructure.');
+requireText('log', 'Editorial media directory within the Ecosystem Index', 'Hallmark memory must record the shared Moody Flex Grid component.');
 
 requirePattern('readme', /standalone/i, 'README must describe the standalone architecture.');
 forbidText('readme', 'Base theme | `moody`', 'README must not advertise the legacy base theme.');
@@ -667,6 +722,7 @@ requireText('readme', 'Shared Flex Content Areas', 'README must document the reu
 requireText('readme', 'Shared Image Links', 'README must document the reusable Image Link layer.');
 requireText('readme', 'Shared Flex Color Blocks', 'README must document the reusable Flex Color Block layer.');
 requireText('readme', 'Shared Moody Quotations', 'README must document the reusable Moody Quotation layer.');
+requireText('readme', 'Shared Moody Flex Grids', 'README must document the reusable Moody Flex Grid layer.');
 requireText('agents', '`header_social_links_block`', 'AGENTS.md must preserve the header Social Links contract.');
 requireText('agents', 'Missing, unpublished, non-reusable, inaccessible, wrong-bundle, or malformed', 'AGENTS.md must require Social Links to fail closed.');
 requireText('agents', '### People directories', 'AGENTS.md must preserve the people-directory contract.');
@@ -679,6 +735,7 @@ requireText('agents', '### Flex Content Areas', 'AGENTS.md must preserve the Fle
 requireText('agents', '### Image Links', 'AGENTS.md must preserve the Image Link component contract.');
 requireText('agents', '### Flex Color Blocks', 'AGENTS.md must preserve the Flex Color Block component contract.');
 requireText('agents', '### Moody Quotations', 'AGENTS.md must preserve the Moody Quotation component contract.');
+requireText('agents', '### Moody Flex Grids', 'AGENTS.md must preserve the Moody Flex Grid component contract.');
 
 if (errors.length) {
   console.error(`Moody26 verification failed (${errors.length}):`);
@@ -688,5 +745,5 @@ if (errors.length) {
   process.exitCode = 1;
 }
 else {
-  console.log(`Moody26 verification passed (${Object.keys(files).length} source files, ${fonts.length} local fonts, standalone shell, UT brand, accessible directories, resource hubs, newsroom, accordions, Featured Highlights, Promo Lists, Flex Content Areas, Image Links, Flex Color Blocks, and Moody Quotations, header social links, motion, responsive, and Hallmark gates).`);
+  console.log(`Moody26 verification passed (${Object.keys(files).length} source files, ${fonts.length} local fonts, standalone shell, UT brand, accessible directories, resource hubs, newsroom, accordions, Featured Highlights, Promo Lists, Flex Content Areas, Image Links, Flex Color Blocks, Moody Quotations, and Moody Flex Grids, header social links, motion, responsive, and Hallmark gates).`);
 }

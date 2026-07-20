@@ -142,7 +142,6 @@ import { stagger } from 'animejs/utils';
       let observer;
       if (motionContext.conditions.wide) {
         const group = main.querySelector([
-          '.flex-grid-items',
           '.utexas-promo-unit-items',
           '.block-moody-feature-page-feature-pages-editors-picks .row',
           '.moody-flip-things-image-grid-container .contents-row-max-w',

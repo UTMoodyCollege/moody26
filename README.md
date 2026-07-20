@@ -6,7 +6,7 @@ visual identity with an accessible, editorial system that can serve academic,
 research, film, journalism, advertising, alumni, event, and public-facing
 sites without requiring the legacy Moody or Speedway themes.
 
-> **Project status:** pre-release (`0.15.0`). The theme is being validated in
+> **Project status:** pre-release (`0.16.0`). The theme is being validated in
 > [Moody Core](https://github.com/UTMoodyCollege/moody-core) before its first
 > stable tag. Pin an exact commit when evaluating the `main` branch.
 
@@ -44,6 +44,8 @@ sites without requiring the legacy Moody or Speedway themes.
 - Shared Moody Quotations with real quotation and attribution semantics,
   restrained editorial composition, optional media and CTA, and safe media
   failure recovery.
+- Shared Moody Flex Grids with one semantic list contract across standard,
+  circular, promo, rectangular, card, and legacy flip authoring modes.
 - Shared people directories with semantic list and heading structure,
   accessible linked profiles, responsive filters, honest result counts, and a
   useful empty state.
@@ -374,6 +376,41 @@ them on one line. The theme invents no quote marks, author copy,
 placeholder imagery, motion, or proof claims; placeholder or incomplete quote
 copy remains an editorial review responsibility.
 
+### Shared Moody Flex Grids
+
+Moody26 gives every Moody Flex Grid formatter mode one semantic editorial
+directory contract. Standard, circular, promo, rectangular, card, and legacy
+flip output all use a real `<ul>` with direct `<li>` children and one `<article>`
+per stored item. An authored group headline is an `h2` and establishes `h3`
+item headings; without that group headline, item headings become `h2` so the
+component does not skip directly from the page title to an `h3`.
+
+Linked entries expose exactly one destination. A grid item without authored
+button text is one full-entry link; an item with authored button text remains
+plain article content followed by one formatter-owned CTA. Moody26 does not
+generate “View,” repeat a linked image, add a hidden duplicate name, or create
+JavaScript navigation. The unused flip mode deliberately renders as static
+content because its upstream formatter supplies a URL rather than accessible
+responsive image markup.
+
+The component starts with one safe track, adds two tracks when its own
+Layout Builder container reaches 38rem, and progressively allows three or four
+tracks for authoring modes that request them. Every image-bearing track uses
+`minmax(0, 1fr)`. Circular people imagery retains its established circular
+treatment; other responsive media keeps formatter-owned source sets,
+dimensions, and alternatives without a new crop. Failed media hides only its
+wrapper and leaves the article text and destination intact.
+
+Stored column count, alignment, headline color, rounded-edge, and overlay
+choices remain as stable migration classes, not competing visual systems.
+Exact UT burnt orange is limited to the collection rule, link underline, and
+focus signal. Links provide readable default and visited color, immediate
+visible focus, active feedback, an `aria-disabled` treatment, capability-gated
+hover, and a minimum 44 CSS-pixel target. Authored CTAs remain single-line
+affordances; editors should shorten a label that cannot fit its narrowest
+placement. The static component adds no decorative motion or fabricated
+loading, error, success, or editorial content.
+
 ### Shared accordions
 
 Moody26 overrides the Moody Accordion field with native `<details>` and
@@ -473,7 +510,7 @@ than replace manual assistive-technology review.
 | `tokens.css` | Brand, type, spacing, motion, focus, and layout tokens |
 | `css/fonts.css` | Local approved digital font declarations |
 | `css/moody26.css` | Global foundation, shell, navigation, forms, and footer |
-| `css/components/` | Header social, landing, editorial, discovery, resource-hub, accordion, Featured Highlight, Promo List, Flex Content Area, Image Link, Flex Color Block, Moody Quotation, people-directory, newsroom, quick-action, and settings components |
+| `css/components/` | Header social, landing, editorial, discovery, resource-hub, accordion, Featured Highlight, Promo List, Flex Content Area, Image Link, Flex Color Block, Moody Quotation, Moody Flex Grid, people-directory, newsroom, quick-action, and settings components |
 | `js/navigation.js` | Drawer and disclosure navigation state |
 | `js/quick-actions.js` | Native dialog and rendered-destination discovery |
 | `js/accessibility.js` | Progressive safeguards for rendered content components |

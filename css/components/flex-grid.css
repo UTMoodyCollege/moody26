@@ -1,0 +1,273 @@
+/* Hallmark · component: editorial media directory · genre: editorial · theme: UT custom
+ * states: static · linked · visited · hover · focus · active · disabled · media unavailable
+ * contrast: pass (40–41) · slop: pass (1–58) · mobile: pass (34, 49–57)
+ */
+/* Hallmark · pre-emit critique: P5 H5 E5 S5 R5 V4 */
+
+.moody-flex-grid-wrapper,
+.flex-grid {
+  min-width: 0;
+}
+
+.flex-grid {
+  width: 100%;
+  container: flex-grid / inline-size;
+  color: var(--color-ink);
+}
+
+.flex-grid__heading {
+  max-width: 24ch;
+  min-width: 0;
+  margin: 0 0 var(--space-lg);
+  color: var(--color-ink);
+  font-family: var(--font-display);
+  font-size: var(--text-heading);
+  font-style: normal;
+  font-weight: 700;
+  letter-spacing: -0.025em;
+  line-height: var(--leading-heading);
+  overflow-wrap: anywhere;
+  text-wrap: balance;
+}
+
+.flex-grid__list {
+  display: grid;
+  width: 100%;
+  min-width: 0;
+  grid-template-columns: minmax(0, 1fr);
+  gap: 0;
+  margin: 0;
+  padding: 0;
+  border-block-start: var(--rule-strong) solid var(--color-accent);
+  list-style: none;
+}
+
+.flex-grid__item {
+  min-width: 0;
+  margin: 0;
+  border-block-end: var(--rule-hair) solid var(--color-rule-strong);
+}
+
+.flex-grid__article,
+.flex-grid__target,
+.flex-grid__content {
+  display: grid;
+  width: 100%;
+  min-width: 0;
+  height: 100%;
+  align-content: start;
+}
+
+.flex-grid__article {
+  background: var(--color-paper);
+  color: var(--color-ink);
+}
+
+.flex-grid__target,
+.flex-grid__content {
+  padding: var(--space-md) 0 var(--space-xl);
+  color: var(--color-ink);
+}
+
+.flex-grid__target {
+  min-height: var(--target-min);
+  text-decoration: none;
+}
+
+.flex-grid__media {
+  min-width: 0;
+  margin-block-end: var(--space-lg);
+  overflow: clip;
+  background: var(--color-paper-3);
+}
+
+.flex-grid__media :where(picture, img) {
+  display: block;
+  width: 100%;
+  max-width: 100%;
+  height: auto;
+}
+
+.flex-grid--circular .flex-grid__media {
+  width: min(100%, 15rem);
+  aspect-ratio: var(--media-portrait-ratio);
+  border-radius: 50%;
+}
+
+.flex-grid--circular .flex-grid__media :where(picture, img) {
+  width: 100%;
+  height: 100%;
+  border-radius: inherit;
+  object-fit: cover;
+}
+
+.flex-grid__body {
+  display: grid;
+  min-width: 0;
+  align-content: start;
+  gap: var(--space-xs);
+}
+
+.flex-grid__title {
+  max-width: 28ch;
+  min-width: 0;
+  margin: 0;
+  color: var(--color-ink);
+  font-family: var(--font-display);
+  font-size: var(--text-heading-sm);
+  font-style: normal;
+  font-weight: 700;
+  letter-spacing: -0.018em;
+  line-height: var(--leading-heading);
+  overflow-wrap: anywhere;
+  text-wrap: pretty;
+}
+
+.flex-grid__target .flex-grid__title {
+  color: var(--color-link);
+  text-decoration-color: var(--color-accent);
+  text-decoration-line: underline;
+  text-decoration-thickness: var(--rule-hair);
+  text-underline-offset: var(--rule-strong);
+}
+
+.flex-grid__subtitle {
+  max-width: var(--measure);
+  min-width: 0;
+  margin: 0;
+  color: var(--color-muted);
+  font-family: var(--font-body);
+  font-size: var(--text-base);
+  font-weight: 700;
+  line-height: var(--leading-body);
+  overflow-wrap: anywhere;
+}
+
+.flex-grid__copy,
+.flex-grid__copy :where(p, li) {
+  max-width: var(--measure);
+  min-width: 0;
+  color: var(--color-ink);
+  font-family: var(--font-body);
+  font-size: var(--text-base);
+  line-height: var(--leading-body);
+  overflow-wrap: anywhere;
+}
+
+.flex-grid__copy > :first-child {
+  margin-block-start: 0;
+}
+
+.flex-grid__copy > :last-child {
+  margin-block-end: 0;
+}
+
+.flex-grid__action {
+  align-self: end;
+  padding-block-end: var(--space-xl);
+}
+
+.moody-flex-grid-wrapper .flex-grid__cta {
+  display: inline-flex;
+  width: fit-content;
+  max-width: 100%;
+  min-height: var(--target-min);
+  align-items: center;
+  padding: var(--space-xs) 0;
+  border-block-end: var(--rule-hair) solid var(--color-accent);
+  color: var(--color-link);
+  font-family: var(--font-body);
+  font-size: var(--text-base);
+  font-weight: 700;
+  line-height: var(--leading-body);
+  overflow-wrap: normal;
+  text-decoration: none;
+  white-space: nowrap;
+}
+
+.moody-flex-grid-wrapper .flex-grid__target:visited,
+.moody-flex-grid-wrapper .flex-grid__cta:visited {
+  color: var(--color-link);
+}
+
+.moody-flex-grid-wrapper .flex-grid__target:focus-visible,
+.moody-flex-grid-wrapper .flex-grid__cta:focus-visible {
+  position: relative;
+  z-index: var(--z-base);
+  border-radius: var(--radius-sm);
+  outline: var(--focus-outline);
+  outline-offset: var(--space-2xs);
+}
+
+.moody-flex-grid-wrapper .flex-grid__target:focus-visible .flex-grid__title {
+  text-decoration-thickness: var(--rule-strong);
+}
+
+.moody-flex-grid-wrapper .flex-grid__target:active {
+  background: var(--color-paper-3);
+  color: var(--color-ink);
+}
+
+.moody-flex-grid-wrapper .flex-grid__cta:active {
+  border-block-end-width: var(--rule-strong);
+  color: var(--color-link);
+}
+
+.moody-flex-grid-wrapper :is(.flex-grid__target, .flex-grid__cta)[aria-disabled="true"] {
+  cursor: not-allowed;
+  opacity: 0.55;
+  pointer-events: none;
+}
+
+.flex-grid__article--media-unavailable .flex-grid__body {
+  max-width: var(--measure);
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .moody-flex-grid-wrapper .flex-grid__target:hover {
+    background: var(--color-paper-2);
+    color: var(--color-ink);
+  }
+
+  .moody-flex-grid-wrapper .flex-grid__target:hover .flex-grid__title {
+    color: var(--color-link);
+    text-decoration: underline;
+    text-decoration-color: var(--color-accent);
+    text-decoration-thickness: var(--rule-strong);
+    text-underline-offset: var(--rule-strong);
+  }
+
+  .moody-flex-grid-wrapper .flex-grid__cta:hover {
+    border-block-end-width: var(--rule-strong);
+    color: var(--color-link);
+    text-decoration: none;
+  }
+}
+
+@container flex-grid (min-width: 38rem) {
+  .flex-grid:not(.flex-grid--legacy-columns-one) .flex-grid__list {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    column-gap: var(--component-gap);
+  }
+}
+
+@container flex-grid (min-width: 58rem) {
+  .flex-grid:is(
+    .flex-grid--legacy-columns-three,
+    .flex-grid--legacy-columns-four,
+    .flex-grid--legacy-columns-five,
+    .flex-grid--legacy-columns-six
+  ) .flex-grid__list {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+}
+
+@container flex-grid (min-width: 76rem) {
+  .flex-grid:is(
+    .flex-grid--legacy-columns-four,
+    .flex-grid--legacy-columns-five,
+    .flex-grid--legacy-columns-six
+  ) .flex-grid__list {
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+  }
+}

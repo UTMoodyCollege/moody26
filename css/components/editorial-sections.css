@@ -474,8 +474,7 @@
 :where(
   .ut-photo-content-area,
   .moody-showcase,
-  .utexas-featured-highlight,
-  .field--type-moody-flex-grid
+  .utexas-featured-highlight
 ) :is(.ut-btn, .ut-btn--homepage, .moody-btn--arrow) {
   display: inline-flex;
   width: max-content;
@@ -500,8 +499,7 @@
   :where(
     .ut-photo-content-area,
     .moody-showcase,
-    .utexas-featured-highlight,
-    .field--type-moody-flex-grid
+    .utexas-featured-highlight
   ) :is(.ut-btn, .ut-btn--homepage, .moody-btn--arrow):hover {
     border-block-end-width: var(--rule-strong);
     background: var(--color-transparent);

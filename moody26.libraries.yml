@@ -1,5 +1,5 @@
 global:
-  version: 0.15.0
+  version: 0.16.0
   css:
     base:
       css/fonts.css: { weight: 90 }
@@ -19,6 +19,7 @@ global:
       css/components/image-link.css: { weight: 137 }
       css/components/flex-color-blocks.css: { weight: 138 }
       css/components/quotation.css: { weight: 138.5 }
+      css/components/flex-grid.css: { weight: 138.75 }
       css/components/newsroom.css: { weight: 139 }
       css/components/motion.css: { weight: 140 }
   js:
@@ -30,14 +31,14 @@ global:
     - core/once
 
 motion:
-  version: 0.15.0
+  version: 0.16.0
   js:
     js/dist/motion.min.js: { minified: true }
   dependencies:
     - moody26/global
 
 settings:
-  version: 0.15.0
+  version: 0.16.0
   css:
     theme:
       css/components/theme-settings.css: {}

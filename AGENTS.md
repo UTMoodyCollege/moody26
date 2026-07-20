@@ -477,6 +477,56 @@ not belong outside the token and font declaration files.
   error, or success states. Placeholder or incomplete stored copy is editorial
   debt and must not be silently rewritten by the theme.
 
+### Moody Flex Grids
+
+- Treat Moody Flex Grids as shared editorial directories, not route-specific
+  cards or effects. Keep group headlines, item headlines, titles, processed
+  copy, media, alternatives, destinations, CTA labels, ordering, column
+  choice, and Layout Builder placement under Drupal and editor control.
+- Moody26 owns all six active formatter templates through one shared
+  `moody-flex-grid-standard.html.twig` implementation and the
+  `flex-grid__*` presentation contract. Preserve formatter-owned responsive
+  render arrays, processed text, URL objects, cacheability, and upstream
+  attachments. Do not edit the Composer-installed formatter, reconstruct raw
+  `href` attributes, add JavaScript navigation, or duplicate markup among
+  view modes.
+- Render every collection as one `<ul role="list">` with direct `<li>`
+  children and one `<article>` per item. When the formatter supplies a group
+  headline, render it as `h2` and its item headlines as `h3`. Without an
+  internal group headline, render item headlines as `h2` so a hidden or absent
+  Layout Builder label cannot force an `h1`-to-`h3` skip. Do not expose hidden
+  administrative labels or silently repair malformed editor copy.
+- A linked item without authored CTA text is one full-entry destination. An
+  item with authored CTA text is ordinary article content followed by one
+  formatter-owned CTA. Never restore separate image, card, empty, hidden-name,
+  generated “View,” or “View more” links to the same destination.
+- Retain standard, circular, promo, rectangular, card, and flip variants.
+  Keep column count, alignment, headline color, rounded-edge, and overlay
+  values only as stable `flex-grid--legacy-*` migration hooks. Only the
+  circular variant may keep its established circular crop. The dormant flip
+  mode must remain static and text-first because its upstream formatter does
+  not provide accessible responsive image output; do not restore hover,
+  pointer, keyboard, or JavaScript flip behavior.
+- Use one safe track by default, two tracks at a 38rem component width, three
+  at 58rem where authored, and four at 76rem where authored. Every
+  image-bearing track must use `minmax(0, 1fr)`. Long headings, titles, copy,
+  and full-entry heading links may wrap between words without truncating,
+  splitting ordinary words, or causing horizontal overflow. CTA labels remain
+  one-line affordances; shorten editor copy when a label cannot fit its narrow
+  component rather than clipping or wrapping it.
+- Preserve formatter-owned media alternatives and intrinsic dimensions. A
+  failed image must hide only its media wrapper, add the stable
+  `flex-grid__article--media-unavailable` state, and leave headings, copy,
+  titles, and destinations intact.
+- Full-entry links and CTAs require readable default and visited color,
+  immediate visible focus, active feedback, an `aria-disabled` treatment,
+  capability-gated hover, and a 44 CSS-pixel minimum target. Exact UT burnt
+  orange remains a collection rule, underline, and focus signal—not a large
+  tile, overlay, tint, or competing headline color.
+- Flex Grids are static server-rendered content. Do not add decorative motion,
+  synthetic arrows, invented calls to action, placeholder imagery, or
+  fabricated loading, error, or success states.
+
 ### Accordions
 
 - Treat Moody Accordion blocks as one shared component used across the fleet,
@@ -631,6 +681,8 @@ Texas requirements. The current University compliance date is March 1, 2026.
   non-linked states, migration-safe legacy classes, and asymmetric reflow.
 - `css/components/quotation.css`: semantic authored figures, responsive media,
   migration-safe legacy style classes, CTA states, and failure recovery.
+- `css/components/flex-grid.css`: one semantic media-directory contract across
+  six migration-safe formatter variants, link states, and media recovery.
 - `css/components/people-directory.css`: responsive filters, semantic people
   indexes, linked profile treatments, current-directory state, and empty-state
   presentation.
