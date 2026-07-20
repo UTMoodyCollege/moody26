@@ -1,0 +1,15 @@
+/* Hallmark · component: theme visual options · genre: editorial · theme: Moody26
+ * states: default · hover · focus · active · disabled · loading · error · success
+ * contrast: inherited from the active Drupal admin theme
+ * pre-emit critique: P5 H5 E5 S5 R5 V4
+ */
+
+.moody26-motion-options {
+  --moody26-settings-target-min: 2.75rem;
+}
+
+.moody26-motion-options .form-item__label.option {
+  display: inline-flex;
+  align-items: center;
+  min-block-size: var(--moody26-settings-target-min);
+}

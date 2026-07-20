@@ -27,7 +27,6 @@ regions:
 
 libraries:
   - moody26/global
-  - moody26/motion
 
 ckeditor5-stylesheets:
   - css/fonts.css

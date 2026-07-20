@@ -15,6 +15,8 @@ import { stagger } from 'animejs/utils';
     : '';
   const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)');
   const saveData = navigator.connection?.saveData === true;
+  const gsapEnabled = document.documentElement.dataset.moody26MotionGsap === 'true';
+  const animeEnabled = document.documentElement.dataset.moody26MotionAnime === 'true';
   const rootCleanups = new WeakMap();
   const disclosureAnimations = new Map();
   let gsapRequest;
@@ -201,7 +203,7 @@ import { stagger } from 'animejs/utils';
   };
 
   const animateDisclosure = (event) => {
-    if (!motionAllowed() || !(event.target instanceof Element)) {
+    if (!animeEnabled || !motionAllowed() || !(event.target instanceof Element)) {
       return;
     }
     const selectors = event.detail?.kind === 'quick-actions'
@@ -239,7 +241,9 @@ import { stagger } from 'animejs/utils';
   Drupal.behaviors.moody26Motion = {
     attach(context) {
       once('moody26-motion-events', 'html', context).forEach(() => {
-        document.addEventListener('moody26:reveal', animateDisclosure);
+        if (animeEnabled) {
+          document.addEventListener('moody26:reveal', animateDisclosure);
+        }
       });
 
       once('moody26-motion-root', '.moody26-main', context).forEach((main) => {
@@ -256,6 +260,11 @@ import { stagger } from 'animejs/utils';
           if (!motionAllowed()) {
             clearDisclosureAnimations();
             markMode('reduced');
+            return;
+          }
+
+          if (!gsapEnabled) {
+            markMode('full');
             return;
           }
 

@@ -103,6 +103,22 @@ not belong outside the token and font declaration files.
 
 ### Motion and animation
 
+- Expose motion through Drupal’s native `Appearance → Settings → Moody 26`
+  form. `motion_gsap_enabled` controls coordinated page sequences and
+  `motion_anime_enabled` controls disclosure feedback. Keep both settings in
+  install defaults and configuration schema.
+- Treat an absent motion setting as enabled so an in-place theme update does
+  not silently change an existing site. The administrator’s saved boolean is
+  authoritative after that. When both settings are disabled, do not attach the
+  optional motion library.
+- Keep the visual-options form native to Drupal Form API and the active admin
+  theme. Use semantic details, fieldsets, checkboxes, and plain descriptions;
+  do not add motion, a custom control framework, or a second save path to the
+  administration interface. Prefer stacked details over vertical tabs because
+  the current fleet administration stack must reflow cleanly at 320 CSS pixels.
+  Theme-owned settings CSS may only expand target size or repair a demonstrated
+  host-theme defect; the active admin theme continues to own colors, focus,
+  validation, loading, disabled, and success states.
 - GSAP owns coordinated sequences only: the first-view header entrance and at
   most one discovery-group reveal per page. Anime.js owns short disclosure
   feedback only: submenu destinations and the first command-palette result
@@ -237,6 +253,8 @@ Texas requirements. The current University compliance date is March 1, 2026.
 - `moody26.theme`: page variables, branding metadata, and search-form
   integration.
 - `theme-settings.php` and `config/`: portable Give and parent-unit settings.
+  They also own the independently configurable GSAP and Anime.js motion
+  switches and their upgrade-safe defaults.
 - `logo.svg`: approved default Moody CSU artwork.
 - `fonts/`, `LICENSES/`, `css/fonts.css`: locally hosted approved digital fonts
   and their license.
@@ -245,6 +263,8 @@ Texas requirements. The current University compliance date is March 1, 2026.
   compatibility, and footer.
 - `css/components/quick-actions.css`: complete command-palette treatment and
   eight-state preview support.
+- `css/components/theme-settings.css`: narrowly scoped 44-pixel target support
+  for the native Drupal visual-options form.
 - `css/components/landing-hero.css`: Split Studio photographic and ambient
   media leads.
 - `css/components/editorial-sections.css`: shared editorial pairings, proof,
@@ -302,4 +322,7 @@ keyboard and screen-reader paths, zoom/reflow, reduced motion and color vision,
 then request an Acquia Optimize scan or Digital Accessibility Center review.
 For motion changes, test both `reducedMotion: reduce` and `no-preference`, verify
 that a failed motion bundle leaves all content visible, and confirm no optional
-animation survives a live preference change.
+animation survives a live preference change. Also test all four setting
+combinations: both enabled, GSAP only, Anime.js only, and both disabled. The
+last combination must omit the motion asset while navigation and Quick actions
+remain operable.

@@ -15,6 +15,18 @@ function moody26_preprocess_html(array &$variables): void {
   if (!empty($variables['node_type'])) {
     $variables['attributes']['class'][] = 'node-' . $variables['node_type'];
   }
+
+  $gsap_enabled = (bool) (theme_get_setting('motion_gsap_enabled') ?? TRUE);
+  $anime_enabled = (bool) (theme_get_setting('motion_anime_enabled') ?? TRUE);
+  $motion_enabled = $gsap_enabled || $anime_enabled;
+
+  $variables['html_attributes']->setAttribute('data-moody26-motion-gsap', $gsap_enabled ? 'true' : 'false');
+  $variables['html_attributes']->setAttribute('data-moody26-motion-anime', $anime_enabled ? 'true' : 'false');
+  $variables['html_attributes']->setAttribute('data-moody26-motion', $motion_enabled ? 'pending' : 'disabled');
+
+  if ($motion_enabled) {
+    $variables['#attached']['library'][] = 'moody26/motion';
+  }
 }
 
 /**

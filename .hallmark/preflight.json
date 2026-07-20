@@ -1,10 +1,10 @@
 {
-  "date": "2026-07-19",
+  "date": "2026-07-20",
   "framework": "Drupal 11 / UT Drupal Kit",
   "base_theme": false,
   "font_stack": "Charis SIL + Libre Franklin bundled locally by Moody26",
   "palette": "Moody26-owned locked tokens using exact UT brand values",
-  "motion": "progressive GSAP orchestration plus tree-shaken Anime.js WAAPI disclosure feedback; reduced-motion and Save-Data cut",
+  "motion": "independently configurable GSAP orchestration and tree-shaken Anime.js WAAPI disclosure feedback; reduced-motion and Save-Data always cut",
   "spacing": "new 4-point CSS token scale",
   "preserve": [
     "rendered UT Drupal Kit content structures",
@@ -20,6 +20,7 @@
     "live-menu-backed native command palette",
     "route and interaction-state visual regression coverage",
     "theme-owned page shell, disclosure navigation, and local font delivery",
-    "token-governed motion with local assets, failure-safe loading, and live preference cleanup"
+    "token-governed motion with local assets, failure-safe loading, and live preference cleanup",
+    "native Drupal visual options with upgrade-safe independent motion switches"
   ]
 }

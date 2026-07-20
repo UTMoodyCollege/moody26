@@ -27,6 +27,7 @@ const files = {
   editorialSections: 'css/components/editorial-sections.css',
   discoveryIndex: 'css/components/discovery-index.css',
   motionCss: 'css/components/motion.css',
+  settingsCss: 'css/components/theme-settings.css',
   accessibility: 'js/accessibility.js',
   navigation: 'js/navigation.js',
   quickActions: 'js/quick-actions.js',
@@ -105,8 +106,8 @@ const forbidText = (file, needle, message) => {
 
 try {
   const packageJson = JSON.parse(contents.package ?? '');
-  if (packageJson.version !== '0.2.0') {
-    errors.push('The motion-system release must remain versioned as 0.2.0.');
+  if (packageJson.version !== '0.3.0') {
+    errors.push('The visual-options release must remain versioned as 0.3.0.');
   }
   for (const [dependency, version] of [
     ['animejs', '4.5.0'],
@@ -151,7 +152,29 @@ requireText('libraries', 'js/navigation.js', 'Theme-owned navigation behavior mu
 requireText('libraries', 'js/quick-actions.js', 'Quick actions must remain attached.');
 requireText('libraries', 'css/components/motion.css', 'Motion safeguards must remain attached.');
 requireText('libraries', 'js/dist/motion.min.js', 'The built motion integration must remain attached.');
-requireText('libraries', 'version: 0.2.0', 'The Drupal asset version must match the motion release.');
+requireText('libraries', 'version: 0.3.0', 'The Drupal asset version must match the visual-options release.');
+forbidText('info', '- moody26/motion', 'Optional motion must be attached from theme settings rather than globally.');
+
+for (const setting of ['motion_gsap_enabled', 'motion_anime_enabled']) {
+  requireText('settings', `${setting}: true`, `${setting} must default to enabled for new installs.`);
+  requirePattern('schema', new RegExp(`${setting}:[\\s\\S]*?type: boolean`), `${setting} must have boolean configuration schema.`);
+  requireText('themeSettings', `'${setting}'`, `${setting} must be exposed in the theme settings form.`);
+  requireText('theme', `theme_get_setting('${setting}') ?? TRUE`, `${setting} must remain enabled when upgrading an existing installation.`);
+}
+requireText('themeSettings', "'#type' => 'details'", 'Moody26 settings must use Drupal’s responsive native details elements.');
+requireText('themeSettings', "'#title' => t('Visual options')", 'The theme settings form must expose a Visual options area.');
+requireText('themeSettings', "'#type' => 'checkbox'", 'Motion choices must use native checkboxes.');
+requireText('themeSettings', "'#title' => t('Accessibility safeguards')", 'Visual options must explain their non-negotiable accessibility behavior.');
+requireText('themeSettings', "'#input' => FALSE", 'Display-only accessibility guidance must not create configuration.');
+requireText('themeSettings', "'moody26/settings'", 'The native settings form must attach its target-size enhancement.');
+requireText('themeSettings', "'moody26-motion-options'", 'Motion controls need a narrowly scoped settings hook.');
+requireText('libraries', 'css/components/theme-settings.css', 'The settings library must include its scoped stylesheet.');
+requireText('settingsCss', 'component: theme visual options', 'Settings CSS must retain its Hallmark component contract.');
+requireText('settingsCss', 'min-block-size: var(--moody26-settings-target-min);', 'Settings labels must preserve a 44 CSS-pixel target.');
+requireText('theme', "$variables['#attached']['library'][] = 'moody26/motion';", 'PHP must attach motion only when an option is enabled.');
+requireText('theme', "setAttribute('data-moody26-motion-gsap'", 'The document must expose the resolved GSAP option.');
+requireText('theme', "setAttribute('data-moody26-motion-anime'", 'The document must expose the resolved Anime.js option.');
+requireText('theme', "$motion_enabled ? 'pending' : 'disabled'", 'The document must expose a truthful disabled motion state.');
 
 requireText('tokens', '--color-ut-burnt-orange: #bf5700;', 'Use exact UT burnt orange #bf5700.');
 requireText('tokens', '--font-display: "CharisSil", Georgia, serif;', 'Use the approved UT digital serif role.');
@@ -220,6 +243,10 @@ requireText('quickActions', "detail: { kind: 'quick-actions' }", 'Quick actions 
 
 requireText('motion', "from 'animejs/waapi'", 'Use Anime.js’s tree-shaken WAAPI integration.');
 requireText('motion', "from 'animejs/utils'", 'Anime.js stagger must use its modular utility import.');
+requireText('motion', 'dataset.moody26MotionGsap', 'The motion runtime must honor the GSAP theme option.');
+requireText('motion', 'dataset.moody26MotionAnime', 'The motion runtime must honor the Anime.js theme option.');
+requireText('motion', 'if (!animeEnabled || !motionAllowed()', 'Anime.js feedback must stop when its theme option is disabled.');
+requireText('motion', 'if (!gsapEnabled)', 'GSAP loading must stop when its theme option is disabled.');
 requireText('motion', "window.gsap", 'Motion must reuse a compatible page-provided GSAP runtime.');
 requireText('motion', "new URL('../vendor/gsap.min.js'", 'Motion must retain its local GSAP fallback.');
 requireText('motion', 'gsap.matchMedia()', 'GSAP motion must be scoped to responsive media conditions.');
@@ -279,7 +306,7 @@ requireText('discoveryIndex', 'repeat(12, minmax(0, 1fr))', 'Discovery grids mus
 const runtimeFiles = [
   'info', 'libraries', 'theme', 'themeSettings', 'fontsCss', 'css',
   'quickActionsCss', 'landingHero', 'editorialSections', 'discoveryIndex',
-  'motionCss', 'accessibility', 'navigation', 'quickActions', 'motion', 'html', 'page', 'brandbar',
+  'motionCss', 'settingsCss', 'accessibility', 'navigation', 'quickActions', 'motion', 'html', 'page', 'brandbar',
   'header', 'footer', 'brandingBlock', 'menuBlock', 'menu',
 ];
 const forbiddenLegacy = [
@@ -297,7 +324,7 @@ for (const file of runtimeFiles) {
   }
 }
 
-const cssFiles = ['css', 'quickActionsCss', 'landingHero', 'editorialSections', 'discoveryIndex', 'motionCss'];
+const cssFiles = ['css', 'quickActionsCss', 'landingHero', 'editorialSections', 'discoveryIndex', 'motionCss', 'settingsCss'];
 const forbiddenCss = [
   [/#(?:[0-9a-f]{3}|[0-9a-f]{6}|[0-9a-f]{8})\b/i, 'Raw hex colors belong only in tokens.css.'],
   [/\b(?:rgb|rgba|hsl|hsla|oklch)\(/i, 'Raw color functions belong only in tokens.css.'],
@@ -334,6 +361,9 @@ forbidText('readme', 'Base theme | `moody`', 'README must not advertise the lega
 requirePattern('agents', /base theme:\s*false/i, 'AGENTS.md must preserve the standalone theme contract.');
 requireText('agents', 'WCAG 2.3.3', 'AGENTS.md must preserve the interaction-animation accessibility gate.');
 requireText('agents', 'Save-Data', 'AGENTS.md must preserve the data-saving motion gate.');
+requireText('agents', 'all four setting', 'AGENTS.md must require the complete visual-options test matrix.');
+requireText('readme', 'Coordinated page motion (GSAP)', 'README must document the GSAP visual option.');
+requireText('readme', 'Interface motion (Anime.js)', 'README must document the Anime.js visual option.');
 
 if (errors.length) {
   console.error(`Moody26 verification failed (${errors.length}):`);

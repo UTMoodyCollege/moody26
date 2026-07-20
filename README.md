@@ -6,7 +6,7 @@ visual identity with an accessible, editorial system that can serve academic,
 research, film, journalism, advertising, alumni, event, and public-facing
 sites without requiring the legacy Moody or Speedway themes.
 
-> **Project status:** pre-release (`0.2.0`). The theme is being validated in
+> **Project status:** pre-release (`0.3.0`). The theme is being validated in
 > [Moody Core](https://github.com/UTMoodyCollege/moody-core) before its first
 > stable tag. Pin an exact commit when evaluating the `main` branch.
 
@@ -114,8 +114,20 @@ after Drupal’s normal cache rebuild.
 - **Give link:** leave empty to remove the header action.
 - **Parent-unit label and URL:** optional for subsidiary sites. The link is
   displayed in the University bar at desktop sizes only.
+- **Coordinated page motion (GSAP):** enables the one-shot masthead entrance
+  and first eligible discovery-group reveal.
+- **Interface motion (Anime.js):** enables brief submenu and first-open Quick
+  actions feedback.
 - Drupal’s standard logo controls. The bundled approved Moody CSU SVG is used
   when the default logo is selected.
+
+The motion options are independent and enabled by default. Existing
+installations that predate these settings retain the enabled behavior until an
+administrator saves different choices. Reduced-motion and Save-Data preferences
+always take precedence. Disabling both options keeps every interaction
+functional and prevents the optional motion library from being attached. The
+settings use native Drupal controls and preserve 44-pixel label targets without
+replacing the active administration theme’s focus and validation states.
 
 ## Accessibility and University identity
 
@@ -166,10 +178,11 @@ npm run build
 npm run check
 ```
 
-`npm run check` rebuilds the motion artifact before verifying it. Moody26 reuses
-an existing compatible `window.gsap` when a content module provides one; on
-other pages and sites it lazily loads its own local GSAP core. It never loads a
-motion library from a CDN.
+`npm run check` rebuilds the motion artifact before verifying it. When GSAP
+motion is enabled, Moody26 reuses an existing compatible `window.gsap` when a
+content module provides one; on other pages and sites it lazily loads its own
+local GSAP core. Anime.js feedback runs only when its separate option is
+enabled. The theme never loads a motion library from a CDN.
 
 In a Drupal host project, rebuild caches and exercise the installed theme:
 
@@ -196,11 +209,11 @@ than replace manual assistive-technology review.
 | --- | --- |
 | `moody26.info.yml` | Standalone Drupal theme metadata and regions |
 | `moody26.theme` | Theme-owned preprocess and search-form integration |
-| `theme-settings.php` | Give and parent-unit settings |
+| `theme-settings.php` | Native Drupal header and visual options |
 | `tokens.css` | Brand, type, spacing, motion, focus, and layout tokens |
 | `css/fonts.css` | Local approved digital font declarations |
 | `css/moody26.css` | Global foundation, shell, navigation, forms, and footer |
-| `css/components/` | Landing, editorial, discovery, and quick-action components |
+| `css/components/` | Landing, editorial, discovery, quick-action, and settings components |
 | `js/navigation.js` | Drawer and disclosure navigation state |
 | `js/quick-actions.js` | Native dialog and rendered-destination discovery |
 | `js/accessibility.js` | Progressive safeguards for rendered content components |

@@ -11,3 +11,9 @@ moody26.settings:
     parent_link:
       type: uri
       label: 'Parent-unit link URL'
+    motion_gsap_enabled:
+      type: boolean
+      label: 'Enable coordinated page motion with GSAP'
+    motion_anime_enabled:
+      type: boolean
+      label: 'Enable interface motion with Anime.js'
