@@ -6,7 +6,7 @@ visual identity with an accessible, editorial system that can serve academic,
 research, film, journalism, advertising, alumni, event, and public-facing
 sites without requiring the legacy Moody or Speedway themes.
 
-> **Project status:** pre-release (`0.3.0`). The theme is being validated in
+> **Project status:** pre-release (`0.4.0`). The theme is being validated in
 > [Moody Core](https://github.com/UTMoodyCollege/moody-core) before its first
 > stable tag. Pin an exact commit when evaluating the `main` branch.
 
@@ -21,6 +21,8 @@ sites without requiring the legacy Moody or Speedway themes.
   tab order when closed.
 - A `Command+K` / `Control+K` quick-action dialog generated from the site’s
   rendered navigation, home link, search form, and Give link.
+- An optional, theme-selected Social Links content block that uses the site’s
+  existing accessible link names and official UT Drupal Kit icon formatter.
 - Shared tokens for University colors, typography roles, spacing, type scale,
   focus, motion, target sizes, responsive containers, and elevation.
 - Layout Builder-friendly landing heroes, editorial pairings, calls to action,
@@ -114,6 +116,9 @@ after Drupal’s normal cache rebuild.
 - **Give link:** leave empty to remove the header action.
 - **Parent-unit label and URL:** optional for subsidiary sites. The link is
   displayed in the University bar at desktop sizes only.
+- **Header social links:** selects one published, reusable Social Links content
+  block. Its links appear in the University bar on desktop and in the primary
+  navigation drawer on smaller screens. Leave the setting empty to omit them.
 - **Coordinated page motion (GSAP):** enables the one-shot masthead entrance
   and first eligible discovery-group reveal.
 - **Interface motion (Anime.js):** enables brief submenu and first-open Quick
@@ -128,6 +133,15 @@ always take precedence. Disabling both options keeps every interaction
 functional and prevents the optional motion library from being attached. The
 settings use native Drupal controls and preserve 44-pixel label targets without
 replacing the active administration theme’s focus and validation states.
+
+The header social setting stores the selected block’s UUID so configuration is
+portable between environments. Create and publish the Social Links block in
+the consuming site, keep it reusable, then select it under the Moody 26 header
+settings. Moody 26 renders the block through Drupal’s entity view builder, so
+formatter-provided icon assets, accessible names, access checks, translations,
+and cache metadata remain authoritative. If the selected block becomes
+unpublished, non-reusable, inaccessible, or unavailable, the header omits the
+social landmark instead of rendering stale links.
 
 ## Accessibility and University identity
 
@@ -213,7 +227,7 @@ than replace manual assistive-technology review.
 | `tokens.css` | Brand, type, spacing, motion, focus, and layout tokens |
 | `css/fonts.css` | Local approved digital font declarations |
 | `css/moody26.css` | Global foundation, shell, navigation, forms, and footer |
-| `css/components/` | Landing, editorial, discovery, quick-action, and settings components |
+| `css/components/` | Header social, landing, editorial, discovery, quick-action, and settings components |
 | `js/navigation.js` | Drawer and disclosure navigation state |
 | `js/quick-actions.js` | Native dialog and rendered-destination discovery |
 | `js/accessibility.js` | Progressive safeguards for rendered content components |

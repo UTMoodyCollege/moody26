@@ -11,6 +11,9 @@ moody26.settings:
     parent_link:
       type: uri
       label: 'Parent-unit link URL'
+    header_social_links_block:
+      type: string
+      label: 'Header Social Links content block UUID'
     motion_gsap_enabled:
       type: boolean
       label: 'Enable coordinated page motion with GSAP'

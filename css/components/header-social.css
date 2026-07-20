@@ -1,0 +1,103 @@
+/* Hallmark · macrostructure: Ecosystem Index · component: responsive header social links
+ * genre: playful editorial · tone: youthful academic restraint
+ * anchor hue: UT burnt orange · theme: Moody26
+ * states: default · hover · focus · active · unavailable content fails closed
+ * contrast: pass (40–41) · nav: N11 · footer: Ft1 · slop: pass (1–58)
+ * honest: pass (46) · chrome: pass (47) · tokens: pass (48)
+ * responsive: pass (34, 49–57) · icons: pass (30)
+ * pre-emit critique: P5 H5 E5 S5 R5 V5
+ */
+
+.moody26-header-social .block__ut-social-links,
+.moody26-header-social .block__ut-social-links--items,
+.moody26-header-social .block__ut-social-links--item {
+  margin: 0;
+}
+
+.moody26-header-social .ut-headline {
+  display: none;
+}
+
+.moody26-header-social .block__ut-social-links--items {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--space-2xs);
+  padding: 0;
+}
+
+.moody26-header-social .block__ut-social-links--item {
+  padding: 0;
+  border: 0;
+  flex: 0 0 auto;
+}
+
+.moody26-header-social .block__ut-social-links--link {
+  display: block;
+  inline-size: var(--target-min);
+  block-size: var(--target-min);
+  color: inherit;
+  background-color: currentColor;
+  mask-position: center;
+  mask-repeat: no-repeat;
+  mask-size: var(--space-lg);
+  transition: var(--transition-transform);
+}
+
+.moody26-header-social .block__ut-social-links--link:focus-visible {
+  outline: none;
+  box-shadow: none;
+}
+
+.moody26-header-social .block__ut-social-links--item:focus-within {
+  padding: 0;
+  border-width: 0;
+  border-color: var(--color-transparent);
+  outline: var(--focus-outline);
+  outline-offset: var(--space-3xs);
+  box-shadow: var(--focus-halo);
+}
+
+.moody26-brandbar__social {
+  display: none;
+  margin-inline-start: auto;
+  color: var(--color-accent-ink);
+}
+
+.moody26-brandbar__social .block__ut-social-links--item:focus-within {
+  outline: var(--rule-strong) solid var(--color-accent-ink);
+  box-shadow: none;
+}
+
+.moody26-navigation__social {
+  padding-block: var(--space-md);
+  border-block-start: var(--rule-hair) solid var(--color-ink-2);
+  color: var(--color-paper-3);
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .moody26-header-social .block__ut-social-links--link:hover {
+    transform: translateY(calc(var(--rule-hair) * -1));
+  }
+}
+
+.moody26-header-social .block__ut-social-links--link:active {
+  transform: translateY(var(--rule-hair));
+}
+
+@media (min-width: 75rem) {
+  .moody26-brandbar__social {
+    display: block;
+  }
+
+  .moody26-navigation__social {
+    display: none;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .moody26-header-social .block__ut-social-links--link {
+    transform: none !important;
+    transition-duration: 0ms;
+  }
+}

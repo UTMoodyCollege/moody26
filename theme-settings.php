@@ -13,11 +13,18 @@ use Drupal\Core\Form\FormStateInterface;
 function moody26_form_system_theme_settings_alter(array &$form, FormStateInterface $form_state): void {
   $form['#attached']['library'][] = 'moody26/settings';
 
+  $social_links_options = moody26_social_links_block_options();
+  $selected_social_links = (string) (theme_get_setting('header_social_links_block') ?? '');
+  if ($selected_social_links !== '' && !isset($social_links_options[$selected_social_links])) {
+    $social_links_options[$selected_social_links] = t('Previously selected block (currently unavailable)');
+  }
+
   $form['moody26_header'] = [
     '#type' => 'details',
     '#title' => t('Moody 26 header'),
     '#open' => FALSE,
     '#weight' => -20,
+    '#attributes' => ['class' => ['moody26-header-options']],
   ];
 
   $form['moody26_header']['give_link'] = [
@@ -43,6 +50,16 @@ function moody26_form_system_theme_settings_alter(array &$form, FormStateInterfa
         ':input[name="parent_link_title"]' => ['filled' => TRUE],
       ],
     ],
+  ];
+
+  $form['moody26_header']['header_social_links_block'] = [
+    '#type' => 'select',
+    '#title' => t('Header social links'),
+    '#default_value' => $selected_social_links,
+    '#empty_option' => t('- Do not show social links -'),
+    '#empty_value' => '',
+    '#options' => $social_links_options,
+    '#description' => t('Choose a published, reusable Social Links content block. It appears in the University bar on desktop and in the primary-navigation drawer on smaller screens.'),
   ];
 
   $form['moody26_visual_options'] = [
@@ -79,4 +96,33 @@ function moody26_form_system_theme_settings_alter(array &$form, FormStateInterfa
     '#title' => t('Accessibility safeguards'),
     '#description' => t('Reduced-motion and Save-Data preferences always suppress optional effects. Navigation, Quick actions, focus, and content remain functional in every combination. When both options are disabled, Moody 26 omits its optional motion library.'),
   ];
+}
+
+/**
+ * Returns published reusable Social Links blocks keyed by portable UUID.
+ */
+function moody26_social_links_block_options(): array {
+  $entity_type_manager = \Drupal::entityTypeManager();
+  if (!$entity_type_manager->hasDefinition('block_content')) {
+    return [];
+  }
+
+  $storage = $entity_type_manager->getStorage('block_content');
+  $ids = $storage->getQuery()
+    ->accessCheck(TRUE)
+    ->condition('type', 'social_links')
+    ->condition('status', 1)
+    ->condition('reusable', 1)
+    ->sort('info')
+    ->execute();
+
+  $options = [];
+  foreach ($storage->loadMultiple($ids) as $block) {
+    $options[$block->uuid()] = t('@label (block @id)', [
+      '@label' => $block->label(),
+      '@id' => $block->id(),
+    ]);
+  }
+
+  return $options;
 }

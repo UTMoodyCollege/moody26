@@ -5,6 +5,8 @@
  * Theme hooks for Moody 26.
  */
 
+use Drupal\Component\Uuid\Uuid;
+use Drupal\Core\Cache\CacheableMetadata;
 use Drupal\Core\Form\FormStateInterface;
 use Drupal\Core\Template\Attribute;
 
@@ -38,10 +40,43 @@ function moody26_preprocess_page(array &$variables): void {
   $variables['give_link'] = theme_get_setting('give_link');
   $variables['parent_entity_title'] = theme_get_setting('parent_link_title');
   $variables['parent_entity_link'] = theme_get_setting('parent_link');
+  $variables['header_social_links_desktop'] = [];
+  $variables['header_social_links_mobile'] = [];
   $variables['main_content_attributes'] = (new Attribute())
     ->setAttribute('id', 'main-content')
     ->setAttribute('tabindex', '-1')
     ->addClass('layout-content', 'moody26-main');
+
+  CacheableMetadata::createFromObject(\Drupal::config('moody26.settings'))->applyTo($variables);
+
+  $social_links_uuid = theme_get_setting('header_social_links_block');
+  $entity_type_manager = \Drupal::entityTypeManager();
+  if (!is_string($social_links_uuid) || !Uuid::isValid($social_links_uuid) || !$entity_type_manager->hasDefinition('block_content')) {
+    return;
+  }
+
+  $blocks = $entity_type_manager->getStorage('block_content')->loadByProperties([
+    'uuid' => $social_links_uuid,
+    'type' => 'social_links',
+    'status' => 1,
+    'reusable' => 1,
+  ]);
+  $block = reset($blocks);
+  if (!$block) {
+    return;
+  }
+
+  $block = \Drupal::service('entity.repository')->getTranslationFromContext($block);
+  $access = $block->access('view', NULL, TRUE);
+  if (!$access->isAllowed()) {
+    return;
+  }
+
+  $view_builder = $entity_type_manager->getViewBuilder('block_content');
+  foreach (['header_social_links_desktop', 'header_social_links_mobile'] as $slot) {
+    $variables[$slot] = $view_builder->view($block, 'full');
+    CacheableMetadata::createFromObject($access)->applyTo($variables[$slot]);
+  }
 }
 
 /**

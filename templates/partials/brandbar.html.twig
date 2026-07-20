@@ -11,5 +11,10 @@
     {% if page.utility_nav %}
       <div class="moody26-brandbar__utility">{{ page.utility_nav }}</div>
     {% endif %}
+    {% if header_social_links_desktop %}
+      <nav class="moody26-header-social moody26-brandbar__social" aria-label="{{ 'Social media'|t }}">
+        {{ header_social_links_desktop }}
+      </nav>
+    {% endif %}
   </div>
 </div>

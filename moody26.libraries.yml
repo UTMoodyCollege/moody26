@@ -1,11 +1,12 @@
 global:
-  version: 0.3.0
+  version: 0.4.0
   css:
     base:
       css/fonts.css: { weight: 90 }
       tokens.css: { weight: 100 }
     theme:
       css/moody26.css: { weight: 100 }
+      css/components/header-social.css: { weight: 102 }
       css/components/quick-actions.css: { weight: 105 }
       css/components/landing-hero.css: { weight: 110 }
       css/components/editorial-sections.css: { weight: 120 }
@@ -20,14 +21,14 @@ global:
     - core/once
 
 motion:
-  version: 0.3.0
+  version: 0.4.0
   js:
     js/dist/motion.min.js: { minified: true }
   dependencies:
     - moody26/global
 
 settings:
-  version: 0.3.0
+  version: 0.4.0
   css:
     theme:
       css/components/theme-settings.css: {}

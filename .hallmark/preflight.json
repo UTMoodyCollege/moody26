@@ -20,6 +20,7 @@
     "live-menu-backed native command palette",
     "route and interaction-state visual regression coverage",
     "theme-owned page shell, disclosure navigation, and local font delivery",
+    "theme-selected reusable social-links content in the responsive header",
     "token-governed motion with local assets, failure-safe loading, and live preference cleanup",
     "native Drupal visual options with upgrade-safe independent motion switches"
   ]

@@ -62,6 +62,19 @@ not belong outside the token and font declaration files.
   required field.
 - Keep the visible Quick actions button and optional Give link aligned to the
   same control height.
+- `header_social_links_block` may select one published, reusable `social_links`
+  content block by UUID. Render it through Drupal's entity view builder after
+  translation and access checks; never copy social destinations or icon assets
+  into theme configuration.
+- On desktop, place the selected Social Links block at the trailing edge of the
+  University bar. Below the 75rem navigation breakpoint, place it in the open
+  primary-navigation drawer. Keep the inactive copy hidden from display and
+  the accessibility tree.
+- Preserve formatter-provided accessible link names and masks. Each icon link
+  keeps a 44-by-44 CSS-pixel target, a visible focus indicator, and a 24-pixel
+  mark. The landmark label is `Social media`.
+- Missing, unpublished, non-reusable, inaccessible, wrong-bundle, or malformed
+  selections fail closed without an empty landmark.
 - Offset the sticky header with `--drupal-displace-offset-top` when Drupal’s
   administrative toolbar is present.
 - At mobile widths, the closed drawer is `inert` and absent from the assistive
@@ -252,9 +265,9 @@ Texas requirements. The current University compliance date is March 1, 2026.
 - `moody26.info.yml`: standalone metadata, stable regions, and global library.
 - `moody26.theme`: page variables, branding metadata, and search-form
   integration.
-- `theme-settings.php` and `config/`: portable Give and parent-unit settings.
-  They also own the independently configurable GSAP and Anime.js motion
-  switches and their upgrade-safe defaults.
+- `theme-settings.php` and `config/`: portable Give, parent-unit, and reusable
+  Social Links block settings. They also own the independently configurable
+  GSAP and Anime.js motion switches and their upgrade-safe defaults.
 - `logo.svg`: approved default Moody CSU artwork.
 - `fonts/`, `LICENSES/`, `css/fonts.css`: locally hosted approved digital fonts
   and their license.
@@ -263,6 +276,8 @@ Texas requirements. The current University compliance date is March 1, 2026.
   compatibility, and footer.
 - `css/components/quick-actions.css`: complete command-palette treatment and
   eight-state preview support.
+- `css/components/header-social.css`: responsive placement, targets, icon
+  scale, and interaction states for formatter-owned Social Links output.
 - `css/components/theme-settings.css`: narrowly scoped 44-pixel target support
   for the native Drupal visual-options form.
 - `css/components/landing-hero.css`: Split Studio photographic and ambient

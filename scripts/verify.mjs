@@ -21,6 +21,7 @@ const files = {
   fontsCss: 'css/fonts.css',
   tokens: 'tokens.css',
   css: 'css/moody26.css',
+  headerSocialCss: 'css/components/header-social.css',
   quickActionsCss: 'css/components/quick-actions.css',
   quickActionsPreview: 'css/components/quick-actions.preview.html',
   landingHero: 'css/components/landing-hero.css',
@@ -106,8 +107,8 @@ const forbidText = (file, needle, message) => {
 
 try {
   const packageJson = JSON.parse(contents.package ?? '');
-  if (packageJson.version !== '0.3.0') {
-    errors.push('The visual-options release must remain versioned as 0.3.0.');
+  if (packageJson.version !== '0.4.0') {
+    errors.push('The header-social release must remain versioned as 0.4.0.');
   }
   for (const [dependency, version] of [
     ['animejs', '4.5.0'],
@@ -151,9 +152,30 @@ requireText('libraries', 'tokens.css: { weight: 100 }', 'Tokens must load before
 requireText('libraries', 'js/navigation.js', 'Theme-owned navigation behavior must remain attached.');
 requireText('libraries', 'js/quick-actions.js', 'Quick actions must remain attached.');
 requireText('libraries', 'css/components/motion.css', 'Motion safeguards must remain attached.');
+requireText('libraries', 'css/components/header-social.css', 'Responsive header social styles must remain attached.');
 requireText('libraries', 'js/dist/motion.min.js', 'The built motion integration must remain attached.');
-requireText('libraries', 'version: 0.3.0', 'The Drupal asset version must match the visual-options release.');
+requireText('libraries', 'version: 0.4.0', 'The Drupal asset version must match the header-social release.');
 forbidText('info', '- moody26/motion', 'Optional motion must be attached from theme settings rather than globally.');
+
+requireText('settings', "header_social_links_block: ''", 'Header social links must be optional for new installs.');
+requirePattern('schema', /header_social_links_block:[\s\S]*?type: string/, 'Header social links must have portable string configuration schema.');
+requireText('themeSettings', "'#type' => 'select'", 'Header social links must use Drupal’s native select control.');
+requireText('themeSettings', 'moody26_social_links_block_options()', 'The header setting must discover eligible Social Links blocks.');
+requireText('themeSettings', '->accessCheck(TRUE)', 'The Social Links selection query must enforce entity-query access.');
+requireText('themeSettings', "->condition('type', 'social_links')", 'Only Social Links blocks may be selected.');
+requireText('themeSettings', "->condition('status', 1)", 'Only published Social Links blocks may be selected.');
+requireText('themeSettings', "->condition('reusable', 1)", 'Only reusable Social Links blocks may be selected.');
+requireText('themeSettings', '$options[$block->uuid()]', 'Header Social Links configuration must store portable UUIDs.');
+requireText('theme', 'Uuid::isValid($social_links_uuid)', 'Runtime Social Links selection must reject malformed UUIDs.');
+requireText('theme', "'type' => 'social_links'", 'Runtime Social Links loading must enforce the bundle.');
+requireText('theme', "'status' => 1", 'Runtime Social Links loading must enforce published state.');
+requireText('theme', "'reusable' => 1", 'Runtime Social Links loading must enforce reusable state.');
+requireText('theme', "getTranslationFromContext($block)", 'Header Social Links must honor the current content language.');
+requireText('theme', "$block->access('view', NULL, TRUE)", 'Header Social Links must enforce view access with cacheability.');
+requireText('theme', "getViewBuilder('block_content')", 'Header Social Links must use Drupal’s entity view builder.');
+requireText('theme', "$view_builder->view($block, 'full')", 'Header Social Links must preserve formatter output and attachments.');
+requireText('theme', "CacheableMetadata::createFromObject(\\Drupal::config('moody26.settings'))", 'Header Social Links must vary with theme configuration.');
+requireText('theme', 'CacheableMetadata::createFromObject($access)', 'Header Social Links must bubble access cacheability.');
 
 for (const setting of ['motion_gsap_enabled', 'motion_anime_enabled']) {
   requireText('settings', `${setting}: true`, `${setting} must default to enabled for new installs.`);
@@ -171,6 +193,7 @@ requireText('themeSettings', "'moody26-motion-options'", 'Motion controls need a
 requireText('libraries', 'css/components/theme-settings.css', 'The settings library must include its scoped stylesheet.');
 requireText('settingsCss', 'component: theme visual options', 'Settings CSS must retain its Hallmark component contract.');
 requireText('settingsCss', 'min-block-size: var(--moody26-settings-target-min);', 'Settings labels must preserve a 44 CSS-pixel target.');
+requireText('settingsCss', '.moody26-header-options,', 'Header settings must inherit the native-control target token.');
 requireText('theme', "$variables['#attached']['library'][] = 'moody26/motion';", 'PHP must attach motion only when an option is enabled.');
 requireText('theme', "setAttribute('data-moody26-motion-gsap'", 'The document must expose the resolved GSAP option.');
 requireText('theme', "setAttribute('data-moody26-motion-anime'", 'The document must expose the resolved Anime.js option.');
@@ -204,6 +227,10 @@ requireText('header', 'id="moody26-header"', 'The theme must own its header shel
 requireText('header', 'aria-controls="moody26-primary-navigation"', 'The drawer button must identify its navigation.');
 requireText('brandbar', 'https://www.utexas.edu/', 'The University bar must link to UT Austin.');
 requireText('brandbar', 'ut-parent-entity', 'The optional parent-unit hook must remain available.');
+requireText('brandbar', 'header_social_links_desktop', 'The University bar must expose the selected desktop Social Links block.');
+requireText('brandbar', "'Social media'|t", 'Desktop Social Links need an accessible landmark name.');
+requireText('header', 'header_social_links_mobile', 'The navigation drawer must expose the selected mobile Social Links block.');
+requireText('header', "'Social media'|t", 'Mobile Social Links need an accessible landmark name.');
 requireText('footer', 'Emergency Information', 'Footer must provide Emergency Information.');
 requireText('footer', 'Site Policies', 'Footer must provide Site Policies.');
 requireText('footer', 'Digital Accessibility Policy', 'Footer must provide Digital Accessibility Policy.');
@@ -296,6 +323,15 @@ requirePattern('css', /\[data-state="error"\]/, 'Error states must be styled.');
 requirePattern('css', /\[data-state="success"\]/, 'Success states must be styled.');
 
 requireText('quickActionsCss', 'component: command palette', 'Quick actions must retain the Hallmark component contract.');
+requireText('headerSocialCss', 'component: responsive header social links', 'Header Social Links must retain the Hallmark component contract.');
+requireText('headerSocialCss', 'inline-size: var(--target-min);', 'Header social links must preserve 44 CSS-pixel targets.');
+requireText('headerSocialCss', 'block-size: var(--target-min);', 'Header social links must preserve 44 CSS-pixel targets.');
+requireText('headerSocialCss', 'mask-size: var(--space-lg);', 'Header social marks must remain subordinate to their touch targets.');
+requireText('headerSocialCss', ':focus-within', 'Header social links must expose visible parent focus without relying on :has().');
+forbidText('headerSocialCss', ':has(', 'Header social focus must remain compatible with supported Firefox releases.');
+requireText('headerSocialCss', '@media (hover: hover) and (pointer: fine)', 'Header social hover feedback must be capability-gated.');
+requireText('headerSocialCss', '@media (min-width: 75rem)', 'Header social placement must follow the navigation breakpoint.');
+requireText('headerSocialCss', '@media (prefers-reduced-motion: reduce)', 'Header social feedback must honor reduced motion.');
 for (const state of ['Default', 'Hover', 'Focus', 'Active', 'Disabled', 'Loading', 'Error', 'Success']) {
   requireText('quickActionsPreview', `>${state}<`, `The state sheet must include ${state.toLowerCase()}.`);
 }
@@ -305,7 +341,7 @@ requireText('discoveryIndex', 'repeat(12, minmax(0, 1fr))', 'Discovery grids mus
 
 const runtimeFiles = [
   'info', 'libraries', 'theme', 'themeSettings', 'fontsCss', 'css',
-  'quickActionsCss', 'landingHero', 'editorialSections', 'discoveryIndex',
+  'headerSocialCss', 'quickActionsCss', 'landingHero', 'editorialSections', 'discoveryIndex',
   'motionCss', 'settingsCss', 'accessibility', 'navigation', 'quickActions', 'motion', 'html', 'page', 'brandbar',
   'header', 'footer', 'brandingBlock', 'menuBlock', 'menu',
 ];
@@ -324,7 +360,7 @@ for (const file of runtimeFiles) {
   }
 }
 
-const cssFiles = ['css', 'quickActionsCss', 'landingHero', 'editorialSections', 'discoveryIndex', 'motionCss', 'settingsCss'];
+const cssFiles = ['css', 'headerSocialCss', 'quickActionsCss', 'landingHero', 'editorialSections', 'discoveryIndex', 'motionCss', 'settingsCss'];
 const forbiddenCss = [
   [/#(?:[0-9a-f]{3}|[0-9a-f]{6}|[0-9a-f]{8})\b/i, 'Raw hex colors belong only in tokens.css.'],
   [/\b(?:rgb|rgba|hsl|hsla|oklch)\(/i, 'Raw color functions belong only in tokens.css.'],
@@ -364,6 +400,10 @@ requireText('agents', 'Save-Data', 'AGENTS.md must preserve the data-saving moti
 requireText('agents', 'all four setting', 'AGENTS.md must require the complete visual-options test matrix.');
 requireText('readme', 'Coordinated page motion (GSAP)', 'README must document the GSAP visual option.');
 requireText('readme', 'Interface motion (Anime.js)', 'README must document the Anime.js visual option.');
+requireText('readme', 'Header social links', 'README must document the responsive Social Links option.');
+requireText('readme', 'stores the selected block’s UUID', 'README must explain Social Links configuration portability.');
+requireText('agents', '`header_social_links_block`', 'AGENTS.md must preserve the header Social Links contract.');
+requireText('agents', 'Missing, unpublished, non-reusable, inaccessible, wrong-bundle, or malformed', 'AGENTS.md must require Social Links to fail closed.');
 
 if (errors.length) {
   console.error(`Moody26 verification failed (${errors.length}):`);
@@ -373,5 +413,5 @@ if (errors.length) {
   process.exitCode = 1;
 }
 else {
-  console.log(`Moody26 verification passed (${Object.keys(files).length} source files, ${fonts.length} local fonts, standalone shell, UT brand, accessible motion, responsive, and Hallmark gates).`);
+  console.log(`Moody26 verification passed (${Object.keys(files).length} source files, ${fonts.length} local fonts, standalone shell, UT brand, accessible header social links, motion, responsive, and Hallmark gates).`);
 }

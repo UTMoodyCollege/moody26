@@ -4,6 +4,7 @@
  * pre-emit critique: P5 H5 E5 S5 R5 V4
  */
 
+.moody26-header-options,
 .moody26-motion-options {
   --moody26-settings-target-min: 2.75rem;
 }
@@ -11,5 +12,9 @@
 .moody26-motion-options .form-item__label.option {
   display: inline-flex;
   align-items: center;
+  min-block-size: var(--moody26-settings-target-min);
+}
+
+.moody26-header-options select {
   min-block-size: var(--moody26-settings-target-min);
 }

@@ -30,6 +30,11 @@
       {% if page.header_tertiary %}
         <div class="moody26-navigation__utility">{{ page.header_tertiary }}</div>
       {% endif %}
+      {% if header_social_links_mobile %}
+        <nav class="moody26-header-social moody26-navigation__social" aria-label="{{ 'Social media'|t }}">
+          {{ header_social_links_mobile }}
+        </nav>
+      {% endif %}
     </div>
   </div>
 </header>
