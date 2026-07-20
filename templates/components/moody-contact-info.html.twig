@@ -1,0 +1,60 @@
+{#
+/**
+ * @file
+ * Semantic, theme-owned output for the Moody Contact Info formatter.
+ *
+ * The formatter remains responsible for processed copy, link attributes,
+ * cacheability, and attachments. Every authored value is rendered
+ * independently so an omitted field never suppresses another field.
+ */
+#}
+
+{% set rendered_headline = headline|default('')|render %}
+{% set rendered_subheadline = subheadline|default('')|render %}
+{% set rendered_copy = copy|default('')|render %}
+{% set rendered_cta = cta|default('')|render %}
+{% set has_headline = rendered_headline|striptags|trim %}
+{% set has_subheadline = rendered_subheadline|striptags|trim %}
+{% set has_copy = rendered_copy|striptags|trim %}
+{% set has_cta = rendered_cta|striptags|trim %}
+{% set has_details = has_headline or has_copy %}
+{% set has_aside = has_subheadline or has_cta %}
+{% set contact_classes = [
+  'contact-info',
+  has_headline ? 'contact-info--with-title' : 'contact-info--without-title',
+  has_copy ? 'contact-info--with-copy' : 'contact-info--without-copy',
+  has_details ? 'contact-info--with-details' : 'contact-info--without-details',
+  has_aside ? 'contact-info--with-aside' : 'contact-info--without-aside',
+] %}
+
+{% if has_details or has_aside %}
+  <div class="{{ contact_classes|join(' ') }}">
+    <div class="contact-info__inner">
+      {% if has_details %}
+        <div class="contact-info__details">
+          {% if has_headline %}
+            <h2 class="contact-info__title">{{ rendered_headline }}</h2>
+          {% endif %}
+          {% if has_copy %}
+            <div class="contact-info__copy">{{ rendered_copy }}</div>
+          {% endif %}
+        </div>
+      {% endif %}
+
+      {% if has_aside %}
+        <div class="contact-info__aside">
+          {% if has_subheadline %}
+            {% if has_headline %}
+              <h3 class="contact-info__aside-title">{{ rendered_subheadline }}</h3>
+            {% else %}
+              <h2 class="contact-info__aside-title">{{ rendered_subheadline }}</h2>
+            {% endif %}
+          {% endif %}
+          {% if has_cta %}
+            <div class="contact-info__action">{{ rendered_cta }}</div>
+          {% endif %}
+        </div>
+      {% endif %}
+    </div>
+  </div>
+{% endif %}

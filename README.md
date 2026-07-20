@@ -6,7 +6,7 @@ visual identity with an accessible, editorial system that can serve academic,
 research, film, journalism, advertising, alumni, event, and public-facing
 sites without requiring the legacy Moody or Speedway themes.
 
-> **Project status:** pre-release (`0.19.0`). The theme is being validated in
+> **Project status:** pre-release (`0.20.0`). The theme is being validated in
 > [Moody Core](https://github.com/UTMoodyCollege/moody-core) before its first
 > stable tag. Pin an exact commit when evaluating the `main` branch.
 
@@ -50,6 +50,8 @@ sites without requiring the legacy Moody or Speedway themes.
   headings, tabular figures, and migration-aware responsive compositions.
 - Shared Moody Heroes with one page-safe heading contract, named background
   media, resilient image handling, and container-aware overlay or split layouts.
+- Shared Moody Contact Info with independent optional fields, page-safe heading
+  levels, narrow-screen-safe contact links, and page-bundle-independent styling.
 - Shared people directories with semantic list and heading structure,
   accessible linked profiles, responsive filters, honest result counts, and a
   useful empty state.
@@ -214,6 +216,25 @@ administration toolbar. Contact Info closes the path with a neutral service
 band; official burnt orange remains a rule and focus signal rather than a
 large background fill. The `Students` directory term supplies the portable
 `moody26-directory-students` lead composition without relying on node IDs.
+
+### Shared Moody Contact Info
+
+Moody26 overrides the Moody Contact Info formatter with one semantic service
+band that works in landing, standard, subsite, and future page bundles. The
+headline, processed copy, subheadline, and formatter-owned CTA are all
+independently optional: omitting a headline never emits an empty heading, and
+omitting a CTA never hides an authored subheadline. A subheadline is `h3` below
+an authored headline and promotes to `h2` when it is the component’s first
+heading.
+
+The component is mobile-first and container-aware. Details and supporting
+content stack with a horizontal divider at narrow widths, then form an
+asymmetric 7/5 composition with a vertical divider when the component itself
+has room. Long email destinations stay as one scannable affordance at 320 and
+375 CSS pixels without causing horizontal overflow. Processed editor copy and
+link attributes remain formatter-owned; the theme does not reconstruct URLs,
+append decorative arrows, or invent states the server-side formatter cannot
+produce.
 
 ### Shared Moody Showcases
 

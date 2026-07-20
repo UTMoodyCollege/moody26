@@ -35,6 +35,7 @@ const files = {
   flexGridCss: 'css/components/flex-grid.css',
   impactFactsCss: 'css/components/impact-facts.css',
   showcaseCss: 'css/components/showcase.css',
+  contactInfoCss: 'css/components/contact-info.css',
   discoveryIndex: 'css/components/discovery-index.css',
   accordionCss: 'css/components/accordion.css',
   peopleDirectory: 'css/components/people-directory.css',
@@ -80,6 +81,7 @@ const files = {
   impactFactsTemplate: 'templates/components/moody-impact-facts.html.twig',
   showcaseFieldTemplate: 'templates/components/field--moody-showcase.html.twig',
   showcaseTemplate: 'templates/components/moody-showcase.html.twig',
+  contactInfoTemplate: 'templates/components/moody-contact-info.html.twig',
   heroTemplate: 'templates/components/moody-hero.html.twig',
   heroStyle1Template: 'templates/components/moody-hero-1.html.twig',
   heroStyle2Template: 'templates/components/moody-hero-2.html.twig',
@@ -160,8 +162,8 @@ const forbidPattern = (file, pattern, message) => {
 
 try {
   const packageJson = JSON.parse(contents.package ?? '');
-  if (packageJson.version !== '0.19.0') {
-    errors.push('The Moody Hero release must remain versioned as 0.19.0.');
+  if (packageJson.version !== '0.20.0') {
+    errors.push('The Moody Contact Info release must remain versioned as 0.20.0.');
   }
   for (const [dependency, version] of [
     ['animejs', '4.5.0'],
@@ -218,8 +220,9 @@ requireText('libraries', 'css/components/quotation.css', 'Shared Moody Quotation
 requireText('libraries', 'css/components/flex-grid.css', 'Shared Moody Flex Grid styles must remain attached.');
 requireText('libraries', 'css/components/impact-facts.css', 'Shared Moody Impact Facts styles must remain attached.');
 requireText('libraries', 'css/components/showcase.css', 'Shared Moody Showcase styles must remain attached.');
+requireText('libraries', 'css/components/contact-info.css', 'Shared Moody Contact Info styles must remain attached.');
 requireText('libraries', 'js/dist/motion.min.js', 'The built motion integration must remain attached.');
-requireText('libraries', 'version: 0.19.0', 'The Drupal asset version must match the Moody Hero release.');
+requireText('libraries', 'version: 0.20.0', 'The Drupal asset version must match the Moody Contact Info release.');
 forbidText('info', '- moody26/motion', 'Optional motion must be attached from theme settings rather than globally.');
 
 requireText('settings', "header_social_links_block: ''", 'Header social links must be optional for new installs.');
@@ -416,8 +419,24 @@ requireText('landingHero', 'macrostructure: Split Studio', 'Landing components m
 requireText('landingHero', ':has(.block-bundle-moody-hero)', 'Full-bleed heroes must remove generic section padding.');
 requireText('editorialSections', 'container-type: inline-size', 'Editorial components must remain container-aware.');
 requireText('editorialSections', 'var(--drupal-displace-offset-top, 0rem)', 'Layout Builder anchors must clear the optional Drupal toolbar.');
-requireText('editorialSections', '.moody-contact-info-wrapper', 'Resource hubs must retain the shared Contact Info close.');
-requireText('editorialSections', ':has(.block-bundle-moody-contact-info)', 'Contact Info closes must remove generic outer section padding.');
+requireText('contactInfoCss', 'component: editorial service band', 'Moody Contact Info must retain its Hallmark component contract.');
+requireText('contactInfoCss', 'container: contact-info / inline-size;', 'Moody Contact Info must remain container-aware.');
+requireText('contactInfoCss', ':has(.block-bundle-moody-contact-info)', 'Contact Info closes must remove generic outer section padding.');
+requireText('contactInfoCss', 'a:focus-visible', 'Contact Info links need immediate visible focus.');
+requireText('contactInfoCss', '@media (hover: hover) and (pointer: fine)', 'Contact Info hover feedback must be capability-gated.');
+requireText('contactInfoCss', '@container contact-info (min-width: 48rem)', 'Contact Info must retain its component-responsive layout.');
+requireText('contactInfoCss', 'grid-template-columns: minmax(0, 7fr) minmax(0, 5fr);', 'Contact Info must retain its safe asymmetric split.');
+requireText('contactInfoCss', 'a[href^="mailto:"]', 'Contact Info must protect long email affordances at narrow widths.');
+forbidText('editorialSections', '.moody-contact-info-wrapper', 'Legacy Contact Info presentation must not remain in editorial page CSS.');
+requireText('contactInfoTemplate', "rendered_headline|striptags|trim", 'Contact Info must test rendered headline content before emitting a heading.');
+requireText('contactInfoTemplate', '<h2 class="contact-info__title">', 'Contact Info headlines must remain page-safe h2 headings.');
+requireText('contactInfoTemplate', '<h3 class="contact-info__aside-title">', 'Contact Info subheadlines must remain subordinate to authored headlines.');
+requireText('contactInfoTemplate', '<h2 class="contact-info__aside-title">', 'A standalone Contact Info subheadline must not skip heading levels.');
+requireText('contactInfoTemplate', 'has_subheadline or has_cta', 'Contact Info must render each supporting field independently.');
+forbidText('contactInfoTemplate', 'href=', 'Contact Info destinations must remain formatter-owned.');
+forbidText('contactInfoTemplate', '|raw', 'Contact Info must not bypass Drupal render safety.');
+forbidText('contactInfoTemplate', 'attach_library', 'Contact Info must use the theme global library without duplicate attachments.');
+forbidText('contactInfoTemplate', 'moody-contact-info-wrapper', 'Contact Info must not retain legacy presentation wrappers.');
 requireText('discoveryIndex', 'repeat(12, minmax(0, 1fr))', 'Discovery grids must use safe image-bearing tracks.');
 requireText('discoveryIndex', '.linked-focus-area-item:focus-visible', 'Focus Area tasks need immediate visible focus.');
 requireText('discoveryIndex', '.utexas-promo-unit .data-wrapper > a:focus-visible', 'Promo Unit links need immediate visible focus.');
@@ -770,6 +789,7 @@ const runtimeFiles = [
   'flexGridRectangularTemplate', 'flexGridFlipTemplate', 'flexGridCardTemplate',
   'impactFactsCss', 'impactFactsTemplate',
   'showcaseCss', 'showcaseFieldTemplate', 'showcaseTemplate',
+  'contactInfoCss', 'contactInfoTemplate',
   'heroTemplate', 'heroStyle1Template', 'heroStyle2Template', 'heroStyle3Template',
   'heroStyle4Template', 'heroStyle5Template', 'heroStyle6Template', 'heroStyle6ShortTemplate',
   'heroStyle7Template', 'heroStyle8Template',
@@ -795,7 +815,7 @@ for (const file of runtimeFiles) {
   }
 }
 
-const cssFiles = ['css', 'headerSocialCss', 'quickActionsCss', 'landingHero', 'editorialSections', 'featuredHighlightCss', 'promoListCss', 'flexContentCss', 'imageLinkCss', 'flexColorBlocksCss', 'quotationCss', 'flexGridCss', 'impactFactsCss', 'showcaseCss', 'discoveryIndex', 'accordionCss', 'peopleDirectory', 'newsroom', 'motionCss', 'settingsCss'];
+const cssFiles = ['css', 'headerSocialCss', 'quickActionsCss', 'landingHero', 'editorialSections', 'featuredHighlightCss', 'promoListCss', 'flexContentCss', 'imageLinkCss', 'flexColorBlocksCss', 'quotationCss', 'flexGridCss', 'impactFactsCss', 'showcaseCss', 'contactInfoCss', 'discoveryIndex', 'accordionCss', 'peopleDirectory', 'newsroom', 'motionCss', 'settingsCss'];
 const forbiddenCss = [
   [/#(?:[0-9a-f]{3}|[0-9a-f]{6}|[0-9a-f]{8})\b/i, 'Raw hex colors belong only in tokens.css.'],
   [/\b(?:rgb|rgba|hsl|hsla|oklch)\(/i, 'Raw color functions belong only in tokens.css.'],
@@ -826,7 +846,7 @@ for (const file of ['preflight', 'log']) {
     errors.push(`${file} must contain valid JSON.`);
   }
 }
-requireText('preflight', '"package_version": "0.19.0"', 'Hallmark preflight must match the Moody Hero release.');
+requireText('preflight', '"package_version": "0.20.0"', 'Hallmark preflight must match the Moody Contact Info release.');
 requireText('log', 'Conversational FAQ within the Ecosystem Index', 'Hallmark memory must record the shared accordion macrostructure.');
 requireText('log', 'Editorial media directory within the Ecosystem Index', 'Hallmark memory must record the shared Moody Flex Grid component.');
 
@@ -854,6 +874,7 @@ requireText('readme', 'Shared Moody Quotations', 'README must document the reusa
 requireText('readme', 'Shared Moody Flex Grids', 'README must document the reusable Moody Flex Grid layer.');
 requireText('readme', 'Shared Moody Impact Facts', 'README must document the reusable Moody Impact Facts layer.');
 requireText('readme', 'Shared Moody Heroes', 'README must document the reusable Moody Hero layer.');
+requireText('readme', 'Shared Moody Contact Info', 'README must document the reusable Moody Contact Info layer.');
 requireText('agents', '`header_social_links_block`', 'AGENTS.md must preserve the header Social Links contract.');
 requireText('agents', 'Missing, unpublished, non-reusable, inaccessible, wrong-bundle, or malformed', 'AGENTS.md must require Social Links to fail closed.');
 requireText('agents', '### People directories', 'AGENTS.md must preserve the people-directory contract.');
@@ -870,6 +891,7 @@ requireText('agents', '### Moody Flex Grids', 'AGENTS.md must preserve the Moody
 requireText('agents', '### Moody Impact Facts', 'AGENTS.md must preserve the Moody Impact Facts component contract.');
 requireText('agents', '### Moody Showcases', 'AGENTS.md must preserve the Moody Showcase component contract.');
 requireText('agents', '### Moody Heroes', 'AGENTS.md must preserve the Moody Hero component contract.');
+requireText('agents', '### Moody Contact Info', 'AGENTS.md must preserve the Moody Contact Info component contract.');
 
 if (errors.length) {
   console.error(`Moody26 verification failed (${errors.length}):`);
@@ -879,5 +901,5 @@ if (errors.length) {
   process.exitCode = 1;
 }
 else {
-  console.log(`Moody26 verification passed (${Object.keys(files).length} source files, ${fonts.length} local fonts, standalone shell, UT brand, accessible directories, resource hubs, newsroom, accordions, Featured Highlights, Promo Lists, Flex Content Areas, Image Links, Flex Color Blocks, Moody Quotations, Moody Flex Grids, Moody Impact Facts, Moody Showcases, and Moody Heroes, header social links, motion, responsive, and Hallmark gates).`);
+  console.log(`Moody26 verification passed (${Object.keys(files).length} source files, ${fonts.length} local fonts, standalone shell, UT brand, accessible directories, resource hubs, newsroom, accordions, Featured Highlights, Promo Lists, Flex Content Areas, Image Links, Flex Color Blocks, Moody Quotations, Moody Flex Grids, Moody Impact Facts, Moody Showcases, Moody Heroes, and Moody Contact Info, header social links, motion, responsive, and Hallmark gates).`);
 }

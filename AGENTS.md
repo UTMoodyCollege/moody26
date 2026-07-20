@@ -240,6 +240,31 @@ not belong outside the token and font declaration files.
   `moody26-directory-students` for its lead composition. Never use a node ID,
   block UUID, or authored headline as the styling contract.
 
+### Moody Contact Info
+
+- Treat Moody Contact Info as a shared page-bundle-independent service band,
+  not a landing-, standard-, Students-, or route-specific exception. Keep the
+  block’s content and placement under Layout Builder and editor control.
+- Moody26 owns `moody-contact-info.html.twig` and the `contact-info__*`
+  presentation contract. Preserve formatter-rendered processed copy, CTA
+  markup, link attributes, cacheability, and attachments; never reconstruct a
+  destination or use `|raw`.
+- Headline, copy, subheadline, and CTA are independently optional. Never emit
+  an empty heading and never make one authored field conditional on another.
+  The headline is `h2`; a subheadline is `h3` when the headline exists and `h2`
+  when it is the component’s first heading.
+- Use a flat neutral service band with a burnt-orange top rule. Stack details
+  and supporting content with a horizontal divider at narrow container widths;
+  use a safe asymmetric 7/5 split and vertical divider only when the component
+  itself has room. Do not restore the legacy orange panel or dark nested card.
+- Keep formatter-owned CTAs on one line with a 44 CSS-pixel minimum target,
+  immediate visible focus, active feedback, and capability-gated hover. Long
+  standalone email links must remain scannable at 320 and 375 CSS pixels
+  without causing horizontal overflow.
+- Contact Info is server-rendered and static. Do not add decorative reveal
+  motion or fabricate loading, error, success, or disabled controls. Honor an
+  authored `aria-disabled="true"` destination when one is supplied.
+
 ### Moody Showcases
 
 - Treat Moody Showcase as a shared editorial media ledger, not a route-specific

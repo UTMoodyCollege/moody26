@@ -1,6 +1,6 @@
 {
   "date": "2026-07-20",
-  "package_version": "0.19.0",
+  "package_version": "0.20.0",
   "framework": "Drupal 11 / UT Drupal Kit",
   "base_theme": false,
   "font_stack": "Charis SIL + Libre Franklin bundled locally by Moody26",
@@ -35,6 +35,7 @@
     "one semantic Moody Flex Grid contract across six migration-safe formatter variants",
     "semantic Moody Impact Facts as responsive authored proof ledgers",
     "semantic Moody Showcases as resilient editorial media ledgers",
-    "semantic Moody Heroes as responsive editorial page leads"
+    "semantic Moody Heroes as responsive editorial page leads",
+    "semantic Moody Contact Info as a page-bundle-independent editorial service band"
   ]
 }
