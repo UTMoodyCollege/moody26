@@ -76,6 +76,9 @@ not belong outside the token and font declaration files.
   button and uses the native `hidden` state when closed.
 - `Tab` and `Shift+Tab` follow document order. Forward Tab on a closed top-level
   disclosure opens it before focus advances into the first destination.
+- Reverse traversal is symmetric: Shift+Tab from a top-level disclosure opens
+  the preceding disclosure and focuses its final destination. A preceding
+  direct top-level link keeps the browser's native focus order.
 - `Enter` and `Space` toggle the disclosure. `Escape` closes the current layer
   and restores focus to its trigger. Leaving the complete menu item closes its
   submenu without trapping focus.

@@ -94,6 +94,24 @@
           });
 
           trigger.addEventListener('keydown', (event) => {
+            if (event.key === 'Tab' && event.shiftKey) {
+              const previousItem = item.previousElementSibling;
+              const previousTrigger = previousItem?.querySelector(':scope > .moody26-menu__trigger');
+              const previousPanel = previousTrigger
+                ? document.getElementById(previousTrigger.getAttribute('aria-controls'))
+                : null;
+              const previousDestinations = previousPanel?.querySelectorAll('a[href]');
+              const lastDestination = previousDestinations?.[previousDestinations.length - 1];
+              if (!lastDestination) {
+                return;
+              }
+              event.preventDefault();
+              closeSubmenus(previousTrigger);
+              setSubmenuState(previousTrigger, true);
+              lastDestination.focus({ preventScroll: true });
+              return;
+            }
+
             if (event.key === 'Tab' && !event.shiftKey) {
               const firstDestination = panel.querySelector('a[href]');
               if (!firstDestination) {
