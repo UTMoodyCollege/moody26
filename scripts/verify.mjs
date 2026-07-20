@@ -36,6 +36,7 @@ const files = {
   impactFactsCss: 'css/components/impact-facts.css',
   showcaseCss: 'css/components/showcase.css',
   contactInfoCss: 'css/components/contact-info.css',
+  callToActionCss: 'css/components/call-to-action.css',
   discoveryIndex: 'css/components/discovery-index.css',
   accordionCss: 'css/components/accordion.css',
   peopleDirectory: 'css/components/people-directory.css',
@@ -162,8 +163,8 @@ const forbidPattern = (file, pattern, message) => {
 
 try {
   const packageJson = JSON.parse(contents.package ?? '');
-  if (packageJson.version !== '0.20.0') {
-    errors.push('The Moody Contact Info release must remain versioned as 0.20.0.');
+  if (packageJson.version !== '0.21.0') {
+    errors.push('The shared Call to Action release must remain versioned as 0.21.0.');
   }
   for (const [dependency, version] of [
     ['animejs', '4.5.0'],
@@ -221,8 +222,9 @@ requireText('libraries', 'css/components/flex-grid.css', 'Shared Moody Flex Grid
 requireText('libraries', 'css/components/impact-facts.css', 'Shared Moody Impact Facts styles must remain attached.');
 requireText('libraries', 'css/components/showcase.css', 'Shared Moody Showcase styles must remain attached.');
 requireText('libraries', 'css/components/contact-info.css', 'Shared Moody Contact Info styles must remain attached.');
+requireText('libraries', 'css/components/call-to-action.css', 'Shared Call to Action styles must remain attached.');
 requireText('libraries', 'js/dist/motion.min.js', 'The built motion integration must remain attached.');
-requireText('libraries', 'version: 0.20.0', 'The Drupal asset version must match the Moody Contact Info release.');
+requireText('libraries', 'version: 0.21.0', 'The Drupal asset version must match the shared Call to Action release.');
 forbidText('info', '- moody26/motion', 'Optional motion must be attached from theme settings rather than globally.');
 
 requireText('settings', "header_social_links_block: ''", 'Header social links must be optional for new installs.');
@@ -437,6 +439,16 @@ forbidText('contactInfoTemplate', 'href=', 'Contact Info destinations must remai
 forbidText('contactInfoTemplate', '|raw', 'Contact Info must not bypass Drupal render safety.');
 forbidText('contactInfoTemplate', 'attach_library', 'Contact Info must use the theme global library without duplicate attachments.');
 forbidText('contactInfoTemplate', 'moody-contact-info-wrapper', 'Contact Info must not retain legacy presentation wrappers.');
+requireText('callToActionCss', 'component: shared formatter-owned call to action', 'Call to Action blocks must retain their Hallmark component contract.');
+requireText('callToActionCss', 'pre-emit critique: P5 H4 E5 S5 R5 V5', 'Call to Action blocks must retain their Hallmark self-critique.');
+requireText('callToActionCss', '.block-bundle-call-to-action:has(.ut-btn)', 'Call to Action presentation must require real formatter output.');
+requireText('callToActionCss', 'min-block-size: var(--target-min);', 'Call to Action links must retain a 44 CSS-pixel target.');
+requireText('callToActionCss', 'white-space: normal;', 'Long formatter-owned Call to Action labels must remain complete in narrow regions.');
+requireText('callToActionCss', 'word-break: normal;', 'Call to Action labels must not split ordinary words.');
+requireText('callToActionCss', ':focus-visible', 'Call to Action links need immediate visible focus.');
+requireText('callToActionCss', '[aria-disabled="true"]', 'Call to Action links must honor an authored disabled state.');
+requireText('callToActionCss', '@media (hover: hover) and (pointer: fine)', 'Call to Action hover feedback must be capability-gated.');
+requireText('callToActionCss', 'color: var(--color-accent);', 'Call to Action hover text must remain burnt orange.');
 requireText('discoveryIndex', 'repeat(12, minmax(0, 1fr))', 'Discovery grids must use safe image-bearing tracks.');
 requireText('discoveryIndex', '.linked-focus-area-item:focus-visible', 'Focus Area tasks need immediate visible focus.');
 requireText('discoveryIndex', '.utexas-promo-unit .data-wrapper > a:focus-visible', 'Promo Unit links need immediate visible focus.');
@@ -789,7 +801,7 @@ const runtimeFiles = [
   'flexGridRectangularTemplate', 'flexGridFlipTemplate', 'flexGridCardTemplate',
   'impactFactsCss', 'impactFactsTemplate',
   'showcaseCss', 'showcaseFieldTemplate', 'showcaseTemplate',
-  'contactInfoCss', 'contactInfoTemplate',
+  'contactInfoCss', 'contactInfoTemplate', 'callToActionCss',
   'heroTemplate', 'heroStyle1Template', 'heroStyle2Template', 'heroStyle3Template',
   'heroStyle4Template', 'heroStyle5Template', 'heroStyle6Template', 'heroStyle6ShortTemplate',
   'heroStyle7Template', 'heroStyle8Template',
@@ -815,7 +827,7 @@ for (const file of runtimeFiles) {
   }
 }
 
-const cssFiles = ['css', 'headerSocialCss', 'quickActionsCss', 'landingHero', 'editorialSections', 'featuredHighlightCss', 'promoListCss', 'flexContentCss', 'imageLinkCss', 'flexColorBlocksCss', 'quotationCss', 'flexGridCss', 'impactFactsCss', 'showcaseCss', 'contactInfoCss', 'discoveryIndex', 'accordionCss', 'peopleDirectory', 'newsroom', 'motionCss', 'settingsCss'];
+const cssFiles = ['css', 'headerSocialCss', 'quickActionsCss', 'landingHero', 'editorialSections', 'featuredHighlightCss', 'promoListCss', 'flexContentCss', 'imageLinkCss', 'flexColorBlocksCss', 'quotationCss', 'flexGridCss', 'impactFactsCss', 'showcaseCss', 'contactInfoCss', 'callToActionCss', 'discoveryIndex', 'accordionCss', 'peopleDirectory', 'newsroom', 'motionCss', 'settingsCss'];
 const forbiddenCss = [
   [/#(?:[0-9a-f]{3}|[0-9a-f]{6}|[0-9a-f]{8})\b/i, 'Raw hex colors belong only in tokens.css.'],
   [/\b(?:rgb|rgba|hsl|hsla|oklch)\(/i, 'Raw color functions belong only in tokens.css.'],
@@ -846,7 +858,7 @@ for (const file of ['preflight', 'log']) {
     errors.push(`${file} must contain valid JSON.`);
   }
 }
-requireText('preflight', '"package_version": "0.20.0"', 'Hallmark preflight must match the Moody Contact Info release.');
+requireText('preflight', '"package_version": "0.21.0"', 'Hallmark preflight must match the shared Call to Action release.');
 requireText('log', 'Conversational FAQ within the Ecosystem Index', 'Hallmark memory must record the shared accordion macrostructure.');
 requireText('log', 'Editorial media directory within the Ecosystem Index', 'Hallmark memory must record the shared Moody Flex Grid component.');
 
@@ -875,6 +887,7 @@ requireText('readme', 'Shared Moody Flex Grids', 'README must document the reusa
 requireText('readme', 'Shared Moody Impact Facts', 'README must document the reusable Moody Impact Facts layer.');
 requireText('readme', 'Shared Moody Heroes', 'README must document the reusable Moody Hero layer.');
 requireText('readme', 'Shared Moody Contact Info', 'README must document the reusable Moody Contact Info layer.');
+requireText('readme', 'Shared Call to Action blocks', 'README must document the reusable Call to Action layer.');
 requireText('agents', '`header_social_links_block`', 'AGENTS.md must preserve the header Social Links contract.');
 requireText('agents', 'Missing, unpublished, non-reusable, inaccessible, wrong-bundle, or malformed', 'AGENTS.md must require Social Links to fail closed.');
 requireText('agents', '### People directories', 'AGENTS.md must preserve the people-directory contract.');
@@ -892,6 +905,7 @@ requireText('agents', '### Moody Impact Facts', 'AGENTS.md must preserve the Moo
 requireText('agents', '### Moody Showcases', 'AGENTS.md must preserve the Moody Showcase component contract.');
 requireText('agents', '### Moody Heroes', 'AGENTS.md must preserve the Moody Hero component contract.');
 requireText('agents', '### Moody Contact Info', 'AGENTS.md must preserve the Moody Contact Info component contract.');
+requireText('agents', '### Call to Action blocks', 'AGENTS.md must preserve the Call to Action component contract.');
 
 if (errors.length) {
   console.error(`Moody26 verification failed (${errors.length}):`);
@@ -901,5 +915,5 @@ if (errors.length) {
   process.exitCode = 1;
 }
 else {
-  console.log(`Moody26 verification passed (${Object.keys(files).length} source files, ${fonts.length} local fonts, standalone shell, UT brand, accessible directories, resource hubs, newsroom, accordions, Featured Highlights, Promo Lists, Flex Content Areas, Image Links, Flex Color Blocks, Moody Quotations, Moody Flex Grids, Moody Impact Facts, Moody Showcases, Moody Heroes, and Moody Contact Info, header social links, motion, responsive, and Hallmark gates).`);
+  console.log(`Moody26 verification passed (${Object.keys(files).length} source files, ${fonts.length} local fonts, standalone shell, UT brand, accessible directories, resource hubs, newsroom, accordions, Featured Highlights, Promo Lists, Flex Content Areas, Image Links, Flex Color Blocks, Moody Quotations, Moody Flex Grids, Moody Impact Facts, Moody Showcases, Moody Heroes, Moody Contact Info, and Call to Action blocks, header social links, motion, responsive, and Hallmark gates).`);
 }

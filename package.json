@@ -1,6 +1,6 @@
 {
   "name": "@moody-college/moody26",
-  "version": "0.20.0",
+  "version": "0.21.0",
   "private": true,
   "description": "Build and compliance checks for the standalone Moody 26 Drupal theme.",
   "type": "module",

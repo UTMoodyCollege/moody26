@@ -6,7 +6,7 @@ visual identity with an accessible, editorial system that can serve academic,
 research, film, journalism, advertising, alumni, event, and public-facing
 sites without requiring the legacy Moody or Speedway themes.
 
-> **Project status:** pre-release (`0.20.0`). The theme is being validated in
+> **Project status:** pre-release (`0.21.0`). The theme is being validated in
 > [Moody Core](https://github.com/UTMoodyCollege/moody-core) before its first
 > stable tag. Pin an exact commit when evaluating the `main` branch.
 
@@ -52,6 +52,8 @@ sites without requiring the legacy Moody or Speedway themes.
   media, resilient image handling, and container-aware overlay or split layouts.
 - Shared Moody Contact Info with independent optional fields, page-safe heading
   levels, narrow-screen-safe contact links, and page-bundle-independent styling.
+- Shared Call to Action blocks with formatter-owned destinations, compact
+  branded action rules, complete link states, and narrow-region-safe labels.
 - Shared people directories with semantic list and heading structure,
   accessible linked profiles, responsive filters, honest result counts, and a
   useful empty state.
@@ -235,6 +237,23 @@ has room. Long email destinations stay as one scannable affordance at 320 and
 link attributes remain formatter-owned; the theme does not reconstruct URLs,
 append decorative arrows, or invent states the server-side formatter cannot
 produce.
+
+### Shared Call to Action blocks
+
+Moody26 styles the UT Drupal Kit `call_to_action` block through its stable
+Layout Builder wrapper and formatter-owned `.ut-btn` link. Drupal continues to
+own the visible label, destination, link options, external/new-window context,
+block placement, cacheability, and attachments; the theme does not replace the
+block template or rebuild its URL.
+
+The component uses a flat exact-burnt-orange rule and compact action surface
+instead of a card or oversized color band. The target is at least 44 CSS pixels
+high, the label is vertically centered, focus is immediate, and hover reverses
+the surface while keeping the text burnt orange. Concise labels remain on one
+line; long formatter-owned labels wrap between words in narrow Layout Builder
+regions rather than being clipped or truncated. Empty stored blocks remain
+visually empty, and the static link does not fabricate loading, error, or
+success states.
 
 ### Shared Moody Showcases
 
@@ -604,7 +623,7 @@ than replace manual assistive-technology review.
 | `tokens.css` | Brand, type, spacing, motion, focus, and layout tokens |
 | `css/fonts.css` | Local approved digital font declarations |
 | `css/moody26.css` | Global foundation, shell, navigation, forms, and footer |
-| `css/components/` | Header social, Moody Hero, editorial, discovery, resource-hub, accordion, Featured Highlight, Promo List, Flex Content Area, Image Link, Flex Color Block, Moody Quotation, Moody Flex Grid, Impact Facts, people-directory, newsroom, quick-action, and settings components |
+| `css/components/` | Header social, Moody Hero, editorial, discovery, resource-hub, accordion, Featured Highlight, Promo List, Flex Content Area, Image Link, Flex Color Block, Moody Quotation, Moody Flex Grid, Impact Facts, Contact Info, Call to Action, people-directory, newsroom, quick-action, and settings components |
 | `js/navigation.js` | Drawer and disclosure navigation state |
 | `js/quick-actions.js` | Native dialog and rendered-destination discovery |
 | `js/accessibility.js` | Progressive safeguards for rendered content components |

@@ -1,0 +1,65 @@
+/* Hallmark · pre-emit critique: P5 H4 E5 S5 R5 V5 */
+/* Hallmark · component: shared formatter-owned call to action · genre: editorial · motion: cut */
+
+.block-bundle-call-to-action:has(.ut-btn) {
+  container: call-to-action / inline-size;
+  min-inline-size: 0;
+  padding-block: var(--space-md) var(--space-lg);
+  border-block-start: var(--rule-strong) solid var(--color-accent);
+}
+
+.block-bundle-call-to-action:has(.ut-btn) :where(div) {
+  min-inline-size: 0;
+}
+
+.block-bundle-call-to-action .ut-btn {
+  display: inline-flex;
+  inline-size: max-content;
+  max-inline-size: 100%;
+  min-block-size: var(--target-min);
+  align-items: center;
+  justify-content: center;
+  padding-block: var(--space-sm);
+  padding-inline: var(--space-lg);
+  border-color: var(--color-accent);
+  background: var(--color-accent);
+  color: var(--color-accent-ink);
+  line-height: 1.25;
+  text-align: center;
+  text-decoration: none;
+  white-space: normal;
+  overflow-wrap: normal;
+  word-break: normal;
+}
+
+.block-bundle-call-to-action .ut-btn:visited {
+  color: var(--color-accent-ink);
+}
+
+.block-bundle-call-to-action .ut-btn:focus-visible {
+  border-color: var(--color-accent);
+  outline: var(--rule-strong) solid var(--color-paper);
+  outline-offset: var(--rule-strong);
+  box-shadow: 0 0 0 var(--space-xs) var(--color-ink);
+}
+
+.block-bundle-call-to-action .ut-btn:not([aria-disabled="true"]):active {
+  background: var(--color-paper-3);
+  color: var(--color-accent);
+  transform: none;
+}
+
+.block-bundle-call-to-action .ut-btn[aria-disabled="true"] {
+  border-color: var(--color-control-border);
+  background: var(--color-paper-2);
+  color: var(--color-muted);
+  transform: none;
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .block-bundle-call-to-action .ut-btn:not([aria-disabled="true"]):hover {
+    background: var(--color-paper);
+    color: var(--color-accent);
+    transform: none;
+  }
+}

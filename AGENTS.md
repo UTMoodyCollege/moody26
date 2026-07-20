@@ -265,6 +265,28 @@ not belong outside the token and font declaration files.
   motion or fabricate loading, error, success, or disabled controls. Honor an
   authored `aria-disabled="true"` destination when one is supplied.
 
+### Call to Action blocks
+
+- Treat the UT Drupal Kit `call_to_action` block as a shared formatter-owned
+  action rule, not a route-specific button or a second CTA system. Keep its
+  label, destination, link options, block label, and Layout Builder placement
+  under Drupal and editor control.
+- Style the stable `.block-bundle-call-to-action` wrapper and formatter-owned
+  `.ut-btn` output without replacing the block template, rebuilding an `href`,
+  or adding JavaScript navigation. Preserve external/new-window classes,
+  attributes, accessible-name qualifiers, cacheability, and attachments.
+- Use a flat exact-burnt-orange rule and one compact action surface. The link
+  has a 44 CSS-pixel minimum target, vertically centered text, immediate focus,
+  active feedback, an authored `aria-disabled` treatment, and capability-gated
+  hover whose text remains burnt orange.
+- Prefer concise, descriptive one-line labels. When a formatter-owned label
+  cannot fit its narrow Layout Builder region, wrap it between words rather
+  than clipping, truncating, splitting a word, or hiding part of its accessible
+  name. Empty stored blocks must not acquire decorative spacing or a rule.
+- Call to Action blocks are static server-rendered links. Do not add decorative
+  motion, synthetic arrows, invented copy, or fabricated loading, error, or
+  success states.
+
 ### Moody Showcases
 
 - Treat Moody Showcase as a shared editorial media ledger, not a route-specific
@@ -831,6 +853,10 @@ Texas requirements. The current University compliance date is March 1, 2026.
 - `css/components/showcase.css`: semantic editorial media ledgers, intrinsic
   media, migration-aware view modes, resilient CTA states, and static sticky
   media options.
+- `css/components/contact-info.css`: page-safe, container-aware editorial
+  service bands with independently optional authored fields.
+- `css/components/call-to-action.css`: portable formatter-owned action rules,
+  responsive long-label handling, and complete static link states.
 - `css/components/people-directory.css`: responsive filters, semantic people
   indexes, linked profile treatments, current-directory state, and empty-state
   presentation.
