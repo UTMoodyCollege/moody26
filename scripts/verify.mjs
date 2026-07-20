@@ -27,6 +27,7 @@ const files = {
   landingHero: 'css/components/landing-hero.css',
   editorialSections: 'css/components/editorial-sections.css',
   discoveryIndex: 'css/components/discovery-index.css',
+  accordionCss: 'css/components/accordion.css',
   peopleDirectory: 'css/components/people-directory.css',
   newsroom: 'css/components/newsroom.css',
   motionCss: 'css/components/motion.css',
@@ -53,6 +54,7 @@ const files = {
   newsFields: 'templates/views/views-view-fields--news-filtered--block-filtered.html.twig',
   focusAreas: 'templates/components/moody-focus-areas.html.twig',
   promoUnits: 'templates/components/utexas-promo-unit.html.twig',
+  accordionTemplate: 'templates/components/field--moody-accordion.html.twig',
   logo: 'logo.svg',
   sourceLicense: 'LICENSE',
   fontLicense: 'LICENSES/OFL-1.1.txt',
@@ -116,8 +118,8 @@ const forbidText = (file, needle, message) => {
 
 try {
   const packageJson = JSON.parse(contents.package ?? '');
-  if (packageJson.version !== '0.8.0') {
-    errors.push('The shared-resource-hub release must remain versioned as 0.8.0.');
+  if (packageJson.version !== '0.9.0') {
+    errors.push('The shared-accordion release must remain versioned as 0.9.0.');
   }
   for (const [dependency, version] of [
     ['animejs', '4.5.0'],
@@ -164,8 +166,9 @@ requireText('libraries', 'css/components/motion.css', 'Motion safeguards must re
 requireText('libraries', 'css/components/header-social.css', 'Responsive header social styles must remain attached.');
 requireText('libraries', 'css/components/people-directory.css', 'Shared people-directory styles must remain attached.');
 requireText('libraries', 'css/components/newsroom.css', 'Shared newsroom styles must remain attached.');
+requireText('libraries', 'css/components/accordion.css', 'Shared accordion styles must remain attached.');
 requireText('libraries', 'js/dist/motion.min.js', 'The built motion integration must remain attached.');
-requireText('libraries', 'version: 0.8.0', 'The Drupal asset version must match the shared-resource-hub release.');
+requireText('libraries', 'version: 0.9.0', 'The Drupal asset version must match the shared-accordion release.');
 forbidText('info', '- moody26/motion', 'Optional motion must be attached from theme settings rather than globally.');
 
 requireText('settings', "header_social_links_block: ''", 'Header social links must be optional for new installs.');
@@ -378,6 +381,17 @@ requireText('newsroom', 'container: news-index / inline-size;', 'News indexes mu
 requireText('newsroom', 'repeat(12, minmax(0, 1fr))', 'News indexes must retain safe asymmetric tracks.');
 requireText('newsroom', '.news-teaser__story:focus-visible', 'News story links need a visible focus-equivalent detail.');
 requireText('newsroom', '@media (hover: hover) and (pointer: fine)', 'Newsroom hover feedback must be capability-gated.');
+requireText('accordionCss', 'macrostructure: Conversational FAQ', 'Accordions must retain the Hallmark macrostructure contract.');
+requireText('accordionCss', '.moody-accordion__summary:focus-visible', 'Accordion summaries need immediate visible focus.');
+requireText('accordionCss', '.moody-accordion__item[open]', 'Accordions need a non-color expanded-state signal.');
+requireText('accordionCss', '@media (hover: hover) and (pointer: fine)', 'Accordion hover feedback must be capability-gated.');
+requireText('accordionCss', '@media (prefers-reduced-motion: reduce)', 'Accordion disclosure feedback must honor reduced motion.');
+requireText('accordionTemplate', '<details class="moody-accordion__item">', 'Accordions must use native details disclosure state.');
+requireText('accordionTemplate', '<summary class="moody-accordion__summary">', 'Accordions must expose a native summary control.');
+requireText('accordionTemplate', 'aria-hidden="true"', 'Accordion state decoration must remain hidden from assistive technology.');
+forbidText('accordionTemplate', 'x-data', 'Accordions must not depend on Alpine state.');
+forbidText('accordionTemplate', '@click', 'Accordions must not depend on Alpine event handlers.');
+forbidText('accordionTemplate', 'aria-expanded', 'Native accordion state must not be duplicated with manually managed ARIA.');
 requireText('theme', 'function moody26_preprocess_views_view_unformatted', 'Faculty directory rows need a translated result summary.');
 requireText('theme', 'function moody26_preprocess_views_view_fields', 'Faculty directory profiles need entity-backed names and URLs.');
 requireText('theme', "'moody26-directory-' . Html::getClass($directory->label())", 'Landing compositions must use portable directory-term classes.');
@@ -419,6 +433,7 @@ requireText('newsFields', "'Story topics'|t", 'News topic destinations need a tr
 const runtimeFiles = [
   'info', 'libraries', 'theme', 'themeSettings', 'fontsCss', 'css',
   'headerSocialCss', 'quickActionsCss', 'landingHero', 'editorialSections', 'discoveryIndex',
+  'accordionCss', 'accordionTemplate',
   'peopleDirectory', 'peopleDirectoryView', 'peopleDirectoryRows', 'peopleDirectoryFields',
   'newsroom', 'newsRows', 'newsFields',
   'focusAreas', 'promoUnits',
@@ -440,7 +455,7 @@ for (const file of runtimeFiles) {
   }
 }
 
-const cssFiles = ['css', 'headerSocialCss', 'quickActionsCss', 'landingHero', 'editorialSections', 'discoveryIndex', 'peopleDirectory', 'newsroom', 'motionCss', 'settingsCss'];
+const cssFiles = ['css', 'headerSocialCss', 'quickActionsCss', 'landingHero', 'editorialSections', 'discoveryIndex', 'accordionCss', 'peopleDirectory', 'newsroom', 'motionCss', 'settingsCss'];
 const forbiddenCss = [
   [/#(?:[0-9a-f]{3}|[0-9a-f]{6}|[0-9a-f]{8})\b/i, 'Raw hex colors belong only in tokens.css.'],
   [/\b(?:rgb|rgba|hsl|hsla|oklch)\(/i, 'Raw color functions belong only in tokens.css.'],
@@ -471,6 +486,8 @@ for (const file of ['preflight', 'log']) {
     errors.push(`${file} must contain valid JSON.`);
   }
 }
+requireText('preflight', '"package_version": "0.9.0"', 'Hallmark preflight must match the shared-accordion release.');
+requireText('log', 'Conversational FAQ within the Ecosystem Index', 'Hallmark memory must record the shared accordion macrostructure.');
 
 requirePattern('readme', /standalone/i, 'README must describe the standalone architecture.');
 forbidText('readme', 'Base theme | `moody`', 'README must not advertise the legacy base theme.');
@@ -485,11 +502,13 @@ requireText('readme', 'stores the selected block’s UUID', 'README must explain
 requireText('readme', 'Shared people directories', 'README must document the reusable directory layer.');
 requireText('readme', 'Shared resource hubs', 'README must document the reusable resource-hub layer.');
 requireText('readme', 'Shared newsroom components', 'README must document the reusable newsroom layer.');
+requireText('readme', 'Shared accordions', 'README must document the native shared accordion layer.');
 requireText('agents', '`header_social_links_block`', 'AGENTS.md must preserve the header Social Links contract.');
 requireText('agents', 'Missing, unpublished, non-reusable, inaccessible, wrong-bundle, or malformed', 'AGENTS.md must require Social Links to fail closed.');
 requireText('agents', '### People directories', 'AGENTS.md must preserve the people-directory contract.');
 requireText('agents', '### Resource hubs', 'AGENTS.md must preserve the resource-hub contract.');
 requireText('agents', '### Newsroom components', 'AGENTS.md must preserve the newsroom component contract.');
+requireText('agents', '### Accordions', 'AGENTS.md must preserve the native accordion contract.');
 
 if (errors.length) {
   console.error(`Moody26 verification failed (${errors.length}):`);
@@ -499,5 +518,5 @@ if (errors.length) {
   process.exitCode = 1;
 }
 else {
-  console.log(`Moody26 verification passed (${Object.keys(files).length} source files, ${fonts.length} local fonts, standalone shell, UT brand, accessible directories, resource hubs, and newsroom, header social links, motion, responsive, and Hallmark gates).`);
+  console.log(`Moody26 verification passed (${Object.keys(files).length} source files, ${fonts.length} local fonts, standalone shell, UT brand, accessible directories, resource hubs, newsroom, and accordions, header social links, motion, responsive, and Hallmark gates).`);
 }

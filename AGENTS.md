@@ -268,6 +268,27 @@ not belong outside the token and font declaration files.
   and an asymmetric 12-track ledger at wide container sizes. Keep cards flat,
   motion static by default, hover capability-gated, and focus immediate.
 
+### Accordions
+
+- Treat Moody Accordion blocks as one shared component used across the fleet,
+  not as page-specific FAQ styling. Keep questions, answers, links, headings,
+  and Layout Builder placement under Drupal and editor control.
+- Use native `<details>` and `<summary>` for disclosure state and keyboard
+  behavior. Do not add Alpine, Bootstrap collapse, custom JavaScript state,
+  or manually duplicated `aria-expanded` and `aria-controls` attributes.
+- Keep every block heading in the surrounding document hierarchy. A question
+  is the accessible name of its native summary control, not a fake heading.
+- Answers start closed, and multiple answers may remain open so readers can
+  compare instructions. Keep answer prose and links in ordinary document flow;
+  do not animate, absolutely position, or height-clip the content panel.
+- Give each summary at least a 44 CSS-pixel target and immediate visible focus.
+  Capability-gate hover and provide a plus-to-minus expanded signal that does
+  not depend on color. The decorative indicator stays out of the accessibility
+  tree and its transform transition is removed for reduced motion.
+- Preserve native Enter and Space operation, sequential Tab order, 320-pixel
+  reflow, long-question wrapping without split words, and link contrast in
+  every consuming context.
+
 ### Footer
 
 - Render real site identity and navigation before the legal row.
@@ -385,6 +406,8 @@ Texas requirements. The current University compliance date is March 1, 2026.
   CTA, and form treatments for Layout Builder output.
 - `css/components/discovery-index.css`: irregular grids for news, programs,
   people, Focus Areas, Promo Units, and other discovery surfaces.
+- `css/components/accordion.css`: native disclosure layout, state, focus, and
+  responsive typography for shared Moody Accordion fields.
 - `css/components/people-directory.css`: responsive filters, semantic people
   indexes, linked profile treatments, current-directory state, and empty-state
   presentation.

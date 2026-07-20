@@ -6,7 +6,7 @@ visual identity with an accessible, editorial system that can serve academic,
 research, film, journalism, advertising, alumni, event, and public-facing
 sites without requiring the legacy Moody or Speedway themes.
 
-> **Project status:** pre-release (`0.8.0`). The theme is being validated in
+> **Project status:** pre-release (`0.9.0`). The theme is being validated in
 > [Moody Core](https://github.com/UTMoodyCollege/moody-core) before its first
 > stable tag. Pin an exact commit when evaluating the `main` branch.
 
@@ -37,6 +37,8 @@ sites without requiring the legacy Moody or Speedway themes.
 - A shared newsroom layer with semantic story lists, one descriptive story
   link per teaser, separate topic destinations, resilient media, compact media
   mentions, and reusable Layout Builder callouts.
+- Native shared accordions with truthful browser-owned disclosure state,
+  44-pixel controls, visible focus, and no runtime JavaScript dependency.
 - A restrained GSAP + Anime.js motion layer with no CDN requests, no functional
   dependency on animation, and immediate reduced-motion fallbacks.
 - Matching CKEditor 5 styles and a standalone structural verifier.
@@ -210,6 +212,21 @@ Color Blocks with the theme’s flat, token-governed Layout Builder system. A
 landing page whose `field_moody_url_generator` term is `News` receives the
 portable `moody26-directory-news` composition class—never a node-ID selector.
 
+### Shared accordions
+
+Moody26 overrides the Moody Accordion field with native `<details>` and
+`<summary>` markup. The browser owns disclosure state and keyboard behavior;
+the component does not require Alpine, Bootstrap, or theme JavaScript. Block
+headings, questions, answers, links, and placement remain under Drupal and
+editor control.
+
+Answers are closed initially, and readers may keep multiple answers open for
+comparison. Each summary has a 44 CSS-pixel minimum target, immediate visible
+focus, and a plus-to-minus state signal that does not rely on color. Hover is
+limited to devices that support it, and reduced-motion preferences remove the
+indicator transition. Answer content remains ordinary document flow and is
+never animated, clipped, or removed from search indexing.
+
 ## Accessibility and University identity
 
 Moody 26 is designed and tested toward WCAG 2.1 Level AA and the standards
@@ -294,7 +311,7 @@ than replace manual assistive-technology review.
 | `tokens.css` | Brand, type, spacing, motion, focus, and layout tokens |
 | `css/fonts.css` | Local approved digital font declarations |
 | `css/moody26.css` | Global foundation, shell, navigation, forms, and footer |
-| `css/components/` | Header social, landing, editorial, discovery, resource-hub, people-directory, newsroom, quick-action, and settings components |
+| `css/components/` | Header social, landing, editorial, discovery, resource-hub, accordion, people-directory, newsroom, quick-action, and settings components |
 | `js/navigation.js` | Drawer and disclosure navigation state |
 | `js/quick-actions.js` | Native dialog and rendered-destination discovery |
 | `js/accessibility.js` | Progressive safeguards for rendered content components |

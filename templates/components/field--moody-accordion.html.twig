@@ -1,0 +1,30 @@
+{#
+/**
+ * @file
+ * Native, dependency-free Moody Accordion field markup for Moody26.
+ */
+#}
+{%
+  set classes = [
+    'field',
+    'field--name-' ~ field_name|clean_class,
+    'field--type-' ~ field_type|clean_class,
+    'field--label-' ~ label_display,
+    'moody-accordion',
+  ]
+%}
+<div {{ attributes.addClass(classes) }}>
+  {% for item in items %}
+    <details class="moody-accordion__item">
+      <summary class="moody-accordion__summary">
+        <span class="moody-accordion__question">{{ item.content['#panel_title'] }}</span>
+        <span class="moody-accordion__indicator" aria-hidden="true"></span>
+      </summary>
+      <div class="moody-accordion__answer">
+        <div class="moody-accordion__body">
+          {{ item.content['#panel_content'] }}
+        </div>
+      </div>
+    </details>
+  {% endfor %}
+</div>
