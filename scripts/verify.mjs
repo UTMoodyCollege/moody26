@@ -27,6 +27,7 @@ const files = {
   landingHero: 'css/components/landing-hero.css',
   editorialSections: 'css/components/editorial-sections.css',
   discoveryIndex: 'css/components/discovery-index.css',
+  peopleDirectory: 'css/components/people-directory.css',
   motionCss: 'css/components/motion.css',
   settingsCss: 'css/components/theme-settings.css',
   accessibility: 'js/accessibility.js',
@@ -44,6 +45,9 @@ const files = {
   brandingBlock: 'templates/blocks/block--system-branding-block.html.twig',
   menuBlock: 'templates/blocks/block--system-menu-block--primary-menu.html.twig',
   menu: 'templates/menus/menu--primary-menu.html.twig',
+  peopleDirectoryView: 'templates/views/views-view--faculty-bio-view.html.twig',
+  peopleDirectoryRows: 'templates/views/views-view-unformatted--faculty-bio-view.html.twig',
+  peopleDirectoryFields: 'templates/views/views-view-fields--faculty-bio-view.html.twig',
   logo: 'logo.svg',
   sourceLicense: 'LICENSE',
   fontLicense: 'LICENSES/OFL-1.1.txt',
@@ -107,8 +111,8 @@ const forbidText = (file, needle, message) => {
 
 try {
   const packageJson = JSON.parse(contents.package ?? '');
-  if (packageJson.version !== '0.5.0') {
-    errors.push('The mobile-navigation release must remain versioned as 0.5.0.');
+  if (packageJson.version !== '0.6.0') {
+    errors.push('The shared-directory release must remain versioned as 0.6.0.');
   }
   for (const [dependency, version] of [
     ['animejs', '4.5.0'],
@@ -153,8 +157,9 @@ requireText('libraries', 'js/navigation.js', 'Theme-owned navigation behavior mu
 requireText('libraries', 'js/quick-actions.js', 'Quick actions must remain attached.');
 requireText('libraries', 'css/components/motion.css', 'Motion safeguards must remain attached.');
 requireText('libraries', 'css/components/header-social.css', 'Responsive header social styles must remain attached.');
+requireText('libraries', 'css/components/people-directory.css', 'Shared people-directory styles must remain attached.');
 requireText('libraries', 'js/dist/motion.min.js', 'The built motion integration must remain attached.');
-requireText('libraries', 'version: 0.5.0', 'The Drupal asset version must match the mobile-navigation release.');
+requireText('libraries', 'version: 0.6.0', 'The Drupal asset version must match the shared-directory release.');
 forbidText('info', '- moody26/motion', 'Optional motion must be attached from theme settings rather than globally.');
 
 requireText('settings', "header_social_links_block: ''", 'Header social links must be optional for new installs.');
@@ -208,6 +213,7 @@ requireText('tokens', '--focus-outline:', 'Visible focus must use a named token.
 requireText('tokens', '--motion-distance: 0.75rem;', 'Spatial motion must retain its capped distance token.');
 requireText('tokens', '--motion-stagger: 48ms;', 'Motion stagger must remain tokenized.');
 requireText('tokens', '--motion-stagger-tight: 28ms;', 'Disclosure stagger must remain tokenized.');
+requireText('tokens', '--media-portrait-ratio: 1;', 'People imagery must use the shared portrait-ratio token.');
 
 for (const weight of ['400', '500', '600', '700', '900']) {
   requireText('fontsCss', `font-weight: ${weight};`, `Local font CSS must include weight ${weight}.`);
@@ -349,10 +355,33 @@ for (const state of ['Default', 'Hover', 'Focus', 'Active', 'Disabled', 'Loading
 requireText('landingHero', 'macrostructure: Split Studio', 'Landing components must preserve the Split Studio decision.');
 requireText('editorialSections', 'container-type: inline-size', 'Editorial components must remain container-aware.');
 requireText('discoveryIndex', 'repeat(12, minmax(0, 1fr))', 'Discovery grids must use safe image-bearing tracks.');
+requireText('peopleDirectory', 'component: shared people directory', 'People directories must retain the Hallmark component contract.');
+requireText('peopleDirectory', 'container: people-directory / inline-size;', 'People directories must remain container-aware.');
+requireText('peopleDirectory', 'repeat(4, minmax(0, 1fr))', 'People-directory image grids must use safe tracks.');
+requireText('peopleDirectory', '.people-directory__profile:focus-visible', 'People profile links need a visible focus-equivalent detail.');
+requireText('peopleDirectory', '@media (hover: hover) and (pointer: fine)', 'People-directory hover feedback must be capability-gated.');
+requireText('theme', 'function moody26_preprocess_views_view_unformatted', 'Faculty directory rows need a translated result summary.');
+requireText('theme', 'function moody26_preprocess_views_view_fields', 'Faculty directory profiles need entity-backed names and URLs.');
+requireText('theme', "mb_strtoupper(mb_substr($variables['person_name'], 0, 1))", 'Missing portraits need a content-derived initial.');
+requireText('theme', "'#theme' => 'image_style'", 'Faculty portraits must retain Drupal image-style delivery.');
+requireText('theme', "'#alt' => ''", 'Linked directory portraits must remain decorative beside the visible person name.');
+requireText('peopleDirectoryRows', 'role="list"', 'The directory grid must expose list semantics.');
+requireText('peopleDirectoryRows', "setAttribute('role', 'listitem')", 'Directory entries must expose list-item semantics.');
+requireText('peopleDirectoryView', "'No faculty matched'|t", 'Filtered directories need a useful empty-state heading.');
+requireText('peopleDirectoryView', "'Try a different name, keyword, or department.'|t", 'Filtered directories need useful recovery guidance.');
+requireText('peopleDirectoryFields', '<h2 class="people-directory__name">', 'Each person name must remain a navigable heading.');
+requireText('peopleDirectoryFields', 'href="{{ person_url }}"', 'Each directory profile must provide a real destination link.');
+requireText('peopleDirectoryFields', 'people-directory__monogram', 'Directory media must provide an honest content-derived fallback.');
+requireText('accessibility', "once('moody26-people-directory'", 'Directory navigation enhancement must be idempotent.');
+requireText('accessibility', "setAttribute('aria-current', 'page')", 'Directory switchers must announce the current page.');
+requireText('accessibility', "Drupal.t('Faculty directories')", 'Directory switchers need a translated landmark name.');
+requireText('accessibility', "once('moody26-person-image'", 'Directory portrait fallbacks must be idempotent.');
+requireText('accessibility', "classList.add('people-directory__media--fallback')", 'Failed portraits must reveal the stable fallback tile.');
 
 const runtimeFiles = [
   'info', 'libraries', 'theme', 'themeSettings', 'fontsCss', 'css',
   'headerSocialCss', 'quickActionsCss', 'landingHero', 'editorialSections', 'discoveryIndex',
+  'peopleDirectory', 'peopleDirectoryView', 'peopleDirectoryRows', 'peopleDirectoryFields',
   'motionCss', 'settingsCss', 'accessibility', 'navigation', 'quickActions', 'motion', 'html', 'page', 'brandbar',
   'header', 'footer', 'brandingBlock', 'menuBlock', 'menu',
 ];
@@ -371,7 +400,7 @@ for (const file of runtimeFiles) {
   }
 }
 
-const cssFiles = ['css', 'headerSocialCss', 'quickActionsCss', 'landingHero', 'editorialSections', 'discoveryIndex', 'motionCss', 'settingsCss'];
+const cssFiles = ['css', 'headerSocialCss', 'quickActionsCss', 'landingHero', 'editorialSections', 'discoveryIndex', 'peopleDirectory', 'motionCss', 'settingsCss'];
 const forbiddenCss = [
   [/#(?:[0-9a-f]{3}|[0-9a-f]{6}|[0-9a-f]{8})\b/i, 'Raw hex colors belong only in tokens.css.'],
   [/\b(?:rgb|rgba|hsl|hsla|oklch)\(/i, 'Raw color functions belong only in tokens.css.'],
@@ -413,8 +442,10 @@ requireText('readme', 'Coordinated page motion (GSAP)', 'README must document th
 requireText('readme', 'Interface motion (Anime.js)', 'README must document the Anime.js visual option.');
 requireText('readme', 'Header social links', 'README must document the responsive Social Links option.');
 requireText('readme', 'stores the selected block’s UUID', 'README must explain Social Links configuration portability.');
+requireText('readme', 'Shared people directories', 'README must document the reusable directory layer.');
 requireText('agents', '`header_social_links_block`', 'AGENTS.md must preserve the header Social Links contract.');
 requireText('agents', 'Missing, unpublished, non-reusable, inaccessible, wrong-bundle, or malformed', 'AGENTS.md must require Social Links to fail closed.');
+requireText('agents', '### People directories', 'AGENTS.md must preserve the people-directory contract.');
 
 if (errors.length) {
   console.error(`Moody26 verification failed (${errors.length}):`);
@@ -424,5 +455,5 @@ if (errors.length) {
   process.exitCode = 1;
 }
 else {
-  console.log(`Moody26 verification passed (${Object.keys(files).length} source files, ${fonts.length} local fonts, standalone shell, UT brand, accessible header social links, motion, responsive, and Hallmark gates).`);
+  console.log(`Moody26 verification passed (${Object.keys(files).length} source files, ${fonts.length} local fonts, standalone shell, UT brand, accessible directories, header social links, motion, responsive, and Hallmark gates).`);
 }

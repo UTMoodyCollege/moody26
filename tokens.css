@@ -93,6 +93,7 @@
   --component-gap: clamp(1.5rem, 4vw, 4rem);
   --hero-block-size: clamp(22rem, 62dvh, 36rem);
   --media-feature-ratio: 16 / 10;
+  --media-portrait-ratio: 1;
   --header-logo-inline-max: 27.5rem;
   --header-logo-block-max: 4rem;
   --header-masthead-min: 5.25rem;

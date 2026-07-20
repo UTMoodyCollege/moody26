@@ -1,0 +1,45 @@
+{#
+/**
+ * @file
+ * View shell and useful empty state for the shared Faculty Bio directory.
+ */
+#}
+{% set classes = [
+  dom_id ? 'js-view-dom-id-' ~ dom_id,
+] %}
+<div{{ attributes.addClass(classes) }}>
+  {{ title_prefix }}
+  {{ title }}
+  {{ title_suffix }}
+
+  {% if header %}
+    <header>
+      {{ header }}
+    </header>
+  {% endif %}
+
+  {{ exposed }}
+  {{ attachment_before }}
+
+  {% if rows %}
+    {{ rows }}
+  {% elseif empty %}
+    <section class="people-directory__empty" role="status" aria-labelledby="people-directory-empty-title">
+      <h2 id="people-directory-empty-title">{{ 'No faculty matched'|t }}</h2>
+      <div class="people-directory__empty-message">{{ empty }}</div>
+      <p>{{ 'Try a different name, keyword, or department.'|t }}</p>
+    </section>
+  {% endif %}
+
+  {{ pager }}
+  {{ attachment_after }}
+  {{ more }}
+
+  {% if footer %}
+    <footer>
+      {{ footer }}
+    </footer>
+  {% endif %}
+
+  {{ feed_icons }}
+</div>

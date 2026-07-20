@@ -182,6 +182,36 @@ not belong outside the token and font declaration files.
   animation instances must be scoped and reversible so AJAX and Layout Builder
   do not create duplicate listeners or stale inline transforms.
 
+### People directories
+
+- Treat the shared `faculty_bio_view` as the reference people-directory
+  implementation, not as a one-page CSS exception. Future directory Views add
+  targeted template suggestions and reuse the `people-directory__*` component
+  vocabulary.
+- Keep View configuration, filters, sort order, profile content, and image
+  ownership in the consuming Drupal site. The theme owns presentation and
+  semantic markup only.
+- Render results as a real labelled list whose entries are articles. Each
+  person name is an `h2`, and each entry has one clear profile link containing
+  the portrait, name, position, and department.
+- Treat a linked directory portrait as decorative because the visible person
+  name provides the link purpose. Preserve editor-authored alternatives on the
+  full profile and other contexts where the image carries content.
+- Use Drupal image styles with intrinsic dimensions and lazy loading. Missing
+  portraits render a content-derived initial tile and must not remove the name,
+  destination, or grid rhythm.
+- Keep exposed-filter labels visible, controls equal in height, and the action
+  reachable at 320 CSS pixels. Filtered results include a translated honest
+  count and a useful empty state.
+- Use one compact media-object column on narrow screens, then two, three, and
+  four safe `minmax(0, 1fr)` tracks as the component container grows. Do not
+  rely on Bootstrap grid classes supplied by legacy View configuration.
+- The Active/Emeritus switcher is a labelled navigation landmark and identifies
+  its exact-path destination with `aria-current="page"`.
+- Profile hover styling is capability-gated and has a keyboard focus
+  equivalent. Keep the card flat with a hairline rule; do not add repeated
+  rounded containers, image zoom, or decorative scroll animation.
+
 ### Footer
 
 - Render real site identity and navigation before the legal row.
@@ -299,7 +329,11 @@ Texas requirements. The current University compliance date is March 1, 2026.
   CTA, and form treatments for Layout Builder output.
 - `css/components/discovery-index.css`: irregular grids for news, programs,
   people, and other discovery surfaces.
-- `templates/`: theme-owned document, page, shell, block, and menu markup.
+- `css/components/people-directory.css`: responsive filters, semantic people
+  indexes, linked profile treatments, current-directory state, and empty-state
+  presentation.
+- `templates/`: theme-owned document, page, shell, block, menu, and targeted
+  shared-View markup.
 - `js/navigation.js`: the sole drawer and disclosure state owner.
 - `js/quick-actions.js`: dependency-free command discovery and native-dialog
   behavior.

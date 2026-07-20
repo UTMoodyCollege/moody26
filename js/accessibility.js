@@ -60,6 +60,42 @@
         icon.setAttribute('aria-hidden', 'true');
         icon.setAttribute('focusable', 'false');
       });
+
+      once('moody26-people-directory', '.faculty-bio-view', context).forEach((directory) => {
+        const viewBlock = directory.closest('.views-element-container');
+        const switcherBlock = viewBlock?.previousElementSibling;
+        const switcher = switcherBlock?.matches('.block-bundle-basic')
+          ? switcherBlock.querySelector('.ut-copy p')
+          : null;
+        if (!switcher) {
+          return;
+        }
+
+        switcher.setAttribute('role', 'navigation');
+        switcher.setAttribute('aria-label', Drupal.t('Faculty directories'));
+        const currentPath = window.location.pathname.replace(/\/$/, '') || '/';
+        switcher.querySelectorAll('a[href]').forEach((link) => {
+          const destination = new URL(link.href, window.location.href);
+          const destinationPath = destination.pathname.replace(/\/$/, '') || '/';
+          if (destination.origin === window.location.origin && destinationPath === currentPath) {
+            link.setAttribute('aria-current', 'page');
+          }
+          else {
+            link.removeAttribute('aria-current');
+          }
+        });
+      });
+
+      once('moody26-person-image', '.people-directory__media img', context).forEach((image) => {
+        const hideFailedPortrait = () => {
+          image.setAttribute('hidden', '');
+          image.closest('.people-directory__media')?.classList.add('people-directory__media--fallback');
+        };
+        image.addEventListener('error', hideFailedPortrait, { once: true });
+        if (image.complete && !image.naturalWidth) {
+          hideFailedPortrait();
+        }
+      });
     },
   };
 })(Drupal, once);

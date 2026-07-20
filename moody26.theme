@@ -9,6 +9,7 @@ use Drupal\Component\Uuid\Uuid;
 use Drupal\Core\Cache\CacheableMetadata;
 use Drupal\Core\Form\FormStateInterface;
 use Drupal\Core\Template\Attribute;
+use Drupal\node\NodeInterface;
 
 /**
  * Implements hook_preprocess_html().
@@ -99,6 +100,67 @@ function moody26_preprocess_block(array &$variables): void {
   if (isset($utility_classes[$plugin_id])) {
     $variables['attributes']['class'][] = $utility_classes[$plugin_id];
   }
+}
+
+/**
+ * Implements hook_preprocess_views_view_unformatted().
+ */
+function moody26_preprocess_views_view_unformatted(array &$variables): void {
+  if (($variables['view']->id() ?? '') !== 'faculty_bio_view') {
+    return;
+  }
+
+  $count = count($variables['rows'] ?? []);
+  $variables['people_directory_summary'] = \Drupal::translation()->formatPlural(
+    $count,
+    '1 faculty member',
+    '@count faculty members',
+  );
+}
+
+/**
+ * Implements hook_preprocess_views_view_fields().
+ */
+function moody26_preprocess_views_view_fields(array &$variables): void {
+  if (($variables['view']->id() ?? '') !== 'faculty_bio_view') {
+    return;
+  }
+
+  $person = $variables['row']->_entity ?? NULL;
+  if (!$person instanceof NodeInterface) {
+    return;
+  }
+
+  $variables['person_name'] = $person->label();
+  $variables['person_initial'] = mb_strtoupper(mb_substr($variables['person_name'], 0, 1));
+  $variables['person_url'] = $person->toUrl('canonical')->toString();
+  $variables['person_image'] = [];
+
+  if (!$person->hasField('field_headshot_faculty_bio')) {
+    return;
+  }
+
+  $headshot = $person->get('field_headshot_faculty_bio')->first();
+  if (!$headshot || $headshot->isEmpty() || !$headshot->entity) {
+    return;
+  }
+
+  $variables['person_image'] = [
+    '#theme' => 'image_style',
+    '#style_name' => 'faculty_bio_image',
+    '#uri' => $headshot->entity->getFileUri(),
+    '#width' => $headshot->width,
+    '#height' => $headshot->height,
+    '#alt' => '',
+    '#attributes' => [
+      'loading' => 'lazy',
+      'decoding' => 'async',
+    ],
+  ];
+  (new CacheableMetadata())
+    ->addCacheableDependency($person)
+    ->addCacheableDependency($headshot->entity)
+    ->applyTo($variables['person_image']);
 }
 
 /**

@@ -6,7 +6,7 @@ visual identity with an accessible, editorial system that can serve academic,
 research, film, journalism, advertising, alumni, event, and public-facing
 sites without requiring the legacy Moody or Speedway themes.
 
-> **Project status:** pre-release (`0.5.0`). The theme is being validated in
+> **Project status:** pre-release (`0.6.0`). The theme is being validated in
 > [Moody Core](https://github.com/UTMoodyCollege/moody-core) before its first
 > stable tag. Pin an exact commit when evaluating the `main` branch.
 
@@ -29,6 +29,9 @@ sites without requiring the legacy Moody or Speedway themes.
   focus, motion, target sizes, responsive containers, and elevation.
 - Layout Builder-friendly landing heroes, editorial pairings, calls to action,
   forms, proof treatments, and discovery grids.
+- Shared people directories with semantic list and heading structure,
+  accessible linked profiles, responsive filters, honest result counts, and a
+  useful empty state.
 - A restrained GSAP + Anime.js motion layer with no CDN requests, no functional
   dependency on animation, and immediate reduced-motion fallbacks.
 - Matching CKEditor 5 styles and a standalone structural verifier.
@@ -154,6 +157,21 @@ and cache metadata remain authoritative. If the selected block becomes
 unpublished, non-reusable, inaccessible, or unavailable, the header omits the
 social landmark instead of rendering stale links.
 
+### Shared people directories
+
+Moody26 treats the `faculty_bio_view` View as the reference implementation for
+shared people directories. The theme keeps the View and its content under
+Drupal configuration and editorial control while providing semantic list
+markup, one clear profile link per person, responsive portrait delivery, a
+content-derived initial when a portrait is unavailable, a compact filter band,
+a translated result count, and a useful no-results state.
+
+The component is mobile-first: entries use a compact media-object layout at
+narrow widths, then become a two-, three-, and four-column editorial index as
+their own container grows. Future fleet directory Views should reuse the
+`people-directory__*` vocabulary and add a targeted template suggestion rather
+than broadening selectors to every Drupal View.
+
 ## Accessibility and University identity
 
 Moody 26 is designed and tested toward WCAG 2.1 Level AA and the standards
@@ -238,14 +256,14 @@ than replace manual assistive-technology review.
 | `tokens.css` | Brand, type, spacing, motion, focus, and layout tokens |
 | `css/fonts.css` | Local approved digital font declarations |
 | `css/moody26.css` | Global foundation, shell, navigation, forms, and footer |
-| `css/components/` | Header social, landing, editorial, discovery, quick-action, and settings components |
+| `css/components/` | Header social, landing, editorial, discovery, people-directory, quick-action, and settings components |
 | `js/navigation.js` | Drawer and disclosure navigation state |
 | `js/quick-actions.js` | Native dialog and rendered-destination discovery |
 | `js/accessibility.js` | Progressive safeguards for rendered content components |
 | `js/motion.js` | GSAP orchestration and Anime.js WAAPI source |
 | `js/dist/motion.min.js` | Committed tree-shaken motion artifact |
 | `js/vendor/gsap.min.js` | Local GSAP core fallback |
-| `templates/` | Theme-owned HTML, page, shell, block, and menu markup |
+| `templates/` | Theme-owned HTML, page, shell, block, menu, and shared View markup |
 | `scripts/build.mjs` | Deterministic motion build and fallback sync |
 | `scripts/verify.mjs` | Standalone brand, accessibility, and architecture gates |
 | `AGENTS.md` | Maintainer design and compliance contract |

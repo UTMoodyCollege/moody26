@@ -1,0 +1,229 @@
+/* Hallmark · macrostructure: Ecosystem Index · component: shared people directory · genre: editorial index
+ * theme: UT custom · tone: youthful, useful, academically restrained · anchor hue: UT burnt orange
+ * states: filter controls + linked profiles · contrast: pass (40–41) · slop: pass (1–58) · mobile: pass (34, 49–57)
+ */
+/* Hallmark · pre-emit critique: P5 H5 E5 S5 R5 V4 */
+
+.faculty-bio-view {
+  container: people-directory / inline-size;
+  width: 100%;
+  margin: 0;
+  text-align: start;
+}
+
+.faculty-bio-view > .views-exposed-form {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  gap: var(--space-md);
+  margin: 0;
+  padding-block: var(--space-lg);
+  border-block: var(--rule-hair) solid var(--color-rule-strong);
+  background: var(--color-paper-2);
+  color: var(--color-ink);
+}
+
+.faculty-bio-view > .views-exposed-form > :where(.form-item, .form-actions) {
+  min-width: 0;
+  margin: 0;
+}
+
+.faculty-bio-view > .views-exposed-form .form-actions {
+  align-self: end;
+}
+
+.faculty-bio-view > .views-exposed-form .form-submit {
+  width: 100%;
+}
+
+.faculty-bio-view.hide-department-selector .form-item-field-department-association-fac-target-id {
+  display: none;
+}
+
+.people-directory__summary {
+  margin-block: var(--space-xl) var(--space-md);
+  color: var(--color-muted);
+  font-size: var(--text-sm);
+  font-weight: 600;
+}
+
+.people-directory__grid {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  gap: var(--space-lg);
+}
+
+.faculty-bio-view .people-directory__person {
+  min-width: 0;
+  margin: 0;
+  padding-block-start: var(--space-md);
+  border: 0;
+  border-block-start: var(--rule-hair) solid var(--color-rule-strong);
+  background: var(--color-transparent);
+}
+
+.people-directory__profile {
+  display: block;
+  min-width: 0;
+  min-height: var(--target-min);
+  color: var(--color-ink);
+  text-decoration: none;
+}
+
+.people-directory__profile--with-media {
+  display: grid;
+  grid-template-columns: var(--space-3xl) minmax(0, 1fr);
+  gap: var(--space-md);
+}
+
+.people-directory__media {
+  position: relative;
+  display: grid;
+  min-width: 0;
+  overflow: clip;
+  aspect-ratio: var(--media-portrait-ratio);
+  border-block-end: var(--rule-strong) solid var(--color-accent);
+  background: var(--color-paper-2);
+  color: var(--color-ink);
+  place-items: center;
+}
+
+.people-directory__monogram {
+  font-family: var(--font-display);
+  font-size: var(--text-heading);
+  font-weight: 700;
+  line-height: var(--leading-tight);
+}
+
+.people-directory__media img {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  aspect-ratio: var(--media-portrait-ratio);
+  object-fit: cover;
+  object-position: center top;
+}
+
+.people-directory__body {
+  min-width: 0;
+}
+
+.people-directory__name {
+  margin-block-end: var(--space-xs);
+  color: var(--color-ink);
+  font-size: var(--text-lead);
+  line-height: var(--leading-heading);
+  text-decoration-color: var(--color-accent);
+  text-decoration-thickness: var(--rule-strong);
+  text-underline-offset: var(--space-3xs);
+}
+
+.people-directory__position {
+  color: var(--color-ink);
+  font-size: var(--text-sm);
+  font-weight: 600;
+  line-height: 1.45;
+}
+
+.people-directory__department {
+  margin-block-start: var(--space-xs);
+  color: var(--color-muted);
+  font-size: var(--text-sm);
+  line-height: 1.45;
+}
+
+.people-directory__empty {
+  margin-block-start: var(--space-xl);
+  padding-block: var(--space-xl);
+  border-block: var(--rule-hair) solid var(--color-rule-strong);
+}
+
+.people-directory__empty > :last-child {
+  margin-block-end: 0;
+}
+
+.layout__region:has(.faculty-bio-view) > .block-bundle-basic:has(+ .views-element-container .faculty-bio-view) {
+  margin-block-end: var(--space-lg);
+}
+
+.layout__region:has(.faculty-bio-view) > .block-bundle-basic:has(+ .views-element-container .faculty-bio-view) .ut-copy p {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-xs);
+  margin: 0;
+}
+
+.layout__region:has(.faculty-bio-view) .ut-btn[aria-current="page"] {
+  border-color: var(--color-accent);
+  background: var(--color-accent);
+  color: var(--color-accent-ink);
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .people-directory__profile:hover .people-directory__name {
+    text-decoration-line: underline;
+  }
+}
+
+.people-directory__profile:focus-visible .people-directory__name {
+  text-decoration-line: underline;
+}
+
+.people-directory__profile:active {
+  background: var(--color-paper-2);
+  color: var(--color-ink);
+}
+
+@container people-directory (min-width: 36rem) {
+  .people-directory__grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: var(--space-xl) var(--space-lg);
+  }
+
+  .people-directory__profile--with-media {
+    display: block;
+  }
+
+  .people-directory__body {
+    padding-block-start: var(--space-md);
+  }
+}
+
+@container people-directory (min-width: 40rem) {
+  .faculty-bio-view > .views-exposed-form {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .faculty-bio-view > .views-exposed-form .form-actions {
+    grid-column: 1 / -1;
+    justify-self: start;
+  }
+
+  .faculty-bio-view > .views-exposed-form .form-submit {
+    width: auto;
+  }
+}
+
+@container people-directory (min-width: 52rem) {
+  .people-directory__grid {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+}
+
+@container people-directory (min-width: 60rem) {
+  .faculty-bio-view > .views-exposed-form {
+    grid-template-columns: minmax(0, 1fr) minmax(0, 1fr) auto;
+    align-items: end;
+  }
+
+  .faculty-bio-view > .views-exposed-form .form-actions {
+    grid-column: auto;
+  }
+
+}
+
+@container people-directory (min-width: 64rem) {
+  .people-directory__grid {
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+  }
+}

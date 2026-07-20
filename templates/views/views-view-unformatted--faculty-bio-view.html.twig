@@ -1,0 +1,24 @@
+{#
+/**
+ * @file
+ * Semantic directory rows for the shared Faculty Bio view.
+ */
+#}
+{% if title %}
+  <h3>{{ title }}</h3>
+{% endif %}
+
+{% if people_directory_summary %}
+  <p class="people-directory__summary">{{ people_directory_summary }}</p>
+{% endif %}
+<div class="people-directory__grid" role="list" aria-label="{{ 'Faculty directory'|t }}">
+  {% for row in rows %}
+    {% set row_classes = [
+      default_row_class ? 'views-row',
+      'people-directory__person',
+    ] %}
+    <article{{ row.attributes.addClass(row_classes).setAttribute('role', 'listitem') }}>
+      {{- row.content -}}
+    </article>
+  {% endfor %}
+</div>
