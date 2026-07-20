@@ -1,5 +1,5 @@
-/* Hallmark · macrostructure: Split Studio · components: S2 · C3 · T3 · contact close
- * pairings: alternating 5/7 · section heads: hanging · quote: roman display
+/* Hallmark · macrostructure: Split Studio · components: S2 · C3 · contact close
+ * pairings: alternating 5/7 · section heads: hanging
  * audience: mixed Moody community · use: discover and choose a next task
  * theme: UT custom · states: default · hover · focus · active · disabled
  */
@@ -467,41 +467,6 @@
   margin: var(--space-sm) 0 0;
   color: var(--color-ink);
   font-size: var(--text-base);
-}
-
-/* T3 proof room: one authored quote gets room without a card or fake proof. */
-:where(.node-page, .node-moody_landing_page, .node-moody_standard_page) .quotation-wrapper {
-  padding: var(--space-3xl) var(--page-gutter);
-  background: var(--color-ink);
-  color: var(--color-paper);
-}
-
-:where(.node-page, .node-moody_landing_page, .node-moody_standard_page) .quotation-wrapper .quote-wrapper {
-  width: min(100%, var(--content-max));
-  margin-inline: auto;
-}
-
-:where(.node-page, .node-moody_landing_page, .node-moody_standard_page) .quotation-wrapper .quote {
-  max-width: 38ch;
-  margin-inline: auto;
-  color: var(--color-paper);
-  font-family: var(--font-display);
-  font-size: var(--text-heading);
-  font-style: normal;
-  font-weight: 700;
-  letter-spacing: -0.02em;
-  line-height: var(--leading-heading);
-  text-align: center;
-  text-wrap: balance;
-}
-
-:where(.node-page, .node-moody_landing_page, .node-moody_standard_page) .quotation-wrapper .author {
-  max-width: var(--measure);
-  margin: var(--space-xl) auto 0;
-  color: var(--color-paper);
-  font-size: var(--text-sm);
-  font-style: normal;
-  text-align: center;
 }
 
 /* C3 typographic links preserve a 44px target while dropping generic button

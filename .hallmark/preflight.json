@@ -1,6 +1,6 @@
 {
   "date": "2026-07-20",
-  "package_version": "0.14.0",
+  "package_version": "0.15.0",
   "framework": "Drupal 11 / UT Drupal Kit",
   "base_theme": false,
   "font_stack": "Charis SIL + Libre Franklin bundled locally by Moody26",
@@ -30,6 +30,7 @@
     "semantic UT Promo Lists with corrected heading order and resilient media",
     "semantic UT Flex Content Areas with responsive author variants and resilient media",
     "accessible UT Image Links with intrinsic media and honest failure recovery",
-    "semantic Moody Flex Color Blocks as neutral responsive task ledgers"
+    "semantic Moody Flex Color Blocks as neutral responsive task ledgers",
+    "semantic Moody Quotations as authored editorial figures with resilient media"
   ]
 }

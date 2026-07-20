@@ -1,0 +1,73 @@
+{#
+/**
+ * @file
+ * Semantic, theme-owned output for the Moody Quotation field formatter.
+ *
+ * The formatter remains responsible for processed text, responsive media,
+ * link options, and cacheability. Legacy style values are retained only as
+ * migration hooks while Moody26 supplies one accessible visual contract.
+ */
+#}
+
+{% set rendered_quote = quote|render %}
+{% set rendered_author = author|render %}
+{% set rendered_attribution = attribution|render %}
+{% set rendered_media = media|render %}
+{% set rendered_cta = cta|render %}
+{% set plain_quote = rendered_quote|striptags|trim %}
+{% set legacy_style = style|default('default')|clean_class %}
+{% set quote_length_class = 'medium' %}
+
+{% if plain_quote|length <= 160 %}
+  {% set quote_length_class = 'short' %}
+{% elseif plain_quote|length > 360 %}
+  {% set quote_length_class = 'long' %}
+{% endif %}
+
+{% set has_media = rendered_media|trim %}
+{% set has_attribution = rendered_author|striptags|trim or rendered_attribution|striptags|trim %}
+{% set quotation_classes = [
+  'moody-quotation',
+  'moody-quotation--legacy-' ~ legacy_style,
+  'moody-quotation--' ~ (has_media ? 'with-media' : 'without-media'),
+  'moody-quotation--' ~ quote_length_class,
+] %}
+
+{% if plain_quote %}
+  <div class="moody-quotation-container">
+    <figure class="{{ quotation_classes|join(' ') }}">
+      {% if has_media %}
+        <div class="moody-quotation__media">
+          {{ rendered_media }}
+        </div>
+      {% endif %}
+
+      <div class="moody-quotation__body">
+        <blockquote class="moody-quotation__quote">
+          <p>{{ rendered_quote }}</p>
+        </blockquote>
+      </div>
+
+      {% if has_attribution %}
+        <figcaption class="moody-quotation__attribution">
+          {% if rendered_author|striptags|trim %}
+            <span class="moody-quotation__author">{{ rendered_author }}</span>{% if rendered_attribution|striptags|trim %}, {% endif %}
+          {% endif %}
+          {% if rendered_attribution|striptags|trim %}
+            <span class="moody-quotation__details">{{ rendered_attribution }}</span>
+          {% endif %}
+
+          {% if rendered_cta|striptags|trim %}
+            <div class="moody-quotation__cta">
+              {{ rendered_cta }}
+            </div>
+          {% endif %}
+        </figcaption>
+      {% elseif rendered_cta|striptags|trim %}
+        <div class="moody-quotation__cta">
+          {{ rendered_cta }}
+        </div>
+      {% endif %}
+    </figure>
+  </div>
+{% endif %}

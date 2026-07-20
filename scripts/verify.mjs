@@ -31,6 +31,7 @@ const files = {
   flexContentCss: 'css/components/flex-content.css',
   imageLinkCss: 'css/components/image-link.css',
   flexColorBlocksCss: 'css/components/flex-color-blocks.css',
+  quotationCss: 'css/components/quotation.css',
   discoveryIndex: 'css/components/discovery-index.css',
   accordionCss: 'css/components/accordion.css',
   peopleDirectory: 'css/components/people-directory.css',
@@ -66,6 +67,7 @@ const files = {
   imageLinkTemplate: 'templates/components/utexas-image-link.html.twig',
   flexColorBlocksFieldTemplate: 'templates/components/field--block-content--field-block-flex-color-blocks--moody-flex-color-blocks.html.twig',
   flexColorBlocksTemplate: 'templates/components/moody-flex-color-blocks.html.twig',
+  quotationTemplate: 'templates/components/moody-quotation.html.twig',
   accordionTemplate: 'templates/components/field--moody-accordion.html.twig',
   logo: 'logo.svg',
   sourceLicense: 'LICENSE',
@@ -130,8 +132,8 @@ const forbidText = (file, needle, message) => {
 
 try {
   const packageJson = JSON.parse(contents.package ?? '');
-  if (packageJson.version !== '0.14.0') {
-    errors.push('The Flex Color Blocks release must remain versioned as 0.14.0.');
+  if (packageJson.version !== '0.15.0') {
+    errors.push('The Moody Quotation release must remain versioned as 0.15.0.');
   }
   for (const [dependency, version] of [
     ['animejs', '4.5.0'],
@@ -184,8 +186,9 @@ requireText('libraries', 'css/components/promo-list.css', 'Shared Promo List sty
 requireText('libraries', 'css/components/flex-content.css', 'Shared Flex Content Area styles must remain attached.');
 requireText('libraries', 'css/components/image-link.css', 'Shared Image Link styles must remain attached.');
 requireText('libraries', 'css/components/flex-color-blocks.css', 'Shared Flex Color Block styles must remain attached.');
+requireText('libraries', 'css/components/quotation.css', 'Shared Moody Quotation styles must remain attached.');
 requireText('libraries', 'js/dist/motion.min.js', 'The built motion integration must remain attached.');
-requireText('libraries', 'version: 0.14.0', 'The Drupal asset version must match the Flex Color Blocks release.');
+requireText('libraries', 'version: 0.15.0', 'The Drupal asset version must match the Moody Quotation release.');
 forbidText('info', '- moody26/motion', 'Optional motion must be attached from theme settings rather than globally.');
 
 requireText('settings', "header_social_links_block: ''", 'Header social links must be optional for new installs.');
@@ -505,6 +508,26 @@ forbidText('flexColorBlocksTemplate', 'attach_library', 'Flex Color Blocks must 
 forbidText('flexColorBlocksTemplate', '|raw', 'Flex Color Blocks must not bypass Drupal render safety.');
 forbidText('editorialSections', 'field--type-moody-flex-color-blocks', 'Flex Color Block layout must live in its dedicated component stylesheet.');
 forbidText('newsroom', 'flex-color-blocks-wrapper', 'Newsroom routes must use the shared Flex Color Block contract.');
+requireText('quotationCss', 'component: authored editorial figure', 'Moody Quotations must retain the Hallmark component contract.');
+requireText('quotationCss', '.moody-quotation-container {', 'Moody Quotations need a dedicated query container outside the figure.');
+requireText('quotationCss', 'container: moody-quotation / inline-size;', 'Moody Quotations must respond to their Layout Builder container.');
+requireText('quotationCss', 'grid-template-columns: minmax(0, 5fr) minmax(0, 7fr);', 'Media quotations must retain safe 5/7 tracks.');
+requireText('quotationCss', '.moody-quotation__cta-link:focus-visible', 'Quotation CTAs need immediate visible focus.');
+requireText('quotationCss', 'min-height: var(--target-min);', 'Quotation CTAs must preserve a 44 CSS-pixel target.');
+requireText('quotationCss', '@media (hover: hover) and (pointer: fine)', 'Quotation CTA hover feedback must be capability-gated.');
+requireText('quotationCss', '.moody-quotation--media-unavailable', 'Moody Quotations must retain a stable failed-media state.');
+requireText('quotationTemplate', '<figure class="{{ quotation_classes|join', 'Moody Quotations must expose figure semantics.');
+requireText('quotationTemplate', '<blockquote class="moody-quotation__quote">', 'Moody Quotations must expose real quotation semantics.');
+requireText('quotationTemplate', '<figcaption class="moody-quotation__attribution">', 'Moody Quotations must expose real attribution semantics.');
+requireText('quotationTemplate', 'rendered_media', 'Moody Quotations must preserve formatter-owned responsive media output.');
+requireText('quotationTemplate', 'rendered_cta', 'Moody Quotations must preserve formatter-owned CTA output.');
+requireText('quotationTemplate', 'moody-quotation--legacy-', 'Legacy quotation styles must remain available as migration classes.');
+forbidText('quotationTemplate', '<cite', 'A person must not be misrepresented as a cited work.');
+forbidText('quotationTemplate', 'href=', 'Quotation CTA destinations must not be reconstructed in Twig.');
+forbidText('quotationTemplate', 'attach_library', 'Moody Quotations must use existing libraries without duplicate attachments.');
+forbidText('quotationTemplate', '|raw', 'Moody Quotations must not bypass Drupal render safety.');
+forbidText('css', '.quotation-wrapper', 'Legacy quotation presentation must not leak into the global stylesheet.');
+forbidText('editorialSections', '.quotation-wrapper', 'Quotation presentation must live in its dedicated component stylesheet.');
 requireText('theme', 'function moody26_preprocess_views_view_unformatted', 'Faculty directory rows need a translated result summary.');
 requireText('theme', 'function moody26_preprocess_views_view_fields', 'Faculty directory profiles need entity-backed names and URLs.');
 requireText('theme', "'moody26-directory-' . Html::getClass($directory->label())", 'Landing compositions must use portable directory-term classes.');
@@ -544,6 +567,8 @@ requireText('accessibility', "Drupal.t('opens in new window')", 'Image Links mus
 requireText('accessibility', "classList.remove('ut-cta-link--external')", 'Same-origin Image Links must not retain a false external-link signal.');
 requireText('accessibility', "classList.add('image-link__media--unavailable')", 'Failed linked images must expose a stable text-link fallback.');
 requireText('accessibility', "image.closest('picture') ?? image", 'Failed Image Links must hide the broken responsive image source.');
+requireText('accessibility', "once('moody26-quotation-image'", 'Moody Quotation media recovery must be idempotent.');
+requireText('accessibility', "classList.add('moody-quotation--media-unavailable')", 'Failed quotation media must preserve and recompose its authored content.');
 requireText('accessibility', 'image.complete && image.currentSrc && !image.naturalWidth', 'Lazy image safeguards must not treat an unselected source as a failure.');
 requireText('focusAreas', '<ul class="focus-areas-items', 'Focus Areas must expose semantic list markup.');
 requireText('focusAreas', 'aria-hidden="true"', 'Focus Area icons must remain decorative beside visible task names.');
@@ -565,6 +590,7 @@ const runtimeFiles = [
   'flexContentCss', 'flexContentFieldTemplate', 'flexContentTemplate',
   'imageLinkCss', 'imageLinkTemplate',
   'flexColorBlocksCss', 'flexColorBlocksFieldTemplate', 'flexColorBlocksTemplate',
+  'quotationCss', 'quotationTemplate',
   'accordionCss', 'accordionTemplate',
   'peopleDirectory', 'peopleDirectoryView', 'peopleDirectoryRows', 'peopleDirectoryFields',
   'newsroom', 'newsRows', 'newsFields',
@@ -618,7 +644,7 @@ for (const file of ['preflight', 'log']) {
     errors.push(`${file} must contain valid JSON.`);
   }
 }
-requireText('preflight', '"package_version": "0.14.0"', 'Hallmark preflight must match the Flex Color Blocks release.');
+requireText('preflight', '"package_version": "0.15.0"', 'Hallmark preflight must match the Moody Quotation release.');
 requireText('log', 'Conversational FAQ within the Ecosystem Index', 'Hallmark memory must record the shared accordion macrostructure.');
 
 requirePattern('readme', /standalone/i, 'README must describe the standalone architecture.');
@@ -640,6 +666,7 @@ requireText('readme', 'Shared Promo Lists', 'README must document the reusable P
 requireText('readme', 'Shared Flex Content Areas', 'README must document the reusable Flex Content Area layer.');
 requireText('readme', 'Shared Image Links', 'README must document the reusable Image Link layer.');
 requireText('readme', 'Shared Flex Color Blocks', 'README must document the reusable Flex Color Block layer.');
+requireText('readme', 'Shared Moody Quotations', 'README must document the reusable Moody Quotation layer.');
 requireText('agents', '`header_social_links_block`', 'AGENTS.md must preserve the header Social Links contract.');
 requireText('agents', 'Missing, unpublished, non-reusable, inaccessible, wrong-bundle, or malformed', 'AGENTS.md must require Social Links to fail closed.');
 requireText('agents', '### People directories', 'AGENTS.md must preserve the people-directory contract.');
@@ -651,6 +678,7 @@ requireText('agents', '### Promo Lists', 'AGENTS.md must preserve the Promo List
 requireText('agents', '### Flex Content Areas', 'AGENTS.md must preserve the Flex Content Area component contract.');
 requireText('agents', '### Image Links', 'AGENTS.md must preserve the Image Link component contract.');
 requireText('agents', '### Flex Color Blocks', 'AGENTS.md must preserve the Flex Color Block component contract.');
+requireText('agents', '### Moody Quotations', 'AGENTS.md must preserve the Moody Quotation component contract.');
 
 if (errors.length) {
   console.error(`Moody26 verification failed (${errors.length}):`);
@@ -660,5 +688,5 @@ if (errors.length) {
   process.exitCode = 1;
 }
 else {
-  console.log(`Moody26 verification passed (${Object.keys(files).length} source files, ${fonts.length} local fonts, standalone shell, UT brand, accessible directories, resource hubs, newsroom, accordions, Featured Highlights, Promo Lists, Flex Content Areas, Image Links, and Flex Color Blocks, header social links, motion, responsive, and Hallmark gates).`);
+  console.log(`Moody26 verification passed (${Object.keys(files).length} source files, ${fonts.length} local fonts, standalone shell, UT brand, accessible directories, resource hubs, newsroom, accordions, Featured Highlights, Promo Lists, Flex Content Areas, Image Links, Flex Color Blocks, and Moody Quotations, header social links, motion, responsive, and Hallmark gates).`);
 }

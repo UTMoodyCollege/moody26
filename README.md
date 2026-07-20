@@ -6,7 +6,7 @@ visual identity with an accessible, editorial system that can serve academic,
 research, film, journalism, advertising, alumni, event, and public-facing
 sites without requiring the legacy Moody or Speedway themes.
 
-> **Project status:** pre-release (`0.14.0`). The theme is being validated in
+> **Project status:** pre-release (`0.15.0`). The theme is being validated in
 > [Moody Core](https://github.com/UTMoodyCollege/moody-core) before its first
 > stable tag. Pin an exact commit when evaluating the `main` branch.
 
@@ -41,6 +41,9 @@ sites without requiring the legacy Moody or Speedway themes.
   proportions, reliable accessible names, and useful unavailable-media links.
 - Shared Moody Flex Color Blocks with semantic list structure, full-row link
   targets, honest non-linked content, and migration-safe legacy color data.
+- Shared Moody Quotations with real quotation and attribution semantics,
+  restrained editorial composition, optional media and CTA, and safe media
+  failure recovery.
 - Shared people directories with semantic list and heading structure,
   accessible linked profiles, responsive filters, honest result counts, and a
   useful empty state.
@@ -338,6 +341,39 @@ own sanitized text, URL objects, block labels, placement, and cacheability. The
 component adds no JavaScript, synthetic arrow, invented CTA, or fabricated
 loading, disabled, error, or success state.
 
+### Shared Moody Quotations
+
+Moody26 renders every Moody Quotation as one semantic `<figure>` containing a
+real `<blockquote>` and, when authored, a `<figcaption>`. Authors remain plain
+attribution text rather than `<cite>` elements, because HTML citation markup
+names a work rather than a person. Drupal continues to own processed quote and
+attribution text, responsive media, alternatives, CTA destinations and link
+options, placement, and cacheability.
+
+The visual treatment is a flat editorial figure instead of a testimonial card
+or full-width dark band. Charis SIL gives the quotation an approved University
+serif voice, while a narrow exact-burnt-orange rule supplies the only brand
+accent. Short, medium, and long authored text receive measured type scales;
+the content stays within a readable 65-character measure and is biased toward
+the trailing edge in wide text-only placements rather than centered by
+default.
+
+Media appears above the quotation in narrow Layout Builder regions and moves
+to a safe 5/7 media-and-copy composition only when the component itself reaches
+52rem. Responsive sources, intrinsic dimensions, and editor-authored
+alternative text remain untouched. If an image fails, only the media wrapper
+is hidden and the figure recomposes as text; the quotation, attribution, and
+CTA remain available.
+
+Stored `default`, `orange`, `grey`, and `feature` values remain as stable
+migration classes but no longer create competing color surfaces or alternate
+semantics. Optional CTAs remain formatter-owned typographic links with a 44
+CSS-pixel target, immediate focus, active feedback, and capability-gated
+hover. Long labels wrap between words when a narrow component cannot contain
+them on one line. The theme invents no quote marks, author copy,
+placeholder imagery, motion, or proof claims; placeholder or incomplete quote
+copy remains an editorial review responsibility.
+
 ### Shared accordions
 
 Moody26 overrides the Moody Accordion field with native `<details>` and
@@ -437,7 +473,7 @@ than replace manual assistive-technology review.
 | `tokens.css` | Brand, type, spacing, motion, focus, and layout tokens |
 | `css/fonts.css` | Local approved digital font declarations |
 | `css/moody26.css` | Global foundation, shell, navigation, forms, and footer |
-| `css/components/` | Header social, landing, editorial, discovery, resource-hub, accordion, Featured Highlight, Promo List, Flex Content Area, Image Link, Flex Color Block, people-directory, newsroom, quick-action, and settings components |
+| `css/components/` | Header social, landing, editorial, discovery, resource-hub, accordion, Featured Highlight, Promo List, Flex Content Area, Image Link, Flex Color Block, Moody Quotation, people-directory, newsroom, quick-action, and settings components |
 | `js/navigation.js` | Drawer and disclosure navigation state |
 | `js/quick-actions.js` | Native dialog and rendered-destination discovery |
 | `js/accessibility.js` | Progressive safeguards for rendered content components |

@@ -429,6 +429,54 @@ not belong outside the token and font declaration files.
   motion, generated arrow text, invented calls to action, or fabricated
   disabled, loading, error, or success states.
 
+### Moody Quotations
+
+- Treat Moody Quotations as shared authored editorial figures, not
+  route-specific testimonials, cards, or full-width color bands. Keep quote
+  text, author, attribution, media, alternative text, CTA, link options,
+  ordering, and Layout Builder placement under Drupal and editor control.
+- Moody26 owns `moody-quotation.html.twig` and the `moody-quotation__*`
+  presentation contract. Preserve the formatter's processed text, responsive
+  media render array, URL and link attributes, cacheability, and attached
+  upstream library. Do not recreate a destination with raw Twig or duplicate
+  formatter behavior in JavaScript or PHP.
+- Render one query-container wrapper around one `<figure>` with one
+  `<blockquote>` and, when author or attribution exists, one `<figcaption>`.
+  The wrapper must remain outside the figure so its container query can
+  respond to the actual Layout Builder region width. Keep `<figcaption>` as
+  the figure's direct last child, with an optional formatter-owned CTA inside
+  it. Put the rendered quotation in a paragraph. An author is not the title of
+  a cited work, so do not use `<cite>` for a person's name. Do not add generated
+  quote-mark content that may be announced or duplicate punctuation already
+  present in editor copy.
+- Retain `default`, `orange`, `grey`, and `feature` values only as stable
+  `moody-quotation--legacy-*` migration classes. They must not change the
+  semantic structure, create burnt-orange tints, restore large color surfaces,
+  or compete with exact UT burnt orange. Use the accent only for rules,
+  underlines, and focus.
+- Use a readable 45–75 character measure and approved roman Charis SIL for the
+  quotation. Derived short, medium, and long classes may tune the type scale,
+  but must never truncate, split ordinary words, or alter editor content.
+  Text-only figures may be trailing-edge biased at wide widths instead of
+  centered by default.
+- Keep media above the copy in narrow containers and allow a safe 5/7
+  media-copy grid only when the component reaches 52rem. Both image-bearing
+  tracks must use `minmax(0, …)`. Preserve responsive source dimensions and
+  authored alternatives without a new crop. A failed image hides only its
+  media wrapper and recomposes the figure without removing quote, attribution,
+  or CTA.
+- A CTA remains the formatter's one descriptive destination. Keep concise
+  labels on one line; when an authored label cannot fit a narrow component,
+  wrap it between words instead of clipping, truncating, or splitting words.
+  Give it at least a 44 CSS-pixel target and provide readable default and
+  visited color, immediate visible focus, active feedback, an `aria-disabled`
+  treatment, and capability-gated hover. Never add a synthetic arrow or
+  second link.
+- Quotations are static server-rendered content. Do not add decorative motion,
+  invented authors, placeholder art, proof claims, or fabricated loading,
+  error, or success states. Placeholder or incomplete stored copy is editorial
+  debt and must not be silently rewritten by the theme.
+
 ### Accordions
 
 - Treat Moody Accordion blocks as one shared component used across the fleet,
@@ -531,8 +579,10 @@ Texas requirements. The current University compliance date is March 1, 2026.
 - Never use `width: 100vw`, forced `100vh` panels, or device-sniffing layout.
 - Image-bearing grids use `minmax(0, 1fr)` tracks.
 - Headings use `overflow-wrap: anywhere` and remain within their container.
-- Primary controls, navigation labels, breadcrumbs, tabs, and CTA labels stay
-  on one line. Reflow the parent or collapse navigation before labels wrap.
+- Primary controls, navigation labels, breadcrumbs, tabs, and compact CTA
+  labels stay on one line. Reflow the parent or collapse navigation before
+  those labels wrap; long formatter-owned editorial link labels may wrap
+  between words when that is the only way to preserve their complete text.
 - Hover rules live inside `(hover: hover) and (pointer: fine)` queries.
 - Motion communicates change, uses property-specific transitions, and has a
   truthful `prefers-reduced-motion` path.
@@ -579,6 +629,8 @@ Texas requirements. The current University compliance date is March 1, 2026.
   labels, accessible target states, and honest unavailable-media recovery.
 - `css/components/flex-color-blocks.css`: semantic task ledgers, linked and
   non-linked states, migration-safe legacy classes, and asymmetric reflow.
+- `css/components/quotation.css`: semantic authored figures, responsive media,
+  migration-safe legacy style classes, CTA states, and failure recovery.
 - `css/components/people-directory.css`: responsive filters, semantic people
   indexes, linked profile treatments, current-directory state, and empty-state
   presentation.

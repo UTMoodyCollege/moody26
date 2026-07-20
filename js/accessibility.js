@@ -94,6 +94,22 @@
         }
       });
 
+      once('moody26-quotation-image', '.moody-quotation__media img', context).forEach((image) => {
+        const hideFailedMedia = () => {
+          const quotation = image.closest('.moody-quotation');
+          const media = image.closest('.moody-quotation__media');
+          if (!quotation || !media || quotation.classList.contains('moody-quotation--media-unavailable')) {
+            return;
+          }
+          media.hidden = true;
+          quotation.classList.add('moody-quotation--media-unavailable');
+        };
+        image.addEventListener('error', hideFailedMedia, { once: true });
+        if (image.complete && image.currentSrc && !image.naturalWidth) {
+          hideFailedMedia();
+        }
+      });
+
       once('moody26-image-link-image', '.image-link__media img', context).forEach((image) => {
         const media = image.closest('.image-link__media');
         const target = image.closest('.image-link__target');

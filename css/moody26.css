@@ -787,25 +787,6 @@ textarea {
   object-fit: cover;
 }
 
-.quotation-wrapper {
-  margin: 0;
-  padding: var(--space-2xl) var(--page-gutter);
-  background: var(--color-ink);
-  color: var(--color-paper);
-}
-
-.quotation-wrapper :where(.quote, .author, p, strong) {
-  color: inherit;
-}
-
-.quotation-wrapper .quote {
-  max-width: 48ch;
-  margin-inline: auto;
-  font-family: var(--font-display);
-  font-size: var(--text-heading);
-  font-weight: 700;
-}
-
 :where(.utexas-promo-unit, .promo-unit, .utnews-teaser, .utevent-event, .view .views-row) {
   border-block-start: var(--rule-hair) solid var(--color-rule-strong);
   background: var(--color-transparent);
