@@ -369,6 +369,36 @@ not belong outside the token and font declaration files.
 - The Flex Content Area is static server-rendered content. Do not fabricate
   disabled, loading, error, or success states or add decorative motion.
 
+### Image Links
+
+- Treat the UT Drupal Kit Image Link as a shared linked-media component, not a
+  route-specific card or a generic image selector. Keep its destination, link
+  text, link options, responsive image, media alternative, block label, and
+  Layout Builder placement under Drupal and editor control.
+- Moody26 owns the `utexas-image-link.html.twig` override and
+  `image-link__*` presentation hooks. Preserve the formatter’s rendered image,
+  URL object, attributes, responsive sources, and cacheability; never recreate
+  its link or media-loading logic in PHP or raw Twig markup.
+- Give each linked image an accessible name from the formatter’s descriptive
+  link text. For migrated content without link text, use the media alternative
+  instead of allowing the upstream external-link enhancement to create an
+  empty label. Preserve truthful external and new-window qualifiers, but remove
+  a stale external-link class from same-origin destinations.
+- Preserve the responsive image’s intrinsic ratio and dimensions. Active
+  content includes portrait report covers, square artwork, and wide graphics;
+  never add a universal `aspect-ratio`, `object-fit: cover`, or overflow crop
+  that can remove essential image text.
+- The full linked image is the target. It must have a 44 CSS-pixel minimum,
+  immediate visible focus, active feedback, readable link contrast, and
+  capability-gated hover. Compact visible block labels may wrap without
+  splitting words or escaping narrow Layout Builder regions.
+- If linked media fails, hide the broken picture and expose its alternative as
+  a visible, underlined text link while retaining the destination and
+  accessible name. If unlinked media fails, collapse it. Never invent
+  placeholder art, captions, CTA text, or a second destination.
+- Image Links are static server-rendered content. Do not add decorative motion
+  or fabricate disabled, loading, error, or success states.
+
 ### Accordions
 
 - Treat Moody Accordion blocks as one shared component used across the fleet,
@@ -515,6 +545,8 @@ Texas requirements. The current University compliance date is March 1, 2026.
   headings, compact media fallbacks, and container-aware authoring variants.
 - `css/components/flex-content.css`: semantic editorial media lists,
   container-aware author variants, responsive media, and failure recovery.
+- `css/components/image-link.css`: intrinsic linked-media plates, compact
+  labels, accessible target states, and honest unavailable-media recovery.
 - `css/components/people-directory.css`: responsive filters, semantic people
   indexes, linked profile treatments, current-directory state, and empty-state
   presentation.
@@ -552,15 +584,15 @@ Run the smallest relevant checks while iterating:
 npm run check --prefix web/themes/custom/moody26
 ddev drush theme:enable moody26 -y
 ddev drush cr
-BASE_URL=https://moody-core.ddev.site:33001 npx playwright test tests/moody26.spec.js
+BASE_URL=https://moody-core.ddev.site npx playwright test tests/moody26.spec.js
 ```
 
 For a release candidate, also run the visual route matrix and opt-in browser
 matrix from Moody Core:
 
 ```sh
-BASE_URL=https://moody-core.ddev.site:33001 npm run test:moody26
-BROWSER_MATRIX=1 BASE_URL=https://moody-core.ddev.site:33001 npx playwright test tests/moody26.spec.js
+BASE_URL=https://moody-core.ddev.site npm run test:moody26
+BROWSER_MATRIX=1 BASE_URL=https://moody-core.ddev.site npx playwright test tests/moody26.spec.js
 ```
 
 Use Moody Core only as an integration fixture; the theme verifier must pass in

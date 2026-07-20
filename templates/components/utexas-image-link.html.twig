@@ -1,0 +1,27 @@
+{#
+/**
+ * @file
+ * Theme implementation for a UT Drupal Kit Image Link field item.
+ *
+ * The formatter owns the responsive image, URL, link options, and cacheability.
+ * Moody26 supplies a stable component hook and an accessible link name.
+ */
+#}
+
+{% set rendered_image = image|render %}
+{% set rendered_link_label = link.text|render %}
+{% set link_label = rendered_link_label|striptags|trim %}
+
+{% if rendered_image|trim %}
+  <div class="image-link__media">
+    {% if link.url %}
+      {{ link(rendered_image, link.url, {
+        'class': ['image-link__target'],
+        'aria-label': link_label,
+        'data-image-link-label': link_label
+      }) }}
+    {% else %}
+      {{ rendered_image }}
+    {% endif %}
+  </div>
+{% endif %}

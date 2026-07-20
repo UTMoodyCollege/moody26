@@ -29,6 +29,7 @@ const files = {
   featuredHighlightCss: 'css/components/featured-highlight.css',
   promoListCss: 'css/components/promo-list.css',
   flexContentCss: 'css/components/flex-content.css',
+  imageLinkCss: 'css/components/image-link.css',
   discoveryIndex: 'css/components/discovery-index.css',
   accordionCss: 'css/components/accordion.css',
   peopleDirectory: 'css/components/people-directory.css',
@@ -61,6 +62,7 @@ const files = {
   promoListTemplate: 'templates/components/utexas-promo-list.html.twig',
   flexContentFieldTemplate: 'templates/components/field--block-content--field-block-fca--utexas-flex-content-area.html.twig',
   flexContentTemplate: 'templates/components/utexas-flex-content-area.html.twig',
+  imageLinkTemplate: 'templates/components/utexas-image-link.html.twig',
   accordionTemplate: 'templates/components/field--moody-accordion.html.twig',
   logo: 'logo.svg',
   sourceLicense: 'LICENSE',
@@ -125,8 +127,8 @@ const forbidText = (file, needle, message) => {
 
 try {
   const packageJson = JSON.parse(contents.package ?? '');
-  if (packageJson.version !== '0.12.0') {
-    errors.push('The Flex Content Area release must remain versioned as 0.12.0.');
+  if (packageJson.version !== '0.13.0') {
+    errors.push('The Image Link release must remain versioned as 0.13.0.');
   }
   for (const [dependency, version] of [
     ['animejs', '4.5.0'],
@@ -177,8 +179,9 @@ requireText('libraries', 'css/components/accordion.css', 'Shared accordion style
 requireText('libraries', 'css/components/featured-highlight.css', 'Shared Featured Highlight styles must remain attached.');
 requireText('libraries', 'css/components/promo-list.css', 'Shared Promo List styles must remain attached.');
 requireText('libraries', 'css/components/flex-content.css', 'Shared Flex Content Area styles must remain attached.');
+requireText('libraries', 'css/components/image-link.css', 'Shared Image Link styles must remain attached.');
 requireText('libraries', 'js/dist/motion.min.js', 'The built motion integration must remain attached.');
-requireText('libraries', 'version: 0.12.0', 'The Drupal asset version must match the Flex Content Area release.');
+requireText('libraries', 'version: 0.13.0', 'The Drupal asset version must match the Image Link release.');
 forbidText('info', '- moody26/motion', 'Optional motion must be attached from theme settings rather than globally.');
 
 requireText('settings', "header_social_links_block: ''", 'Header social links must be optional for new installs.');
@@ -460,6 +463,24 @@ requireText('flexContentTemplate', 'rendered_cta', 'Flex Content Areas must pres
 forbidText('flexContentTemplate', 'attach_library', 'Flex Content Areas must use the theme global library without duplicate attachments.');
 forbidText('flexContentTemplate', 'href=', 'Flex Content Area destinations must remain formatter-owned.');
 forbidText('flexContentTemplate', '|raw', 'Flex Content Areas must not bypass Drupal render safety.');
+requireText('imageLinkCss', 'component: linked media plate', 'Image Links must retain the Hallmark component contract.');
+requireText('imageLinkCss', 'container: image-link / inline-size;', 'Image Links must remain container-aware.');
+requireText('imageLinkCss', '.image-link__target:focus-visible', 'Image Links need immediate visible focus.');
+requireText('imageLinkCss', 'min-height: var(--target-min);', 'Image Links must preserve a 44 CSS-pixel target.');
+requireText('imageLinkCss', '@media (hover: hover) and (pointer: fine)', 'Image Link hover feedback must be capability-gated.');
+requireText('imageLinkCss', '.image-link__media--unavailable', 'Image Links must retain a stable failed-media state.');
+requireText('imageLinkCss', 'height: auto;', 'Image Links must preserve intrinsic image proportions.');
+forbidText('imageLinkCss', 'aspect-ratio', 'Image Links must not crop mixed-ratio editorial media.');
+forbidText('imageLinkCss', 'object-fit: cover', 'Image Links must not crop essential editorial media.');
+requireText('imageLinkTemplate', 'rendered_image', 'Image Links must preserve formatter-owned responsive media output.');
+requireText('imageLinkTemplate', 'link.text|render', 'Image Links must preserve formatter-owned link-text render arrays.');
+requireText('imageLinkTemplate', 'rendered_link_label|striptags|trim', 'Image Links must derive a safe formatter-owned accessible name.');
+requireText('imageLinkTemplate', "'class': ['image-link__target']", 'Image Links must expose a stable full-target hook.');
+requireText('imageLinkTemplate', 'link(rendered_image, link.url', 'Image Link destinations must remain formatter-owned URL objects.');
+requireText('imageLinkTemplate', "'aria-label': link_label", 'Image Links must enter the document with a useful accessible name.');
+forbidText('imageLinkTemplate', 'attach_library', 'Image Links must use the theme global library without duplicate attachments.');
+forbidText('imageLinkTemplate', 'href=', 'Image Link destinations must not be reconstructed in Twig.');
+forbidText('imageLinkTemplate', '|raw', 'Image Links must not bypass Drupal render safety.');
 requireText('theme', 'function moody26_preprocess_views_view_unformatted', 'Faculty directory rows need a translated result summary.');
 requireText('theme', 'function moody26_preprocess_views_view_fields', 'Faculty directory profiles need entity-backed names and URLs.');
 requireText('theme', "'moody26-directory-' . Html::getClass($directory->label())", 'Landing compositions must use portable directory-term classes.');
@@ -491,6 +512,14 @@ requireText('accessibility', "once('moody26-promo-list-image'", 'Promo List medi
 requireText('accessibility', "classList.add('promo-list__item--media-unavailable')", 'Failed Promo List media must preserve and recompose its content.');
 requireText('accessibility', "once('moody26-flex-content-image'", 'Flex Content Area media fallbacks must be idempotent.');
 requireText('accessibility', "classList.add('flex-content--media-unavailable')", 'Failed Flex Content Area media must preserve and recompose its content.');
+requireText('accessibility', "once('moody26-image-link-image'", 'Image Link naming and media recovery must be idempotent.');
+requireText('accessibility', 'queueMicrotask(() =>', 'Image Link naming must settle after synchronous Drupal link enhancements.');
+requireText('accessibility', "target.setAttribute('aria-label'", 'Image Links must normalize their accessible name after upstream link enhancement.');
+requireText('accessibility', "Drupal.t('external link')", 'Image Links must announce truthful external destinations.');
+requireText('accessibility', "Drupal.t('opens in new window')", 'Image Links must announce new-window behavior.');
+requireText('accessibility', "classList.remove('ut-cta-link--external')", 'Same-origin Image Links must not retain a false external-link signal.');
+requireText('accessibility', "classList.add('image-link__media--unavailable')", 'Failed linked images must expose a stable text-link fallback.');
+requireText('accessibility', "image.closest('picture') ?? image", 'Failed Image Links must hide the broken responsive image source.');
 requireText('accessibility', 'image.complete && image.currentSrc && !image.naturalWidth', 'Lazy image safeguards must not treat an unselected source as a failure.');
 requireText('focusAreas', '<ul class="focus-areas-items', 'Focus Areas must expose semantic list markup.');
 requireText('focusAreas', 'aria-hidden="true"', 'Focus Area icons must remain decorative beside visible task names.');
@@ -510,6 +539,7 @@ const runtimeFiles = [
   'headerSocialCss', 'quickActionsCss', 'landingHero', 'editorialSections', 'discoveryIndex',
   'featuredHighlightCss', 'featuredHighlightTemplate', 'promoListCss', 'promoListTemplate',
   'flexContentCss', 'flexContentFieldTemplate', 'flexContentTemplate',
+  'imageLinkCss', 'imageLinkTemplate',
   'accordionCss', 'accordionTemplate',
   'peopleDirectory', 'peopleDirectoryView', 'peopleDirectoryRows', 'peopleDirectoryFields',
   'newsroom', 'newsRows', 'newsFields',
@@ -532,7 +562,7 @@ for (const file of runtimeFiles) {
   }
 }
 
-const cssFiles = ['css', 'headerSocialCss', 'quickActionsCss', 'landingHero', 'editorialSections', 'featuredHighlightCss', 'promoListCss', 'flexContentCss', 'discoveryIndex', 'accordionCss', 'peopleDirectory', 'newsroom', 'motionCss', 'settingsCss'];
+const cssFiles = ['css', 'headerSocialCss', 'quickActionsCss', 'landingHero', 'editorialSections', 'featuredHighlightCss', 'promoListCss', 'flexContentCss', 'imageLinkCss', 'discoveryIndex', 'accordionCss', 'peopleDirectory', 'newsroom', 'motionCss', 'settingsCss'];
 const forbiddenCss = [
   [/#(?:[0-9a-f]{3}|[0-9a-f]{6}|[0-9a-f]{8})\b/i, 'Raw hex colors belong only in tokens.css.'],
   [/\b(?:rgb|rgba|hsl|hsla|oklch)\(/i, 'Raw color functions belong only in tokens.css.'],
@@ -563,7 +593,7 @@ for (const file of ['preflight', 'log']) {
     errors.push(`${file} must contain valid JSON.`);
   }
 }
-requireText('preflight', '"package_version": "0.12.0"', 'Hallmark preflight must match the Flex Content Area release.');
+requireText('preflight', '"package_version": "0.13.0"', 'Hallmark preflight must match the Image Link release.');
 requireText('log', 'Conversational FAQ within the Ecosystem Index', 'Hallmark memory must record the shared accordion macrostructure.');
 
 requirePattern('readme', /standalone/i, 'README must describe the standalone architecture.');
@@ -583,6 +613,7 @@ requireText('readme', 'Shared accordions', 'README must document the native shar
 requireText('readme', 'Shared Featured Highlights', 'README must document the reusable Featured Highlight layer.');
 requireText('readme', 'Shared Promo Lists', 'README must document the reusable Promo List layer.');
 requireText('readme', 'Shared Flex Content Areas', 'README must document the reusable Flex Content Area layer.');
+requireText('readme', 'Shared Image Links', 'README must document the reusable Image Link layer.');
 requireText('agents', '`header_social_links_block`', 'AGENTS.md must preserve the header Social Links contract.');
 requireText('agents', 'Missing, unpublished, non-reusable, inaccessible, wrong-bundle, or malformed', 'AGENTS.md must require Social Links to fail closed.');
 requireText('agents', '### People directories', 'AGENTS.md must preserve the people-directory contract.');
@@ -592,6 +623,7 @@ requireText('agents', '### Accordions', 'AGENTS.md must preserve the native acco
 requireText('agents', '### Featured Highlights', 'AGENTS.md must preserve the Featured Highlight component contract.');
 requireText('agents', '### Promo Lists', 'AGENTS.md must preserve the Promo List component contract.');
 requireText('agents', '### Flex Content Areas', 'AGENTS.md must preserve the Flex Content Area component contract.');
+requireText('agents', '### Image Links', 'AGENTS.md must preserve the Image Link component contract.');
 
 if (errors.length) {
   console.error(`Moody26 verification failed (${errors.length}):`);
@@ -601,5 +633,5 @@ if (errors.length) {
   process.exitCode = 1;
 }
 else {
-  console.log(`Moody26 verification passed (${Object.keys(files).length} source files, ${fonts.length} local fonts, standalone shell, UT brand, accessible directories, resource hubs, newsroom, accordions, Featured Highlights, Promo Lists, and Flex Content Areas, header social links, motion, responsive, and Hallmark gates).`);
+  console.log(`Moody26 verification passed (${Object.keys(files).length} source files, ${fonts.length} local fonts, standalone shell, UT brand, accessible directories, resource hubs, newsroom, accordions, Featured Highlights, Promo Lists, Flex Content Areas, and Image Links, header social links, motion, responsive, and Hallmark gates).`);
 }

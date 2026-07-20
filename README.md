@@ -6,7 +6,7 @@ visual identity with an accessible, editorial system that can serve academic,
 research, film, journalism, advertising, alumni, event, and public-facing
 sites without requiring the legacy Moody or Speedway themes.
 
-> **Project status:** pre-release (`0.12.0`). The theme is being validated in
+> **Project status:** pre-release (`0.13.0`). The theme is being validated in
 > [Moody Core](https://github.com/UTMoodyCollege/moody-core) before its first
 > stable tag. Pin an exact commit when evaluating the `main` branch.
 
@@ -37,6 +37,8 @@ sites without requiring the legacy Moody or Speedway themes.
   compact responsive media, and one- or two-column resource layouts.
 - Shared UT Flex Content Areas with semantic editorial entries, resilient
   media, and container-aware one- through four-column authoring variants.
+- Shared UT Image Links with formatter-owned responsive media, intrinsic
+  proportions, reliable accessible names, and useful unavailable-media links.
 - Shared people directories with semantic list and heading structure,
   accessible linked profiles, responsive filters, honest result counts, and a
   useful empty state.
@@ -287,6 +289,28 @@ must give a multi-item area a meaningful visible block label or introduce it
 with a preceding `h2`; administrative block labels must not be published as
 content headings.
 
+### Shared Image Links
+
+Moody26 presents the UT Drupal Kit Image Link as a flat linked-media plate
+without changing its field widget or formatter. Drupal continues to own the
+destination, link options, responsive source set, media alternative, and cache
+metadata. The theme adds one stable target class and uses the formatter’s link
+text—or the media alternative when older content has no link text—as the
+accessible name.
+
+Images retain their intrinsic proportions. This matters because current fleet
+content mixes tall report covers, square podcast artwork, and wide event
+graphics whose essential content would be lost by a universal crop. Visible
+block labels use compact page-safe display typography, and each linked image is
+a full-width target with immediate focus, active feedback, and
+capability-gated hover styling.
+
+When an image file is unavailable, the image is removed from presentation and
+its alternative becomes a visible, underlined text link with a 44 CSS-pixel
+minimum target. The destination and its external/new-window context remain
+available. An unlinked failed image collapses instead of leaving a broken-image
+glyph. No placeholder art, caption, or call to action is invented.
+
 ### Shared accordions
 
 Moody26 overrides the Moody Accordion field with native `<details>` and
@@ -367,8 +391,8 @@ vendor/bin/drush cache:rebuild
 Moody Core provides the current browser integration suite:
 
 ```sh
-BASE_URL=https://moody-core.ddev.site:33001 npx playwright test tests/moody26.spec.js
-BROWSER_MATRIX=1 BASE_URL=https://moody-core.ddev.site:33001 npx playwright test tests/moody26.spec.js
+BASE_URL=https://moody-core.ddev.site npx playwright test tests/moody26.spec.js
+BROWSER_MATRIX=1 BASE_URL=https://moody-core.ddev.site npx playwright test tests/moody26.spec.js
 ```
 
 Before release, review at 320, 375, 414, and 768 CSS pixels; keyboard through
@@ -386,7 +410,7 @@ than replace manual assistive-technology review.
 | `tokens.css` | Brand, type, spacing, motion, focus, and layout tokens |
 | `css/fonts.css` | Local approved digital font declarations |
 | `css/moody26.css` | Global foundation, shell, navigation, forms, and footer |
-| `css/components/` | Header social, landing, editorial, discovery, resource-hub, accordion, Featured Highlight, Promo List, Flex Content Area, people-directory, newsroom, quick-action, and settings components |
+| `css/components/` | Header social, landing, editorial, discovery, resource-hub, accordion, Featured Highlight, Promo List, Flex Content Area, Image Link, people-directory, newsroom, quick-action, and settings components |
 | `js/navigation.js` | Drawer and disclosure navigation state |
 | `js/quick-actions.js` | Native dialog and rendered-destination discovery |
 | `js/accessibility.js` | Progressive safeguards for rendered content components |

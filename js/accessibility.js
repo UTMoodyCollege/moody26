@@ -94,6 +94,60 @@
         }
       });
 
+      once('moody26-image-link-image', '.image-link__media img', context).forEach((image) => {
+        const media = image.closest('.image-link__media');
+        const target = image.closest('.image-link__target');
+        const authoredLabel = target?.dataset.imageLinkLabel?.trim() ?? '';
+        const imageLabel = image.alt.trim();
+        const label = authoredLabel && !/^https?:\/\//i.test(authoredLabel)
+          ? authoredLabel
+          : imageLabel || authoredLabel;
+
+        if (target && label) {
+          queueMicrotask(() => {
+            const destination = new URL(target.href, window.location.href);
+            const qualifiers = [];
+            const isExternalWebDestination = ['http:', 'https:'].includes(destination.protocol)
+              && destination.origin !== window.location.origin;
+            if (isExternalWebDestination) {
+              qualifiers.push(Drupal.t('external link'));
+            }
+            else {
+              target.classList.remove('ut-cta-link--external');
+            }
+            if (target.target === '_blank' || target.target === 'new') {
+              qualifiers.push(Drupal.t('opens in new window'));
+            }
+            target.setAttribute('aria-label', [label, ...qualifiers].join('; '));
+          });
+        }
+
+        const showFailedMediaLink = () => {
+          if (!media || media.classList.contains('image-link__media--unavailable')) {
+            return;
+          }
+
+          if (!target || !label) {
+            if (!target) {
+              media.hidden = true;
+            }
+            return;
+          }
+
+          const fallback = document.createElement('span');
+          fallback.className = 'image-link__fallback';
+          fallback.textContent = imageLabel || label;
+          (image.closest('picture') ?? image).hidden = true;
+          target.append(fallback);
+          media.classList.add('image-link__media--unavailable');
+        };
+
+        image.addEventListener('error', showFailedMediaLink, { once: true });
+        if (image.complete && image.currentSrc && !image.naturalWidth) {
+          showFailedMediaLink();
+        }
+      });
+
       once('moody26-ambient-fallback', 'img#fallback-image:not([alt])', context).forEach((image) => {
         const hideFailedPoster = () => image.setAttribute('hidden', '');
         image.alt = '';
