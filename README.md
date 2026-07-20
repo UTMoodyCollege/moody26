@@ -6,7 +6,7 @@ visual identity with an accessible, editorial system that can serve academic,
 research, film, journalism, advertising, alumni, event, and public-facing
 sites without requiring the legacy Moody or Speedway themes.
 
-> **Project status:** pre-release (`0.7.0`). The theme is being validated in
+> **Project status:** pre-release (`0.8.0`). The theme is being validated in
 > [Moody Core](https://github.com/UTMoodyCollege/moody-core) before its first
 > stable tag. Pin an exact commit when evaluating the `main` branch.
 
@@ -29,6 +29,8 @@ sites without requiring the legacy Moody or Speedway themes.
   focus, motion, target sizes, responsive containers, and elevation.
 - Layout Builder-friendly landing heroes, editorial pairings, calls to action,
   forms, proof treatments, and discovery grids.
+- Shared resource hubs with compact Focus Area shortcuts, asymmetric Promo
+  Unit ledgers, sticky-header-safe anchors, and a reusable contact close.
 - Shared people directories with semantic list and heading structure,
   accessible linked profiles, responsive filters, honest result counts, and a
   useful empty state.
@@ -175,6 +177,23 @@ their own container grows. Future fleet directory Views should reuse the
 `people-directory__*` vocabulary and add a targeted template suggestion rather
 than broadening selectors to every Drupal View.
 
+### Shared resource hubs
+
+Moody26 treats Focus Areas, UTDK Promo Units, Moody Showcase, Moody Hero, and
+Moody Contact Info as one reusable resource-hub vocabulary. Focus Areas render
+as a semantic task list with inline decorative icons and one clear link per
+item. Promo Units remain editor-owned groups of descriptive links, but render
+as a semantic, container-aware resource ledger instead of an oversized image
+stack. Failed supporting media collapses without removing a heading or link.
+
+The component layer uses one column at narrow widths, two safe tracks when its
+container allows, and an asymmetric 12-track composition on wide containers.
+Mini-navigation anchors clear both the sticky site header and Drupal’s optional
+administration toolbar. Contact Info closes the path with a neutral service
+band; official burnt orange remains a rule and focus signal rather than a
+large background fill. The `Students` directory term supplies the portable
+`moody26-directory-students` lead composition without relying on node IDs.
+
 ### Shared newsroom components
 
 The `news_filtered` View’s `block_filtered` display is the reference
@@ -275,14 +294,14 @@ than replace manual assistive-technology review.
 | `tokens.css` | Brand, type, spacing, motion, focus, and layout tokens |
 | `css/fonts.css` | Local approved digital font declarations |
 | `css/moody26.css` | Global foundation, shell, navigation, forms, and footer |
-| `css/components/` | Header social, landing, editorial, discovery, people-directory, newsroom, quick-action, and settings components |
+| `css/components/` | Header social, landing, editorial, discovery, resource-hub, people-directory, newsroom, quick-action, and settings components |
 | `js/navigation.js` | Drawer and disclosure navigation state |
 | `js/quick-actions.js` | Native dialog and rendered-destination discovery |
 | `js/accessibility.js` | Progressive safeguards for rendered content components |
 | `js/motion.js` | GSAP orchestration and Anime.js WAAPI source |
 | `js/dist/motion.min.js` | Committed tree-shaken motion artifact |
 | `js/vendor/gsap.min.js` | Local GSAP core fallback |
-| `templates/` | Theme-owned HTML, page, shell, block, menu, and shared View markup |
+| `templates/` | Theme-owned HTML, page, shell, block, menu, shared component, and View markup |
 | `scripts/build.mjs` | Deterministic motion build and fallback sync |
 | `scripts/verify.mjs` | Standalone brand, accessibility, and architecture gates |
 | `AGENTS.md` | Maintainer design and compliance contract |

@@ -1,4 +1,4 @@
-/* Hallmark · macrostructure: Split Studio · components: S2 · C3 · T3
+/* Hallmark · macrostructure: Split Studio · components: S2 · C3 · T3 · contact close
  * pairings: alternating 5/7 · section heads: hanging · quote: roman display
  * audience: mixed Moody community · use: discover and choose a next task
  * theme: UT custom · states: default · hover · focus · active · disabled
@@ -7,6 +7,41 @@
 
 :where(.node-page, .node-moody_landing_page, .node-moody_standard_page) .layout__region--main > .block {
   min-width: 0;
+}
+
+/* Layout Builder anchor destinations must clear both the sticky site header
+   and Drupal's optional displaced administration toolbar. */
+.moody-mini-nav-anchor-target {
+  scroll-margin-block-start: calc(
+    var(--sticky-offset) + var(--drupal-displace-offset-top, 0rem) + var(--space-md)
+  );
+}
+
+/* The service close supplies its own internal rhythm and surface. Let it meet
+   the surrounding sections directly instead of nesting it in generic space. */
+:where(.node-page, .node-moody_landing_page, .node-moody_standard_page)
+  .node__content > .section-wrapper:has(.block-bundle-moody-contact-info) {
+  padding-block: 0;
+}
+
+/* The directory term supplies a portable page-composition signal. This lead
+   remains an ordinary Basic block for editors and other consuming sites. */
+.moody26-directory-students .node__content > .section-wrapper:nth-child(2)
+  .layout__region--main > .block-bundle-basic:first-child {
+  width: min(100%, var(--content-narrow));
+  margin-inline-start: 0;
+  padding-block: var(--space-xl) var(--space-2xl);
+  border-block-start: var(--rule-strong) solid var(--color-accent);
+}
+
+.moody26-directory-students .node__content > .section-wrapper:nth-child(2)
+  .layout__region--main > .block-bundle-basic:first-child :where(p, p span) {
+  max-width: var(--measure);
+  margin: 0;
+  color: var(--color-ink);
+  font-family: var(--font-body);
+  font-size: var(--text-lead);
+  line-height: var(--leading-body);
 }
 
 :where(.node-page, .node-moody_landing_page, .node-moody_standard_page) .utexas-layout--twocol-wrapper.moody26-single-region {
@@ -253,6 +288,146 @@
 
   :where(.node-page, .node-moody_landing_page, .node-moody_standard_page) .field--type-moody-showcase > .field__item:nth-child(even) :where(.showcase-image, .showcase-video) {
     order: 2;
+  }
+}
+
+/* Contact Info closes a resource path as an editorial service band. Burnt
+   orange remains the rule and focus signal rather than a large surface. */
+:where(.node-page, .node-moody_landing_page, .node-moody_standard_page) .block-bundle-moody-contact-info {
+  container-type: inline-size;
+}
+
+:where(.node-page, .node-moody_landing_page, .node-moody_standard_page) .moody-contact-info-wrapper {
+  border-block-start: var(--rule-strong) solid var(--color-accent);
+  background: var(--color-paper-2);
+  color: var(--color-ink);
+}
+
+:where(.node-page, .node-moody_landing_page, .node-moody_standard_page) .moody-contact-info-wrapper .contact-info-inner-wrapper {
+  display: grid;
+  width: min(100%, var(--content-max));
+  grid-template-columns: minmax(0, 1fr);
+  gap: var(--component-gap);
+  margin-inline: auto;
+  padding: var(--space-2xl) var(--page-gutter);
+}
+
+:where(.node-page, .node-moody_landing_page, .node-moody_standard_page) .moody-contact-info-wrapper .contact-text {
+  display: grid;
+  min-width: 0;
+  grid-template-columns: minmax(0, 1fr);
+  align-items: start;
+  gap: var(--space-lg);
+}
+
+:where(.node-page, .node-moody_landing_page, .node-moody_standard_page) .moody-contact-info-wrapper .headline {
+  max-width: 16ch;
+  margin: 0;
+  color: var(--color-ink);
+  font-family: var(--font-display);
+  font-size: var(--text-heading);
+  font-style: normal;
+  font-weight: 700;
+  letter-spacing: -0.025em;
+  line-height: var(--leading-heading);
+  overflow-wrap: anywhere;
+  text-wrap: balance;
+}
+
+:where(.node-page, .node-moody_landing_page, .node-moody_standard_page) .moody-contact-info-wrapper .contact-text p {
+  max-width: var(--measure);
+  margin: 0;
+  color: var(--color-ink);
+  font-family: var(--font-body);
+  font-size: var(--text-lead);
+  line-height: var(--leading-body);
+}
+
+:where(.node-page, .node-moody_landing_page, .node-moody_standard_page) .moody-contact-info-wrapper .contact-text a {
+  display: inline-flex;
+  min-height: var(--target-min);
+  align-items: center;
+  color: var(--color-link);
+  font-weight: 700;
+  text-decoration-color: var(--color-accent);
+  text-decoration-thickness: var(--rule-hair);
+  text-underline-offset: var(--space-2xs);
+}
+
+:where(.node-page, .node-moody_landing_page, .node-moody_standard_page) .moody-contact-info-wrapper .contact-link {
+  display: grid;
+  min-width: 0;
+  align-content: center;
+  justify-items: start;
+  gap: var(--space-md);
+  margin: 0;
+  padding-block-start: var(--space-lg);
+  border-block-start: var(--rule-hair) solid var(--color-rule-strong);
+  background: var(--color-transparent);
+  text-align: start;
+}
+
+:where(.node-page, .node-moody_landing_page, .node-moody_standard_page) .moody-contact-info-wrapper .subheadline {
+  max-width: 20ch;
+  margin: 0;
+  color: var(--color-ink);
+  font-family: var(--font-display);
+  font-size: var(--text-heading-sm);
+  font-style: normal;
+  font-weight: 700;
+  line-height: var(--leading-heading);
+  text-wrap: balance;
+}
+
+:where(.node-page, .node-moody_landing_page, .node-moody_standard_page) .moody-contact-info-wrapper .contact-link a {
+  display: inline-flex;
+  min-height: var(--target-min);
+  align-items: center;
+  padding-block: var(--space-xs);
+  border-block-end: var(--rule-hair) solid var(--color-accent);
+  color: var(--color-link);
+  font-weight: 700;
+  text-decoration: none;
+}
+
+:where(.node-page, .node-moody_landing_page, .node-moody_standard_page) .moody-contact-info-wrapper a:focus-visible {
+  border-radius: var(--radius-sm);
+  outline: var(--focus-outline);
+  outline-offset: var(--space-2xs);
+}
+
+:where(.node-page, .node-moody_landing_page, .node-moody_standard_page) .moody-contact-info-wrapper a:active {
+  color: var(--color-ink);
+}
+
+@media (hover: hover) and (pointer: fine) {
+  :where(.node-page, .node-moody_landing_page, .node-moody_standard_page) .moody-contact-info-wrapper a:hover {
+    color: var(--color-link);
+    text-decoration-thickness: var(--rule-strong);
+  }
+}
+
+@container (min-width: 48rem) {
+  :where(.node-page, .node-moody_landing_page, .node-moody_standard_page)
+    .moody-contact-info-wrapper .contact-info-inner-wrapper:has(.contact-link) {
+    grid-template-columns: minmax(0, 7fr) minmax(0, 5fr);
+  }
+
+  :where(.node-page, .node-moody_landing_page, .node-moody_standard_page)
+    .moody-contact-info-wrapper .contact-info-inner-wrapper:not(:has(.contact-link)) .contact-text {
+    grid-template-columns: minmax(0, 4fr) minmax(0, 8fr);
+  }
+
+  :where(.node-page, .node-moody_landing_page, .node-moody_standard_page)
+    .moody-contact-info-wrapper .contact-info-inner-wrapper:not(:has(.contact-link)) .contact-text > :not(.headline) {
+    grid-column: 2;
+  }
+
+  :where(.node-page, .node-moody_landing_page, .node-moody_standard_page) .moody-contact-info-wrapper .contact-link {
+    padding-block: 0;
+    padding-inline-start: var(--space-xl);
+    border-block-start: 0;
+    border-inline-start: var(--rule-hair) solid var(--color-rule-strong);
   }
 }
 

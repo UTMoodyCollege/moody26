@@ -9,6 +9,13 @@
   container-type: inline-size;
 }
 
+/* A full-bleed hero owns its vertical edge; the generic section wrapper must
+   not insert a blank paper band above or below it. */
+:where(.node-moody_landing_page, .node-moody_standard_page)
+  .node__content > .section-wrapper:has(.block-bundle-moody-hero) {
+  padding-block: 0;
+}
+
 :where(.node-moody_landing_page, .node-moody_standard_page) .moody-hero {
   position: relative;
   isolation: isolate;
@@ -96,10 +103,11 @@
 
 :where(.node-moody_landing_page, .node-moody_standard_page) .moody-hero .hero-headline {
   max-width: 16ch;
+  min-width: 0;
   margin: 0;
   color: var(--color-ut-white);
   font-family: var(--font-display);
-  font-size: var(--text-display-s);
+  font-size: var(--text-heading);
   font-style: normal;
   font-weight: 700;
   letter-spacing: -0.03em;
@@ -112,10 +120,11 @@
 :where(.node-moody_landing_page, .node-moody_standard_page)
   .moody-hero.extrabold-headline.moody-homepage-hero .hero-content .hero-headline.hero-headline {
   max-width: 16ch;
+  min-width: 0;
   margin: 0;
   color: var(--color-ut-white);
   font-family: var(--font-display);
-  font-size: var(--text-display-s);
+  font-size: var(--text-heading);
   font-style: normal;
   font-weight: 700;
   letter-spacing: -0.03em;
@@ -201,11 +210,12 @@
 
 .node-page .moody-ambient-video .headline {
   max-width: 16ch;
+  min-width: 0;
   margin: 0;
   opacity: 1;
   color: var(--color-ut-white);
   font-family: var(--font-display);
-  font-size: var(--text-display-s);
+  font-size: var(--text-heading);
   font-style: normal;
   font-weight: 700;
   letter-spacing: -0.03em;
@@ -229,6 +239,12 @@
 }
 
 @container (min-width: 60rem) {
+  :where(.node-moody_landing_page, .node-moody_standard_page) .moody-hero .hero-headline,
+  :where(.node-moody_landing_page, .node-moody_standard_page)
+    .moody-hero.extrabold-headline.moody-homepage-hero .hero-content .hero-headline.hero-headline {
+    font-size: var(--text-display-s);
+  }
+
   :where(.node-moody_landing_page, .node-moody_standard_page) .moody-hero .hero-content {
     padding-block-start: var(--space-2xl);
     padding-block-end: var(--space-4xl);
@@ -238,6 +254,12 @@
     .moody-hero.extrabold-headline.moody-homepage-hero .hero-content.hero-content.hero-content {
     padding-block-start: var(--space-2xl);
     padding-block-end: var(--space-4xl);
+  }
+}
+
+@media (min-width: 60rem) {
+  .node-page .moody-ambient-video .headline {
+    font-size: var(--text-display-s);
   }
 }
 

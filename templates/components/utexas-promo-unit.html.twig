@@ -1,0 +1,35 @@
+{#
+/**
+ * @file
+ * Semantic UTDK Promo Unit resource list for Moody26.
+ */
+#}
+<div class="utexas-promo-unit-container">
+  {% if headline %}
+    <h3 class="ut-headline ut-headline--underline">{{ headline }}</h3>
+  {% endif %}
+
+  <ul class="utexas-promo-unit-items" role="list">
+    {% for item in promo_unit_items %}
+      <li class="utexas-promo-unit">
+        {% if item.image %}
+          <div class="image-wrapper {{ image_display }}" aria-hidden="true">
+            {{ item.image }}
+          </div>
+        {% endif %}
+
+        <div class="data-wrapper">
+          {% if item.headline %}
+            <h3 class="ut-headline">{{ item.headline }}</h3>
+          {% endif %}
+          {% if item.copy %}
+            {{ item.copy }}
+          {% endif %}
+          {% if item.link %}
+            {{ item.link }}
+          {% endif %}
+        </div>
+      </li>
+    {% endfor %}
+  </ul>
+</div>

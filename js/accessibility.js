@@ -45,6 +45,22 @@
         }
       });
 
+      once(
+        'moody26-resource-image',
+        '.focus-areas-item img, .utexas-promo-unit img',
+        context,
+      ).forEach((image) => {
+        const hideFailedMedia = () => {
+          image.closest('.image-wrapper')?.setAttribute('hidden', '');
+          image.closest('.focus-areas-item, .utexas-promo-unit')
+            ?.classList.add('resource-media--unavailable');
+        };
+        image.addEventListener('error', hideFailedMedia, { once: true });
+        if (image.complete && !image.naturalWidth) {
+          hideFailedMedia();
+        }
+      });
+
       once('moody26-ambient-fallback', 'img#fallback-image:not([alt])', context).forEach((image) => {
         const hideFailedPoster = () => image.setAttribute('hidden', '');
         image.alt = '';

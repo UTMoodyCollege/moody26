@@ -212,6 +212,34 @@ not belong outside the token and font declaration files.
   equivalent. Keep the card flat with a hairline rule; do not add repeated
   rounded containers, image zoom, or decorative scroll animation.
 
+### Resource hubs
+
+- Treat Moody Focus Areas, UTDK Promo Units, Moody Showcase, Moody Hero, and
+  Moody Contact Info as a shared resource-hub vocabulary, not a Students-page
+  CSS exception. Keep block content, placement, destinations, and media under
+  Layout Builder and editor control.
+- Render Focus Areas as a semantic list. Each linked item has one accessible
+  name from its visible heading; remove duplicate visually hidden labels and
+  hide the supporting icon from the accessibility tree.
+- Render Promo Unit groups as semantic lists of resource entries. Keep each
+  descriptive destination discrete and keyboard reachable; supporting index
+  photography is decorative because the headings and links carry the task.
+- Failed Focus Area or Promo Unit media collapses without a broken-image glyph,
+  empty grid track, missing heading, or lost destination.
+- Use one compact column on narrow screens, two safe tracks when the component
+  allows, and asymmetric 12-track layouts at wide container sizes. Do not rely
+  on legacy Bootstrap or base-theme layout CSS.
+- Keep content links at least 44 CSS pixels high with immediate focus. Hover
+  feedback is capability-gated and has a visible keyboard equivalent.
+- Mini-navigation targets clear the sticky Moody26 header and Drupal’s
+  optional displaced toolbar. Never allow an anchored component to land fully
+  behind sticky chrome.
+- Contact Info is a neutral editorial service band. Burnt orange remains a
+  rule and focus signal; never restore the legacy full-width orange panel.
+- A landing node referenced by the `Students` directory-structure term may use
+  `moody26-directory-students` for its lead composition. Never use a node ID,
+  block UUID, or authored headline as the styling contract.
+
 ### Newsroom components
 
 - Treat the `news_filtered` View’s `block_filtered` display as the reference
@@ -356,15 +384,15 @@ Texas requirements. The current University compliance date is March 1, 2026.
 - `css/components/editorial-sections.css`: shared editorial pairings, proof,
   CTA, and form treatments for Layout Builder output.
 - `css/components/discovery-index.css`: irregular grids for news, programs,
-  people, and other discovery surfaces.
+  people, Focus Areas, Promo Units, and other discovery surfaces.
 - `css/components/people-directory.css`: responsive filters, semantic people
   indexes, linked profile treatments, current-directory state, and empty-state
   presentation.
 - `css/components/newsroom.css`: semantic news ledgers, source mentions,
   directory-aware landing composition, resilient media, and shared newsroom
   support components.
-- `templates/`: theme-owned document, page, shell, block, menu, and targeted
-  shared-View markup.
+- `templates/`: theme-owned document, page, shell, block, menu, shared
+  component, and targeted View markup.
 - `js/navigation.js`: the sole drawer and disclosure state owner.
 - `js/quick-actions.js`: dependency-free command discovery and native-dialog
   behavior.

@@ -1,0 +1,50 @@
+{#
+/**
+ * @file
+ * Semantic Focus Areas task list for Moody26.
+ */
+#}
+<div class="focus-areas-wrapper">
+  <div class="content-bottom">
+    {% if focus_areas_items_title %}
+      <h3 class="focus-areas-title">{{ focus_areas_items_title }}</h3>
+    {% endif %}
+
+    {% if focus_areas_items %}
+      <ul class="focus-areas-items {{ items_style }} {{ items_gap_preset }} {{ items_row_gap_preset }}" role="list">
+        {% for item in focus_areas_items %}
+          <li class="focus-areas-item">
+            {% if item.link %}
+              <a href="{{ item.link }}" class="linked-focus-area-item">
+            {% endif %}
+
+            {% if item.image %}
+              <div class="image-wrapper" aria-hidden="true">
+                <div class="image-overflow">
+                  {{ item.image }}
+                </div>
+              </div>
+            {% endif %}
+
+            <div class="content">
+              {% if item.headline %}
+                <h3 class="ut-headline">{{ item.headline }}</h3>
+              {% endif %}
+              {% if item.copy %}
+                <div class="ut-copy">{{ item.copy }}</div>
+              {% endif %}
+            </div>
+
+            {% if item.link %}
+              </a>
+            {% endif %}
+          </li>
+        {% endfor %}
+      </ul>
+    {% endif %}
+
+    {% if cta %}
+      {{ cta }}
+    {% endif %}
+  </div>
+</div>

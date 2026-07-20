@@ -51,6 +51,8 @@ const files = {
   peopleDirectoryFields: 'templates/views/views-view-fields--faculty-bio-view.html.twig',
   newsRows: 'templates/views/views-view-unformatted--news-filtered--block-filtered.html.twig',
   newsFields: 'templates/views/views-view-fields--news-filtered--block-filtered.html.twig',
+  focusAreas: 'templates/components/moody-focus-areas.html.twig',
+  promoUnits: 'templates/components/utexas-promo-unit.html.twig',
   logo: 'logo.svg',
   sourceLicense: 'LICENSE',
   fontLicense: 'LICENSES/OFL-1.1.txt',
@@ -114,8 +116,8 @@ const forbidText = (file, needle, message) => {
 
 try {
   const packageJson = JSON.parse(contents.package ?? '');
-  if (packageJson.version !== '0.7.0') {
-    errors.push('The shared-newsroom release must remain versioned as 0.7.0.');
+  if (packageJson.version !== '0.8.0') {
+    errors.push('The shared-resource-hub release must remain versioned as 0.8.0.');
   }
   for (const [dependency, version] of [
     ['animejs', '4.5.0'],
@@ -163,7 +165,7 @@ requireText('libraries', 'css/components/header-social.css', 'Responsive header 
 requireText('libraries', 'css/components/people-directory.css', 'Shared people-directory styles must remain attached.');
 requireText('libraries', 'css/components/newsroom.css', 'Shared newsroom styles must remain attached.');
 requireText('libraries', 'js/dist/motion.min.js', 'The built motion integration must remain attached.');
-requireText('libraries', 'version: 0.7.0', 'The Drupal asset version must match the shared-newsroom release.');
+requireText('libraries', 'version: 0.8.0', 'The Drupal asset version must match the shared-resource-hub release.');
 forbidText('info', '- moody26/motion', 'Optional motion must be attached from theme settings rather than globally.');
 
 requireText('settings', "header_social_links_block: ''", 'Header social links must be optional for new installs.');
@@ -357,8 +359,15 @@ for (const state of ['Default', 'Hover', 'Focus', 'Active', 'Disabled', 'Loading
   requireText('quickActionsPreview', `>${state}<`, `The state sheet must include ${state.toLowerCase()}.`);
 }
 requireText('landingHero', 'macrostructure: Split Studio', 'Landing components must preserve the Split Studio decision.');
+requireText('landingHero', ':has(.block-bundle-moody-hero)', 'Full-bleed heroes must remove generic section padding.');
 requireText('editorialSections', 'container-type: inline-size', 'Editorial components must remain container-aware.');
+requireText('editorialSections', 'var(--drupal-displace-offset-top, 0rem)', 'Layout Builder anchors must clear the optional Drupal toolbar.');
+requireText('editorialSections', '.moody-contact-info-wrapper', 'Resource hubs must retain the shared Contact Info close.');
+requireText('editorialSections', ':has(.block-bundle-moody-contact-info)', 'Contact Info closes must remove generic outer section padding.');
 requireText('discoveryIndex', 'repeat(12, minmax(0, 1fr))', 'Discovery grids must use safe image-bearing tracks.');
+requireText('discoveryIndex', '.linked-focus-area-item:focus-visible', 'Focus Area tasks need immediate visible focus.');
+requireText('discoveryIndex', '.utexas-promo-unit .data-wrapper > a:focus-visible', 'Promo Unit links need immediate visible focus.');
+requireText('discoveryIndex', '@container (min-width: 64rem)', 'Resource hubs must retain their wide asymmetric layout.');
 requireText('peopleDirectory', 'component: shared people directory', 'People directories must retain the Hallmark component contract.');
 requireText('peopleDirectory', 'container: people-directory / inline-size;', 'People directories must remain container-aware.');
 requireText('peopleDirectory', 'repeat(4, minmax(0, 1fr))', 'People-directory image grids must use safe tracks.');
@@ -392,6 +401,13 @@ requireText('accessibility', "once('moody26-person-image'", 'Directory portrait 
 requireText('accessibility', "classList.add('people-directory__media--fallback')", 'Failed portraits must reveal the stable fallback tile.');
 requireText('accessibility', "once('moody26-showcase-image'", 'Showcase media fallbacks must be idempotent.');
 requireText('accessibility', "classList.add('moody-showcase--media-unavailable')", 'Failed Showcase media must preserve its text composition.');
+requireText('accessibility', "'moody26-resource-image'", 'Resource media fallbacks must be idempotent.');
+requireText('accessibility', "classList.add('resource-media--unavailable')", 'Failed resource media must preserve its text and links.');
+requireText('focusAreas', '<ul class="focus-areas-items', 'Focus Areas must expose semantic list markup.');
+requireText('focusAreas', 'aria-hidden="true"', 'Focus Area icons must remain decorative beside visible task names.');
+forbidText('focusAreas', 'sr-only', 'Focus Areas must not duplicate their visible task name.');
+requireText('promoUnits', '<ul class="utexas-promo-unit-items" role="list">', 'Promo Unit groups must expose semantic list markup.');
+requireText('promoUnits', 'aria-hidden="true"', 'Promo Unit index photography must remain decorative beside resource headings.');
 requireText('newsRows', '<section class="news-index"', 'The latest-stories display must expose a labelled section.');
 requireText('newsRows', '<ul class="news-index__list" role="list">', 'The latest-stories display must expose list semantics.');
 requireText('newsFields', '<article class="news-teaser">', 'Each latest-story result must remain an article.');
@@ -405,6 +421,7 @@ const runtimeFiles = [
   'headerSocialCss', 'quickActionsCss', 'landingHero', 'editorialSections', 'discoveryIndex',
   'peopleDirectory', 'peopleDirectoryView', 'peopleDirectoryRows', 'peopleDirectoryFields',
   'newsroom', 'newsRows', 'newsFields',
+  'focusAreas', 'promoUnits',
   'motionCss', 'settingsCss', 'accessibility', 'navigation', 'quickActions', 'motion', 'html', 'page', 'brandbar',
   'header', 'footer', 'brandingBlock', 'menuBlock', 'menu',
 ];
@@ -466,10 +483,12 @@ requireText('readme', 'Interface motion (Anime.js)', 'README must document the A
 requireText('readme', 'Header social links', 'README must document the responsive Social Links option.');
 requireText('readme', 'stores the selected block’s UUID', 'README must explain Social Links configuration portability.');
 requireText('readme', 'Shared people directories', 'README must document the reusable directory layer.');
+requireText('readme', 'Shared resource hubs', 'README must document the reusable resource-hub layer.');
 requireText('readme', 'Shared newsroom components', 'README must document the reusable newsroom layer.');
 requireText('agents', '`header_social_links_block`', 'AGENTS.md must preserve the header Social Links contract.');
 requireText('agents', 'Missing, unpublished, non-reusable, inaccessible, wrong-bundle, or malformed', 'AGENTS.md must require Social Links to fail closed.');
 requireText('agents', '### People directories', 'AGENTS.md must preserve the people-directory contract.');
+requireText('agents', '### Resource hubs', 'AGENTS.md must preserve the resource-hub contract.');
 requireText('agents', '### Newsroom components', 'AGENTS.md must preserve the newsroom component contract.');
 
 if (errors.length) {
@@ -480,5 +499,5 @@ if (errors.length) {
   process.exitCode = 1;
 }
 else {
-  console.log(`Moody26 verification passed (${Object.keys(files).length} source files, ${fonts.length} local fonts, standalone shell, UT brand, accessible directories and newsroom, header social links, motion, responsive, and Hallmark gates).`);
+  console.log(`Moody26 verification passed (${Object.keys(files).length} source files, ${fonts.length} local fonts, standalone shell, UT brand, accessible directories, resource hubs, and newsroom, header social links, motion, responsive, and Hallmark gates).`);
 }

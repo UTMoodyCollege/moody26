@@ -1,17 +1,166 @@
-/* Hallmark · macrostructure: Split Studio · component: F1 Discovery index
+/* Hallmark · macrostructure: Split Studio · components: F1 Discovery index · resource hubs
  * F1 knobs: tiles=variable · spans=irregular · border=hairline top
  * content: programs · people · research · news · no invented proof
  * theme: UT custom · motion: one signal per interactive item
+ * contrast: pass (40–41) · slop: pass (1–58) · mobile: pass (34, 49–57)
  */
 /* Hallmark · pre-emit critique: P5 H4 E5 S5 R5 V4 */
 
 :where(.node-page, .node-moody_landing_page, .node-moody_standard_page) :where(
   .field--type-moody-flex-grid,
+  .block-bundle-moody-focus-areas,
+  .block-bundle-utexas-promo-unit,
   .block-moody-feature-page-feature-pages-editors-picks,
   .block-moody-flip-things-flip-image-grid,
   .block-moody-image-grid-image-grid
 ) {
   container-type: inline-size;
+}
+
+/* Focus Areas are a compact task rail, not oversized icon tiles. The icon is
+   inline with the task name so the component scans quickly at every width. */
+:where(.node-page, .node-moody_landing_page, .node-moody_standard_page) .focus-areas-wrapper {
+  padding: var(--space-xl) 0 var(--space-2xl);
+  text-align: start;
+}
+
+:where(.node-page, .node-moody_landing_page, .node-moody_standard_page) .focus-areas-title {
+  max-width: 18ch;
+  margin: 0 0 var(--space-xl);
+  color: var(--color-ink);
+  font-family: var(--font-display);
+  font-size: var(--text-heading);
+  font-style: normal;
+  font-weight: 700;
+  line-height: var(--leading-heading);
+  text-wrap: balance;
+}
+
+:where(.node-page, .node-moody_landing_page, .node-moody_standard_page) .focus-areas-items {
+  display: grid;
+  width: 100%;
+  max-width: none;
+  grid-template-columns: minmax(0, 1fr);
+  gap: var(--space-lg);
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+:where(.node-page, .node-moody_landing_page, .node-moody_standard_page) .focus-areas-item {
+  width: auto;
+  max-width: none;
+  min-width: 0;
+  margin: 0;
+  padding: 0;
+  text-align: start;
+}
+
+:where(.node-page, .node-moody_landing_page, .node-moody_standard_page) :is(
+  .linked-focus-area-item,
+  .focus-areas-item:not(:has(.linked-focus-area-item))
+) {
+  display: grid;
+  min-height: var(--target-min);
+  grid-template-columns: var(--target-min) minmax(0, 1fr);
+  align-items: center;
+  gap: var(--space-md);
+  padding-block: var(--space-md);
+  border-block-start: var(--rule-hair) solid var(--color-rule-strong);
+  color: var(--color-ink);
+  text-decoration: none;
+}
+
+:where(.node-page, .node-moody_landing_page, .node-moody_standard_page)
+  .focus-areas-item.resource-media--unavailable .linked-focus-area-item,
+:where(.node-page, .node-moody_landing_page, .node-moody_standard_page)
+  .focus-areas-item.resource-media--unavailable:not(:has(.linked-focus-area-item)) {
+  grid-template-columns: minmax(0, 1fr);
+}
+
+:where(.node-page, .node-moody_landing_page, .node-moody_standard_page) .focus-areas-item .image-wrapper,
+:where(.node-page, .node-moody_landing_page, .node-moody_standard_page) .focus-areas-item .image-overflow {
+  display: grid;
+  width: var(--target-min);
+  height: var(--target-min);
+  place-items: center;
+  margin: 0;
+  overflow: visible;
+}
+
+:where(.node-page, .node-moody_landing_page, .node-moody_standard_page) .focus-areas-item img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+}
+
+:where(.node-page, .node-moody_landing_page, .node-moody_standard_page) .focus-areas-item .content {
+  width: auto;
+  max-width: none;
+  min-width: 0;
+  margin: 0;
+  text-align: start;
+}
+
+:where(.node-page, .node-moody_landing_page, .node-moody_standard_page) .focus-areas-item .ut-headline {
+  max-width: 20ch;
+  margin: 0;
+  color: var(--color-ink);
+  font-family: var(--font-display);
+  font-size: var(--text-base);
+  font-style: normal;
+  font-weight: 700;
+  line-height: var(--leading-heading);
+  overflow-wrap: anywhere;
+  text-decoration: none;
+  text-transform: none;
+  text-wrap: balance;
+}
+
+:where(.node-page, .node-moody_landing_page, .node-moody_standard_page) .focus-areas-item .ut-copy {
+  max-width: var(--measure);
+  margin-block-start: var(--space-xs);
+  color: var(--color-ink);
+  font-family: var(--font-body);
+  font-size: var(--text-base);
+  line-height: var(--leading-body);
+}
+
+:where(.node-page, .node-moody_landing_page, .node-moody_standard_page) .linked-focus-area-item:focus-visible {
+  border-radius: var(--radius-sm);
+  outline: var(--focus-outline);
+  outline-offset: var(--space-2xs);
+}
+
+:where(.node-page, .node-moody_landing_page, .node-moody_standard_page) .linked-focus-area-item:active .ut-headline {
+  color: var(--color-link);
+}
+
+@media (hover: hover) and (pointer: fine) {
+  :where(.node-page, .node-moody_landing_page, .node-moody_standard_page) .linked-focus-area-item:hover .ut-headline {
+    color: var(--color-link);
+    text-decoration: underline;
+    text-decoration-color: var(--color-accent);
+    text-decoration-thickness: var(--rule-strong);
+    text-underline-offset: var(--space-2xs);
+  }
+}
+
+@container (min-width: 40rem) {
+  :where(.node-page, .node-moody_landing_page, .node-moody_standard_page) .focus-areas-items {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+@container (min-width: 64rem) {
+  :where(.node-page, .node-moody_landing_page, .node-moody_standard_page) .focus-areas-items {
+    grid-template-columns: repeat(12, minmax(0, 1fr));
+  }
+
+  :where(.node-page, .node-moody_landing_page, .node-moody_standard_page) .focus-areas-item {
+    grid-column: span 3;
+  }
 }
 
 /* Flexible content grids become an editorial 12-track index. The first two
@@ -150,14 +299,25 @@
   }
 }
 
-/* UTDK promo units read as task entries, not inset cards. */
+/* UTDK Promo Units form an asymmetric resource ledger rather than six equal
+   cards. Authored media remains content-owned and the links stay discrete. */
+:where(.node-moody_landing_page, .node-moody_standard_page) .utexas-promo-unit-container {
+  width: 100%;
+  margin: 0;
+  padding-block: var(--space-2xl);
+}
+
 :where(.node-moody_landing_page, .node-moody_standard_page) .utexas-promo-unit-items {
   display: grid;
   grid-template-columns: minmax(0, 1fr);
   gap: var(--space-xl);
+  margin: 0;
+  padding: 0;
+  list-style: none;
 }
 
 :where(.node-moody_landing_page, .node-moody_standard_page) .utexas-promo-unit {
+  display: block;
   min-width: 0;
   margin: 0;
   padding-block-start: var(--space-md);
@@ -167,24 +327,124 @@
 }
 
 :where(.node-moody_landing_page, .node-moody_standard_page) .utexas-promo-unit :where(.image-wrapper, .data-wrapper) {
+  width: 100%;
+  max-width: none;
   min-width: 0;
   margin: 0;
   padding: 0;
 }
 
+:where(.node-moody_landing_page, .node-moody_standard_page) .utexas-promo-unit .image-wrapper {
+  overflow: clip;
+}
+
+/* The first pair carries the authored photography. Later items are dense task
+   lists, so their decorative media yields to faster scanning on every screen. */
+:where(.node-moody_landing_page, .node-moody_standard_page) .utexas-promo-unit:nth-child(n + 3) .image-wrapper {
+  display: none;
+}
+
 :where(.node-moody_landing_page, .node-moody_standard_page) .utexas-promo-unit img {
+  display: block;
+  width: 100%;
   aspect-ratio: var(--media-feature-ratio);
   border-radius: 0;
   object-fit: cover;
 }
 
-@container (min-width: 48rem) {
+:where(.node-moody_landing_page, .node-moody_standard_page) .utexas-promo-unit .data-wrapper {
+  display: flex;
+  flex-direction: column;
+  margin-block-start: var(--space-lg);
+}
+
+:where(.node-moody_landing_page, .node-moody_standard_page) .utexas-promo-unit:nth-child(n + 3) .data-wrapper {
+  margin-block-start: 0;
+}
+
+:where(.node-moody_landing_page, .node-moody_standard_page) .utexas-promo-unit .ut-headline {
+  max-width: 20ch;
+  margin: 0 0 var(--space-sm);
+  color: var(--color-ink);
+  font-family: var(--font-display);
+  font-size: var(--text-heading-sm);
+  font-style: normal;
+  font-weight: 700;
+  line-height: var(--leading-heading);
+  overflow-wrap: anywhere;
+  text-transform: none;
+  text-wrap: balance;
+}
+
+:where(.node-moody_landing_page, .node-moody_standard_page) .utexas-promo-unit .data-wrapper > a {
+  display: flex;
+  min-height: var(--target-min);
+  align-items: center;
+  gap: var(--space-sm);
+  padding-block: var(--space-xs);
+  border-block-end: var(--rule-hair) solid var(--color-rule);
+  color: var(--color-link);
+  font-family: var(--font-body);
+  font-size: var(--text-sm);
+  font-weight: 700;
+  line-height: 1.35;
+  text-decoration: none;
+}
+
+:where(.node-moody_landing_page, .node-moody_standard_page) .utexas-promo-unit .data-wrapper > a::after {
+  display: none;
+  flex: 0 0 auto;
+  width: var(--space-sm);
+  height: var(--space-sm);
+  margin-inline-start: auto;
+  border-block-start: var(--rule-strong) solid var(--color-accent);
+  border-inline-end: var(--rule-strong) solid var(--color-accent);
+  content: "";
+  transform: rotate(45deg);
+}
+
+:where(.node-moody_landing_page, .node-moody_standard_page) .utexas-promo-unit .data-wrapper > a:focus-visible {
+  border-radius: var(--radius-sm);
+  outline: var(--focus-outline);
+  outline-offset: var(--space-2xs);
+}
+
+:where(.node-moody_landing_page, .node-moody_standard_page) .utexas-promo-unit .data-wrapper > a:active {
+  background: var(--color-paper-2);
+  color: var(--color-link);
+}
+
+@media (hover: hover) and (pointer: fine) {
+  :where(.node-moody_landing_page, .node-moody_standard_page) .utexas-promo-unit .data-wrapper > a:hover {
+    color: var(--color-link);
+    text-decoration: underline;
+    text-decoration-color: var(--color-accent);
+    text-decoration-thickness: var(--rule-strong);
+    text-underline-offset: var(--space-2xs);
+  }
+}
+
+@container (min-width: 40rem) {
+  :where(.node-moody_landing_page, .node-moody_standard_page) .utexas-promo-unit-items {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+@container (min-width: 64rem) {
   :where(.node-moody_landing_page, .node-moody_standard_page) .utexas-promo-unit-items {
     grid-template-columns: repeat(12, minmax(0, 1fr));
   }
 
   :where(.node-moody_landing_page, .node-moody_standard_page) .utexas-promo-unit {
-    grid-column: span 4;
+    grid-column: span 6;
+  }
+
+  :where(.node-moody_landing_page, .node-moody_standard_page) .utexas-promo-unit .data-wrapper > a {
+    font-size: var(--text-base);
+  }
+
+  :where(.node-moody_landing_page, .node-moody_standard_page) .utexas-promo-unit .data-wrapper > a::after {
+    display: block;
   }
 
   :where(.node-moody_landing_page, .node-moody_standard_page) .utexas-promo-unit:first-child {
