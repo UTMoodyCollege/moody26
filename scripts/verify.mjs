@@ -66,6 +66,7 @@ const files = {
   focusAreas: 'templates/components/moody-focus-areas.html.twig',
   promoUnits: 'templates/components/utexas-promo-unit.html.twig',
   featuredHighlightTemplate: 'templates/components/utexas-featured-highlight.html.twig',
+  promotionTemplate: 'templates/components/moody-promotion.html.twig',
   promoListTemplate: 'templates/components/utexas-promo-list.html.twig',
   flexContentFieldTemplate: 'templates/components/field--block-content--field-block-fca--utexas-flex-content-area.html.twig',
   flexContentTemplate: 'templates/components/utexas-flex-content-area.html.twig',
@@ -163,8 +164,8 @@ const forbidPattern = (file, pattern, message) => {
 
 try {
   const packageJson = JSON.parse(contents.package ?? '');
-  if (packageJson.version !== '0.21.1') {
-    errors.push('The resource-hub coverage release must remain versioned as 0.21.1.');
+  if (packageJson.version !== '0.22.0') {
+    errors.push('The Moody Promotion component release must remain versioned as 0.22.0.');
   }
   for (const [dependency, version] of [
     ['animejs', '4.5.0'],
@@ -224,7 +225,7 @@ requireText('libraries', 'css/components/showcase.css', 'Shared Moody Showcase s
 requireText('libraries', 'css/components/contact-info.css', 'Shared Moody Contact Info styles must remain attached.');
 requireText('libraries', 'css/components/call-to-action.css', 'Shared Call to Action styles must remain attached.');
 requireText('libraries', 'js/dist/motion.min.js', 'The built motion integration must remain attached.');
-requireText('libraries', 'version: 0.21.1', 'The Drupal asset version must match the resource-hub coverage release.');
+requireText('libraries', 'version: 0.22.0', 'The Drupal asset version must match the Moody Promotion component release.');
 forbidText('info', '- moody26/motion', 'Optional motion must be attached from theme settings rather than globally.');
 
 requireText('settings', "header_social_links_block: ''", 'Header social links must be optional for new installs.');
@@ -478,9 +479,12 @@ requireText('accordionTemplate', 'aria-hidden="true"', 'Accordion state decorati
 forbidText('accordionTemplate', 'x-data', 'Accordions must not depend on Alpine state.');
 forbidText('accordionTemplate', '@click', 'Accordions must not depend on Alpine event handlers.');
 forbidText('accordionTemplate', 'aria-expanded', 'Native accordion state must not be duplicated with manually managed ARIA.');
-requireText('featuredHighlightCss', 'component: featured editorial highlight', 'Featured Highlights must retain the Hallmark component contract.');
-requireText('featuredHighlightCss', 'container: featured-highlight / inline-size;', 'Featured Highlights must remain container-aware.');
-requireText('featuredHighlightCss', '.featured-highlight__content .ut-btn:focus-visible', 'Featured Highlight calls to action need immediate visible focus.');
+requireText('featuredHighlightCss', 'component: Featured Highlight + Moody Promotion', 'The shared editorial signal band must retain its Hallmark component contract.');
+requireText('featuredHighlightCss', 'container: featured-highlight / inline-size;', 'Featured Highlights and Moody Promotions must remain container-aware.');
+requireText('featuredHighlightCss', '.featured-highlight__content :is(.ut-btn, .ut-btn--homepage):focus-visible', 'Signal-band calls to action need immediate visible focus.');
+requireText('featuredHighlightCss', '.block-bundle-moody-promotion:not(:has(.moody-promotion))', 'Empty Moody Promotion placements must collapse without decoration.');
+requireText('featuredHighlightCss', '.ut-btn--homepage', 'Moody Promotion formatter links must share the signal-band CTA states.');
+requireText('featuredHighlightCss', '[aria-disabled="true"]', 'Signal-band calls to action must honor an authored disabled state.');
 requireText('featuredHighlightCss', '@media (hover: hover) and (pointer: fine)', 'Featured Highlight hover feedback must be capability-gated.');
 requireText('featuredHighlightCss', '@container featured-highlight (min-width: 52rem)', 'Featured Highlights must retain their component-responsive layout.');
 requireText('featuredHighlightCss', 'grid-template-columns: minmax(0, 5fr) minmax(0, 7fr);', 'Media-led Featured Highlights must retain their safe 5/7 layout.');
@@ -494,6 +498,18 @@ requireText('featuredHighlightTemplate', 'attributes.addClass', 'Featured Highli
 requireText('featuredHighlightTemplate', 'rendered_copy', 'Featured Highlights must preserve processed editor copy.');
 forbidText('featuredHighlightTemplate', 'attach_library', 'Featured Highlights must use the theme global library without duplicate attachments.');
 forbidText('featuredHighlightTemplate', 'fh-background', 'Featured Highlights must not depend on inactive Speedway wrappers.');
+requireText('promotionTemplate', "'moody-promotion'", 'Moody Promotions must expose their shared component identity.');
+requireText('promotionTemplate', '<h2 class="featured-highlight__title ut-headline">', 'Moody Promotion headlines must use page-safe heading semantics.');
+requireText('promotionTemplate', 'rendered_media', 'Moody Promotions must preserve formatter-rendered media.');
+requireText('promotionTemplate', 'rendered_date', 'Moody Promotions must preserve formatter-rendered dates.');
+requireText('promotionTemplate', 'rendered_copy', 'Moody Promotions must preserve processed editor copy.');
+requireText('promotionTemplate', 'rendered_cta', 'Moody Promotions must preserve formatter-owned link attributes.');
+requireText('promotionTemplate', '{% if has_media or has_content %}', 'Completely empty Moody Promotions must emit no component.');
+forbidText('promotionTemplate', 'attach_library', 'Moody Promotions must reuse the global signal-band library.');
+forbidText('promotionTemplate', 'href=', 'Moody Promotion destinations must remain formatter-owned.');
+forbidText('promotionTemplate', '|raw', 'Moody Promotions must not bypass Drupal render safety.');
+forbidText('promotionTemplate', '<h3', 'Moody Promotions must not retain the legacy unconditional h3.');
+forbidText('promotionTemplate', 'moody-promotion-wrapper', 'Moody Promotions must not retain legacy theme layout wrappers.');
 forbidText('editorialSections', 'field--type-utexas-featured-highlight', 'Featured Highlight layout must live in its dedicated component stylesheet.');
 requireText('promoListCss', 'component: editorial resource ledger', 'Promo Lists must retain the Hallmark component contract.');
 requireText('promoListCss', 'container: promo-list / inline-size;', 'Promo Lists must remain container-aware.');
@@ -862,9 +878,10 @@ for (const file of ['preflight', 'log']) {
     errors.push(`${file} must contain valid JSON.`);
   }
 }
-requireText('preflight', '"package_version": "0.21.1"', 'Hallmark preflight must match the resource-hub coverage release.');
+requireText('preflight', '"package_version": "0.22.0"', 'Hallmark preflight must match the Moody Promotion component release.');
 requireText('log', 'Conversational FAQ within the Ecosystem Index', 'Hallmark memory must record the shared accordion macrostructure.');
 requireText('log', 'Editorial media directory within the Ecosystem Index', 'Hallmark memory must record the shared Moody Flex Grid component.');
+requireText('log', 'Editorial Signal Band within the Ecosystem Index', 'Hallmark memory must record the shared Moody Promotion signal band.');
 
 requirePattern('readme', /standalone/i, 'README must describe the standalone architecture.');
 forbidText('readme', 'Base theme | `moody`', 'README must not advertise the legacy base theme.');
@@ -881,6 +898,7 @@ requireText('readme', 'Shared resource hubs', 'README must document the reusable
 requireText('readme', 'Shared newsroom components', 'README must document the reusable newsroom layer.');
 requireText('readme', 'Shared accordions', 'README must document the native shared accordion layer.');
 requireText('readme', 'Shared Featured Highlights', 'README must document the reusable Featured Highlight layer.');
+requireText('readme', 'Shared Moody Promotions', 'README must document the reusable Moody Promotion layer.');
 requireText('readme', 'Shared Promo Lists', 'README must document the reusable Promo List layer.');
 requireText('readme', 'Shared Moody Showcases', 'README must document the reusable Moody Showcase layer.');
 requireText('readme', 'Shared Flex Content Areas', 'README must document the reusable Flex Content Area layer.');
@@ -899,6 +917,7 @@ requireText('agents', '### Resource hubs', 'AGENTS.md must preserve the resource
 requireText('agents', '### Newsroom components', 'AGENTS.md must preserve the newsroom component contract.');
 requireText('agents', '### Accordions', 'AGENTS.md must preserve the native accordion contract.');
 requireText('agents', '### Featured Highlights', 'AGENTS.md must preserve the Featured Highlight component contract.');
+requireText('agents', '### Moody Promotions', 'AGENTS.md must preserve the Moody Promotion component contract.');
 requireText('agents', '### Promo Lists', 'AGENTS.md must preserve the Promo List component contract.');
 requireText('agents', '### Flex Content Areas', 'AGENTS.md must preserve the Flex Content Area component contract.');
 requireText('agents', '### Image Links', 'AGENTS.md must preserve the Image Link component contract.');
@@ -919,5 +938,5 @@ if (errors.length) {
   process.exitCode = 1;
 }
 else {
-  console.log(`Moody26 verification passed (${Object.keys(files).length} source files, ${fonts.length} local fonts, standalone shell, UT brand, accessible directories, resource hubs, newsroom, accordions, Featured Highlights, Promo Lists, Flex Content Areas, Image Links, Flex Color Blocks, Moody Quotations, Moody Flex Grids, Moody Impact Facts, Moody Showcases, Moody Heroes, Moody Contact Info, and Call to Action blocks, header social links, motion, responsive, and Hallmark gates).`);
+  console.log(`Moody26 verification passed (${Object.keys(files).length} source files, ${fonts.length} local fonts, standalone shell, UT brand, accessible directories, resource hubs, newsroom, accordions, Featured Highlights, Moody Promotions, Promo Lists, Flex Content Areas, Image Links, Flex Color Blocks, Moody Quotations, Moody Flex Grids, Moody Impact Facts, Moody Showcases, Moody Heroes, Moody Contact Info, and Call to Action blocks, header social links, motion, responsive, and Hallmark gates).`);
 }

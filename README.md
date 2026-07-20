@@ -6,7 +6,7 @@ visual identity with an accessible, editorial system that can serve academic,
 research, film, journalism, advertising, alumni, event, and public-facing
 sites without requiring the legacy Moody or Speedway themes.
 
-> **Project status:** pre-release (`0.21.1`). The theme is being validated in
+> **Project status:** pre-release (`0.22.0`). The theme is being validated in
 > [Moody Core](https://github.com/UTMoodyCollege/moody-core) before its first
 > stable tag. Pin an exact commit when evaluating the `main` branch.
 
@@ -33,6 +33,8 @@ sites without requiring the legacy Moody or Speedway themes.
   Unit ledgers, sticky-header-safe anchors, and a reusable contact close.
 - Shared Featured Highlights with resilient image and video handling,
   text-only composition, editor-owned links, and normalized legacy variants.
+- Shared Moody Promotions with page-safe headings, optional fields, empty-block
+  collapse, preserved link options, and resilient media fallback.
 - Shared UT Promo Lists with semantic list structure, page-safe headings,
   compact responsive media, and one- or two-column resource layouts.
 - Shared UT Flex Content Areas with semantic editorial entries, resilient
@@ -345,6 +347,26 @@ formatter. Failed images collapse without a broken-image glyph or an empty
 media track, and external video iframes remain responsive. A failed image never
 removes the headline, copy, or destination.
 
+### Shared Moody Promotions
+
+Moody26 gives the reusable Moody Promotion block theme-owned markup while
+preserving the module formatter’s media, date, headline, processed copy, CTA,
+link attributes, and Layout Builder placement. It shares the neutral Editorial
+Signal Band used by Featured Highlights instead of restoring the legacy
+turquoise panel or introducing a second component system.
+
+Every authored field is independently optional. A promotion headline is a
+page-safe `h2`; text-only promotions use the established asymmetric 4/8
+composition, while promotions with media use the safe 5/7 layout. Completely
+empty stored placements emit no component and acquire no decorative spacing.
+
+Formatter-owned links retain their target, relationship, class, and accessible
+name. They receive a 44 CSS-pixel minimum target plus visible focus, visited,
+active, disabled, and capability-gated hover treatments. Editors should replace
+generic labels such as “Click here” with destination-specific language when
+touching existing content. Failed images collapse the media track without
+removing the headline, copy, or destination.
+
 ### Shared Promo Lists
 
 Moody26 gives the UT Drupal Kit Promo List a semantic editorial-ledger
@@ -632,7 +654,7 @@ than replace manual assistive-technology review.
 | `tokens.css` | Brand, type, spacing, motion, focus, and layout tokens |
 | `css/fonts.css` | Local approved digital font declarations |
 | `css/moody26.css` | Global foundation, shell, navigation, forms, and footer |
-| `css/components/` | Header social, Moody Hero, editorial, discovery, resource-hub, accordion, Featured Highlight, Promo List, Flex Content Area, Image Link, Flex Color Block, Moody Quotation, Moody Flex Grid, Impact Facts, Contact Info, Call to Action, people-directory, newsroom, quick-action, and settings components |
+| `css/components/` | Header social, Moody Hero, editorial, discovery, resource-hub, accordion, Featured Highlight and Moody Promotion signal bands, Promo List, Flex Content Area, Image Link, Flex Color Block, Moody Quotation, Moody Flex Grid, Impact Facts, Contact Info, Call to Action, people-directory, newsroom, quick-action, and settings components |
 | `js/navigation.js` | Drawer and disclosure navigation state |
 | `js/quick-actions.js` | Native dialog and rendered-destination discovery |
 | `js/accessibility.js` | Progressive safeguards for rendered content components |

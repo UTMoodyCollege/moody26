@@ -444,6 +444,34 @@ not belong outside the token and font declaration files.
   text heading levels. Content editors remain responsible for keeping headings
   in document order and supplying descriptive alternatives and destinations.
 
+### Moody Promotions
+
+- Treat Moody Promotion as a shared fleet component, not a route-specific
+  marketing panel. Keep media, date, headline, processed copy, CTA text,
+  destination, link options, and Layout Builder placement under Drupal and
+  editor control.
+- Moody26 owns `moody-promotion.html.twig` and reuses the
+  `featured-highlight__*` Editorial Signal Band presentation contract. Preserve
+  every formatter-rendered field and link attribute; never rebuild an `href`,
+  use `|raw`, duplicate formatter logic, or attach a second component library.
+- Headline, date, copy, media, and CTA are independently optional. Emit the
+  headline as a page-safe `h2`, omit empty wrappers, and emit no component for
+  a completely empty stored placement.
+- Use the same neutral paper, burnt-orange rule, single-column narrow layout,
+  safe 5/7 media-content grid, and asymmetric 4/8 text-only layout as Featured
+  Highlight. Never restore the legacy turquoise panel or introduce a nested
+  card.
+- Formatter-owned CTA links retain their target, relationship, classes, and
+  accessible names. Provide a 44 CSS-pixel minimum target, readable visited
+  color, immediate visible focus, active and authored disabled feedback, and
+  capability-gated hover. Editors should replace generic “Click here” labels
+  with destination-specific copy when content is next revised.
+- Failed image output hides only the media wrapper, recomposes to the text-only
+  layout, and preserves all remaining content. Empty placements must not create
+  spacing, rules, landmarks, or headings.
+- Moody Promotion is static server-rendered content. Do not add decorative
+  motion or fabricate loading, error, or success states.
+
 ### Promo Lists
 
 - Treat the UT Drupal Kit Promo List as a shared content collection, not a
@@ -846,7 +874,8 @@ Texas requirements. The current University compliance date is March 1, 2026.
 - `css/components/accordion.css`: native disclosure layout, state, focus, and
   responsive typography for shared Moody Accordion fields.
 - `css/components/featured-highlight.css`: resilient media, text-only, variant,
-  link-state, and container-aware Featured Highlight presentation.
+  link-state, and container-aware Featured Highlight and Moody Promotion signal
+  bands.
 - `css/components/promo-list.css`: semantic resource-ledger lists, page-safe
   headings, compact media fallbacks, and container-aware authoring variants.
 - `css/components/flex-content.css`: semantic editorial media lists,

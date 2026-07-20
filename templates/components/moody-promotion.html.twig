@@ -1,0 +1,59 @@
+{#
+/**
+ * @file
+ * Theme-owned Moody Promotion markup for the shared editorial signal band.
+ *
+ * Preserves formatter-rendered fields and optional content while replacing
+ * assumptions from the inactive legacy theme.
+ */
+#}
+{% set rendered_media = media|render %}
+{% set rendered_date = date|render %}
+{% set rendered_headline = headline|render %}
+{% set rendered_copy = copy|render %}
+{% set rendered_cta = cta|render %}
+{% set has_media = rendered_media|trim %}
+{% set has_date = rendered_date|striptags|trim %}
+{% set has_headline = rendered_headline|striptags|trim %}
+{% set has_copy = rendered_copy|striptags|trim %}
+{% set has_cta = rendered_cta|striptags|trim %}
+{% set has_content = has_date or has_headline or has_copy or has_cta %}
+{% set classes = [
+  'featured-highlight',
+  'moody-promotion',
+  style ? style|clean_class,
+  has_media ? 'featured-highlight--has-media' : 'featured-highlight--without-media',
+  has_content ? 'featured-highlight--has-content' : 'featured-highlight--media-only',
+] %}
+
+{% if has_media or has_content %}
+  <div class="{{ classes|filter|join(' ') }}">
+    <div class="featured-highlight__inner">
+      {% if has_media %}
+        <div class="featured-highlight__media image-wrapper">
+          {{ rendered_media }}
+        </div>
+      {% endif %}
+      {% if has_content %}
+        <div class="featured-highlight__content content-wrapper">
+          {% if has_date %}
+            <p class="featured-highlight__date">{{ rendered_date }}</p>
+          {% endif %}
+          {% if has_headline %}
+            <h2 class="featured-highlight__title ut-headline">{{ rendered_headline }}</h2>
+          {% endif %}
+          {% if has_copy %}
+            <div class="featured-highlight__copy ut-copy">
+              {{ rendered_copy }}
+            </div>
+          {% endif %}
+          {% if has_cta %}
+            <div class="featured-highlight__action">
+              {{ rendered_cta }}
+            </div>
+          {% endif %}
+        </div>
+      {% endif %}
+    </div>
+  </div>
+{% endif %}

@@ -1,11 +1,15 @@
-/* Hallmark · macrostructure: Editorial Signal Band · component: featured editorial highlight · genre: editorial · theme: UT custom
- * states: default · hover · focus · active · media unavailable
+/* Hallmark · macrostructure: Editorial Signal Band · component: Featured Highlight + Moody Promotion · genre: editorial · theme: UT custom
+ * states: default · visited · hover · focus · active · disabled · media unavailable · empty
  * contrast: pass (40–41) · mobile: pass (34, 49–57)
  */
 /* Hallmark · pre-emit critique: P5 H5 E5 S5 R5 V5 */
 
-.block-bundle-utexas-featured-highlight {
+:where(.block-bundle-utexas-featured-highlight, .block-bundle-moody-promotion) {
   container: featured-highlight / inline-size;
+}
+
+.block-bundle-moody-promotion:not(:has(.moody-promotion)) {
+  display: none;
 }
 
 .featured-highlight.featured-highlight {
@@ -108,7 +112,7 @@
 
 .featured-highlight__title a:focus-visible,
 .featured-highlight__copy a:focus-visible,
-.featured-highlight__content .ut-btn:focus-visible {
+.featured-highlight__content :is(.ut-btn, .ut-btn--homepage):focus-visible {
   border-radius: var(--radius-sm);
   outline: var(--focus-outline);
   outline-offset: var(--space-2xs);
@@ -116,7 +120,7 @@
 
 .featured-highlight__title a:active,
 .featured-highlight__copy a:active,
-.featured-highlight__content .ut-btn:active {
+.featured-highlight__content :is(.ut-btn, .ut-btn--homepage):active {
   background: var(--color-paper-3);
   color: var(--color-link);
   transform: none;
@@ -146,7 +150,7 @@
   text-underline-offset: var(--rule-strong);
 }
 
-.featured-highlight__content .ut-btn {
+.featured-highlight__content :is(.ut-btn, .ut-btn--homepage) {
   display: inline-flex;
   width: max-content;
   max-width: 100%;
@@ -170,6 +174,16 @@
   white-space: normal;
 }
 
+.featured-highlight__content :is(.ut-btn, .ut-btn--homepage):visited {
+  color: var(--color-link);
+}
+
+.featured-highlight__content :is(.ut-btn, .ut-btn--homepage)[aria-disabled="true"] {
+  cursor: not-allowed;
+  opacity: 0.55;
+  pointer-events: none;
+}
+
 .featured-highlight--media-only .featured-highlight__media {
   width: 100%;
   max-width: var(--content-max);
@@ -183,7 +197,7 @@
 @media (hover: hover) and (pointer: fine) {
   .featured-highlight__title a:hover,
   .featured-highlight__copy a:hover,
-  .featured-highlight__content .ut-btn:hover {
+  .featured-highlight__content :is(.ut-btn, .ut-btn--homepage):not([aria-disabled="true"]):hover {
     border: 0;
     background: var(--color-transparent);
     color: var(--color-link);

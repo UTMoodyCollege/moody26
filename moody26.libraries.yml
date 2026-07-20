@@ -1,5 +1,5 @@
 global:
-  version: 0.21.1
+  version: 0.22.0
   css:
     base:
       css/fonts.css: { weight: 90 }
@@ -35,14 +35,14 @@ global:
     - core/once
 
 motion:
-  version: 0.21.1
+  version: 0.22.0
   js:
     js/dist/motion.min.js: { minified: true }
   dependencies:
     - moody26/global
 
 settings:
-  version: 0.21.1
+  version: 0.22.0
   css:
     theme:
       css/components/theme-settings.css: {}
