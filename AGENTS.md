@@ -301,6 +301,38 @@ not belong outside the token and font declaration files.
   text heading levels. Content editors remain responsible for keeping headings
   in document order and supplying descriptive alternatives and destinations.
 
+### Promo Lists
+
+- Treat the UT Drupal Kit Promo List as a shared content collection, not a
+  page-specific card grid. Keep group headings, item headlines, processed copy,
+  destinations, link options, images, view modes, ordering, and Layout Builder
+  placement under Drupal and editor control.
+- Moody26 owns the `utexas-promo-list.html.twig` override and its layout.
+  Preserve formatter-provided filtered text, processed-text render arrays,
+  headline link attributes, responsive image output, and field attributes; do
+  not duplicate formatter logic in JavaScript or PHP.
+- Render every non-empty collection as a semantic list and every entry as a
+  list item. A visible group heading is an `h2` and its item headings are `h3`.
+  Without a group heading, item headings become `h2`; never skip directly from
+  the page `h1` to an item `h3`.
+- Ignore structurally empty stored entries rather than rendering blank rows.
+  Never invent replacement headings, copy, destinations, or media.
+- Keep default and stacked modes in one column. Add two safe tracks for the
+  responsive mode and the two-lists mode only when the component container is
+  at least 52rem wide. Every image-bearing track must use `minmax(0, …)`.
+- Keep the formatter’s 64–85 pixel square image derivatives compact. Preserve
+  editor-authored alternatives and intrinsic dimensions. Failed images hide
+  only their media wrapper and recompose the item without removing its text or
+  links.
+- Headline and rich-text links need readable contrast, immediate visible
+  focus, active feedback, and capability-gated hover. Long editorial headline
+  links may wrap rather than overflow or be truncated; this is prose-link
+  behavior, not a button or CTA exception. Editors should still use concise,
+  descriptive text and never “Click here.”
+- The Promo List is static server-rendered content. Do not fabricate disabled,
+  loading, error, or success states, add decorative motion, or turn the whole
+  item into a duplicate link target.
+
 ### Accordions
 
 - Treat Moody Accordion blocks as one shared component used across the fleet,
@@ -443,6 +475,8 @@ Texas requirements. The current University compliance date is March 1, 2026.
   responsive typography for shared Moody Accordion fields.
 - `css/components/featured-highlight.css`: resilient media, text-only, variant,
   link-state, and container-aware Featured Highlight presentation.
+- `css/components/promo-list.css`: semantic resource-ledger lists, page-safe
+  headings, compact media fallbacks, and container-aware authoring variants.
 - `css/components/people-directory.css`: responsive filters, semantic people
   indexes, linked profile treatments, current-directory state, and empty-state
   presentation.

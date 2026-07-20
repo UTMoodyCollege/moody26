@@ -1,0 +1,200 @@
+/* Hallmark · component: editorial resource ledger · genre: editorial · theme: UT custom
+ * states: default · hover · focus · active · media unavailable
+ * contrast: pass (40–41) · mobile: pass (34, 50–51)
+ */
+/* Hallmark · pre-emit critique: P5 H5 E5 S5 R5 V5 */
+
+.block-bundle-utexas-promo-list {
+  container: promo-list / inline-size;
+}
+
+.promo-list__group {
+  width: 100%;
+  min-width: 0;
+  padding-block-start: var(--space-lg);
+  border-block-start: var(--rule-strong) solid var(--color-accent);
+}
+
+.promo-list__group + .promo-list__group {
+  margin-block-start: var(--space-2xl);
+}
+
+.promo-list__group-title {
+  max-width: var(--measure);
+  min-width: 0;
+  margin: 0 0 var(--space-md);
+  color: var(--color-ink);
+  font-family: var(--font-display);
+  font-size: var(--text-heading-sm);
+  font-style: normal;
+  font-weight: 700;
+  letter-spacing: -0.02em;
+  line-height: var(--leading-heading);
+  overflow-wrap: anywhere;
+  text-transform: none;
+  text-wrap: balance;
+}
+
+.promo-list__items {
+  display: grid;
+  min-width: 0;
+  grid-template-columns: minmax(0, 1fr);
+  gap: 0;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.promo-list__item {
+  display: grid;
+  min-width: 0;
+  grid-template-columns: var(--space-2xl) minmax(0, 1fr);
+  align-items: start;
+  gap: var(--space-md);
+  margin: 0;
+  padding-block: var(--space-lg);
+  border-block-start: var(--rule-hair) solid var(--color-rule-strong);
+}
+
+.promo-list__item:first-child {
+  border-block-start: 0;
+}
+
+.promo-list__item--without-media,
+.promo-list__item--media-unavailable {
+  grid-template-columns: minmax(0, 1fr);
+}
+
+.promo-list__media,
+.promo-list__content {
+  min-width: 0;
+  margin: 0;
+  padding: 0;
+}
+
+.promo-list__media {
+  width: var(--space-2xl);
+  overflow: clip;
+  border-radius: var(--radius-sm);
+  background: var(--color-paper-3);
+  aspect-ratio: 1;
+}
+
+.promo-list__media :where(picture, img) {
+  display: block;
+  width: 100%;
+  height: 100%;
+}
+
+.promo-list__media img {
+  object-fit: cover;
+}
+
+.promo-list__title {
+  min-width: 0;
+  margin: 0;
+  color: var(--color-ink);
+  font-family: var(--font-body);
+  font-size: var(--text-lead);
+  font-style: normal;
+  font-weight: 700;
+  letter-spacing: -0.015em;
+  line-height: var(--leading-heading);
+  overflow-wrap: anywhere;
+  text-transform: none;
+  text-wrap: pretty;
+}
+
+.promo-list__title a {
+  display: inline-flex;
+  min-height: var(--target-min);
+  align-items: center;
+  padding-block: var(--space-xs);
+  color: var(--color-link);
+  text-decoration-color: var(--color-accent);
+  text-decoration-line: underline;
+  text-decoration-thickness: var(--rule-hair);
+  text-underline-offset: var(--rule-strong);
+}
+
+.promo-list__copy {
+  max-width: var(--measure);
+  margin-block-start: var(--space-xs);
+  color: var(--color-ink);
+  font-family: var(--font-body);
+  font-size: var(--text-base);
+  line-height: var(--leading-body);
+}
+
+.promo-list__copy > :first-child {
+  margin-block-start: 0;
+}
+
+.promo-list__copy > :last-child,
+.promo-list__copy > :last-child > :last-child {
+  margin-block-end: 0;
+}
+
+.promo-list__copy a {
+  color: var(--color-link);
+  text-decoration-color: var(--color-accent);
+  text-decoration-thickness: var(--rule-hair);
+  text-underline-offset: var(--rule-strong);
+}
+
+.promo-list__title a:focus-visible,
+.promo-list__copy a:focus-visible {
+  border-radius: var(--radius-sm);
+  outline: var(--focus-outline);
+  outline-offset: var(--space-2xs);
+}
+
+.promo-list__title a:active,
+.promo-list__copy a:active {
+  background: var(--color-paper-3);
+  color: var(--color-link);
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .promo-list__title a:hover,
+  .promo-list__copy a:hover {
+    color: var(--color-link);
+    text-decoration-thickness: var(--rule-strong);
+  }
+}
+
+@container promo-list (min-width: 52rem) {
+  .promo-list__items.two-column-responsive {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    column-gap: var(--component-gap);
+  }
+
+  .promo-list__items.two-column-responsive .promo-list__item:nth-child(2) {
+    border-block-start: 0;
+  }
+
+  .promo-list__item {
+    grid-template-columns: calc(var(--space-2xl) + var(--space-lg)) minmax(0, 1fr);
+    gap: var(--space-lg);
+    padding-block: var(--space-xl);
+  }
+
+  .promo-list__item--without-media,
+  .promo-list__item--media-unavailable {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  .promo-list__media {
+    width: calc(var(--space-2xl) + var(--space-lg));
+  }
+
+  .block-bundle-utexas-promo-list .ut-promo-list-field-wrapper {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: var(--component-gap);
+  }
+
+  .block-bundle-utexas-promo-list .ut-promo-list-side-by-side-wrapper {
+    min-width: 0;
+  }
+}

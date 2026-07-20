@@ -6,7 +6,7 @@ visual identity with an accessible, editorial system that can serve academic,
 research, film, journalism, advertising, alumni, event, and public-facing
 sites without requiring the legacy Moody or Speedway themes.
 
-> **Project status:** pre-release (`0.10.0`). The theme is being validated in
+> **Project status:** pre-release (`0.11.0`). The theme is being validated in
 > [Moody Core](https://github.com/UTMoodyCollege/moody-core) before its first
 > stable tag. Pin an exact commit when evaluating the `main` branch.
 
@@ -33,6 +33,8 @@ sites without requiring the legacy Moody or Speedway themes.
   Unit ledgers, sticky-header-safe anchors, and a reusable contact close.
 - Shared Featured Highlights with resilient image and video handling,
   text-only composition, editor-owned links, and normalized legacy variants.
+- Shared UT Promo Lists with semantic list structure, page-safe headings,
+  compact responsive media, and one- or two-column resource layouts.
 - Shared people directories with semantic list and heading structure,
   accessible linked profiles, responsive filters, honest result counts, and a
   useful empty state.
@@ -234,6 +236,28 @@ formatter. Failed images collapse without a broken-image glyph or an empty
 media track, and external video iframes remain responsive. A failed image never
 removes the headline, copy, or destination.
 
+### Shared Promo Lists
+
+Moody26 gives the UT Drupal Kit Promo List a semantic editorial-ledger
+treatment without changing its editor workflow. Each visible collection is a
+real list, each entry is a list item, and group headings establish an `h2`
+before item-level `h3` headings. When a group heading is omitted, item headings
+become `h2` so the component does not skip directly from the page title to an
+`h3`.
+
+The default and stacked authoring modes remain one-column lists. The responsive
+mode becomes two safe tracks only when the component itself has enough room,
+and the two-lists mode arranges its groups side-by-side under the same
+container rule. Existing headlines, processed copy, link options, media
+alternatives, source sets, view modes, and Layout Builder placement stay under
+Drupal and editor control.
+
+Images remain compact because the formatter intentionally supplies square
+64–85 pixel derivatives. A failed image collapses its media cell and leaves the
+heading, copy, and links intact. Long editorial headline links may wrap as
+prose rather than overflow or be truncated; their visible focus target remains
+at least 44 CSS pixels high.
+
 ### Shared accordions
 
 Moody26 overrides the Moody Accordion field with native `<details>` and
@@ -333,7 +357,7 @@ than replace manual assistive-technology review.
 | `tokens.css` | Brand, type, spacing, motion, focus, and layout tokens |
 | `css/fonts.css` | Local approved digital font declarations |
 | `css/moody26.css` | Global foundation, shell, navigation, forms, and footer |
-| `css/components/` | Header social, landing, editorial, discovery, resource-hub, accordion, Featured Highlight, people-directory, newsroom, quick-action, and settings components |
+| `css/components/` | Header social, landing, editorial, discovery, resource-hub, accordion, Featured Highlight, Promo List, people-directory, newsroom, quick-action, and settings components |
 | `js/navigation.js` | Drawer and disclosure navigation state |
 | `js/quick-actions.js` | Native dialog and rendered-destination discovery |
 | `js/accessibility.js` | Progressive safeguards for rendered content components |

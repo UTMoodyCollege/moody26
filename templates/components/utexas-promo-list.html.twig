@@ -1,0 +1,59 @@
+{#
+/**
+ * @file
+ * Accessible, theme-owned Promo List markup for Moody26.
+ *
+ * Keeps the UT Drupal Kit formatter responsible for filtered text, processed
+ * copy, link options, responsive images, and cacheability.
+ */
+#}
+{% set rendered_group_headline = headline|render %}
+{% set valid_items = promo_list_items|filter(item => item.headline or item.copy or item.image) %}
+{% set classes = [
+  'ut-promo-list-wrapper',
+  'promo-list__items',
+  wrapper ? wrapper|clean_class,
+] %}
+
+{% if valid_items %}
+  <div class="utexas-promo-list-container promo-list__group">
+    {% if rendered_group_headline|trim %}
+      <h2 class="ut-headline ut-headline--underline promo-list__group-title">
+        {{ rendered_group_headline }}
+      </h2>
+    {% endif %}
+    <ul{{ attributes.addClass(classes) }} role="list">
+      {% for item in valid_items %}
+        {% set rendered_image = item.image|render %}
+        {% set rendered_item_headline = item.headline|render %}
+        {% set rendered_copy = item.copy|render %}
+        {% set item_classes = [
+          'promo-list',
+          'promo-list__item',
+          rendered_image|trim ? 'promo-list__item--has-media' : 'promo-list__item--without-media',
+        ] %}
+        <li class="{{ item_classes|join(' ') }}">
+          {% if rendered_image|trim %}
+            <div class="image-wrapper promo-list__media">
+              {{ rendered_image }}
+            </div>
+          {% endif %}
+          <div class="content promo-list__content">
+            {% if rendered_item_headline|trim %}
+              {% if rendered_group_headline|trim %}
+                <h3 class="ut-headline promo-list__title">{{ rendered_item_headline }}</h3>
+              {% else %}
+                <h2 class="ut-headline promo-list__title">{{ rendered_item_headline }}</h2>
+              {% endif %}
+            {% endif %}
+            {% if rendered_copy|striptags|trim %}
+              <div class="ut-copy promo-list__copy">
+                {{ rendered_copy }}
+              </div>
+            {% endif %}
+          </div>
+        </li>
+      {% endfor %}
+    </ul>
+  </div>
+{% endif %}

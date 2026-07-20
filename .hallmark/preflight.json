@@ -1,6 +1,6 @@
 {
   "date": "2026-07-20",
-  "package_version": "0.10.0",
+  "package_version": "0.11.0",
   "framework": "Drupal 11 / UT Drupal Kit",
   "base_theme": false,
   "font_stack": "Charis SIL + Libre Franklin bundled locally by Moody26",
@@ -26,6 +26,7 @@
     "native Drupal visual options with upgrade-safe independent motion switches",
     "one canonical task-first header action group in a scroll-preserving mobile drawer",
     "native shared accordions with truthful browser-owned disclosure state",
-    "theme-owned Featured Highlights with resilient media and editor-controlled content"
+    "theme-owned Featured Highlights with resilient media and editor-controlled content",
+    "semantic UT Promo Lists with corrected heading order and resilient media"
   ]
 }

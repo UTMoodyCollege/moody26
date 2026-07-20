@@ -27,6 +27,7 @@ const files = {
   landingHero: 'css/components/landing-hero.css',
   editorialSections: 'css/components/editorial-sections.css',
   featuredHighlightCss: 'css/components/featured-highlight.css',
+  promoListCss: 'css/components/promo-list.css',
   discoveryIndex: 'css/components/discovery-index.css',
   accordionCss: 'css/components/accordion.css',
   peopleDirectory: 'css/components/people-directory.css',
@@ -56,6 +57,7 @@ const files = {
   focusAreas: 'templates/components/moody-focus-areas.html.twig',
   promoUnits: 'templates/components/utexas-promo-unit.html.twig',
   featuredHighlightTemplate: 'templates/components/utexas-featured-highlight.html.twig',
+  promoListTemplate: 'templates/components/utexas-promo-list.html.twig',
   accordionTemplate: 'templates/components/field--moody-accordion.html.twig',
   logo: 'logo.svg',
   sourceLicense: 'LICENSE',
@@ -120,8 +122,8 @@ const forbidText = (file, needle, message) => {
 
 try {
   const packageJson = JSON.parse(contents.package ?? '');
-  if (packageJson.version !== '0.10.0') {
-    errors.push('The Featured Highlight release must remain versioned as 0.10.0.');
+  if (packageJson.version !== '0.11.0') {
+    errors.push('The Promo List release must remain versioned as 0.11.0.');
   }
   for (const [dependency, version] of [
     ['animejs', '4.5.0'],
@@ -170,8 +172,9 @@ requireText('libraries', 'css/components/people-directory.css', 'Shared people-d
 requireText('libraries', 'css/components/newsroom.css', 'Shared newsroom styles must remain attached.');
 requireText('libraries', 'css/components/accordion.css', 'Shared accordion styles must remain attached.');
 requireText('libraries', 'css/components/featured-highlight.css', 'Shared Featured Highlight styles must remain attached.');
+requireText('libraries', 'css/components/promo-list.css', 'Shared Promo List styles must remain attached.');
 requireText('libraries', 'js/dist/motion.min.js', 'The built motion integration must remain attached.');
-requireText('libraries', 'version: 0.10.0', 'The Drupal asset version must match the Featured Highlight release.');
+requireText('libraries', 'version: 0.11.0', 'The Drupal asset version must match the Promo List release.');
 forbidText('info', '- moody26/motion', 'Optional motion must be attached from theme settings rather than globally.');
 
 requireText('settings', "header_social_links_block: ''", 'Header social links must be optional for new installs.');
@@ -412,6 +415,24 @@ requireText('featuredHighlightTemplate', 'rendered_copy', 'Featured Highlights m
 forbidText('featuredHighlightTemplate', 'attach_library', 'Featured Highlights must use the theme global library without duplicate attachments.');
 forbidText('featuredHighlightTemplate', 'fh-background', 'Featured Highlights must not depend on inactive Speedway wrappers.');
 forbidText('editorialSections', 'field--type-utexas-featured-highlight', 'Featured Highlight layout must live in its dedicated component stylesheet.');
+requireText('promoListCss', 'component: editorial resource ledger', 'Promo Lists must retain the Hallmark component contract.');
+requireText('promoListCss', 'container: promo-list / inline-size;', 'Promo Lists must remain container-aware.');
+requireText('promoListCss', 'grid-template-columns: minmax(0, 1fr);', 'Promo List tracks must retain safe minimum sizing.');
+requireText('promoListCss', 'grid-template-columns: repeat(2, minmax(0, 1fr));', 'Responsive Promo Lists must retain two safe tracks.');
+requireText('promoListCss', '.promo-list__title a:focus-visible', 'Promo List headline links need immediate visible focus.');
+requireText('promoListCss', '@media (hover: hover) and (pointer: fine)', 'Promo List hover feedback must be capability-gated.');
+requireText('promoListCss', '.promo-list__item--media-unavailable', 'Promo Lists must retain a stable failed-media state.');
+requireText('promoListTemplate', 'promo_list_items|filter', 'Promo Lists must exclude structurally empty stored entries.');
+requireText('promoListTemplate', 'role="list"', 'Promo List collections must expose list semantics.');
+requireText('promoListTemplate', '<li class="{{ item_classes|join', 'Promo List entries must expose list-item semantics.');
+requireText('promoListTemplate', '<h2 class="ut-headline ut-headline--underline promo-list__group-title">', 'Promo List group headings must begin a page-safe section.');
+requireText('promoListTemplate', '<h3 class="ut-headline promo-list__title">', 'Grouped Promo List items must retain subordinate headings.');
+requireText('promoListTemplate', '<h2 class="ut-headline promo-list__title">', 'Ungrouped Promo List items must not skip heading levels.');
+requireText('promoListTemplate', 'attributes.addClass(classes)', 'Promo Lists must preserve formatter-provided attributes.');
+requireText('promoListTemplate', 'rendered_copy', 'Promo Lists must preserve processed editor copy.');
+forbidText('promoListTemplate', 'attach_library', 'Promo Lists must use the theme global library without duplicate attachments.');
+forbidText('promoListTemplate', 'href=', 'Promo List destinations must remain formatter-owned.');
+forbidText('promoListTemplate', '|raw', 'Promo Lists must not bypass Drupal render safety.');
 requireText('theme', 'function moody26_preprocess_views_view_unformatted', 'Faculty directory rows need a translated result summary.');
 requireText('theme', 'function moody26_preprocess_views_view_fields', 'Faculty directory profiles need entity-backed names and URLs.');
 requireText('theme', "'moody26-directory-' . Html::getClass($directory->label())", 'Landing compositions must use portable directory-term classes.');
@@ -439,6 +460,8 @@ requireText('accessibility', "'moody26-resource-image'", 'Resource media fallbac
 requireText('accessibility', "classList.add('resource-media--unavailable')", 'Failed resource media must preserve its text and links.');
 requireText('accessibility', "once('moody26-featured-highlight-image'", 'Featured Highlight media fallbacks must be idempotent.');
 requireText('accessibility', "classList.add('featured-highlight--media-unavailable')", 'Failed Featured Highlight media must preserve and recompose its content.');
+requireText('accessibility', "once('moody26-promo-list-image'", 'Promo List media fallbacks must be idempotent.');
+requireText('accessibility', "classList.add('promo-list__item--media-unavailable')", 'Failed Promo List media must preserve and recompose its content.');
 requireText('focusAreas', '<ul class="focus-areas-items', 'Focus Areas must expose semantic list markup.');
 requireText('focusAreas', 'aria-hidden="true"', 'Focus Area icons must remain decorative beside visible task names.');
 forbidText('focusAreas', 'sr-only', 'Focus Areas must not duplicate their visible task name.');
@@ -455,7 +478,7 @@ requireText('newsFields', "'Story topics'|t", 'News topic destinations need a tr
 const runtimeFiles = [
   'info', 'libraries', 'theme', 'themeSettings', 'fontsCss', 'css',
   'headerSocialCss', 'quickActionsCss', 'landingHero', 'editorialSections', 'discoveryIndex',
-  'featuredHighlightCss', 'featuredHighlightTemplate',
+  'featuredHighlightCss', 'featuredHighlightTemplate', 'promoListCss', 'promoListTemplate',
   'accordionCss', 'accordionTemplate',
   'peopleDirectory', 'peopleDirectoryView', 'peopleDirectoryRows', 'peopleDirectoryFields',
   'newsroom', 'newsRows', 'newsFields',
@@ -478,7 +501,7 @@ for (const file of runtimeFiles) {
   }
 }
 
-const cssFiles = ['css', 'headerSocialCss', 'quickActionsCss', 'landingHero', 'editorialSections', 'featuredHighlightCss', 'discoveryIndex', 'accordionCss', 'peopleDirectory', 'newsroom', 'motionCss', 'settingsCss'];
+const cssFiles = ['css', 'headerSocialCss', 'quickActionsCss', 'landingHero', 'editorialSections', 'featuredHighlightCss', 'promoListCss', 'discoveryIndex', 'accordionCss', 'peopleDirectory', 'newsroom', 'motionCss', 'settingsCss'];
 const forbiddenCss = [
   [/#(?:[0-9a-f]{3}|[0-9a-f]{6}|[0-9a-f]{8})\b/i, 'Raw hex colors belong only in tokens.css.'],
   [/\b(?:rgb|rgba|hsl|hsla|oklch)\(/i, 'Raw color functions belong only in tokens.css.'],
@@ -509,7 +532,7 @@ for (const file of ['preflight', 'log']) {
     errors.push(`${file} must contain valid JSON.`);
   }
 }
-requireText('preflight', '"package_version": "0.10.0"', 'Hallmark preflight must match the Featured Highlight release.');
+requireText('preflight', '"package_version": "0.11.0"', 'Hallmark preflight must match the Promo List release.');
 requireText('log', 'Conversational FAQ within the Ecosystem Index', 'Hallmark memory must record the shared accordion macrostructure.');
 
 requirePattern('readme', /standalone/i, 'README must describe the standalone architecture.');
@@ -527,6 +550,7 @@ requireText('readme', 'Shared resource hubs', 'README must document the reusable
 requireText('readme', 'Shared newsroom components', 'README must document the reusable newsroom layer.');
 requireText('readme', 'Shared accordions', 'README must document the native shared accordion layer.');
 requireText('readme', 'Shared Featured Highlights', 'README must document the reusable Featured Highlight layer.');
+requireText('readme', 'Shared Promo Lists', 'README must document the reusable Promo List layer.');
 requireText('agents', '`header_social_links_block`', 'AGENTS.md must preserve the header Social Links contract.');
 requireText('agents', 'Missing, unpublished, non-reusable, inaccessible, wrong-bundle, or malformed', 'AGENTS.md must require Social Links to fail closed.');
 requireText('agents', '### People directories', 'AGENTS.md must preserve the people-directory contract.');
@@ -534,6 +558,7 @@ requireText('agents', '### Resource hubs', 'AGENTS.md must preserve the resource
 requireText('agents', '### Newsroom components', 'AGENTS.md must preserve the newsroom component contract.');
 requireText('agents', '### Accordions', 'AGENTS.md must preserve the native accordion contract.');
 requireText('agents', '### Featured Highlights', 'AGENTS.md must preserve the Featured Highlight component contract.');
+requireText('agents', '### Promo Lists', 'AGENTS.md must preserve the Promo List component contract.');
 
 if (errors.length) {
   console.error(`Moody26 verification failed (${errors.length}):`);
@@ -543,5 +568,5 @@ if (errors.length) {
   process.exitCode = 1;
 }
 else {
-  console.log(`Moody26 verification passed (${Object.keys(files).length} source files, ${fonts.length} local fonts, standalone shell, UT brand, accessible directories, resource hubs, newsroom, accordions, and Featured Highlights, header social links, motion, responsive, and Hallmark gates).`);
+  console.log(`Moody26 verification passed (${Object.keys(files).length} source files, ${fonts.length} local fonts, standalone shell, UT brand, accessible directories, resource hubs, newsroom, accordions, Featured Highlights, and Promo Lists, header social links, motion, responsive, and Hallmark gates).`);
 }
