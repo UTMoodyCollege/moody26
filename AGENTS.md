@@ -268,6 +268,39 @@ not belong outside the token and font declaration files.
   and an asymmetric 12-track ledger at wide container sizes. Keep cards flat,
   motion static by default, hover capability-gated, and focus immediate.
 
+### Featured Highlights
+
+- Treat the UT Drupal Kit Featured Highlight as a shared fleet component, not
+  a page-specific card. Keep headline, date, copy, media, link text,
+  destination, view mode, and Layout Builder placement under Drupal and editor
+  control.
+- Moody26 owns the `utexas-featured-highlight.html.twig` override and its
+  layout. Preserve the formatter’s `media_identifier`, `attributes`, headline
+  link, responsive media render array, processed-text format, and CTA access
+  attributes; do not duplicate formatter logic in JavaScript or PHP.
+- Normalize Default, Bluebonnet, and Charcoal view modes to the theme’s neutral
+  paper and ink treatment. The legacy choice remains stored for migration, but
+  secondary full-bleed colors must not compete with official burnt orange.
+- Use one safe column on narrow component containers, a 5/7 media-content grid
+  for wide highlights, and a 4/8 text-only composition. Tracks containing
+  media must use `minmax(0, …)`, and the component must recompose when media
+  fails.
+- Keep linked headlines as the primary keyboard destination. Preserve the
+  formatter’s existing `aria-hidden="true"` and `tabindex="-1"` on a redundant
+  visible CTA; when there is no headline link, the formatter keeps the CTA
+  accessible. Never create two keyboard stops for one destination.
+- Provide immediate focus, capability-gated hover, active feedback, readable
+  link contrast, and a 44-pixel minimum CTA target. Long editor-authored link
+  text may wrap rather than overflow or be truncated; editors should still use
+  concise, descriptive labels and never “Click here.”
+- Preserve image alternatives and the formatter’s responsive source output.
+  Failed image output hides only the media wrapper and retains the content.
+  External video remains responsive; its accessible name and playback behavior
+  remain owned by the UT Drupal Kit media formatter.
+- Do not invent dates, headings, or CTA text, and do not silently rewrite rich
+  text heading levels. Content editors remain responsible for keeping headings
+  in document order and supplying descriptive alternatives and destinations.
+
 ### Accordions
 
 - Treat Moody Accordion blocks as one shared component used across the fleet,
@@ -408,6 +441,8 @@ Texas requirements. The current University compliance date is March 1, 2026.
   people, Focus Areas, Promo Units, and other discovery surfaces.
 - `css/components/accordion.css`: native disclosure layout, state, focus, and
   responsive typography for shared Moody Accordion fields.
+- `css/components/featured-highlight.css`: resilient media, text-only, variant,
+  link-state, and container-aware Featured Highlight presentation.
 - `css/components/people-directory.css`: responsive filters, semantic people
   indexes, linked profile treatments, current-directory state, and empty-state
   presentation.

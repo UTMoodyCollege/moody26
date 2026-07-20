@@ -6,7 +6,7 @@ visual identity with an accessible, editorial system that can serve academic,
 research, film, journalism, advertising, alumni, event, and public-facing
 sites without requiring the legacy Moody or Speedway themes.
 
-> **Project status:** pre-release (`0.9.0`). The theme is being validated in
+> **Project status:** pre-release (`0.10.0`). The theme is being validated in
 > [Moody Core](https://github.com/UTMoodyCollege/moody-core) before its first
 > stable tag. Pin an exact commit when evaluating the `main` branch.
 
@@ -31,6 +31,8 @@ sites without requiring the legacy Moody or Speedway themes.
   forms, proof treatments, and discovery grids.
 - Shared resource hubs with compact Focus Area shortcuts, asymmetric Promo
   Unit ledgers, sticky-header-safe anchors, and a reusable contact close.
+- Shared Featured Highlights with resilient image and video handling,
+  text-only composition, editor-owned links, and normalized legacy variants.
 - Shared people directories with semantic list and heading structure,
   accessible linked profiles, responsive filters, honest result counts, and a
   useful empty state.
@@ -212,6 +214,26 @@ Color Blocks with the theme’s flat, token-governed Layout Builder system. A
 landing page whose `field_moody_url_generator` term is `News` receives the
 portable `moody26-directory-news` composition class—never a node-ID selector.
 
+### Shared Featured Highlights
+
+Moody26 provides theme-owned markup and presentation for the UT Drupal Kit
+Featured Highlight field. The Default, Bluebonnet, and Charcoal authoring
+choices all use the theme’s neutral paper and ink system so secondary colors
+do not compete with official burnt orange. The authoring choice remains in
+Drupal configuration for migration compatibility.
+
+Highlights render as a single editorial column on narrow containers. At wider
+component widths, image or video content shares a safe 5/7 grid with the copy;
+text-only highlights use an asymmetric 4/8 composition. Headline, date, rich
+text, media alternative, and CTA remain editor-owned. Linked headlines stay
+the primary keyboard destination, while the formatter’s redundant visible CTA
+retains its existing assistive-technology suppression.
+
+Responsive image source sets and alternatives remain owned by Drupal’s media
+formatter. Failed images collapse without a broken-image glyph or an empty
+media track, and external video iframes remain responsive. A failed image never
+removes the headline, copy, or destination.
+
 ### Shared accordions
 
 Moody26 overrides the Moody Accordion field with native `<details>` and
@@ -311,7 +333,7 @@ than replace manual assistive-technology review.
 | `tokens.css` | Brand, type, spacing, motion, focus, and layout tokens |
 | `css/fonts.css` | Local approved digital font declarations |
 | `css/moody26.css` | Global foundation, shell, navigation, forms, and footer |
-| `css/components/` | Header social, landing, editorial, discovery, resource-hub, accordion, people-directory, newsroom, quick-action, and settings components |
+| `css/components/` | Header social, landing, editorial, discovery, resource-hub, accordion, Featured Highlight, people-directory, newsroom, quick-action, and settings components |
 | `js/navigation.js` | Drawer and disclosure navigation state |
 | `js/quick-actions.js` | Native dialog and rendered-destination discovery |
 | `js/accessibility.js` | Progressive safeguards for rendered content components |

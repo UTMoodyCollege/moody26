@@ -431,44 +431,6 @@
   }
 }
 
-/* Featured highlights use the same media/copy contract, regardless of the
-   legacy colour selection stored on the block. */
-:where(.node-moody_landing_page, .node-moody_standard_page) .field--type-utexas-featured-highlight {
-  container-type: inline-size;
-}
-
-:where(.node-moody_landing_page, .node-moody_standard_page) .field--type-utexas-featured-highlight :is(.fh-background, .fh-background.medium, .fh-background.dark) {
-  background: var(--color-paper-2);
-  color: var(--color-ink);
-}
-
-:where(.node-moody_landing_page, .node-moody_standard_page) .utexas-featured-highlight {
-  display: grid;
-  width: min(100%, var(--page-max));
-  grid-template-columns: minmax(0, 1fr);
-  align-items: center;
-  gap: var(--component-gap);
-  margin-inline: auto;
-  padding: var(--space-2xl) var(--page-gutter);
-}
-
-:where(.node-moody_landing_page, .node-moody_standard_page) .utexas-featured-highlight :where(.image-wrapper, .content-wrapper) {
-  min-width: 0;
-  margin: 0;
-  padding: 0 !important;
-}
-
-:where(.node-moody_landing_page, .node-moody_standard_page) .utexas-featured-highlight :where(h2, h3, p, a) {
-  color: var(--color-ink);
-}
-
-@container (min-width: 60rem) {
-  :where(.node-moody_landing_page, .node-moody_standard_page) .utexas-featured-highlight {
-    grid-template-columns: minmax(0, 7fr) minmax(0, 5fr);
-    padding-block: var(--space-3xl);
-  }
-}
-
 /* Legacy colour-block choices become a neutral task index. Burnt orange stays
    a signal instead of filling a large surface. */
 :where(.node-moody_landing_page, .node-moody_standard_page) .field--type-moody-flex-color-blocks {

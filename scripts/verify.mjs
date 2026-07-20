@@ -26,6 +26,7 @@ const files = {
   quickActionsPreview: 'css/components/quick-actions.preview.html',
   landingHero: 'css/components/landing-hero.css',
   editorialSections: 'css/components/editorial-sections.css',
+  featuredHighlightCss: 'css/components/featured-highlight.css',
   discoveryIndex: 'css/components/discovery-index.css',
   accordionCss: 'css/components/accordion.css',
   peopleDirectory: 'css/components/people-directory.css',
@@ -54,6 +55,7 @@ const files = {
   newsFields: 'templates/views/views-view-fields--news-filtered--block-filtered.html.twig',
   focusAreas: 'templates/components/moody-focus-areas.html.twig',
   promoUnits: 'templates/components/utexas-promo-unit.html.twig',
+  featuredHighlightTemplate: 'templates/components/utexas-featured-highlight.html.twig',
   accordionTemplate: 'templates/components/field--moody-accordion.html.twig',
   logo: 'logo.svg',
   sourceLicense: 'LICENSE',
@@ -118,8 +120,8 @@ const forbidText = (file, needle, message) => {
 
 try {
   const packageJson = JSON.parse(contents.package ?? '');
-  if (packageJson.version !== '0.9.0') {
-    errors.push('The shared-accordion release must remain versioned as 0.9.0.');
+  if (packageJson.version !== '0.10.0') {
+    errors.push('The Featured Highlight release must remain versioned as 0.10.0.');
   }
   for (const [dependency, version] of [
     ['animejs', '4.5.0'],
@@ -167,8 +169,9 @@ requireText('libraries', 'css/components/header-social.css', 'Responsive header 
 requireText('libraries', 'css/components/people-directory.css', 'Shared people-directory styles must remain attached.');
 requireText('libraries', 'css/components/newsroom.css', 'Shared newsroom styles must remain attached.');
 requireText('libraries', 'css/components/accordion.css', 'Shared accordion styles must remain attached.');
+requireText('libraries', 'css/components/featured-highlight.css', 'Shared Featured Highlight styles must remain attached.');
 requireText('libraries', 'js/dist/motion.min.js', 'The built motion integration must remain attached.');
-requireText('libraries', 'version: 0.9.0', 'The Drupal asset version must match the shared-accordion release.');
+requireText('libraries', 'version: 0.10.0', 'The Drupal asset version must match the Featured Highlight release.');
 forbidText('info', '- moody26/motion', 'Optional motion must be attached from theme settings rather than globally.');
 
 requireText('settings', "header_social_links_block: ''", 'Header social links must be optional for new installs.');
@@ -392,6 +395,23 @@ requireText('accordionTemplate', 'aria-hidden="true"', 'Accordion state decorati
 forbidText('accordionTemplate', 'x-data', 'Accordions must not depend on Alpine state.');
 forbidText('accordionTemplate', '@click', 'Accordions must not depend on Alpine event handlers.');
 forbidText('accordionTemplate', 'aria-expanded', 'Native accordion state must not be duplicated with manually managed ARIA.');
+requireText('featuredHighlightCss', 'component: featured editorial highlight', 'Featured Highlights must retain the Hallmark component contract.');
+requireText('featuredHighlightCss', 'container: featured-highlight / inline-size;', 'Featured Highlights must remain container-aware.');
+requireText('featuredHighlightCss', '.featured-highlight__content .ut-btn:focus-visible', 'Featured Highlight calls to action need immediate visible focus.');
+requireText('featuredHighlightCss', '@media (hover: hover) and (pointer: fine)', 'Featured Highlight hover feedback must be capability-gated.');
+requireText('featuredHighlightCss', '@container featured-highlight (min-width: 52rem)', 'Featured Highlights must retain their component-responsive layout.');
+requireText('featuredHighlightCss', 'grid-template-columns: minmax(0, 5fr) minmax(0, 7fr);', 'Media-led Featured Highlights must retain their safe 5/7 layout.');
+requireText('featuredHighlightCss', 'grid-template-columns: minmax(0, 4fr) minmax(0, 8fr);', 'Text-only Featured Highlights must retain their asymmetric 4/8 layout.');
+requireText('featuredHighlightCss', '.featured-highlight--media-unavailable', 'Featured Highlights must retain a stable failed-media state.');
+requireText('featuredHighlightCss', '.featured-highlight__media:has(iframe)', 'Featured Highlights must preserve responsive external video.');
+requireText('featuredHighlightTemplate', "'featured-highlight--has-media'", 'Featured Highlights must expose their media composition.');
+requireText('featuredHighlightTemplate', '<h2 class="featured-highlight__title ut-headline">', 'Featured Highlight headlines must retain page-safe heading semantics.');
+requireText('featuredHighlightTemplate', 'media_identifier', 'Featured Highlights must preserve the formatter-provided identifier.');
+requireText('featuredHighlightTemplate', 'attributes.addClass', 'Featured Highlights must preserve formatter-provided attributes.');
+requireText('featuredHighlightTemplate', 'rendered_copy', 'Featured Highlights must preserve processed editor copy.');
+forbidText('featuredHighlightTemplate', 'attach_library', 'Featured Highlights must use the theme global library without duplicate attachments.');
+forbidText('featuredHighlightTemplate', 'fh-background', 'Featured Highlights must not depend on inactive Speedway wrappers.');
+forbidText('editorialSections', 'field--type-utexas-featured-highlight', 'Featured Highlight layout must live in its dedicated component stylesheet.');
 requireText('theme', 'function moody26_preprocess_views_view_unformatted', 'Faculty directory rows need a translated result summary.');
 requireText('theme', 'function moody26_preprocess_views_view_fields', 'Faculty directory profiles need entity-backed names and URLs.');
 requireText('theme', "'moody26-directory-' . Html::getClass($directory->label())", 'Landing compositions must use portable directory-term classes.');
@@ -417,6 +437,8 @@ requireText('accessibility', "once('moody26-showcase-image'", 'Showcase media fa
 requireText('accessibility', "classList.add('moody-showcase--media-unavailable')", 'Failed Showcase media must preserve its text composition.');
 requireText('accessibility', "'moody26-resource-image'", 'Resource media fallbacks must be idempotent.');
 requireText('accessibility', "classList.add('resource-media--unavailable')", 'Failed resource media must preserve its text and links.');
+requireText('accessibility', "once('moody26-featured-highlight-image'", 'Featured Highlight media fallbacks must be idempotent.');
+requireText('accessibility', "classList.add('featured-highlight--media-unavailable')", 'Failed Featured Highlight media must preserve and recompose its content.');
 requireText('focusAreas', '<ul class="focus-areas-items', 'Focus Areas must expose semantic list markup.');
 requireText('focusAreas', 'aria-hidden="true"', 'Focus Area icons must remain decorative beside visible task names.');
 forbidText('focusAreas', 'sr-only', 'Focus Areas must not duplicate their visible task name.');
@@ -433,6 +455,7 @@ requireText('newsFields', "'Story topics'|t", 'News topic destinations need a tr
 const runtimeFiles = [
   'info', 'libraries', 'theme', 'themeSettings', 'fontsCss', 'css',
   'headerSocialCss', 'quickActionsCss', 'landingHero', 'editorialSections', 'discoveryIndex',
+  'featuredHighlightCss', 'featuredHighlightTemplate',
   'accordionCss', 'accordionTemplate',
   'peopleDirectory', 'peopleDirectoryView', 'peopleDirectoryRows', 'peopleDirectoryFields',
   'newsroom', 'newsRows', 'newsFields',
@@ -455,7 +478,7 @@ for (const file of runtimeFiles) {
   }
 }
 
-const cssFiles = ['css', 'headerSocialCss', 'quickActionsCss', 'landingHero', 'editorialSections', 'discoveryIndex', 'accordionCss', 'peopleDirectory', 'newsroom', 'motionCss', 'settingsCss'];
+const cssFiles = ['css', 'headerSocialCss', 'quickActionsCss', 'landingHero', 'editorialSections', 'featuredHighlightCss', 'discoveryIndex', 'accordionCss', 'peopleDirectory', 'newsroom', 'motionCss', 'settingsCss'];
 const forbiddenCss = [
   [/#(?:[0-9a-f]{3}|[0-9a-f]{6}|[0-9a-f]{8})\b/i, 'Raw hex colors belong only in tokens.css.'],
   [/\b(?:rgb|rgba|hsl|hsla|oklch)\(/i, 'Raw color functions belong only in tokens.css.'],
@@ -486,7 +509,7 @@ for (const file of ['preflight', 'log']) {
     errors.push(`${file} must contain valid JSON.`);
   }
 }
-requireText('preflight', '"package_version": "0.9.0"', 'Hallmark preflight must match the shared-accordion release.');
+requireText('preflight', '"package_version": "0.10.0"', 'Hallmark preflight must match the Featured Highlight release.');
 requireText('log', 'Conversational FAQ within the Ecosystem Index', 'Hallmark memory must record the shared accordion macrostructure.');
 
 requirePattern('readme', /standalone/i, 'README must describe the standalone architecture.');
@@ -503,12 +526,14 @@ requireText('readme', 'Shared people directories', 'README must document the reu
 requireText('readme', 'Shared resource hubs', 'README must document the reusable resource-hub layer.');
 requireText('readme', 'Shared newsroom components', 'README must document the reusable newsroom layer.');
 requireText('readme', 'Shared accordions', 'README must document the native shared accordion layer.');
+requireText('readme', 'Shared Featured Highlights', 'README must document the reusable Featured Highlight layer.');
 requireText('agents', '`header_social_links_block`', 'AGENTS.md must preserve the header Social Links contract.');
 requireText('agents', 'Missing, unpublished, non-reusable, inaccessible, wrong-bundle, or malformed', 'AGENTS.md must require Social Links to fail closed.');
 requireText('agents', '### People directories', 'AGENTS.md must preserve the people-directory contract.');
 requireText('agents', '### Resource hubs', 'AGENTS.md must preserve the resource-hub contract.');
 requireText('agents', '### Newsroom components', 'AGENTS.md must preserve the newsroom component contract.');
 requireText('agents', '### Accordions', 'AGENTS.md must preserve the native accordion contract.');
+requireText('agents', '### Featured Highlights', 'AGENTS.md must preserve the Featured Highlight component contract.');
 
 if (errors.length) {
   console.error(`Moody26 verification failed (${errors.length}):`);
@@ -518,5 +543,5 @@ if (errors.length) {
   process.exitCode = 1;
 }
 else {
-  console.log(`Moody26 verification passed (${Object.keys(files).length} source files, ${fonts.length} local fonts, standalone shell, UT brand, accessible directories, resource hubs, newsroom, and accordions, header social links, motion, responsive, and Hallmark gates).`);
+  console.log(`Moody26 verification passed (${Object.keys(files).length} source files, ${fonts.length} local fonts, standalone shell, UT brand, accessible directories, resource hubs, newsroom, accordions, and Featured Highlights, header social links, motion, responsive, and Hallmark gates).`);
 }

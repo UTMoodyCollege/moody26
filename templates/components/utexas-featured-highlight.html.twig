@@ -1,0 +1,50 @@
+{#
+/**
+ * @file
+ * Theme-owned, dependency-free Featured Highlight markup for Moody26.
+ *
+ * Preserves the UT Drupal Kit formatter variables while removing layout
+ * assumptions from the inactive profile theme.
+ */
+#}
+{% set rendered_media = media|render %}
+{% set rendered_date = date|render %}
+{% set rendered_headline = headline|render %}
+{% set rendered_copy = copy|render %}
+{% set rendered_cta = cta|render %}
+{% set has_content = rendered_date or rendered_headline or rendered_copy|striptags|trim or rendered_cta %}
+{% set classes = [
+  'utexas-featured-highlight',
+  'featured-highlight',
+  style ? style|clean_class,
+  rendered_media|trim ? 'featured-highlight--has-media' : 'featured-highlight--without-media',
+  has_content ? 'featured-highlight--has-content' : 'featured-highlight--media-only',
+] %}
+
+{% if rendered_media|trim or has_content %}
+  <div id="{{ media_identifier }}" {{ attributes.addClass(classes) }}>
+    <div class="featured-highlight__inner">
+      {% if rendered_media|trim %}
+        <div class="featured-highlight__media image-wrapper">
+          {{ rendered_media }}
+        </div>
+      {% endif %}
+      {% if has_content %}
+        <div class="featured-highlight__content content-wrapper">
+          {% if rendered_date %}
+            <p class="featured-highlight__date">{{ rendered_date }}</p>
+          {% endif %}
+          {% if rendered_headline %}
+            <h2 class="featured-highlight__title ut-headline">{{ rendered_headline }}</h2>
+          {% endif %}
+          {% if rendered_copy|striptags|trim %}
+            <div class="featured-highlight__copy ut-copy">
+              {{ rendered_copy }}
+            </div>
+          {% endif %}
+          {{ rendered_cta }}
+        </div>
+      {% endif %}
+    </div>
+  </div>
+{% endif %}
