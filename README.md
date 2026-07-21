@@ -6,7 +6,7 @@ visual identity with an accessible, editorial system that can serve academic,
 research, film, journalism, advertising, alumni, event, and public-facing
 sites without requiring the legacy Moody or Speedway themes.
 
-> **Project status:** pre-release (`0.28.0`). The theme is being validated in
+> **Project status:** pre-release (`0.29.0`). The theme is being validated in
 > [Moody Core](https://github.com/UTMoodyCollege/moody-core) before its first
 > stable tag. Pin an exact commit when evaluating the `main` branch.
 
@@ -66,6 +66,8 @@ sites without requiring the legacy Moody or Speedway themes.
   levels, narrow-screen-safe contact links, and page-bundle-independent styling.
 - Shared Call to Action blocks with formatter-owned destinations, compact
   branded action rules, complete link states, and narrow-region-safe labels.
+- Shared Moody Newsletter destination bands with page-safe headings,
+  formatter-owned links, neutral migration styles, and container-aware reflow.
 - Shared people directories with semantic list and heading structure,
   accessible linked profiles, responsive filters, honest result counts, and a
   useful empty state.
@@ -351,6 +353,24 @@ line; long formatter-owned labels wrap between words in narrow Layout Builder
 regions rather than being clipped or truncated. Empty stored blocks remain
 visually empty, and the static link does not fabricate loading, error, or
 success states.
+
+### Shared Moody Newsletter destination bands
+
+Moody26 treats the legacy Moody Newsletter block as the compact destination
+band its fields actually provide—not as a form or a route-specific promotion.
+The theme replaces the provider’s unconditional `h3` with an optional,
+page-safe `h2` and preserves the formatter-built CTA, including its destination,
+link options, external/new-window context, cacheability, and attachments.
+
+Blue, gray, green, and orange authoring choices remain recognizable migration
+classes, but all use the same neutral limestone-paper treatment so a secondary
+panel color never competes with official burnt orange. The component stacks in
+narrow Layout Builder regions and becomes a compact 5/auto heading-action band
+only when its own container reaches 34rem. CTA labels stay vertically centered
+in a 44-pixel target with readable visited, immediate focus, active, authored
+disabled, and capability-gated hover states. Empty output creates no heading,
+rule, or decorative space, and the static component adds no synthetic arrow,
+copy, motion, or asynchronous state.
 
 ### Shared Moody Showcases
 

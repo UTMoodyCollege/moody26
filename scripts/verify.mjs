@@ -42,6 +42,7 @@ const files = {
   flexListCss: 'css/components/flex-list.css',
   heroCarouselCss: 'css/components/hero-carousel.css',
   photoContentCss: 'css/components/photo-content.css',
+  newsletterCss: 'css/components/newsletter.css',
   discoveryIndex: 'css/components/discovery-index.css',
   accordionCss: 'css/components/accordion.css',
   peopleDirectory: 'css/components/people-directory.css',
@@ -97,6 +98,7 @@ const files = {
   flexListTabsTemplate: 'templates/components/field--utexas-flex-list--htabs.html.twig',
   heroCarouselTemplate: 'templates/components/field--block-content--utexas-hero-carousel.html.twig',
   photoContentTemplate: 'templates/components/utexas-photo-content-area.html.twig',
+  newsletterTemplate: 'templates/components/moody-newsletter.html.twig',
   heroTemplate: 'templates/components/moody-hero.html.twig',
   heroStyle1Template: 'templates/components/moody-hero-1.html.twig',
   heroStyle2Template: 'templates/components/moody-hero-2.html.twig',
@@ -183,8 +185,8 @@ const forbidPattern = (file, pattern, message) => {
 
 try {
   const packageJson = JSON.parse(contents.package ?? '');
-  if (packageJson.version !== '0.28.0') {
-    errors.push('The shared UT Drupal Kit Photo Content Area release must remain versioned as 0.28.0.');
+  if (packageJson.version !== '0.29.0') {
+    errors.push('The shared Moody Newsletter destination-band release must remain versioned as 0.29.0.');
   }
   for (const [dependency, version] of [
     ['animejs', '4.5.0'],
@@ -248,8 +250,9 @@ requireText('libraries', 'css/components/flex-tabs.css', 'Shared Flex Tabs style
 requireText('libraries', 'css/components/flex-list.css', 'Shared UT Drupal Kit Flex List styles must remain attached.');
 requireText('libraries', 'css/components/hero-carousel.css', 'Accessible UT Drupal Kit Hero Carousel styles must remain attached.');
 requireText('libraries', 'css/components/photo-content.css', 'Shared UT Drupal Kit Photo Content Area styles must remain attached.');
+requireText('libraries', 'css/components/newsletter.css', 'Shared Moody Newsletter styles must remain attached.');
 requireText('libraries', 'js/dist/motion.min.js', 'The built motion integration must remain attached.');
-requireText('libraries', 'version: 0.28.0', 'The Drupal asset version must match the Photo Content Area release.');
+requireText('libraries', 'version: 0.29.0', 'The Drupal asset version must match the Moody Newsletter release.');
 forbidText('info', '- moody26/motion', 'Optional motion must be attached from theme settings rather than globally.');
 
 requireText('settings', "header_social_links_block: ''", 'Header social links must be optional for new installs.');
@@ -642,6 +645,23 @@ forbidText('css', 'block-bundle-utexas-photo-content-area', 'Photo Content Areas
 requireText('accessibility', "once('moody26-photo-content-image'", 'Photo Content Area media recovery must be idempotent.');
 requireText('accessibility', "classList.add('photo-content--media-unavailable')", 'Failed Photo Content Area media must preserve and recompose authored content.');
 requireText('accessibility', 'component.hidden = true;', 'Failed media-only Photo Content Areas must not leave empty component chrome.');
+requireText('newsletterCss', 'component: Moody Newsletter destination band', 'Moody Newsletter must retain the Hallmark component contract.');
+requireText('newsletterCss', 'container: newsletter / inline-size;', 'Moody Newsletter must respond to its Layout Builder container.');
+requireText('newsletterCss', 'grid-template-columns: minmax(0, 5fr) auto;', 'Moody Newsletter must retain its safe wide destination-band layout.');
+requireText('newsletterCss', '.newsletter__action > a:visited', 'Moody Newsletter links need an explicit visited state.');
+requireText('newsletterCss', '.newsletter__action > a:focus-visible', 'Moody Newsletter links need immediate visible focus.');
+requireText('newsletterCss', '.newsletter__action > a:not([aria-disabled="true"]):active', 'Moody Newsletter links need active feedback.');
+requireText('newsletterCss', '.newsletter__action > a[aria-disabled="true"]', 'Moody Newsletter links must honor an authored disabled state.');
+requireText('newsletterCss', '@media (hover: hover) and (pointer: fine)', 'Moody Newsletter hover feedback must be capability-gated.');
+forbidPattern('newsletterCss', /(?:^|\s)(?:#(?:[\da-f]{3}){1,2}|(?:rgb|hsl|oklch)\()/im, 'Moody Newsletter styles must use locked color tokens.');
+requireText('newsletterTemplate', '<h2 class="moody-newsletter-headline newsletter__title">', 'Moody Newsletter headlines must not skip the page heading level.');
+requireText('newsletterTemplate', "'newsletter--legacy-'", 'Moody Newsletter styles must survive as neutral migration hooks.');
+requireText('newsletterTemplate', 'has_headline or has_cta', 'Moody Newsletter must omit structurally empty output.');
+forbidText('newsletterTemplate', 'href=', 'Moody Newsletter destinations must not be reconstructed in Twig.');
+forbidText('newsletterTemplate', '|raw', 'Moody Newsletter must not bypass Drupal render safety.');
+forbidText('newsletterTemplate', 'attach_library', 'Moody Newsletter must use the theme global library without duplicate attachments.');
+forbidText('newsletterTemplate', '→', 'Moody Newsletter must not invent a synthetic arrow.');
+forbidText('newsletterTemplate', 'class="moody-newsletter-wrapper {{ style }}"', 'Moody Newsletter must not restore raw legacy color classes.');
 requireText('discoveryIndex', 'repeat(12, minmax(0, 1fr))', 'Discovery grids must use safe image-bearing tracks.');
 requireText('discoveryIndex', '.linked-focus-area-item:focus-visible', 'Focus Area tasks need immediate visible focus.');
 requireText('discoveryIndex', '.utexas-promo-unit .data-wrapper > a:focus-visible', 'Promo Unit links need immediate visible focus.');
@@ -1104,7 +1124,7 @@ for (const file of ['preflight', 'log']) {
     errors.push(`${file} must contain valid JSON.`);
   }
 }
-requireText('preflight', '"package_version": "0.28.0"', 'Hallmark preflight must match the Photo Content Area release.');
+requireText('preflight', '"package_version": "0.29.0"', 'Hallmark preflight must match the Moody Newsletter release.');
 requireText('log', 'Conversational FAQ within the Ecosystem Index', 'Hallmark memory must record the shared accordion macrostructure.');
 requireText('log', 'Editorial media directory within the Ecosystem Index', 'Hallmark memory must record the shared Moody Flex Grid component.');
 requireText('log', 'Editorial Signal Band within the Ecosystem Index', 'Hallmark memory must record the shared Moody Promotion signal band.');
@@ -1144,6 +1164,7 @@ requireText('readme', 'Shared Flex Tabs', 'README must document the progressive 
 requireText('readme', 'Shared UT Drupal Kit Flex Lists', 'README must document all UT Drupal Kit Flex List displays.');
 requireText('readme', 'Accessible UT Drupal Kit Hero Carousels', 'README must document the progressive Hero Carousel layer.');
 requireText('readme', 'Shared UT Drupal Kit Photo Content Areas', 'README must document the shared Photo Content Area layer.');
+requireText('readme', 'Shared Moody Newsletter destination bands', 'README must document the shared Moody Newsletter layer.');
 requireText('agents', '`header_social_links_block`', 'AGENTS.md must preserve the header Social Links contract.');
 requireText('agents', 'Missing, unpublished, non-reusable, inaccessible, wrong-bundle, or malformed', 'AGENTS.md must require Social Links to fail closed.');
 requireText('agents', '### People directories', 'AGENTS.md must preserve the people-directory contract.');
@@ -1163,6 +1184,7 @@ requireText('agents', '### Flex Tabs', 'AGENTS.md must preserve the progressive 
 requireText('agents', '### UT Drupal Kit Flex Lists', 'AGENTS.md must preserve the shared Flex List component contract.');
 requireText('agents', '### UT Drupal Kit Hero Carousels', 'AGENTS.md must preserve the accessible Hero Carousel component contract.');
 requireText('agents', '### UT Drupal Kit Photo Content Areas', 'AGENTS.md must preserve the Photo Content Area component contract.');
+requireText('agents', '### Moody Newsletter destination bands', 'AGENTS.md must preserve the Moody Newsletter component contract.');
 requireText('agents', '### Moody Showcases', 'AGENTS.md must preserve the Moody Showcase component contract.');
 requireText('agents', '### Moody Heroes', 'AGENTS.md must preserve the Moody Hero component contract.');
 requireText('agents', '### UT Drupal Kit Heroes', 'AGENTS.md must preserve the UT Drupal Kit Hero component contract.');
@@ -1178,5 +1200,5 @@ if (errors.length) {
   process.exitCode = 1;
 }
 else {
-  console.log(`Moody26 verification passed (${Object.keys(files).length} source files, ${fonts.length} local fonts, standalone shell, UT brand, accessible directories, resource hubs, Resource Groups, Flex Tabs, UT Drupal Kit Flex Lists, Hero Carousels, and Photo Content Areas, newsroom, accordions, Featured Highlights, Moody Promotions, Promo Lists, Flex Content Areas, Image Links, Flex Color Blocks, Moody Quotations, Moody Flex Grids, Moody Impact Facts, Moody and UT Drupal Kit Heroes, Moody Showcases, Moody Contact Info, and Call to Action blocks, header social links, motion, responsive, and Hallmark gates).`);
+  console.log(`Moody26 verification passed (${Object.keys(files).length} source files, ${fonts.length} local fonts, standalone shell, UT brand, accessible directories, resource hubs, Resource Groups, Flex Tabs, UT Drupal Kit Flex Lists, Hero Carousels, Photo Content Areas, and Moody Newsletter destination bands, newsroom, accordions, Featured Highlights, Moody Promotions, Promo Lists, Flex Content Areas, Image Links, Flex Color Blocks, Moody Quotations, Moody Flex Grids, Moody Impact Facts, Moody and UT Drupal Kit Heroes, Moody Showcases, Moody Contact Info, and Call to Action blocks, header social links, motion, responsive, and Hallmark gates).`);
 }

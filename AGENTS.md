@@ -412,6 +412,34 @@ not belong outside the token and font declaration files.
   motion, synthetic arrows, invented copy, or fabricated loading, error, or
   success states.
 
+### Moody Newsletter destination bands
+
+- Treat Moody Newsletter as a shared compact destination band, not a form,
+  route-specific promotion, or subscription workflow. Keep the headline, CTA
+  text, destination, link options, block label, and Layout Builder placement
+  under Drupal and editor control.
+- Moody26 owns `moody-newsletter.html.twig` and the `newsletter__*`
+  presentation contract. Preserve the formatter-built CTA, its attributes,
+  cacheability, and attachments; never reconstruct an `href`, use `|raw`, or
+  edit the Composer-managed provider.
+- Render a non-empty authored headline as `h2` and omit empty output. The
+  provider currently treats the headline as the field’s presence signal, but
+  the theme must still render headline and CTA independently and never invent
+  a missing label or destination.
+- Preserve blue, gray, green, and orange values only as
+  `newsletter--legacy-*` migration classes. All use one neutral paper-and-ink
+  treatment with exact burnt orange limited to the rule and focus signal; do
+  not restore competing color slabs, cards, or burnt-orange tints.
+- Stack title and action in narrow component containers. At 34rem, a complete
+  pair may use a safe `minmax(0, 5fr) auto` composition. Keep the formatter CTA
+  on one line, vertically centered in a 44 CSS-pixel target, with readable
+  visited color, immediate focus, active feedback, authored disabled treatment,
+  and capability-gated hover. Editors must shorten a CTA that cannot fit a
+  narrow region rather than allowing clipping or document overflow.
+- Moody Newsletter is static server-rendered navigation. Do not add JavaScript,
+  decorative motion, a synthetic arrow, or fabricated form, loading, error,
+  success, or disabled controls.
+
 ### Moody Showcases
 
 - Treat Moody Showcase as a shared editorial media ledger, not a route-specific
@@ -1124,6 +1152,8 @@ Texas requirements. The current University compliance date is March 1, 2026.
   service bands with independently optional authored fields.
 - `css/components/call-to-action.css`: portable formatter-owned action rules,
   responsive long-label handling, and complete static link states.
+- `css/components/newsletter.css`: semantic, container-aware Moody Newsletter
+  destination bands with neutral migration styles and complete static links.
 - `css/components/people-directory.css`: responsive filters, semantic people
   indexes, linked profile treatments, current-directory state, and empty-state
   presentation.

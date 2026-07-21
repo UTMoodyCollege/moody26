@@ -1,0 +1,33 @@
+{#
+/**
+ * @file
+ * Semantic, theme-owned output for the Moody Newsletter formatter.
+ *
+ * The provider remains responsible for authored text, the rendered CTA,
+ * link attributes, cacheability, and attachments. Stored color choices are
+ * retained only as migration classes.
+ */
+#}
+
+{% set rendered_headline = headline|default('')|render %}
+{% set rendered_cta = cta|default('')|render %}
+{% set has_headline = rendered_headline|striptags|trim %}
+{% set has_cta = rendered_cta|striptags|trim %}
+{% set newsletter_classes = [
+  'moody-newsletter-wrapper',
+  'newsletter',
+  style ? 'newsletter--legacy-' ~ (style|clean_class) : null,
+  has_headline ? 'newsletter--with-title' : 'newsletter--without-title',
+  has_cta ? 'newsletter--with-action' : 'newsletter--without-action',
+] %}
+
+{% if has_headline or has_cta %}
+  <div class="{{ newsletter_classes|join(' ') }}">
+    {% if has_headline %}
+      <h2 class="moody-newsletter-headline newsletter__title">{{ rendered_headline }}</h2>
+    {% endif %}
+    {% if has_cta %}
+      <div class="moody-newsletter-link newsletter__action">{{ rendered_cta }}</div>
+    {% endif %}
+  </div>
+{% endif %}
