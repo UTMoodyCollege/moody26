@@ -57,6 +57,8 @@ function moody26_preprocess_page(array &$variables): void {
     ->setAttribute('tabindex', '-1')
     ->addClass('layout-content', 'moody26-main');
 
+  moody26_dedupe_page_title_blocks($variables['page']);
+
   CacheableMetadata::createFromObject(\Drupal::config('moody26.settings'))->applyTo($variables);
 
   $social_links_uuid = theme_get_setting('header_social_links_block');
@@ -86,6 +88,40 @@ function moody26_preprocess_page(array &$variables): void {
   foreach (['header_social_links_desktop', 'header_social_links_mobile'] as $slot) {
     $variables[$slot] = $view_builder->view($block, 'full');
     CacheableMetadata::createFromObject($access)->applyTo($variables[$slot]);
+  }
+}
+
+/**
+ * Keeps one Core Page Title block, preferring the main content region.
+ *
+ * Fleet sites can retain a legacy title in Highlighted while also placing the
+ * standalone theme's title in Content. Configuration remains editor-owned;
+ * this output safeguard prevents the duplicate document h1 during migration.
+ */
+function moody26_dedupe_page_title_blocks(array &$page): void {
+  $title_retained = FALSE;
+  foreach (['content', 'highlighted', 'help'] as $region_name) {
+    if (empty($page[$region_name]) || !is_array($page[$region_name])) {
+      continue;
+    }
+
+    foreach ($page[$region_name] as $key => $build) {
+      if (!is_array($build)) {
+        continue;
+      }
+
+      $plugin_id = $build['#plugin_id'] ?? $build['#base_plugin_id'] ?? $build['#configuration']['id'] ?? NULL;
+      if ($plugin_id !== 'page_title_block') {
+        continue;
+      }
+
+      if (!$title_retained) {
+        $title_retained = TRUE;
+        continue;
+      }
+
+      unset($page[$region_name][$key]);
+    }
   }
 }
 

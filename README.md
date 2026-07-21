@@ -6,7 +6,7 @@ visual identity with an accessible, editorial system that can serve academic,
 research, film, journalism, advertising, alumni, event, and public-facing
 sites without requiring the legacy Moody or Speedway themes.
 
-> **Project status:** pre-release (`0.33.0`). The theme is being validated in
+> **Project status:** pre-release (`0.34.0`). The theme is being validated in
 > [Moody Core](https://github.com/UTMoodyCollege/moody-core) before its first
 > stable tag. Pin an exact commit when evaluating the `main` branch.
 
@@ -29,6 +29,8 @@ sites without requiring the legacy Moody or Speedway themes.
   focus, motion, target sizes, responsive containers, and elevation.
 - Shared Basic and Rich Text treatment with measured editorial rhythm,
   page-safe headings, responsive media, and announced new-window behavior.
+- Shared UTProf Profile Listings with semantic role text, responsive people
+  ledgers, preserved profile links, and honest failed-portrait recovery.
 - Layout Builder-friendly landing heroes, editorial pairings, calls to action,
   forms, proof treatments, and discovery grids.
 - Shared resource hubs with compact Focus Area shortcuts, asymmetric Promo
@@ -211,6 +213,15 @@ and cache metadata remain authoritative. If the selected block becomes
 unpublished, non-reusable, inaccessible, or unavailable, the header omits the
 social landmark instead of rendering stale links.
 
+### Page-title ownership
+
+Moody26 keeps one Core Page Title block in the rendered document, preferring
+the title placed in the main Content region. A second legacy Page Title block
+in Highlighted or Help is omitted at render time so migrations cannot produce
+duplicate `h1` elements. The theme does not rewrite the page title, alter block
+configuration, or suppress the only available title; content administrators
+can remove the redundant placement when the site configuration is cleaned up.
+
 ### Shared Basic and Rich Text
 
 Moody26 treats the `basic` content-block bundle as the fleet’s shared
@@ -256,6 +267,33 @@ narrow widths, then become a two-, three-, and four-column editorial index as
 their own container grows. Future fleet directory Views should reuse the
 `people-directory__*` vocabulary and add a targeted template suggestion rather
 than broadening selectors to every Drupal View.
+
+### Shared UTProf Profile Listings
+
+Moody26 treats the UTProf `utprof_profile_listing` block as the compact,
+editor-curated sibling of the filterable faculty directory. UTProf continues
+to own profile selection, ordering, Basic/Prominent/Name-only display modes,
+responsive media, profile and directory destinations, email output, header and
+footer copy, and cache metadata. The theme supplies a labelled section and
+retains the provider’s semantic profile list instead of rebuilding it.
+
+Each visible block title is an `h2` and each profile name remains its `h3`.
+Profile designations are descriptive list text—not extra headings—so a screen
+reader can move between real people and sections without hearing every job
+title as document structure. Profile, UT Directory, and email destinations
+retain their formatter-owned labels and attributes with explicit visited,
+focus, active, authored-disabled, and capability-gated hover treatments.
+
+The ledger begins as one safe column and honors the Layout Builder one- through
+four-column classes only as its own container grows. Portraits retain authored
+alternatives and intrinsic dimensions. If a migrated file is unavailable, the
+failed media wrapper leaves the visual and accessibility trees and the complete
+name, designations, and destinations reflow into the remaining track. No
+replacement portrait or synthetic person data is generated.
+
+`/centers/entertainment-media-industries/people` is the integration fixture for
+multiple Basic listings, one-document-`h1` ownership, semantic designations,
+failed portrait recovery, keyboard order, and 320–1280 CSS-pixel reflow.
 
 ### Shared resource hubs
 

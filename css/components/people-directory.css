@@ -227,3 +227,216 @@
     grid-template-columns: repeat(4, minmax(0, 1fr));
   }
 }
+
+/* UTProf Profile Listing is the compact, editor-curated sibling of the
+   filterable faculty directory. Keep the provider's real list and content
+   fields, but give them the same flat editorial people-index language. */
+.profile-listing {
+  min-width: 0;
+  container: profile-listing / inline-size;
+}
+
+.profile-listing__title {
+  max-width: var(--measure);
+  margin-block: 0 var(--space-lg);
+  padding-block-start: var(--space-md);
+  border-block-start: var(--rule-strong) solid var(--color-accent);
+  color: var(--color-ink);
+  font-size: var(--text-heading-sm);
+  line-height: var(--leading-heading);
+  overflow-wrap: anywhere;
+}
+
+.profile-listing__header,
+.profile-listing__footer {
+  max-width: var(--measure);
+  color: var(--color-ink-2);
+}
+
+.profile-listing__header {
+  margin-block-end: var(--space-lg);
+}
+
+.profile-listing__footer {
+  margin-block-start: var(--space-lg);
+  padding-block-start: var(--space-md);
+  border-block-start: var(--rule-hair) solid var(--color-rule-strong);
+}
+
+.profile-listing :where(.profile-listing__header, .profile-listing__footer) > :first-child {
+  margin-block-start: 0;
+}
+
+.profile-listing :where(.profile-listing__header, .profile-listing__footer) > :last-child {
+  margin-block-end: 0;
+}
+
+.profile-listing .utprof__views-list {
+  display: grid;
+  min-width: 0;
+  grid-template-columns: minmax(0, 1fr);
+  gap: var(--space-lg);
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.profile-listing .utprof__profile-item {
+  display: block;
+  min-width: 0;
+  margin: 0;
+  padding-block-start: var(--space-md);
+  border-block-start: var(--rule-hair) solid var(--color-rule-strong);
+  list-style: none;
+}
+
+.profile-listing .utprof__list {
+  display: grid;
+  min-width: 0;
+  grid-template-columns: var(--space-3xl) minmax(0, 1fr);
+  gap: var(--space-md);
+  align-items: start;
+  overflow: visible;
+}
+
+.profile-listing .utprof__list-img {
+  float: none;
+  width: 100%;
+  min-width: 0;
+  margin: 0;
+  overflow: clip;
+  aspect-ratio: var(--media-portrait-ratio);
+  border-block-end: var(--rule-strong) solid var(--color-accent);
+  background: var(--color-paper-2);
+}
+
+.profile-listing .utprof__list-img :where(div, picture) {
+  display: block;
+  width: 100%;
+  height: 100%;
+}
+
+.profile-listing .utprof__list-img img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  aspect-ratio: var(--media-portrait-ratio);
+  object-fit: cover;
+  object-position: center top;
+}
+
+.profile-listing .utprof__profile-item--media-unavailable .utprof__list {
+  grid-template-columns: minmax(0, 1fr);
+}
+
+.profile-listing .utprof__text-wrapper,
+.profile-listing .data-wrapper {
+  min-width: 0;
+  margin: 0;
+}
+
+.profile-listing .utprof__title {
+  margin-block: 0 var(--space-xs);
+  color: var(--color-ink);
+  font-family: var(--font-body);
+  font-size: var(--text-lead);
+  line-height: var(--leading-heading);
+  overflow-wrap: anywhere;
+}
+
+.profile-listing .field--name-field-utprof-designation {
+  color: var(--color-ink-2);
+  font-size: var(--text-sm);
+  line-height: var(--leading-body);
+}
+
+.profile-listing .field--name-field-utprof-designation.field__items,
+.profile-listing .field--name-field-utprof-designation .field__items {
+  display: grid;
+  gap: var(--space-2xs);
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.profile-listing .field--name-field-utprof-designation .field__label {
+  margin-block-end: var(--space-2xs);
+  font-weight: 700;
+}
+
+.profile-listing .field--name-field-utprof-designation .field__item {
+  min-width: 0;
+  margin: 0;
+  overflow-wrap: anywhere;
+}
+
+.profile-listing :where(.utprof__directory-link, .utprof__email) {
+  margin-block-start: var(--space-xs);
+}
+
+.profile-listing :where(.utprof__directory-link, .utprof__email) a {
+  display: inline-flex;
+  max-width: 100%;
+  min-height: var(--target-min);
+  align-items: center;
+  color: var(--color-link);
+  font-size: var(--text-sm);
+  line-height: var(--leading-body);
+  text-decoration-color: var(--color-accent);
+  text-decoration-thickness: var(--rule-hair);
+  text-underline-offset: var(--space-3xs);
+}
+
+.profile-listing :where(.utprof__directory-link, .utprof__email) a:visited {
+  color: var(--color-ink-2);
+}
+
+.profile-listing :where(.utprof__directory-link, .utprof__email) a:focus-visible {
+  outline: var(--focus-outline);
+  outline-offset: var(--space-2xs);
+  box-shadow: var(--focus-halo);
+}
+
+.profile-listing :where(.utprof__directory-link, .utprof__email) a:active {
+  background: var(--color-paper-2);
+  color: var(--color-ink);
+  text-decoration-thickness: var(--rule-strong);
+}
+
+.profile-listing :where(.utprof__directory-link, .utprof__email) a[aria-disabled="true"] {
+  cursor: not-allowed;
+  opacity: 0.6;
+  pointer-events: none;
+}
+
+.profile-listing .utprof__email a {
+  overflow-wrap: anywhere;
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .profile-listing :where(.utprof__title, .utprof__directory-link, .utprof__email) a:hover {
+    color: var(--color-link);
+    text-decoration-thickness: var(--rule-strong);
+  }
+}
+
+@container profile-listing (min-width: 42rem) {
+  .profile-listing.utexas-twocol .utprof__views-list,
+  .profile-listing.utexas-threecol .utprof__views-list,
+  .profile-listing.utexas-fourcol .utprof__views-list {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+@container profile-listing (min-width: 60rem) {
+  .profile-listing.utexas-threecol .utprof__views-list,
+  .profile-listing.utexas-fourcol .utprof__views-list {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+}
+
+@container profile-listing (min-width: 72rem) {
+  .profile-listing.utexas-fourcol .utprof__views-list {
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+  }
+}

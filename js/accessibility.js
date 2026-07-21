@@ -318,6 +318,22 @@
         }
       });
 
+      once('moody26-profile-listing-image', '.profile-listing .utprof__list-img img', context).forEach((image) => {
+        const hideFailedPortrait = () => {
+          const item = image.closest('.utprof__profile-item');
+          const media = image.closest('.utprof__list-img');
+          if (!item || !media || item.classList.contains('utprof__profile-item--media-unavailable')) {
+            return;
+          }
+          media.hidden = true;
+          item.classList.add('utprof__profile-item--media-unavailable');
+        };
+        image.addEventListener('error', hideFailedPortrait, { once: true });
+        if (image.complete && image.currentSrc && !image.naturalWidth) {
+          hideFailedPortrait();
+        }
+      });
+
       once('moody26-flex-tabs', '[data-flex-tabs]', context).forEach((component) => {
         const tabList = component.querySelector(':scope > .flex-tabs__index > [data-flex-tab-list]');
         const panelGroup = component.querySelector(':scope > .flex-tabs__panels');

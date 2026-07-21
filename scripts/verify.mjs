@@ -71,6 +71,8 @@ const files = {
   peopleDirectoryView: 'templates/views/views-view--faculty-bio-view.html.twig',
   peopleDirectoryRows: 'templates/views/views-view-unformatted--faculty-bio-view.html.twig',
   peopleDirectoryFields: 'templates/views/views-view-fields--faculty-bio-view.html.twig',
+  profileListingBlock: 'templates/blocks/block--block-content--utprof-profile-listing.html.twig',
+  profileDesignationField: 'templates/components/field--node--field-utprof-designation.html.twig',
   newsRows: 'templates/views/views-view-unformatted--news-filtered--block-filtered.html.twig',
   newsFields: 'templates/views/views-view-fields--news-filtered--block-filtered.html.twig',
   focusAreas: 'templates/components/moody-focus-areas.html.twig',
@@ -192,8 +194,8 @@ const forbidPattern = (file, pattern, message) => {
 
 try {
   const packageJson = JSON.parse(contents.package ?? '');
-  if (packageJson.version !== '0.33.0') {
-    errors.push('The shared Basic and Rich Text release must remain versioned as 0.33.0.');
+  if (packageJson.version !== '0.34.0') {
+    errors.push('The shared UTProf Profile Listing release must remain versioned as 0.34.0.');
   }
   for (const [dependency, version] of [
     ['animejs', '4.5.0'],
@@ -270,7 +272,7 @@ requireText('libraries', 'css/components/quick-links.css', 'Shared UT Drupal Kit
 requireText('libraries', 'css/components/social-links.css', 'Shared UT Drupal Kit Social Links styles must remain attached.');
 requireText('libraries', 'css/components/anchor-gallery.css', 'Shared Moody Anchor gallery styles must remain attached.');
 requireText('libraries', 'js/dist/motion.min.js', 'The built motion integration must remain attached.');
-requireText('libraries', 'version: 0.33.0', 'The Drupal asset version must match the Basic and Rich Text release.');
+requireText('libraries', 'version: 0.34.0', 'The Drupal asset version must match the UTProf Profile Listing release.');
 forbidText('info', '- moody26/motion', 'Optional motion must be attached from theme settings rather than globally.');
 
 requireText('settings', "header_social_links_block: ''", 'Header social links must be optional for new installs.');
@@ -783,6 +785,14 @@ requireText('peopleDirectory', 'container: people-directory / inline-size;', 'Pe
 requireText('peopleDirectory', 'repeat(4, minmax(0, 1fr))', 'People-directory image grids must use safe tracks.');
 requireText('peopleDirectory', '.people-directory__profile:focus-visible', 'People profile links need a visible focus-equivalent detail.');
 requireText('peopleDirectory', '@media (hover: hover) and (pointer: fine)', 'People-directory hover feedback must be capability-gated.');
+requireText('peopleDirectory', 'container: profile-listing / inline-size;', 'UTProf Profile Listings must remain container-aware.');
+requireText('peopleDirectory', '.profile-listing .utprof__views-list', 'UTProf Profile Listings must retain the provider semantic list.');
+requireText('peopleDirectory', 'grid-template-columns: var(--space-3xl) minmax(0, 1fr);', 'Profile media objects must keep one safe text track.');
+requireText('peopleDirectory', '.utprof__profile-item--media-unavailable', 'UTProf Profile Listings must retain failed-media reflow.');
+requireText('peopleDirectory', '.profile-listing.utexas-fourcol .utprof__views-list', 'UTProf Profile Listings must honor author-selected wide layouts.');
+requireText('peopleDirectory', ':where(.utprof__directory-link, .utprof__email) a:focus-visible', 'Profile directory and email links need immediate visible focus.');
+requireText('peopleDirectory', ':where(.utprof__directory-link, .utprof__email) a[aria-disabled="true"]', 'Profile links must honor an authored disabled state.');
+forbidPattern('peopleDirectory', /(?:entertainment-media-industries|node-4097|block-[\da-f]{8}-[\da-f-]{27,})/i, 'UTProf Profile Listing styles must not depend on a route, node ID, or block UUID.');
 requireText('newsroom', 'component: shared newsroom index', 'Newsroom components must retain the Hallmark component contract.');
 requireText('newsroom', 'container: news-index / inline-size;', 'News indexes must remain container-aware.');
 requireText('newsroom', 'repeat(12, minmax(0, 1fr))', 'News indexes must retain safe asymmetric tracks.');
@@ -1097,6 +1107,9 @@ forbidPattern('landingHero', /\.moody-hero(?:\s|[.#:{>+~\[]|$)/, 'Legacy Moody H
 forbidPattern('newsroom', /\.moody-hero(?:\s|[.#:{>+~\[]|$)/, 'Moody Hero presentation must not be duplicated in newsroom styles.');
 forbidText('motion', "'.moody26-hero'", 'Static Moody Heroes must not receive decorative reveal motion.');
 requireText('theme', 'function moody26_preprocess_views_view_unformatted', 'Faculty directory rows need a translated result summary.');
+requireText('theme', 'function moody26_dedupe_page_title_blocks', 'The standalone shell must guard against duplicate Core Page Title placements.');
+requireText('theme', "foreach (['content', 'highlighted', 'help'] as $region_name)", 'Page-title ownership must prefer the main Content region.');
+requireText('theme', "$plugin_id !== 'page_title_block'", 'Page-title deduplication must remain scoped to the Core Page Title plugin.');
 requireText('theme', 'function moody26_preprocess_utexas_hero', 'Default UT Drupal Kit Heroes need intrinsic image dimensions.');
 requireText('theme', 'function moody26_preprocess_utexas_hero_4', 'Style 4 UT Drupal Kit Heroes need intrinsic image dimensions.');
 requireText('theme', "'responsive_image_formatter'", 'UT Drupal Kit Heroes must preserve responsive image formatter output.');
@@ -1118,11 +1131,24 @@ requireText('peopleDirectoryView', "'Try a different name, keyword, or departmen
 requireText('peopleDirectoryFields', '<h2 class="people-directory__name">', 'Each person name must remain a navigable heading.');
 requireText('peopleDirectoryFields', 'href="{{ person_url }}"', 'Each directory profile must provide a real destination link.');
 requireText('peopleDirectoryFields', 'people-directory__monogram', 'Directory media must provide an honest content-derived fallback.');
+requireText('profileListingBlock', '<section{{ attributes.addClass(classes) }}>', 'UTProf Profile Listings must expose a labelled section.');
+requireText('profileListingBlock', "attributes.setAttribute('aria-labelledby', heading_id)", 'Visible UTProf listing titles must label their section.');
+requireText('profileListingBlock', "attributes.setAttribute('aria-label', 'People'|t)", 'Heading-free UTProf listings need a translated landmark name.');
+requireText('profileListingBlock', '<h2{{ heading_attributes }}>{{ label }}</h2>', 'UTProf listing titles must remain page-safe h2 headings.');
+requireText('profileListingBlock', '{{ rendered_listing }}', 'UTProf listing output must remain provider owned.');
+forbidText('profileListingBlock', 'href=', 'UTProf Profile Listing destinations must not be reconstructed in Twig.');
+forbidText('profileListingBlock', '|raw', 'UTProf Profile Listings must not bypass Drupal render safety.');
+forbidText('profileListingBlock', 'attach_library', 'UTProf Profile Listings must use the global theme library without duplicate attachments.');
+requireText('profileDesignationField', '<ul{{ attributes.addClass(classes, \'field__items\') }} role="list">', 'Multiple profile designations must render as descriptive list values.');
+requireText('profileDesignationField', '<li{{ item.attributes.addClass(\'field__item\') }}>{{ item.content }}</li>', 'Each profile designation must retain its own semantic list item.');
+forbidPattern('profileDesignationField', /<h[1-6]\b/i, 'Profile designations must never be reported as document headings.');
 requireText('accessibility', "once('moody26-people-directory'", 'Directory navigation enhancement must be idempotent.');
 requireText('accessibility', "setAttribute('aria-current', 'page')", 'Directory switchers must announce the current page.');
 requireText('accessibility', "Drupal.t('Faculty directories')", 'Directory switchers need a translated landmark name.');
 requireText('accessibility', "once('moody26-person-image'", 'Directory portrait fallbacks must be idempotent.');
 requireText('accessibility', "classList.add('people-directory__media--fallback')", 'Failed portraits must reveal the stable fallback tile.');
+requireText('accessibility', "once('moody26-profile-listing-image'", 'UTProf portrait failure recovery must remain idempotent.');
+requireText('accessibility', "classList.add('utprof__profile-item--media-unavailable')", 'Failed UTProf portraits must preserve and recompose profile content.');
 requireText('accessibility', "once('moody26-showcase-image'", 'Showcase media fallbacks must be idempotent.');
 requireText('accessibility', "classList.add('showcase--media-unavailable')", 'Failed Showcase media must preserve its text composition.');
 requireText('accessibility', "once('moody26-hero-image'", 'Moody Hero media fallbacks must be idempotent.');
@@ -1186,6 +1212,7 @@ const runtimeFiles = [
   'utexasHero3Template', 'utexasHero4Template', 'utexasHero5Template',
   'accordionCss', 'accordionTemplate',
   'peopleDirectory', 'peopleDirectoryView', 'peopleDirectoryRows', 'peopleDirectoryFields',
+  'profileListingBlock', 'profileDesignationField',
   'newsroom', 'newsRows', 'newsFields',
   'focusAreas', 'promoUnits',
   'motionCss', 'settingsCss', 'accessibility', 'navigation', 'quickActions', 'motion', 'html', 'page', 'brandbar',
@@ -1237,7 +1264,7 @@ for (const file of ['preflight', 'log']) {
     errors.push(`${file} must contain valid JSON.`);
   }
 }
-requireText('preflight', '"package_version": "0.33.0"', 'Hallmark preflight must match the Basic and Rich Text release.');
+requireText('preflight', '"package_version": "0.34.0"', 'Hallmark preflight must match the UTProf Profile Listing release.');
 requireText('log', 'Conversational FAQ within the Ecosystem Index', 'Hallmark memory must record the shared accordion macrostructure.');
 requireText('log', 'Editorial media directory within the Ecosystem Index', 'Hallmark memory must record the shared Moody Flex Grid component.');
 requireText('log', 'Editorial Signal Band within the Ecosystem Index', 'Hallmark memory must record the shared Moody Promotion signal band.');
@@ -1256,6 +1283,8 @@ requireText('readme', 'Interface motion (Anime.js)', 'README must document the A
 requireText('readme', 'Header social links', 'README must document the responsive Social Links option.');
 requireText('readme', 'stores the selected block’s UUID', 'README must explain Social Links configuration portability.');
 requireText('readme', 'Shared people directories', 'README must document the reusable directory layer.');
+requireText('readme', 'Page-title ownership', 'README must document one-document-h1 ownership.');
+requireText('readme', 'Shared UTProf Profile Listings', 'README must document the shared UTProf listing layer.');
 requireText('readme', 'Shared Basic and Rich Text', 'README must document the reusable Basic and Rich Text layer.');
 requireText('readme', 'Shared resource hubs', 'README must document the reusable resource-hub layer.');
 requireText('readme', 'Shared newsroom components', 'README must document the reusable newsroom layer.');
@@ -1286,6 +1315,8 @@ requireText('readme', 'Shared Moody Anchor galleries', 'README must document the
 requireText('agents', '`header_social_links_block`', 'AGENTS.md must preserve the header Social Links contract.');
 requireText('agents', 'Missing, unpublished, non-reusable, inaccessible, wrong-bundle, or malformed', 'AGENTS.md must require Social Links to fail closed.');
 requireText('agents', '### People directories', 'AGENTS.md must preserve the people-directory contract.');
+requireText('agents', '### Page-title ownership', 'AGENTS.md must preserve the one-document-h1 contract.');
+requireText('agents', '### UTProf Profile Listings', 'AGENTS.md must preserve the UTProf listing contract.');
 requireText('agents', '### Basic and Rich Text blocks', 'AGENTS.md must preserve the Basic and Rich Text component contract.');
 requireText('agents', '### Resource hubs', 'AGENTS.md must preserve the resource-hub contract.');
 requireText('agents', '### Newsroom components', 'AGENTS.md must preserve the newsroom component contract.');
@@ -1322,5 +1353,5 @@ if (errors.length) {
   process.exitCode = 1;
 }
 else {
-  console.log(`Moody26 verification passed (${Object.keys(files).length} source files, ${fonts.length} local fonts, standalone shell, UT brand, Basic and Rich Text, accessible directories, resource hubs, Resource Groups, Flex Tabs, UT Drupal Kit Flex Lists, Hero Carousels, Photo Content Areas, Moody Newsletter destination bands, UT Drupal Kit Quick Links, semantic Social Links, and Moody Anchor galleries, newsroom, accordions, Featured Highlights, Moody Promotions, Promo Lists, Flex Content Areas, Image Links, Flex Color Blocks, Moody Quotations, Moody Flex Grids, Moody Impact Facts, Moody and UT Drupal Kit Heroes, Moody Showcases, Moody Contact Info, and Call to Action blocks, header social links, motion, responsive, and Hallmark gates).`);
+  console.log(`Moody26 verification passed (${Object.keys(files).length} source files, ${fonts.length} local fonts, standalone shell, UT brand, Basic and Rich Text, accessible directories and UTProf Profile Listings, resource hubs, Resource Groups, Flex Tabs, UT Drupal Kit Flex Lists, Hero Carousels, Photo Content Areas, Moody Newsletter destination bands, UT Drupal Kit Quick Links, semantic Social Links, and Moody Anchor galleries, newsroom, accordions, Featured Highlights, Moody Promotions, Promo Lists, Flex Content Areas, Image Links, Flex Color Blocks, Moody Quotations, Moody Flex Grids, Moody Impact Facts, Moody and UT Drupal Kit Heroes, Moody Showcases, Moody Contact Info, and Call to Action blocks, header social links, motion, responsive, and Hallmark gates).`);
 }

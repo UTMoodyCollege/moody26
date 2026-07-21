@@ -125,6 +125,18 @@ not belong outside the token and font declaration files.
   drawer state intact and return focus to the invoking element without scroll.
 - Keep the palette explicitly centered and usable at 320 CSS pixels.
 
+### Page-title ownership
+
+- Keep exactly one Core `page_title_block` in the rendered document. Prefer
+  the title in the main Content region so the document `h1` remains inside the
+  main landmark; retain a Highlighted or Help title only when Content has none.
+- Treat duplicate title placements as a migration/configuration defect. The
+  render safeguard may omit later duplicate Page Title blocks, but it must not
+  rewrite the route title, key off a consumer block ID, remove the only title,
+  mutate active configuration, or hide arbitrary authored `h1` elements.
+- Keep the safeguard generic across page bundles and fleet sites. Site owners
+  remain responsible for deleting the redundant placement from configuration.
+
 ### Motion and animation
 
 - Expose motion through Drupal’s native `Appearance → Settings → Moody 26`
@@ -256,6 +268,46 @@ not belong outside the token and font declaration files.
 - Profile hover styling is capability-gated and has a keyboard focus
   equivalent. Keep the card flat with a hairline rule; do not add repeated
   rounded containers, image zoom, or decorative scroll animation.
+
+### UTProf Profile Listings
+
+- Treat the UTProf `utprof_profile_listing` content block as the compact,
+  editor-curated sibling of the filterable people directory. Keep selection,
+  ordering, Basic/Prominent/Name-only view modes, header and footer copy,
+  responsive media, alternatives, links, emails, and Layout Builder placement
+  under the UTProf provider and editor control.
+- Moody26 owns
+  `block--block-content--utprof-profile-listing.html.twig`,
+  `field--node--field-utprof-designation.html.twig`, and the
+  `.profile-listing` presentation contract. Do not edit the Composer-installed
+  UTProf package, reconstruct profile output, use `|raw`, or replace its
+  rendered list and cache metadata.
+- Render each block as one labelled section. Its visible title is `h2`; each
+  profile name remains `h3`. Designations are descriptive text values, not
+  headings. Preserve the provider’s real semantic list and direct list items.
+- Keep Basic, Prominent, and Name-only output readable without assuming that
+  every profile has a portrait, designation, directory record, or public
+  email. Never generate a missing role, contact method, image, or destination.
+- Begin with one safe container-aware track. Honor the author’s one- through
+  four-column Layout Builder classes only as the component grows, and use
+  `minmax(0, 1fr)` for every image-bearing track. Long names, roles, and email
+  addresses reflow without clipping or document overflow.
+- Preserve authored portrait alternatives and intrinsic dimensions. A failed
+  image hides only its media wrapper, adds the stable
+  `utprof__profile-item--media-unavailable` state, and recomposes the complete
+  text and links. Do not substitute initials or invented artwork in this
+  provider-owned listing.
+- Profile, UT Directory, and email links retain their formatter-owned labels
+  and attributes, readable visited color, immediate focus, active feedback,
+  authored-disabled treatment, and capability-gated hover. Directory and
+  email targets remain at least 44 CSS pixels high; long standalone email
+  addresses may wrap safely.
+- The component is static server-rendered content. Do not add decorative
+  motion or fabricate loading, error, success, or disabled controls that the
+  formatter did not provide.
+- Keep `/centers/entertainment-media-industries/people` as the integration
+  fixture for multiple listings, heading order, failed portrait recovery,
+  source-order keyboard traversal, and 320–1280 CSS-pixel reflow.
 
 ### Resource hubs
 
@@ -1315,8 +1367,11 @@ Texas requirements. The current University compliance date is March 1, 2026.
 - `css/components/quick-links.css`: semantic UT Drupal Kit navigation ledgers,
   optional-content resilience, responsive index tracks, and static link states.
 - `css/components/people-directory.css`: responsive filters, semantic people
-  indexes, linked profile treatments, current-directory state, and empty-state
-  presentation.
+  indexes and UTProf Profile Listings, linked profile treatments,
+  current-directory state, failed-media reflow, and empty-state presentation.
+- `templates/blocks/block--block-content--utprof-profile-listing.html.twig` and
+  `templates/components/field--node--field-utprof-designation.html.twig`:
+  semantic provider-preserving profile sections and designation text.
 - `css/components/newsroom.css`: semantic news ledgers, source mentions,
   directory-aware landing composition, resilient media, and shared newsroom
   support components.
