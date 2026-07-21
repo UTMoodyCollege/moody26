@@ -1,0 +1,112 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Moody26 image-gallery states</title>
+    <link rel="stylesheet" href="../fonts.css">
+    <link rel="stylesheet" href="../../tokens.css">
+    <link rel="stylesheet" href="image-gallery.css">
+    <style>
+      body {
+        margin: 0;
+        padding: var(--space-lg);
+        background: var(--color-paper);
+        color: var(--color-ink);
+        font-family: var(--font-body);
+      }
+      main {
+        max-width: var(--content-max);
+        margin-inline: auto;
+      }
+      h1 {
+        font-family: var(--font-display);
+      }
+      .preview-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(min(100%, 18rem), 1fr));
+        gap: var(--space-xl);
+      }
+      .preview-state {
+        min-width: 0;
+      }
+      .preview-state > h2 {
+        margin: 0 0 var(--space-sm);
+        font: 700 var(--text-base) / var(--leading-body) var(--font-body);
+      }
+      .preview-art {
+        display: grid;
+        width: 100%;
+        height: 100%;
+        place-items: center;
+        color: var(--color-muted);
+        font: 700 var(--text-display-s) / 1 var(--font-display);
+      }
+    </style>
+  </head>
+  <body>
+    <main class="moody-image-gallery">
+      <header class="moody-image-gallery__header">
+        <h1 class="moody-image-gallery__headline">Image-gallery states</h1>
+      </header>
+
+      <div class="preview-grid">
+        <section class="preview-state">
+          <h2>Default</h2>
+          <button class="moody-image-gallery__tile" type="button" aria-label="Open default gallery image">
+            <span class="moody-image-gallery__image-wrap"><span class="preview-art" aria-hidden="true">01</span></span>
+          </button>
+        </section>
+
+        <section class="preview-state">
+          <h2>Hover</h2>
+          <button class="moody-image-gallery__tile is-hover" type="button" aria-label="Open hovered gallery image">
+            <span class="moody-image-gallery__image-wrap"><span class="preview-art" aria-hidden="true">02</span></span>
+          </button>
+        </section>
+
+        <section class="preview-state">
+          <h2>Focus</h2>
+          <button class="moody-image-gallery__tile is-focus" type="button" aria-label="Open focused gallery image">
+            <span class="moody-image-gallery__image-wrap"><span class="preview-art" aria-hidden="true">03</span></span>
+          </button>
+        </section>
+
+        <section class="preview-state">
+          <h2>Active</h2>
+          <button class="moody-image-gallery__tile is-active" type="button" aria-label="Open active gallery image">
+            <span class="moody-image-gallery__image-wrap"><span class="preview-art" aria-hidden="true">04</span></span>
+          </button>
+        </section>
+
+        <section class="preview-state">
+          <h2>Disabled</h2>
+          <button class="moody-image-gallery__tile is-disabled" type="button" disabled>
+            <span class="moody-image-gallery__image-wrap"><span class="preview-art" aria-hidden="true">05</span></span>
+          </button>
+        </section>
+
+        <section class="preview-state">
+          <h2>Loading</h2>
+          <button class="moody-image-gallery__tile is-loading" type="button" aria-busy="true" disabled>
+            <span class="moody-image-gallery__image-wrap"><span class="preview-art" aria-hidden="true">06</span></span>
+          </button>
+        </section>
+
+        <section class="preview-state">
+          <h2>Error</h2>
+          <button class="moody-image-gallery__tile is-error" type="button" aria-label="Gallery image unavailable" disabled>
+            <span class="moody-image-gallery__image-wrap"><span class="moody-image-gallery__unavailable">Image unavailable</span></span>
+          </button>
+        </section>
+
+        <section class="preview-state">
+          <h2>Success</h2>
+          <button class="moody-image-gallery__tile is-success" type="button" aria-label="Open ready gallery image">
+            <span class="moody-image-gallery__image-wrap"><span class="preview-art" aria-hidden="true">08</span></span>
+          </button>
+        </section>
+      </div>
+    </main>
+  </body>
+</html>

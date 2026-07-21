@@ -83,6 +83,9 @@ sites without requiring the legacy Moody or Speedway themes.
 - Shared Moody Anchor fields rendered as semantic portrait galleries with
   provider-owned responsive media, honest missing-file recovery, container-
   aware one-, two-, and four-column layouts, and complete optional link states.
+- Accessible Moody image galleries with provider-owned dialog behavior,
+  container-aware editorial mosaics, announced keyboard changes, compliant
+  focus, and honest thumbnail and full-size media failure recovery.
 - Shared people directories with semantic list and heading structure,
   accessible linked profiles, responsive filters, honest result counts, and a
   useful empty state.
@@ -560,6 +563,36 @@ eligible again; Moody26 does not manufacture placeholders or replacement copy.
 The empty wrapper remains available on Layout Builder routes so editors can
 repair it, and that route-dependent state has an explicit cache context. The
 component is static and adds no JavaScript or motion.
+
+### Accessible Moody image galleries
+
+Moody26 provides the shared `moody_image_gallery_block` with a responsive
+editorial mosaic and a paper-surface lightbox while leaving item data, focal
+points, alternative text, captions, JSON serialization, modal controls,
+keyboard trap, arrow navigation, Escape handling, and focus restoration with
+the provider module. The theme does not copy or replace that Composer-managed
+implementation.
+
+The mosaic starts as one safe column and adopts the authored 60/40/full rhythm
+only when its own Layout Builder container reaches 40rem. Every image button
+has a visible affordance, a 44 CSS-pixel minimum target, immediate focus,
+active feedback, and capability-gated hover. The fixed lightbox uses an opaque
+ink backdrop and a flat editorial paper frame; its close, previous, and next
+controls remain 44-pixel targets in both the stacked mobile and wide layouts.
+One short entrance animation becomes opacity-only under reduced motion. A
+viewport fallback supplies the same safe rhythm to browsers that predate
+container queries.
+
+Moody26 adds a polite live status to the provider caption so Left/Right control
+changes are announced without moving focus. If a thumbnail fails, the broken
+image is replaced by visible `Image unavailable` text and its now-invalid
+button is disabled; its accessible name retains the authored alternative when
+available. If the full-size source fails, the dialog keeps its counter and
+caption while exposing the same truthful error. No placeholder artwork,
+caption, destination, or retry claim is fabricated. The standalone component
+preview records default, hover, focus, active, disabled, loading, error, and
+success states for visual regression review. A capture-phase opener focus also
+gives Safari a stable focus-restoration target without moving the page.
 
 ### Shared Moody Showcases
 
@@ -1196,7 +1229,7 @@ than replace manual assistive-technology review.
 | `tokens.css` | Brand, type, spacing, motion, focus, and layout tokens |
 | `css/fonts.css` | Local approved digital font declarations |
 | `css/moody26.css` | Global foundation, shell, navigation, forms, and footer |
-| `css/components/` | Header social, ambient-video and shared Hero, Basic and Rich Text, editorial, discovery, resource-hub, accordion, Featured Highlight and Moody Promotion signal bands, Promo List, Flex Content Area, Image Link, Flex Color Block, Moody Quotation, Moody Flex Grid, Impact Facts, Contact Info, Call to Action, Social Links, Moody Anchor gallery, people-directory, student-story, faculty-profile, newsroom, feature-story, Shorthand and PDF document boundaries, event-detail and event-listing, quick-action, and settings components |
+| `css/components/` | Header social, ambient-video and shared Hero, Basic and Rich Text, editorial, discovery, resource-hub, accordion, Featured Highlight and Moody Promotion signal bands, Promo List, Flex Content Area, Image Link, Flex Color Block, Moody Quotation, Moody Flex Grid, Impact Facts, Contact Info, Call to Action, Social Links, Moody Anchor and interactive image galleries, people-directory, student-story, faculty-profile, newsroom, feature-story, Shorthand and PDF document boundaries, event-detail and event-listing, quick-action, and settings components |
 | `js/navigation.js` | Drawer and disclosure navigation state |
 | `js/quick-actions.js` | Native dialog and rendered-destination discovery |
 | `js/accessibility.js` | Progressive safeguards for media controls and rendered content components |

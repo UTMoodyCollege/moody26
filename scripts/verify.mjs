@@ -47,6 +47,8 @@ const files = {
   quickLinksCss: 'css/components/quick-links.css',
   socialLinksCss: 'css/components/social-links.css',
   anchorGalleryCss: 'css/components/anchor-gallery.css',
+  imageGalleryCss: 'css/components/image-gallery.css',
+  imageGalleryPreview: 'css/components/image-gallery.preview.html',
   discoveryIndex: 'css/components/discovery-index.css',
   accordionCss: 'css/components/accordion.css',
   peopleDirectory: 'css/components/people-directory.css',
@@ -213,8 +215,8 @@ const forbidPattern = (file, pattern, message) => {
 
 try {
   const packageJson = JSON.parse(contents.package ?? '');
-  if (packageJson.version !== '0.43.0') {
-    errors.push('The semantic events-listing release must remain versioned as 0.43.0.');
+  if (packageJson.version !== '0.44.0') {
+    errors.push('The accessible image-gallery release must remain versioned as 0.44.0.');
   }
   for (const [dependency, version] of [
     ['animejs', '4.5.0'],
@@ -297,8 +299,9 @@ requireText('libraries', 'css/components/newsletter.css', 'Shared Moody Newslett
 requireText('libraries', 'css/components/quick-links.css', 'Shared UT Drupal Kit Quick Links styles must remain attached.');
 requireText('libraries', 'css/components/social-links.css', 'Shared UT Drupal Kit Social Links styles must remain attached.');
 requireText('libraries', 'css/components/anchor-gallery.css', 'Shared Moody Anchor gallery styles must remain attached.');
+requireText('libraries', 'css/components/image-gallery.css', 'Accessible Moody image-gallery styles must remain attached.');
 requireText('libraries', 'js/dist/motion.min.js', 'The built motion integration must remain attached.');
-requireText('libraries', 'version: 0.43.0', 'The Drupal asset version must match the semantic events-listing release.');
+requireText('libraries', 'version: 0.44.0', 'The Drupal asset version must match the accessible image-gallery release.');
 forbidText('info', '- moody26/motion', 'Optional motion must be attached from theme settings rather than globally.');
 
 requireText('settings', "header_social_links_block: ''", 'Header social links must be optional for new installs.');
@@ -810,6 +813,36 @@ requireText('theme', "str_starts_with($route_name, 'layout_builder.')", 'Empty M
 requireText('theme', "->addCacheContexts(['route'])", 'Moody Anchor editor/public output must vary by route.');
 requireText('theme', "$variables['attributes']['hidden'] = 'hidden';", 'Empty Moody Anchor blocks must leave the layout and accessibility tree.');
 requireText('theme', "$variables['content']['field_anchor_image']['#access'] = FALSE;", 'Empty Moody Anchor fields must not render provider fallbacks.');
+requireText('imageGalleryCss', 'component: Moody image gallery', 'Moody image galleries must retain the Hallmark component contract.');
+requireText('imageGalleryCss', 'macrostructure: editorial image ledger + paper lightbox', 'Moody image galleries must retain their structural fingerprint.');
+requireText('imageGalleryCss', 'states: default · hover · focus · active · disabled · loading · error · success', 'Moody image-gallery previews must retain all eight interaction states.');
+requireText('imageGalleryCss', 'container: moody-image-gallery / inline-size;', 'Moody image galleries must remain container-aware in Layout Builder.');
+requireText('imageGalleryCss', 'grid-template-columns: minmax(0, 3fr) minmax(0, 2fr);', 'Wide Moody image galleries must use safe asymmetric image tracks.');
+requireText('imageGalleryCss', '@supports not (container-type: inline-size)', 'Moody image galleries need a restrained fallback for pre-container-query browsers.');
+requireText('imageGalleryCss', 'min-block-size: var(--target-min);', 'Moody image-gallery controls must preserve 44 CSS-pixel targets.');
+requireText('imageGalleryCss', 'button.moody-image-gallery__tile:is(:focus-visible, .is-focus)', 'Moody image tiles need immediate visible focus.');
+requireText('imageGalleryCss', 'button.moody-image-gallery__tile:is(:disabled, [aria-disabled="true"], .is-disabled)', 'Moody image galleries must expose a disabled state.');
+requireText('imageGalleryCss', '.moody-image-gallery__tile.is-loading', 'Moody image-gallery previews must expose a loading fixture.');
+requireText('imageGalleryCss', '.moody-image-gallery__tile.is-error', 'Moody image galleries need a truthful media-error state.');
+requireText('imageGalleryCss', '.moody-image-gallery__tile.is-success', 'Moody image-gallery previews must expose a success fixture.');
+requireText('imageGalleryCss', '@media (hover: hover) and (pointer: fine)', 'Moody image-gallery hover feedback must be capability-gated.');
+requireText('imageGalleryCss', 'z-index: var(--z-modal);', 'Moody image-gallery dialogs must use the modal elevation token.');
+requireText('imageGalleryCss', 'background: var(--color-ink);', 'Moody image-gallery dialogs need an opaque ink backdrop.');
+requireText('imageGalleryCss', 'max-block-size: calc(100dvh - (2 * var(--space-md)));', 'Moody image-gallery dialogs must fit the dynamic viewport.');
+requireText('imageGalleryCss', '@media (prefers-reduced-motion: reduce)', 'Moody image-gallery entrance motion must respect reduced motion.');
+requireText('imageGalleryCss', '@media (forced-colors: active)', 'Moody image-gallery focus and controls must survive forced colors.');
+forbidPattern('imageGalleryCss', /(?:^|\s)(?:#(?:[\da-f]{3}){1,2}|(?:rgb|hsl|oklch)\()/im, 'Moody image-gallery styles must use locked color tokens.');
+for (const state of ['Default', 'Hover', 'Focus', 'Active', 'Disabled', 'Loading', 'Error', 'Success']) {
+  requireText('imageGalleryPreview', `<h2>${state}</h2>`, `The Moody image-gallery preview must include its ${state.toLowerCase()} state.`);
+}
+requireText('accessibility', "caption.setAttribute('role', 'status')", 'Moody image-gallery captions must announce image changes.');
+requireText('accessibility', "caption.setAttribute('aria-live', 'polite')", 'Moody image-gallery announcements must remain polite.');
+requireText('accessibility', "caption.setAttribute('aria-atomic', 'true')", 'Moody image-gallery announcements must remain atomic.');
+requireText('accessibility', "trigger.focus({ preventScroll: true })", 'Moody image galleries must preserve their Safari focus-restoration target without scrolling.');
+requireText('accessibility', 'capture: true', 'Moody image-gallery opener focus must run before the provider click handler.');
+requireText('accessibility', "status.textContent = Drupal.t('Image unavailable')", 'Failed Moody image thumbnails need a truthful visible status.');
+requireText('accessibility', 'tile.disabled = true;', 'Failed Moody image thumbnails must not remain operable.');
+requireText('accessibility', "image.addEventListener('error'", 'Moody image galleries must retain native media failure recovery.');
 requireText('discoveryIndex', 'repeat(12, minmax(0, 1fr))', 'Discovery grids must use safe image-bearing tracks.');
 requireText('discoveryIndex', '.linked-focus-area-item:focus-visible', 'Focus Area tasks need immediate visible focus.');
 requireText('discoveryIndex', '.utexas-promo-unit .data-wrapper > a:focus-visible', 'Promo Unit links need immediate visible focus.');
@@ -1449,7 +1482,7 @@ const runtimeFiles = [
   'flexTabsCss', 'flexTabsTemplate',
   'heroCarouselCss', 'heroCarouselTemplate',
   'photoContentCss', 'photoContentTemplate',
-  'socialLinksCss', 'socialLinksTemplate',
+  'socialLinksCss', 'socialLinksTemplate', 'imageGalleryCss',
   'heroTemplate', 'heroStyle1Template', 'heroStyle2Template', 'heroStyle3Template',
   'heroStyle4Template', 'heroStyle5Template', 'heroStyle6Template', 'heroStyle6ShortTemplate',
   'heroStyle7Template', 'heroStyle8Template',
@@ -1481,7 +1514,7 @@ for (const file of runtimeFiles) {
   }
 }
 
-const cssFiles = ['css', 'headerSocialCss', 'quickActionsCss', 'landingHero', 'richTextCss', 'editorialSections', 'featuredHighlightCss', 'promoListCss', 'flexContentCss', 'imageLinkCss', 'flexColorBlocksCss', 'quotationCss', 'flexGridCss', 'impactFactsCss', 'showcaseCss', 'contactInfoCss', 'callToActionCss', 'resourceGroupCss', 'flexTabsCss', 'heroCarouselCss', 'photoContentCss', 'socialLinksCss', 'discoveryIndex', 'accordionCss', 'peopleDirectory', 'studentStoriesCss', 'eventsListingCss', 'newsroom', 'featureStoryCss', 'shorthandStoryCss', 'pdfDocumentCss', 'eventDetailCss', 'motionCss', 'settingsCss'];
+const cssFiles = ['css', 'headerSocialCss', 'quickActionsCss', 'landingHero', 'richTextCss', 'editorialSections', 'featuredHighlightCss', 'promoListCss', 'flexContentCss', 'imageLinkCss', 'flexColorBlocksCss', 'quotationCss', 'flexGridCss', 'impactFactsCss', 'showcaseCss', 'contactInfoCss', 'callToActionCss', 'resourceGroupCss', 'flexTabsCss', 'heroCarouselCss', 'photoContentCss', 'socialLinksCss', 'imageGalleryCss', 'discoveryIndex', 'accordionCss', 'peopleDirectory', 'studentStoriesCss', 'eventsListingCss', 'newsroom', 'featureStoryCss', 'shorthandStoryCss', 'pdfDocumentCss', 'eventDetailCss', 'motionCss', 'settingsCss'];
 const forbiddenCss = [
   [/#(?:[0-9a-f]{3}|[0-9a-f]{6}|[0-9a-f]{8})\b/i, 'Raw hex colors belong only in tokens.css.'],
   [/\b(?:rgb|rgba|hsl|hsla|oklch)\(/i, 'Raw color functions belong only in tokens.css.'],
@@ -1512,7 +1545,7 @@ for (const file of ['preflight', 'log']) {
     errors.push(`${file} must contain valid JSON.`);
   }
 }
-requireText('preflight', '"package_version": "0.43.0"', 'Hallmark preflight must match the semantic events-listing release.');
+requireText('preflight', '"package_version": "0.44.0"', 'Hallmark preflight must match the accessible image-gallery release.');
 requireText('log', 'Index-First profile dossier within the Ecosystem Index', 'Hallmark memory must record the shared faculty-profile composition.');
 requireText('log', 'Split Studio event brief within the Ecosystem Index', 'Hallmark memory must record the shared event-detail composition.');
 requireText('log', 'Long Document feature story within the Ecosystem Index', 'Hallmark memory must record the shared feature-story composition.');
@@ -1570,6 +1603,7 @@ requireText('readme', 'Shared Moody Newsletter destination bands', 'README must 
 requireText('readme', 'Shared UT Drupal Kit Quick Links', 'README must document the shared Quick Links layer.');
 requireText('readme', 'Shared UT Drupal Kit Social Links', 'README must document the shared Social Links layer.');
 requireText('readme', 'Shared Moody Anchor galleries', 'README must document the shared Moody Anchor gallery layer.');
+requireText('readme', 'Accessible Moody image galleries', 'README must document the interactive Moody image-gallery layer.');
 requireText('agents', '`header_social_links_block`', 'AGENTS.md must preserve the header Social Links contract.');
 requireText('agents', 'Missing, unpublished, non-reusable, inaccessible, wrong-bundle, or malformed', 'AGENTS.md must require Social Links to fail closed.');
 requireText('agents', '### People directories', 'AGENTS.md must preserve the people-directory contract.');
@@ -1602,6 +1636,7 @@ requireText('agents', '### Moody Newsletter destination bands', 'AGENTS.md must 
 requireText('agents', '### UT Drupal Kit Quick Links', 'AGENTS.md must preserve the Quick Links component contract.');
 requireText('agents', '### UT Drupal Kit Social Links', 'AGENTS.md must preserve the Social Links component contract.');
 requireText('agents', '### Moody Anchor galleries', 'AGENTS.md must preserve the Moody Anchor gallery component contract.');
+requireText('agents', '### Moody image galleries', 'AGENTS.md must preserve the interactive Moody image-gallery component contract.');
 requireText('agents', '### Moody Showcases', 'AGENTS.md must preserve the Moody Showcase component contract.');
 requireText('agents', '### Moody Heroes', 'AGENTS.md must preserve the Moody Hero component contract.');
 requireText('agents', 'do not expose native error events', 'AGENTS.md must preserve the CSS-background Hero failure contract.');
@@ -1626,5 +1661,5 @@ if (errors.length) {
   process.exitCode = 1;
 }
 else {
-  console.log(`Moody26 verification passed (${Object.keys(files).length} source files, ${fonts.length} local fonts, standalone shell, UT brand, Basic and Rich Text, accessible directories, student-story directories and profiles, UTProf Profile Listings, and faculty profile dossiers, accessible ambient-video heroes, resource hubs, Resource Groups, Flex Tabs, UT Drupal Kit Flex Lists, Hero Carousels, Photo Content Areas, Moody Newsletter destination bands, UT Drupal Kit Quick Links, semantic Social Links, Moody Anchor galleries, failure-safe Shorthand stories, keyboard-safe PDF documents, and API-backed upcoming-event ledgers, newsroom, feature stories, event details, accordions, Featured Highlights, Moody Promotions, Promo Lists, Flex Content Areas, Image Links, Flex Color Blocks, Moody Quotations, Moody Flex Grids, Moody Impact Facts, Moody and UT Drupal Kit Heroes, Moody Showcases, Moody Contact Info, and Call to Action blocks, header social links, motion, responsive, and Hallmark gates).`);
+  console.log(`Moody26 verification passed (${Object.keys(files).length} source files, ${fonts.length} local fonts, standalone shell, UT brand, Basic and Rich Text, accessible directories, student-story directories and profiles, UTProf Profile Listings, and faculty profile dossiers, accessible ambient-video heroes, resource hubs, Resource Groups, Flex Tabs, UT Drupal Kit Flex Lists, Hero Carousels, Photo Content Areas, Moody Newsletter destination bands, UT Drupal Kit Quick Links, semantic Social Links, Moody Anchor and interactive image galleries, failure-safe Shorthand stories, keyboard-safe PDF documents, and API-backed upcoming-event ledgers, newsroom, feature stories, event details, accordions, Featured Highlights, Moody Promotions, Promo Lists, Flex Content Areas, Image Links, Flex Color Blocks, Moody Quotations, Moody Flex Grids, Moody Impact Facts, Moody and UT Drupal Kit Heroes, Moody Showcases, Moody Contact Info, and Call to Action blocks, header social links, motion, responsive, and Hallmark gates).`);
 }

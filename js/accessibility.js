@@ -39,6 +39,71 @@
         }
       });
 
+      once('moody26-image-gallery-caption', '[data-gallery-caption]', context).forEach((caption) => {
+        caption.setAttribute('role', 'status');
+        caption.setAttribute('aria-live', 'polite');
+        caption.setAttribute('aria-atomic', 'true');
+      });
+
+      once('moody26-image-gallery-trigger', '[data-gallery-trigger]', context).forEach((trigger) => {
+        trigger.addEventListener('click', () => trigger.focus({ preventScroll: true }), {
+          capture: true,
+        });
+      });
+
+      once(
+        'moody26-image-gallery-thumbnail',
+        '.moody-image-gallery__tile .moody-image-gallery__image',
+        context,
+      ).forEach((image) => {
+        const markUnavailable = () => {
+          const tile = image.closest('.moody-image-gallery__tile');
+          const media = image.closest('.moody-image-gallery__image-wrap');
+          if (!tile || !media || tile.classList.contains('is-error')) {
+            return;
+          }
+
+          const description = image.getAttribute('alt')?.trim();
+          const unavailable = description
+            ? Drupal.t('Image unavailable: @description', { '@description': description })
+            : Drupal.t('Image unavailable');
+          const status = document.createElement('span');
+          status.className = 'moody-image-gallery__unavailable';
+          status.textContent = Drupal.t('Image unavailable');
+          image.hidden = true;
+          tile.classList.add('is-error');
+          tile.disabled = true;
+          tile.setAttribute('aria-label', unavailable);
+          media.append(status);
+        };
+
+        image.addEventListener('error', markUnavailable, { once: true });
+        if (image.complete && image.currentSrc && !image.naturalWidth) {
+          markUnavailable();
+        }
+      });
+
+      once('moody26-image-gallery-modal-image', '[data-gallery-image]', context).forEach((image) => {
+        const figure = image.closest('.moody-image-gallery__figure');
+        const caption = figure?.querySelector('[data-gallery-caption]');
+        if (!figure || !caption) {
+          return;
+        }
+
+        image.addEventListener('load', () => {
+          image.hidden = false;
+          figure.classList.remove('is-error');
+        });
+        image.addEventListener('error', () => {
+          const description = caption.textContent.trim() || image.getAttribute('alt')?.trim();
+          image.hidden = true;
+          figure.classList.add('is-error');
+          caption.textContent = description
+            ? Drupal.t('Image unavailable. @description', { '@description': description })
+            : Drupal.t('Image unavailable.');
+        });
+      });
+
       once(
         'moody26-basic-new-window',
         '.block-bundle-basic .ut-copy a[target="_blank"]',

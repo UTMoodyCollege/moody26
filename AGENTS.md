@@ -698,6 +698,51 @@ not belong outside the token and font declaration files.
   accessible name. The gallery is static server-rendered content; do not add
   JavaScript, animation, fabricated loading, error, or success UI.
 
+### Moody image galleries
+
+- Treat `moody_image_gallery_block` as an interactive shared media collection,
+  distinct from the static legacy Moody Anchor field. Drupal and the provider
+  module own image selection, focal points, alternative text, captions, order,
+  JSON serialization, modal state, keyboard trap, Left/Right navigation,
+  Escape close, focus restoration, cacheability, and Layout Builder placement.
+  Do not edit or duplicate the Composer-installed provider in Moody26.
+- Preserve the provider's semantic image buttons and modal `role="dialog"`,
+  `aria-modal`, label, description, close/previous/next controls, and source
+  order. The initial dialog-container focus is intentional because it announces
+  the dialog name and current caption before Tab reaches Close. Any enhancement
+  must be idempotent through Drupal behaviors and `once()`.
+- Safari does not focus a button after pointer activation by default. Preserve
+  the capture-phase opener focus with `preventScroll` so the provider records a
+  stable return target before its bubble-phase click handler opens the dialog.
+  Keyboard and assistive-technology activation must follow the same return path.
+- Give every image button and lightbox control at least a 44 CSS-pixel target,
+  immediate visible focus, active feedback, a truthful disabled treatment, and
+  capability-gated hover. Do not remove focus outlines, hide controls until
+  hover, create pointer-only navigation, or make color the only state signal.
+- Use one safe image track in narrow containers and the provider's 60/40/full
+  rhythm only after the component reaches 40rem. Keep every image-bearing grid
+  track `minmax(0, …)`, preserve editor focal positions, allow captions to wrap,
+  and prevent document overflow at 320, 375, 414, 768, and 1280 CSS pixels. Keep
+  the restrained viewport fallback for browsers that predate container queries.
+- Keep the lightbox fixed without changing page scroll position. At narrow
+  widths put the image above the previous/next controls; at wide widths place
+  those controls beside it without changing their DOM or keyboard order. Keep
+  Close first in the focus cycle and restore focus to the invoking tile.
+- Add `role="status"`, `aria-live="polite"`, and `aria-atomic="true"` to the
+  provider caption so keyboard image changes are announced while focus remains
+  on a control. Do not add a second competing live region or move focus on
+  previous/next activation.
+- A failed thumbnail becomes visible translated `Image unavailable` text and a
+  disabled tile whose accessible name may retain its authored alternative. A
+  failed full-size source keeps the dialog, counter, and authored description
+  with a truthful translated error. Never insert placeholder art, inferred
+  captions, synthetic destinations, or a retry promise the component cannot
+  fulfill.
+- Keep dialog motion to one bounded entrance using named duration/easing
+  tokens. Under `prefers-reduced-motion`, allow only a short opacity change.
+  Maintain a standalone preview for all eight Hallmark states; loading and
+  success are regression fixtures, not fabricated production lifecycle UI.
+
 ### Moody Showcases
 
 - Treat Moody Showcase as a shared editorial media ledger, not a route-specific
