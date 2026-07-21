@@ -1,0 +1,54 @@
+{#
+/**
+ * @file
+ * Failure-safe boundary for a provider-rendered Shorthand story export.
+ *
+ * The provider remains responsible for the story HTML, assets, semantics,
+ * interactions, and cacheability. Moody26 adds only block chrome and a
+ * truthful server-rendered fallback when the provider returns no markup.
+ */
+#}
+{% set classes = [
+  'block',
+  'block-' ~ configuration.provider|clean_class,
+  'block-' ~ plugin_id|clean_class,
+  'moody26-shorthand-story',
+  shorthand_story_available
+    ? 'moody26-shorthand-story--available'
+    : 'moody26-shorthand-story--unavailable',
+] %}
+{% set component_id = attributes.id|default('') %}
+{% set label_id = component_id ? component_id ~ '-title' : shorthand_story_status_id ~ '-label' %}
+
+{% if not shorthand_story_available %}
+  {% set attributes = attributes.setAttribute(
+    'aria-labelledby',
+    label ? label_id : shorthand_story_status_id
+  ) %}
+{% endif %}
+
+{% set wrapper = shorthand_story_available ? 'div' : 'section' %}
+<{{ wrapper }}{{ attributes.addClass(classes) }}>
+  {{ title_prefix }}
+  {% if label %}
+    <h2{{ title_attributes.setAttribute('id', label_id) }}>{{ label }}</h2>
+  {% endif %}
+  {{ title_suffix }}
+
+  {% if shorthand_story_available %}
+    {{ content }}
+  {% else %}
+    <div class="moody26-shorthand-story__fallback">
+      {% if label %}
+        <p class="moody26-shorthand-story__title"><strong>{{ 'Story unavailable'|t }}</strong></p>
+      {% else %}
+        <h2 id="{{ shorthand_story_status_id }}" class="moody26-shorthand-story__title">
+          {{ 'Story unavailable'|t }}
+        </h2>
+      {% endif %}
+      <p class="moody26-shorthand-story__message">
+        {{ 'The embedded story did not load. Try this page again later.'|t }}
+      </p>
+    </div>
+  {% endif %}
+</{{ wrapper }}>

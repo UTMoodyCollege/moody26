@@ -6,7 +6,7 @@ visual identity with an accessible, editorial system that can serve academic,
 research, film, journalism, advertising, alumni, event, and public-facing
 sites without requiring the legacy Moody or Speedway themes.
 
-> **Project status:** pre-release (`0.39.0`). The theme is being validated in
+> **Project status:** pre-release (`0.40.0`). The theme is being validated in
 > [Moody Core](https://github.com/UTMoodyCollege/moody-core) before its first
 > stable tag. Pin an exact commit when evaluating the `main` branch.
 
@@ -707,6 +707,35 @@ causes placeholder art or an empty media track. Feature stories are static by
 default and introduce no article-only JavaScript, scroll effects, or fabricated
 metadata.
 
+### Shared Shorthand stories
+
+The `moody_shorthand_zip_shorthand_zip_story` block is an integration boundary,
+not a second Moody26 component system. When its provider returns a valid export,
+the theme preserves that story markup and its authored assets without wrapping
+individual sections, replacing interactions, or imposing a universal crop or
+motion treatment.
+
+When the provider returns no story markup, Moody26 replaces the silent blank
+block with a labelled “Story unavailable” section and the factual recovery
+instruction “The embedded story did not load. Try this page again later.” The
+state is present in ordinary document flow, is not a live region, introduces no
+dead controls, and reflows from 320 CSS pixels without horizontal scrolling.
+
+The consuming site remains responsible for migrating the configured export
+directory and every referenced asset. Before launch, its Shorthand provider
+must resolve and validate the configured path before reading `index.html` so a
+missing export cannot emit a PHP warning. Every imported story must also pass
+its own heading, keyboard, focus, reflow, contrast, alternative-text, caption,
+reduced-motion, and University-brand review; the outer theme cannot make
+arbitrary exported HTML compliant by restyling it.
+
+For a pre-production migration, restore each export’s `index.html`, `static/`,
+and `assets/` together; normalize stored locations to a Drupal stream-wrapper
+URI or another provider-resolved portable value instead of an environment-
+specific absolute path; then rebuild Drupal caches. The fallback disappears
+automatically when the provider returns non-empty markup. Spot-test at least one
+complete story and one intentionally unavailable story before activation.
+
 ### Shared event details
 
 Every published `moody_event` node uses the Split Studio composition: the
@@ -1085,7 +1114,7 @@ than replace manual assistive-technology review.
 | `tokens.css` | Brand, type, spacing, motion, focus, and layout tokens |
 | `css/fonts.css` | Local approved digital font declarations |
 | `css/moody26.css` | Global foundation, shell, navigation, forms, and footer |
-| `css/components/` | Header social, ambient-video and shared Hero, Basic and Rich Text, editorial, discovery, resource-hub, accordion, Featured Highlight and Moody Promotion signal bands, Promo List, Flex Content Area, Image Link, Flex Color Block, Moody Quotation, Moody Flex Grid, Impact Facts, Contact Info, Call to Action, Social Links, Moody Anchor gallery, people-directory, faculty-profile, newsroom, feature-story, event-detail, quick-action, and settings components |
+| `css/components/` | Header social, ambient-video and shared Hero, Basic and Rich Text, editorial, discovery, resource-hub, accordion, Featured Highlight and Moody Promotion signal bands, Promo List, Flex Content Area, Image Link, Flex Color Block, Moody Quotation, Moody Flex Grid, Impact Facts, Contact Info, Call to Action, Social Links, Moody Anchor gallery, people-directory, faculty-profile, newsroom, feature-story, Shorthand boundary, event-detail, quick-action, and settings components |
 | `js/navigation.js` | Drawer and disclosure navigation state |
 | `js/quick-actions.js` | Native dialog and rendered-destination discovery |
 | `js/accessibility.js` | Progressive safeguards for media controls and rendered content components |

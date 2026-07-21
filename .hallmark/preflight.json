@@ -1,6 +1,6 @@
 {
   "date": "2026-07-21",
-  "package_version": "0.39.0",
+  "package_version": "0.40.0",
   "framework": "Drupal 11 / UT Drupal Kit",
   "base_theme": false,
   "font_stack": "Charis SIL + Libre Franklin bundled locally by Moody26",
@@ -55,6 +55,7 @@
     "semantic Moody Newsletter destination bands with page-safe headings, formatter-owned actions, neutralized migration styles, and complete static link states",
     "semantic UT Drupal Kit Quick Links as responsive navigation ledgers with page-safe headings, formatter-owned destinations, and complete static link states",
     "semantic UT Drupal Kit Social Links as compact destination rails with page-safe headings, provider-owned icon assets, container-aware targets, and complete static link states",
-    "semantic Moody Anchor fields as editor-repairable, public-failure-safe portrait galleries with provider-owned responsive media, authored alternatives and destinations, container-aware layout, and complete static link states"
+    "semantic Moody Anchor fields as editor-repairable, public-failure-safe portrait galleries with provider-owned responsive media, authored alternatives and destinations, container-aware layout, and complete static link states",
+    "failure-safe Shorthand story boundaries that preserve valid provider markup and replace empty exports with a truthful semantic status"
   ]
 }

@@ -54,6 +54,7 @@ const files = {
   featureStoryCss: 'css/components/feature-story.css',
   eventDetailCss: 'css/components/event-detail.css',
   facultyProfileCss: 'css/components/faculty-profile.css',
+  shorthandStoryCss: 'css/components/shorthand-story.css',
   motionCss: 'css/components/motion.css',
   settingsCss: 'css/components/theme-settings.css',
   accessibility: 'js/accessibility.js',
@@ -81,6 +82,7 @@ const files = {
   featureCreditTemplate: 'templates/components/moody-feature-credit.html.twig',
   eventTemplate: 'templates/content/node--moody-event.html.twig',
   facultyProfileTemplate: 'templates/content/node--faculty-bio.html.twig',
+  shorthandStoryTemplate: 'templates/blocks/block--moody-shorthand-zip-shorthand-zip-story.html.twig',
   focusAreas: 'templates/components/moody-focus-areas.html.twig',
   promoUnits: 'templates/components/utexas-promo-unit.html.twig',
   featuredHighlightTemplate: 'templates/components/utexas-featured-highlight.html.twig',
@@ -200,8 +202,8 @@ const forbidPattern = (file, pattern, message) => {
 
 try {
   const packageJson = JSON.parse(contents.package ?? '');
-  if (packageJson.version !== '0.39.0') {
-    errors.push('The accessible faculty-profile release must remain versioned as 0.39.0.');
+  if (packageJson.version !== '0.40.0') {
+    errors.push('The failure-safe Shorthand-story release must remain versioned as 0.40.0.');
   }
   for (const [dependency, version] of [
     ['animejs', '4.5.0'],
@@ -259,6 +261,7 @@ requireText('libraries', 'css/components/newsroom.css', 'Shared newsroom styles 
 requireText('libraries', 'css/components/feature-story.css', 'Shared feature-story styles must remain attached.');
 requireText('libraries', 'css/components/event-detail.css', 'Shared event-detail styles must remain attached.');
 requireText('libraries', 'css/components/faculty-profile.css', 'Shared faculty-profile styles must remain attached.');
+requireText('libraries', 'css/components/shorthand-story.css', 'The Shorthand integration boundary must remain attached.');
 requireText('libraries', 'css/components/accordion.css', 'Shared accordion styles must remain attached.');
 requireText('libraries', 'css/components/featured-highlight.css', 'Shared Featured Highlight styles must remain attached.');
 requireText('libraries', 'css/components/promo-list.css', 'Shared Promo List styles must remain attached.');
@@ -281,7 +284,7 @@ requireText('libraries', 'css/components/quick-links.css', 'Shared UT Drupal Kit
 requireText('libraries', 'css/components/social-links.css', 'Shared UT Drupal Kit Social Links styles must remain attached.');
 requireText('libraries', 'css/components/anchor-gallery.css', 'Shared Moody Anchor gallery styles must remain attached.');
 requireText('libraries', 'js/dist/motion.min.js', 'The built motion integration must remain attached.');
-requireText('libraries', 'version: 0.39.0', 'The Drupal asset version must match the accessible faculty-profile release.');
+requireText('libraries', 'version: 0.40.0', 'The Drupal asset version must match the failure-safe Shorthand-story release.');
 forbidText('info', '- moody26/motion', 'Optional motion must be attached from theme settings rather than globally.');
 
 requireText('settings', "header_social_links_block: ''", 'Header social links must be optional for new installs.');
@@ -836,6 +839,24 @@ requireText('theme', "t('Story credits')", 'Feature-story credits must expose a 
 requireText('featureCreditTemplate', "{{ 'By'|t }}", 'Feature-story credits must expose a translated assistive byline.');
 requireText('featureCreditTemplate', 'moody-feature-credit__name', 'Feature-story credits must preserve the contributor name.');
 requireText('featureCreditTemplate', '{% if title %}', 'Feature-story credits must omit empty contributor roles.');
+requireText('shorthandStoryCss', 'component: Shorthand story boundary', 'Shorthand stories must retain the Hallmark component contract.');
+requireText('shorthandStoryCss', 'container: shorthand-story / inline-size;', 'Shorthand story boundaries must respond to their Layout Builder container.');
+requireText('shorthandStoryCss', 'grid-template-columns: minmax(10rem, 4fr) minmax(0, 8fr);', 'Unavailable Shorthand stories must retain safe asymmetric tracks.');
+requireText('shorthandStoryCss', 'background: var(--color-paper-2);', 'Unavailable Shorthand stories must use a token-governed surface.');
+requireText('shorthandStoryCss', 'color: var(--color-ink);', 'Unavailable Shorthand story surfaces must declare a contrast-safe ink color.');
+forbidText('shorthandStoryCss', 'transition:', 'The static Shorthand boundary must not add decorative motion.');
+forbidPattern('shorthandStoryCss', /(?:node|page)-\d+/, 'Shorthand story styling must not depend on route-specific node or page IDs.');
+requireText('theme', 'moody_shorthand_zip_shorthand_zip_story', 'Shorthand story preprocessing must remain plugin scoped.');
+requireText('theme', "['#children']", 'Shorthand story preprocessing must inspect the provider-owned markup result.');
+requireText('theme', 'block__moody_shorthand_zip_shorthand_zip_story', 'Shorthand blocks must receive the dedicated failure-safe template suggestion.');
+requireText('shorthandStoryTemplate', "shorthand_story_available ? 'div' : 'section'", 'Available and unavailable Shorthand states must use truthful wrapper semantics.');
+requireText('shorthandStoryTemplate', '{{ content }}', 'Available Shorthand stories must preserve provider output.');
+requireText('shorthandStoryTemplate', "{{ 'Story unavailable'|t }}", 'Unavailable Shorthand stories need a translated factual heading.');
+requireText('shorthandStoryTemplate', "{{ 'The embedded story did not load. Try this page again later.'|t }}", 'Unavailable Shorthand stories need a translated recovery instruction.');
+requireText('shorthandStoryTemplate', "'aria-labelledby'", 'Unavailable Shorthand stories must expose an accessible name.');
+forbidText('shorthandStoryTemplate', '|raw', 'Shorthand boundaries must not add a second raw-output path.');
+forbidText('shorthandStoryTemplate', 'aria-live', 'Server-rendered Shorthand failure states must not announce as live updates.');
+forbidText('shorthandStoryTemplate', 'href=', 'Shorthand failure states must not invent a destination.');
 requireText('eventDetailCss', 'macrostructure: Split Studio', 'Event details must retain the Hallmark Split Studio contract.');
 requireText('eventDetailCss', '.moody26-event--long-title', 'Long event titles must retain their length-aware masthead.');
 requireText('eventDetailCss', 'overflow-wrap: anywhere;', 'Event titles and body copy must survive long unbroken text.');
@@ -1324,7 +1345,8 @@ const runtimeFiles = [
   'peopleDirectory', 'peopleDirectoryView', 'peopleDirectoryRows', 'peopleDirectoryFields',
   'profileListingBlock', 'profileDesignationField',
   'newsroom', 'newsRows', 'newsFields',
-  'featureStoryCss', 'featureCreditTemplate', 'eventDetailCss', 'eventTemplate',
+  'featureStoryCss', 'featureCreditTemplate', 'shorthandStoryCss', 'shorthandStoryTemplate',
+  'eventDetailCss', 'eventTemplate',
   'focusAreas', 'promoUnits',
   'motionCss', 'settingsCss', 'accessibility', 'navigation', 'quickActions', 'motion', 'html', 'page', 'brandbar',
   'header', 'footer', 'brandingBlock', 'menuBlock', 'menu',
@@ -1344,7 +1366,7 @@ for (const file of runtimeFiles) {
   }
 }
 
-const cssFiles = ['css', 'headerSocialCss', 'quickActionsCss', 'landingHero', 'richTextCss', 'editorialSections', 'featuredHighlightCss', 'promoListCss', 'flexContentCss', 'imageLinkCss', 'flexColorBlocksCss', 'quotationCss', 'flexGridCss', 'impactFactsCss', 'showcaseCss', 'contactInfoCss', 'callToActionCss', 'resourceGroupCss', 'flexTabsCss', 'heroCarouselCss', 'photoContentCss', 'socialLinksCss', 'discoveryIndex', 'accordionCss', 'peopleDirectory', 'newsroom', 'featureStoryCss', 'eventDetailCss', 'motionCss', 'settingsCss'];
+const cssFiles = ['css', 'headerSocialCss', 'quickActionsCss', 'landingHero', 'richTextCss', 'editorialSections', 'featuredHighlightCss', 'promoListCss', 'flexContentCss', 'imageLinkCss', 'flexColorBlocksCss', 'quotationCss', 'flexGridCss', 'impactFactsCss', 'showcaseCss', 'contactInfoCss', 'callToActionCss', 'resourceGroupCss', 'flexTabsCss', 'heroCarouselCss', 'photoContentCss', 'socialLinksCss', 'discoveryIndex', 'accordionCss', 'peopleDirectory', 'newsroom', 'featureStoryCss', 'shorthandStoryCss', 'eventDetailCss', 'motionCss', 'settingsCss'];
 const forbiddenCss = [
   [/#(?:[0-9a-f]{3}|[0-9a-f]{6}|[0-9a-f]{8})\b/i, 'Raw hex colors belong only in tokens.css.'],
   [/\b(?:rgb|rgba|hsl|hsla|oklch)\(/i, 'Raw color functions belong only in tokens.css.'],
@@ -1375,7 +1397,7 @@ for (const file of ['preflight', 'log']) {
     errors.push(`${file} must contain valid JSON.`);
   }
 }
-requireText('preflight', '"package_version": "0.39.0"', 'Hallmark preflight must match the accessible faculty-profile release.');
+requireText('preflight', '"package_version": "0.40.0"', 'Hallmark preflight must match the failure-safe Shorthand-story release.');
 requireText('log', 'Index-First profile dossier within the Ecosystem Index', 'Hallmark memory must record the shared faculty-profile composition.');
 requireText('log', 'Split Studio event brief within the Ecosystem Index', 'Hallmark memory must record the shared event-detail composition.');
 requireText('log', 'Long Document feature story within the Ecosystem Index', 'Hallmark memory must record the shared feature-story composition.');
@@ -1468,6 +1490,10 @@ requireText('agents', '### UT Drupal Kit Heroes', 'AGENTS.md must preserve the U
 requireText('agents', '### Moody Contact Info', 'AGENTS.md must preserve the Moody Contact Info component contract.');
 requireText('agents', '### Call to Action blocks', 'AGENTS.md must preserve the Call to Action component contract.');
 requireText('agents', '### Resource Groups', 'AGENTS.md must preserve the shared Resource Group component contract.');
+requireText('agents', '### Shorthand stories', 'AGENTS.md must preserve the shared Shorthand integration contract.');
+requireText('agents', 'provider module must resolve and validate', 'AGENTS.md must keep Shorthand file validation as a production prerequisite.');
+requireText('readme', '### Shared Shorthand stories', 'README must document the Shorthand integration boundary.');
+requireText('readme', 'Try this page again later.', 'README must document the truthful Shorthand recovery state.');
 
 if (errors.length) {
   console.error(`Moody26 verification failed (${errors.length}):`);
@@ -1477,5 +1503,5 @@ if (errors.length) {
   process.exitCode = 1;
 }
 else {
-  console.log(`Moody26 verification passed (${Object.keys(files).length} source files, ${fonts.length} local fonts, standalone shell, UT brand, Basic and Rich Text, accessible directories, UTProf Profile Listings, and faculty profile dossiers, accessible ambient-video heroes, resource hubs, Resource Groups, Flex Tabs, UT Drupal Kit Flex Lists, Hero Carousels, Photo Content Areas, Moody Newsletter destination bands, UT Drupal Kit Quick Links, semantic Social Links, and Moody Anchor galleries, newsroom, feature stories, event details, accordions, Featured Highlights, Moody Promotions, Promo Lists, Flex Content Areas, Image Links, Flex Color Blocks, Moody Quotations, Moody Flex Grids, Moody Impact Facts, Moody and UT Drupal Kit Heroes, Moody Showcases, Moody Contact Info, and Call to Action blocks, header social links, motion, responsive, and Hallmark gates).`);
+  console.log(`Moody26 verification passed (${Object.keys(files).length} source files, ${fonts.length} local fonts, standalone shell, UT brand, Basic and Rich Text, accessible directories, UTProf Profile Listings, and faculty profile dossiers, accessible ambient-video heroes, resource hubs, Resource Groups, Flex Tabs, UT Drupal Kit Flex Lists, Hero Carousels, Photo Content Areas, Moody Newsletter destination bands, UT Drupal Kit Quick Links, semantic Social Links, Moody Anchor galleries, and failure-safe Shorthand stories, newsroom, feature stories, event details, accordions, Featured Highlights, Moody Promotions, Promo Lists, Flex Content Areas, Image Links, Flex Color Blocks, Moody Quotations, Moody Flex Grids, Moody Impact Facts, Moody and UT Drupal Kit Heroes, Moody Showcases, Moody Contact Info, and Call to Action blocks, header social links, motion, responsive, and Hallmark gates).`);
 }

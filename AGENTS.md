@@ -917,6 +917,41 @@ not belong outside the token and font declaration files.
   scroll reveals, sticky reading progress, fabricated related links, or
   article-only JavaScript.
 
+### Shorthand stories
+
+- Treat `moody_shorthand_zip_shorthand_zip_story` as a shared integration
+  boundary, never as a route-, node-, title-, component-UUID-, or position-
+  specific exception.
+- Preserve non-empty provider markup, attachments, and cacheability unchanged.
+  Do not parse arbitrary export HTML in Twig, reconstruct its destinations,
+  restyle its internal sections as Moody26 components, or apply global motion
+  to it.
+- When the provider returns empty markup, render one translated, labelled
+  `section` in ordinary document flow with “Story unavailable” and the factual
+  recovery instruction “The embedded story did not load. Try this page again
+  later.” Do not add a live region, spinner, disabled button, placeholder image,
+  fabricated story summary, or guessed destination.
+- Keep the unavailable state flat, left aligned, and container-aware. Use exact
+  burnt orange only for its leading rule, keep body copy at 16 CSS pixels or
+  larger, and preserve reflow at 320, 375, 414, and 768 CSS pixels and 200%
+  zoom. The static boundary adds no interactive or motion states.
+- The consuming site owns Shorthand exports and their asset migration. Before
+  production, the provider module must resolve and validate its configured
+  directory before reading `index.html`; a theme fallback cannot suppress a
+  provider PHP warning or restore missing files.
+- Prefer a Drupal stream-wrapper URI or a location resolved through the file
+  system service. Never persist environment-specific absolute filesystem paths
+  as the portable Layout Builder contract, and keep the browser asset base
+  separate from the server path used to read the export.
+- Review every available export independently for heading order, landmarks,
+  keyboard reachability, visible focus, touch targets, reflow, contrast,
+  descriptive links, media alternatives, captions or transcripts, reduced
+  motion, and UT brand compliance. The outer theme cannot certify arbitrary
+  exported HTML.
+- Test both a complete export and an empty provider result. The complete state
+  must retain the provider output; the empty state must expose one semantic
+  fallback, contain no interactive controls, and create no horizontal overflow.
+
 ### Event details
 
 - Treat every published `moody_event` node as one shared fleet event-detail
@@ -1507,6 +1542,10 @@ Texas requirements. The current University compliance date is March 1, 2026.
   long-form fields, inline editorial media, tables, and explicit credits.
 - `templates/components/moody-feature-credit.html.twig`: translated byline,
   supplied contributor name, and optional supplied role.
+- `css/components/shorthand-story.css` and
+  `templates/blocks/block--moody-shorthand-zip-shorthand-zip-story.html.twig`:
+  provider-preserving Shorthand integration boundary and semantic unavailable
+  state for empty exports.
 - `css/components/event-detail.css`: length-aware event mastheads, uncropped
   media, responsive Split Studio layout, and semantic attendance-fact ledger.
 - `templates/content/node--moody-event.html.twig`: event body, external source
