@@ -1,0 +1,214 @@
+/* Hallmark · component: UT Drupal Kit Photo Content Area · genre: editorial · theme: UT custom
+ * states: default · visited · hover · focus · active · disabled · media unavailable · empty
+ * contrast: pass (40–41) · mobile: pass (34, 50–51) · motion: cut
+ */
+/* Hallmark · pre-emit critique: P5 H5 E5 S5 R5 V5 */
+
+:where(
+  .block-bundle-utexas-photo-content-area,
+  .field--type-utexas-photo-content-area
+) {
+  container: photo-content / inline-size;
+  min-inline-size: 0;
+}
+
+.photo-content {
+  display: grid;
+  width: min(100%, var(--page-max));
+  min-inline-size: 0;
+  grid-template-columns: minmax(0, 1fr);
+  gap: var(--component-gap);
+  margin: 0 auto;
+  padding-block: var(--space-2xl);
+  padding-inline: var(--page-gutter);
+  border-block-start: var(--rule-strong) solid var(--color-accent);
+  background: var(--color-paper);
+  color: var(--color-ink);
+}
+
+.photo-content__media,
+.photo-content__content {
+  min-inline-size: 0;
+  margin: 0;
+}
+
+.photo-content__media {
+  align-self: start;
+}
+
+.photo-content__media :where(picture, img) {
+  display: block;
+  width: 100%;
+  height: auto;
+}
+
+.photo-content__media img {
+  border-radius: var(--radius-sm);
+}
+
+.photo-content__credit {
+  max-width: var(--measure);
+  margin-block-start: var(--space-xs);
+  color: var(--color-muted);
+  font-family: var(--font-body);
+  font-size: var(--text-sm);
+  line-height: var(--leading-body);
+}
+
+.photo-content__content {
+  display: grid;
+  align-content: center;
+  align-self: center;
+  gap: var(--space-md);
+}
+
+.photo-content__title {
+  max-width: 18ch;
+  min-inline-size: 0;
+  margin: 0;
+  color: var(--color-ink);
+  font-family: var(--font-display);
+  font-size: var(--text-heading);
+  font-style: normal;
+  font-weight: 700;
+  letter-spacing: -0.025em;
+  line-height: var(--leading-heading);
+  overflow-wrap: anywhere;
+  text-transform: none;
+  text-wrap: balance;
+}
+
+.photo-content__copy {
+  max-width: var(--measure);
+  color: var(--color-ink);
+  font-family: var(--font-body);
+  font-size: var(--text-base);
+  line-height: var(--leading-body);
+}
+
+.photo-content__copy > :first-child {
+  margin-block-start: 0;
+}
+
+.photo-content__copy > :last-child {
+  margin-block-end: 0;
+}
+
+.photo-content__copy a {
+  color: var(--color-link);
+  text-decoration-color: var(--color-accent);
+  text-decoration-thickness: var(--rule-hair);
+  text-underline-offset: var(--rule-strong);
+}
+
+.photo-content__copy a:visited,
+.photo-content__links a:visited {
+  color: var(--color-link);
+}
+
+.photo-content__copy a:focus-visible,
+.photo-content__links a:focus-visible {
+  border-radius: var(--radius-sm);
+  color: var(--color-link);
+  outline: var(--focus-outline);
+  outline-offset: var(--space-2xs);
+  text-decoration-thickness: var(--rule-strong);
+}
+
+.photo-content__copy a:active,
+.photo-content__links a:not([aria-disabled="true"]):active {
+  background: var(--color-paper-2);
+  color: var(--color-ink);
+  text-decoration-thickness: var(--rule-strong);
+}
+
+.photo-content__links {
+  display: grid;
+  width: min(100%, var(--measure));
+  grid-template-columns: minmax(0, 1fr);
+  gap: 0;
+  margin: var(--space-lg) 0 0;
+  padding: 0;
+  list-style: none;
+}
+
+.photo-content__links > li {
+  min-inline-size: 0;
+  margin: 0;
+  border-block-start: var(--rule-hair) solid var(--color-rule);
+}
+
+.photo-content__links > li:first-child {
+  border-block-start: 0;
+}
+
+.photo-content__links a {
+  display: flex;
+  width: 100%;
+  min-inline-size: 0;
+  min-block-size: var(--target-min);
+  align-items: center;
+  padding-block: var(--space-sm);
+  color: var(--color-link);
+  font-family: var(--font-body);
+  font-size: var(--text-base);
+  font-weight: 700;
+  line-height: var(--leading-body);
+  overflow-wrap: normal;
+  text-decoration-color: var(--color-accent);
+  text-decoration-line: underline;
+  text-decoration-thickness: var(--rule-hair);
+  text-underline-offset: var(--rule-strong);
+  white-space: normal;
+  word-break: normal;
+}
+
+.photo-content__links a[aria-disabled="true"] {
+  color: var(--color-muted);
+  cursor: not-allowed;
+  pointer-events: none;
+  text-decoration-line: line-through;
+}
+
+.photo-content--media-only .photo-content__media {
+  width: min(100%, var(--content-max));
+}
+
+.photo-content--media-unavailable {
+  grid-template-columns: minmax(0, 1fr);
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .photo-content__copy a:hover,
+  .photo-content__links a:not([aria-disabled="true"]):hover {
+    background: var(--color-transparent);
+    color: var(--color-link);
+    text-decoration-thickness: var(--rule-strong);
+  }
+}
+
+@container photo-content (min-width: 48rem) {
+  .photo-content--has-media.photo-content--has-content {
+    grid-template-columns: minmax(0, 5fr) minmax(0, 7fr);
+    padding-block: var(--space-3xl);
+  }
+
+  .photo-content--without-media,
+  .photo-content--media-unavailable {
+    grid-template-columns: minmax(0, 4fr) minmax(0, 8fr);
+    padding-block: var(--space-3xl);
+  }
+
+  .photo-content--without-media .photo-content__content,
+  .photo-content--media-unavailable .photo-content__content {
+    grid-column: 2;
+  }
+
+  .stacked-display .photo-content {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  .stacked-display .photo-content__content {
+    grid-column: auto;
+  }
+}

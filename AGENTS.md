@@ -569,6 +569,41 @@ not belong outside the token and font declaration files.
   reduced-motion behavior; no-JavaScript reading order; and long carousels that
   do not create an indicator rail or document overflow.
 
+### UT Drupal Kit Photo Content Areas
+
+- Treat `utexas_photo_content_area` as a shared editorial media-and-copy
+  component, not a homepage-only split or a route-specific selector. Keep
+  responsive media, alternatives, photo credits, headlines, processed copy,
+  links and their options, ordering, view mode, cacheability, block labels, and
+  Layout Builder placement under Drupal and editor control.
+- Moody26 owns `utexas-photo-content-area.html.twig` and the
+  `photo-content__*` presentation contract. Preserve formatter-built media and
+  link render arrays, attributes, cacheability, and attachments. Do not edit
+  the profile-managed provider, rebuild a destination, use `|raw`, or depend on
+  a consumer route or page bundle.
+- Omit a structurally empty stored item. Render an authored headline as `h2`,
+  the image and its optional credit as `figure` and `figcaption`, processed copy
+  as ordinary editorial flow, and destinations as one real list. Never invent
+  a heading, credit, CTA, arrow, image, or replacement link.
+- Preserve responsive source dimensions, authored alternatives, and the
+  intrinsic media proportion. Do not apply a universal aspect ratio,
+  `object-fit: cover`, or overflow crop to this provider because active content
+  includes images whose full frame can carry meaning.
+- Keep Default in one safe column until the component reaches 48rem, then use
+  a `minmax(0, 5fr) minmax(0, 7fr)` split. Keep the provider's Stacked display
+  deliberately one column at every size. Text-only and failed-media content
+  recomposes without an empty image track; failed media-only content collapses.
+- Links need readable default and visited color, immediate visible focus,
+  active feedback, an authored `aria-disabled` treatment, capability-gated
+  hover, and a 44 CSS-pixel minimum target. Long formatter-owned labels may
+  wrap between words rather than clip, truncate, split ordinary words, or
+  widen the document.
+- Photo Content Areas are static server-rendered content. Do not add decorative
+  motion or fabricate loading, error, success, or disabled controls that the
+  provider does not supply. Verify content-rich, media-only, text-only, linked,
+  stacked, empty, and failed-media states without using route IDs, node IDs,
+  block UUIDs, or authored phrases in the runtime contract.
+
 ### Newsroom components
 
 - Treat the `news_filtered` View’s `block_filtered` display as the reference
@@ -1055,6 +1090,9 @@ Texas requirements. The current University compliance date is March 1, 2026.
 - `css/components/hero-carousel.css`: progressively enhanced UT Drupal Kit
   Hero Carousel viewport, compact controls, no-JavaScript flow, and motion
   preference safeguards.
+- `css/components/photo-content.css`: semantic, container-aware UT Drupal Kit
+  Photo Content Areas with uncropped media, real credits, static link states,
+  explicit stacked display, optional-content layouts, and failure recovery.
 - `css/components/editorial-sections.css`: shared editorial pairings, proof,
   CTA, and form treatments for Layout Builder output not yet promoted to a
   dedicated component contract.

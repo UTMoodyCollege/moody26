@@ -83,6 +83,27 @@
         }
       });
 
+      once('moody26-photo-content-image', '.photo-content__media img', context).forEach((image) => {
+        const hideFailedMedia = () => {
+          const component = image.closest('.photo-content');
+          const media = image.closest('.photo-content__media');
+          if (!component || !media || component.classList.contains('photo-content--media-unavailable')) {
+            return;
+          }
+          media.hidden = true;
+          if (component.querySelector('.photo-content__content')) {
+            component.classList.add('photo-content--media-unavailable');
+          }
+          else {
+            component.hidden = true;
+          }
+        };
+        image.addEventListener('error', hideFailedMedia, { once: true });
+        if (image.complete && image.currentSrc && !image.naturalWidth) {
+          hideFailedMedia();
+        }
+      });
+
       once('moody26-promo-list-image', '.promo-list__media img', context).forEach((image) => {
         const hideFailedMedia = () => {
           image.closest('.promo-list__media')?.setAttribute('hidden', '');

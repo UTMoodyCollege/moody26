@@ -1,0 +1,59 @@
+{#
+/**
+ * @file
+ * Semantic, theme-owned UT Drupal Kit Photo Content Area markup for Moody26.
+ *
+ * Preserves formatter-owned responsive media, filtered text, processed copy,
+ * links, attributes, cacheability, and attachments while removing assumptions
+ * from the inactive profile theme.
+ */
+#}
+{% set rendered_image = image|default([])|render %}
+{% set rendered_credit = photo_credit|default('')|render %}
+{% set rendered_headline = headline|default('')|render %}
+{% set rendered_copy = copy|default([])|render %}
+{% set rendered_links = [] %}
+{% for link in links|default([]) %}
+  {% set rendered_link = link|render %}
+  {% if rendered_link|trim %}
+    {% set rendered_links = rendered_links|merge([rendered_link]) %}
+  {% endif %}
+{% endfor %}
+{% set has_content = rendered_headline|trim or rendered_copy|trim or rendered_links %}
+{% set classes = [
+  'ut-photo-content-area',
+  'photo-content',
+  rendered_image|trim ? 'photo-content--has-media' : 'photo-content--without-media',
+  has_content ? 'photo-content--has-content' : 'photo-content--media-only',
+] %}
+
+{% if rendered_image|trim or has_content %}
+  <div{{ attributes.addClass(classes) }}>
+    {% if rendered_image|trim %}
+      <figure class="photo-wrapper photo-content__media">
+        {{ rendered_image }}
+        {% if rendered_credit|trim %}
+          <figcaption class="caption photo-content__credit">{{ rendered_credit }}</figcaption>
+        {% endif %}
+      </figure>
+    {% endif %}
+
+    {% if has_content %}
+      <div class="content-wrapper photo-content__content">
+        {% if rendered_headline|trim %}
+          <h2 class="ut-headline photo-content__title">{{ rendered_headline }}</h2>
+        {% endif %}
+        {% if rendered_copy|trim %}
+          <div class="ut-copy photo-content__copy">{{ rendered_copy }}</div>
+        {% endif %}
+        {% if rendered_links %}
+          <ul class="link-list photo-content__links" role="list">
+            {% for rendered_link in rendered_links %}
+              <li>{{ rendered_link }}</li>
+            {% endfor %}
+          </ul>
+        {% endif %}
+      </div>
+    {% endif %}
+  </div>
+{% endif %}

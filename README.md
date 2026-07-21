@@ -6,7 +6,7 @@ visual identity with an accessible, editorial system that can serve academic,
 research, film, journalism, advertising, alumni, event, and public-facing
 sites without requiring the legacy Moody or Speedway themes.
 
-> **Project status:** pre-release (`0.27.0`). The theme is being validated in
+> **Project status:** pre-release (`0.28.0`). The theme is being validated in
 > [Moody Core](https://github.com/UTMoodyCollege/moody-core) before its first
 > stable tag. Pin an exact commit when evaluating the `main` branch.
 
@@ -38,6 +38,9 @@ sites without requiring the legacy Moody or Speedway themes.
 - Accessible UT Drupal Kit Hero Carousels with concise native controls,
   focus/hover pausing, reduced-motion protection, and a complete no-JavaScript
   reading order.
+- Shared UT Drupal Kit Photo Content Areas with semantic photo credits,
+  uncropped responsive media, resilient optional content, and explicit stacked
+  presentation.
 - Shared Featured Highlights with resilient image and video handling,
   text-only composition, editor-owned links, and normalized legacy variants.
 - Shared Moody Promotions with page-safe headings, optional fields, empty-block
@@ -440,6 +443,29 @@ requests Play. `prefers-reduced-motion` prevents automatic startup and removes
 fades; a visitor may still explicitly request Play. Manual navigation remains
 immediate, announces the new slide position, and never moves focus or page
 position.
+
+### Shared UT Drupal Kit Photo Content Areas
+
+Moody26 provides theme-owned markup and presentation for the UT Drupal Kit
+Photo Content Area without editing the profile-managed provider. Drupal and
+editors continue to own the responsive image and alternative, photo credit,
+headline, processed copy, links and their options, ordering, view mode,
+cacheability, and Layout Builder placement.
+
+Each non-empty component uses a flat editorial media-and-copy composition. A
+real photo credit is a `figcaption`, a supplied headline is an `h2`, and
+destinations are a semantic list of formatter-owned links. The default display
+forms a safe 5/7 split only when its own container reaches 48rem. The editor's
+Stacked display remains one column at every width, and text-only content uses a
+deliberately trailing composition on wide containers.
+
+Responsive images keep their authored proportions instead of receiving a
+universal crop. Failed media hides only its figure and recomposes the remaining
+content; a media-only component collapses when its image fails. Links expose
+readable visited, immediate focus, active, authored disabled, and
+capability-gated hover states with 44 CSS-pixel targets. This static component
+adds no decorative motion or invented loading, error, success, copy, art, or
+destinations.
 
 ### Shared newsroom components
 

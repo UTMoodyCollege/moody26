@@ -771,13 +771,10 @@ textarea {
 
 .layout--twocol,
 .layout--threecol,
-.layout--fourcol,
-.ut-photo-content-area,
-.utexas-photo-content-area {
+.layout--fourcol {
   gap: var(--space-xl);
 }
 
-.block-bundle-utexas-photo-content-area img,
 .utnews-teaser img,
 .utevent-event img,
 .utexas-promo-unit img,
@@ -902,14 +899,6 @@ textarea {
 
   .section-wrapper {
     padding-block: var(--space-2xl);
-  }
-
-  .block-bundle-utexas-photo-content-area > div,
-  .ut-photo-content-area,
-  .utexas-photo-content-area {
-    display: grid;
-    grid-template-columns: minmax(0, 7fr) minmax(0, 5fr);
-    align-items: center;
   }
 
   .moody26-footer__masthead {

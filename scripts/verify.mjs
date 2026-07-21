@@ -41,6 +41,7 @@ const files = {
   flexTabsCss: 'css/components/flex-tabs.css',
   flexListCss: 'css/components/flex-list.css',
   heroCarouselCss: 'css/components/hero-carousel.css',
+  photoContentCss: 'css/components/photo-content.css',
   discoveryIndex: 'css/components/discovery-index.css',
   accordionCss: 'css/components/accordion.css',
   peopleDirectory: 'css/components/people-directory.css',
@@ -95,6 +96,7 @@ const files = {
   flexListAccordionTemplate: 'templates/components/field--utexas-flex-list--accordion.html.twig',
   flexListTabsTemplate: 'templates/components/field--utexas-flex-list--htabs.html.twig',
   heroCarouselTemplate: 'templates/components/field--block-content--utexas-hero-carousel.html.twig',
+  photoContentTemplate: 'templates/components/utexas-photo-content-area.html.twig',
   heroTemplate: 'templates/components/moody-hero.html.twig',
   heroStyle1Template: 'templates/components/moody-hero-1.html.twig',
   heroStyle2Template: 'templates/components/moody-hero-2.html.twig',
@@ -181,8 +183,8 @@ const forbidPattern = (file, pattern, message) => {
 
 try {
   const packageJson = JSON.parse(contents.package ?? '');
-  if (packageJson.version !== '0.27.0') {
-    errors.push('The accessible UT Drupal Kit Hero Carousel release must remain versioned as 0.27.0.');
+  if (packageJson.version !== '0.28.0') {
+    errors.push('The shared UT Drupal Kit Photo Content Area release must remain versioned as 0.28.0.');
   }
   for (const [dependency, version] of [
     ['animejs', '4.5.0'],
@@ -245,8 +247,9 @@ requireText('libraries', 'css/components/resource-group.css', 'Shared Resource G
 requireText('libraries', 'css/components/flex-tabs.css', 'Shared Flex Tabs styles must remain attached.');
 requireText('libraries', 'css/components/flex-list.css', 'Shared UT Drupal Kit Flex List styles must remain attached.');
 requireText('libraries', 'css/components/hero-carousel.css', 'Accessible UT Drupal Kit Hero Carousel styles must remain attached.');
+requireText('libraries', 'css/components/photo-content.css', 'Shared UT Drupal Kit Photo Content Area styles must remain attached.');
 requireText('libraries', 'js/dist/motion.min.js', 'The built motion integration must remain attached.');
-requireText('libraries', 'version: 0.27.0', 'The Drupal asset version must match the Hero Carousel release.');
+requireText('libraries', 'version: 0.28.0', 'The Drupal asset version must match the Photo Content Area release.');
 forbidText('info', '- moody26/motion', 'Optional motion must be attached from theme settings rather than globally.');
 
 requireText('settings', "header_social_links_block: ''", 'Header social links must be optional for new installs.');
@@ -441,7 +444,6 @@ for (const state of ['Default', 'Hover', 'Focus', 'Active', 'Disabled', 'Loading
 }
 requireText('landingHero', 'macrostructure: Split Studio', 'Landing components must preserve the Split Studio decision.');
 requireText('landingHero', ':has(:is(.block-bundle-moody-hero, .block-bundle-utexas-hero))', 'Full-bleed heroes from both providers must remove generic section padding.');
-requireText('editorialSections', 'container-type: inline-size', 'Editorial components must remain container-aware.');
 requireText('editorialSections', 'var(--drupal-displace-offset-top, 0rem)', 'Layout Builder anchors must clear the optional Drupal toolbar.');
 requireText('editorialSections', '.moody26-directory-students .node__content > .section-wrapper:nth-child(2)', 'The Students reference composition must remain directory-scoped rather than route-scoped.');
 requireText('editorialSections', '.layout__region--main > .block-bundle-basic:first-child', 'The Students lead treatment must stay isolated to the first main-region Basic block.');
@@ -614,6 +616,32 @@ requireText('accessibility', "carousel.addEventListener('focusin'", 'Hero Carous
 requireText('accessibility', "carousel.addEventListener('pointerenter'", 'Hero Carousel autoplay must pause while a pointer is inside.');
 requireText('accessibility', "document.addEventListener('visibilitychange', schedule)", 'Hero Carousel autoplay must stop in a hidden document.');
 forbidText('accessibility', 'bootstrap.Carousel', 'Hero Carousel behavior must not depend on Bootstrap.');
+requireText('photoContentCss', 'component: UT Drupal Kit Photo Content Area', 'Photo Content Areas must retain the Hallmark component contract.');
+requireText('photoContentCss', 'container: photo-content / inline-size;', 'Photo Content Areas must respond to their Layout Builder container.');
+requireText('photoContentCss', 'grid-template-columns: minmax(0, 5fr) minmax(0, 7fr);', 'Default Photo Content Areas must retain safe asymmetric media and copy tracks.');
+requireText('photoContentCss', '.stacked-display .photo-content', 'Stacked Photo Content Areas must remain deliberately linear.');
+requireText('photoContentCss', '.photo-content__media :where(picture, img)', 'Photo Content Area media must preserve its intrinsic flow.');
+forbidText('photoContentCss', 'aspect-ratio:', 'Photo Content Areas must not impose a universal crop ratio.');
+forbidText('photoContentCss', 'object-fit:', 'Photo Content Areas must not crop editor-owned media.');
+requireText('photoContentCss', '.photo-content__links a:visited', 'Photo Content Area links need an explicit visited state.');
+requireText('photoContentCss', '.photo-content__links a:focus-visible', 'Photo Content Area links need immediate visible focus.');
+requireText('photoContentCss', '.photo-content__links a:not([aria-disabled="true"]):active', 'Photo Content Area links need active feedback.');
+requireText('photoContentCss', '.photo-content__links a[aria-disabled="true"]', 'Photo Content Area links must honor an authored disabled state.');
+requireText('photoContentCss', '@media (hover: hover) and (pointer: fine)', 'Photo Content Area hover feedback must be capability-gated.');
+requireText('photoContentTemplate', '<figure class="photo-wrapper photo-content__media">', 'Photo Content Area media must use figure semantics.');
+requireText('photoContentTemplate', '<figcaption class="caption photo-content__credit">', 'Photo Content Area credits must use figcaption semantics.');
+requireText('photoContentTemplate', '<h2 class="ut-headline photo-content__title">', 'Photo Content Area headlines must not skip the page heading level.');
+requireText('photoContentTemplate', '<ul class="link-list photo-content__links" role="list">', 'Photo Content Area destinations must expose list semantics.');
+requireText('photoContentTemplate', 'rendered_links|merge([rendered_link])', 'Photo Content Areas must omit invalid empty formatter links.');
+forbidText('photoContentTemplate', 'href=', 'Photo Content Area destinations must not be reconstructed in Twig.');
+forbidText('photoContentTemplate', '|raw', 'Photo Content Areas must not bypass Drupal render safety.');
+forbidText('photoContentTemplate', 'attach_library', 'Photo Content Areas must use the theme global library without duplicate attachments.');
+forbidText('photoContentTemplate', '→', 'Photo Content Areas must not invent a synthetic arrow.');
+forbidText('editorialSections', 'ut-photo-content-area', 'Photo Content Areas must not retain page-scoped stopgap styling.');
+forbidText('css', 'block-bundle-utexas-photo-content-area', 'Photo Content Areas must not retain competing foundation image rules.');
+requireText('accessibility', "once('moody26-photo-content-image'", 'Photo Content Area media recovery must be idempotent.');
+requireText('accessibility', "classList.add('photo-content--media-unavailable')", 'Failed Photo Content Area media must preserve and recompose authored content.');
+requireText('accessibility', 'component.hidden = true;', 'Failed media-only Photo Content Areas must not leave empty component chrome.');
 requireText('discoveryIndex', 'repeat(12, minmax(0, 1fr))', 'Discovery grids must use safe image-bearing tracks.');
 requireText('discoveryIndex', '.linked-focus-area-item:focus-visible', 'Focus Area tasks need immediate visible focus.');
 requireText('discoveryIndex', '.utexas-promo-unit .data-wrapper > a:focus-visible', 'Promo Unit links need immediate visible focus.');
@@ -1017,6 +1045,7 @@ const runtimeFiles = [
   'resourceGroupCss', 'utexasResourcesTemplate', 'moodyResourceGroupTemplate',
   'flexTabsCss', 'flexTabsTemplate',
   'heroCarouselCss', 'heroCarouselTemplate',
+  'photoContentCss', 'photoContentTemplate',
   'heroTemplate', 'heroStyle1Template', 'heroStyle2Template', 'heroStyle3Template',
   'heroStyle4Template', 'heroStyle5Template', 'heroStyle6Template', 'heroStyle6ShortTemplate',
   'heroStyle7Template', 'heroStyle8Template',
@@ -1044,7 +1073,7 @@ for (const file of runtimeFiles) {
   }
 }
 
-const cssFiles = ['css', 'headerSocialCss', 'quickActionsCss', 'landingHero', 'editorialSections', 'featuredHighlightCss', 'promoListCss', 'flexContentCss', 'imageLinkCss', 'flexColorBlocksCss', 'quotationCss', 'flexGridCss', 'impactFactsCss', 'showcaseCss', 'contactInfoCss', 'callToActionCss', 'resourceGroupCss', 'flexTabsCss', 'heroCarouselCss', 'discoveryIndex', 'accordionCss', 'peopleDirectory', 'newsroom', 'motionCss', 'settingsCss'];
+const cssFiles = ['css', 'headerSocialCss', 'quickActionsCss', 'landingHero', 'editorialSections', 'featuredHighlightCss', 'promoListCss', 'flexContentCss', 'imageLinkCss', 'flexColorBlocksCss', 'quotationCss', 'flexGridCss', 'impactFactsCss', 'showcaseCss', 'contactInfoCss', 'callToActionCss', 'resourceGroupCss', 'flexTabsCss', 'heroCarouselCss', 'photoContentCss', 'discoveryIndex', 'accordionCss', 'peopleDirectory', 'newsroom', 'motionCss', 'settingsCss'];
 const forbiddenCss = [
   [/#(?:[0-9a-f]{3}|[0-9a-f]{6}|[0-9a-f]{8})\b/i, 'Raw hex colors belong only in tokens.css.'],
   [/\b(?:rgb|rgba|hsl|hsla|oklch)\(/i, 'Raw color functions belong only in tokens.css.'],
@@ -1075,7 +1104,7 @@ for (const file of ['preflight', 'log']) {
     errors.push(`${file} must contain valid JSON.`);
   }
 }
-requireText('preflight', '"package_version": "0.27.0"', 'Hallmark preflight must match the Hero Carousel release.');
+requireText('preflight', '"package_version": "0.28.0"', 'Hallmark preflight must match the Photo Content Area release.');
 requireText('log', 'Conversational FAQ within the Ecosystem Index', 'Hallmark memory must record the shared accordion macrostructure.');
 requireText('log', 'Editorial media directory within the Ecosystem Index', 'Hallmark memory must record the shared Moody Flex Grid component.');
 requireText('log', 'Editorial Signal Band within the Ecosystem Index', 'Hallmark memory must record the shared Moody Promotion signal band.');
@@ -1114,6 +1143,7 @@ requireText('readme', 'Shared Resource Groups', 'README must document the shared
 requireText('readme', 'Shared Flex Tabs', 'README must document the progressive shared Flex Tabs layer.');
 requireText('readme', 'Shared UT Drupal Kit Flex Lists', 'README must document all UT Drupal Kit Flex List displays.');
 requireText('readme', 'Accessible UT Drupal Kit Hero Carousels', 'README must document the progressive Hero Carousel layer.');
+requireText('readme', 'Shared UT Drupal Kit Photo Content Areas', 'README must document the shared Photo Content Area layer.');
 requireText('agents', '`header_social_links_block`', 'AGENTS.md must preserve the header Social Links contract.');
 requireText('agents', 'Missing, unpublished, non-reusable, inaccessible, wrong-bundle, or malformed', 'AGENTS.md must require Social Links to fail closed.');
 requireText('agents', '### People directories', 'AGENTS.md must preserve the people-directory contract.');
@@ -1132,6 +1162,7 @@ requireText('agents', '### Moody Impact Facts', 'AGENTS.md must preserve the Moo
 requireText('agents', '### Flex Tabs', 'AGENTS.md must preserve the progressive Flex Tabs component contract.');
 requireText('agents', '### UT Drupal Kit Flex Lists', 'AGENTS.md must preserve the shared Flex List component contract.');
 requireText('agents', '### UT Drupal Kit Hero Carousels', 'AGENTS.md must preserve the accessible Hero Carousel component contract.');
+requireText('agents', '### UT Drupal Kit Photo Content Areas', 'AGENTS.md must preserve the Photo Content Area component contract.');
 requireText('agents', '### Moody Showcases', 'AGENTS.md must preserve the Moody Showcase component contract.');
 requireText('agents', '### Moody Heroes', 'AGENTS.md must preserve the Moody Hero component contract.');
 requireText('agents', '### UT Drupal Kit Heroes', 'AGENTS.md must preserve the UT Drupal Kit Hero component contract.');
@@ -1147,5 +1178,5 @@ if (errors.length) {
   process.exitCode = 1;
 }
 else {
-  console.log(`Moody26 verification passed (${Object.keys(files).length} source files, ${fonts.length} local fonts, standalone shell, UT brand, accessible directories, resource hubs, Resource Groups, Flex Tabs, UT Drupal Kit Flex Lists and Hero Carousels, newsroom, accordions, Featured Highlights, Moody Promotions, Promo Lists, Flex Content Areas, Image Links, Flex Color Blocks, Moody Quotations, Moody Flex Grids, Moody Impact Facts, Moody and UT Drupal Kit Heroes, Moody Showcases, Moody Contact Info, and Call to Action blocks, header social links, motion, responsive, and Hallmark gates).`);
+  console.log(`Moody26 verification passed (${Object.keys(files).length} source files, ${fonts.length} local fonts, standalone shell, UT brand, accessible directories, resource hubs, Resource Groups, Flex Tabs, UT Drupal Kit Flex Lists, Hero Carousels, and Photo Content Areas, newsroom, accordions, Featured Highlights, Moody Promotions, Promo Lists, Flex Content Areas, Image Links, Flex Color Blocks, Moody Quotations, Moody Flex Grids, Moody Impact Facts, Moody and UT Drupal Kit Heroes, Moody Showcases, Moody Contact Info, and Call to Action blocks, header social links, motion, responsive, and Hallmark gates).`);
 }
