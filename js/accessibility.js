@@ -189,6 +189,22 @@
         }
       });
 
+      once('moody26-event-list-image', '.moody-events-v2__media img', context).forEach((image) => {
+        const hideFailedMedia = () => {
+          const item = image.closest('.moody-events-v2__item');
+          const media = image.closest('.moody-events-v2__media');
+          if (!item || !media || item.classList.contains('moody-events-v2__item--media-unavailable')) {
+            return;
+          }
+          media.hidden = true;
+          item.classList.add('moody-events-v2__item--media-unavailable');
+        };
+        image.addEventListener('error', hideFailedMedia, { once: true });
+        if (image.complete && image.currentSrc && !image.naturalWidth) {
+          hideFailedMedia();
+        }
+      });
+
       once('moody26-flex-content-image', '.flex-content__media img', context).forEach((image) => {
         const hideFailedMedia = () => {
           image.closest('.flex-content__media')?.setAttribute('hidden', '');

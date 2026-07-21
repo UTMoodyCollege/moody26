@@ -1,0 +1,143 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Moody26 events-listing states</title>
+    <link rel="stylesheet" href="../fonts.css">
+    <link rel="stylesheet" href="../../tokens.css">
+    <link rel="stylesheet" href="events-listing.css">
+    <style>
+      body {
+        margin: 0;
+        padding: var(--space-lg);
+        background: var(--color-paper);
+        color: var(--color-ink);
+        font-family: var(--font-body);
+      }
+      main {
+        max-width: var(--content-max);
+        margin-inline: auto;
+      }
+      h1 {
+        font-family: var(--font-display);
+      }
+      .preview-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(min(100%, 24rem), 1fr));
+        gap: var(--space-xl);
+      }
+      .preview-state {
+        min-width: 0;
+        padding-block-start: var(--space-md);
+        border-block-start: var(--rule-hair) solid var(--color-rule-strong);
+      }
+      .preview-state > h2 {
+        margin: 0 0 var(--space-md);
+        font: 700 var(--text-base) / var(--leading-body) var(--font-body);
+      }
+    </style>
+  </head>
+  <body>
+    <main class="moody-events-v2">
+      <h1>Events-listing states</h1>
+      <div class="preview-grid">
+        <section class="preview-state moody-events-v2__item--without-media">
+          <h2>Default</h2>
+          <article class="moody-events-v2__event" data-preview-state="default">
+            <div class="moody-events-v2__event-content">
+              <time class="moody-events-v2__date" datetime="2026-09-03T17:00:00-05:00">Thu, Sep 3 2026, 5–6pm</time>
+              <h3 class="moody-events-v2__title"><a class="moody-events-v2__event-link" href="#default"><span class="moody-events-v2__event-link-label">UTLA information session</span></a></h3>
+              <p class="moody-events-v2__description">Meet the team and learn how a semester in Los Angeles fits your degree plan.</p>
+              <span class="moody-events-v2__cue" aria-hidden="true">Event details <span class="moody-events-v2__arrow">→</span></span>
+            </div>
+          </article>
+        </section>
+
+        <section class="preview-state moody-events-v2__item--without-media">
+          <h2>Hover</h2>
+          <article class="moody-events-v2__event" data-preview-state="hover">
+            <div class="moody-events-v2__event-content">
+              <time class="moody-events-v2__date" datetime="2026-09-10T12:00:00-05:00">Thu, Sep 10 2026, noon–1pm</time>
+              <h3 class="moody-events-v2__title"><a class="moody-events-v2__event-link" href="#hover"><span class="moody-events-v2__event-link-label">Career coaching drop-in</span></a></h3>
+              <p class="moody-events-v2__description">Bring a résumé, portfolio question, or internship search.</p>
+              <span class="moody-events-v2__cue" aria-hidden="true">Event details <span class="moody-events-v2__arrow">→</span></span>
+            </div>
+          </article>
+        </section>
+
+        <section class="preview-state moody-events-v2__item--without-media">
+          <h2>Focus</h2>
+          <article class="moody-events-v2__event" data-preview-state="focus">
+            <div class="moody-events-v2__event-content">
+              <time class="moody-events-v2__date" datetime="2026-09-17T18:30:00-05:00">Thu, Sep 17 2026, 6:30–8pm</time>
+              <h3 class="moody-events-v2__title"><a class="moody-events-v2__event-link is-focus" href="#focus"><span class="moody-events-v2__event-link-label">Documentary screening and conversation</span></a></h3>
+              <p class="moody-events-v2__description">A public screening followed by a conversation with the filmmakers.</p>
+              <span class="moody-events-v2__cue" aria-hidden="true">Event details <span class="moody-events-v2__arrow">→</span></span>
+            </div>
+          </article>
+        </section>
+
+        <section class="preview-state moody-events-v2__item--without-media">
+          <h2>Active</h2>
+          <article class="moody-events-v2__event" data-preview-state="active">
+            <div class="moody-events-v2__event-content">
+              <time class="moody-events-v2__date" datetime="2026-09-24T16:00:00-05:00">Thu, Sep 24 2026, 4–5pm</time>
+              <h3 class="moody-events-v2__title"><a class="moody-events-v2__event-link is-active" href="#active"><span class="moody-events-v2__event-link-label">Advertising portfolio review</span></a></h3>
+              <p class="moody-events-v2__description">Faculty and alumni review student work in short individual sessions.</p>
+              <span class="moody-events-v2__cue" aria-hidden="true">Event details <span class="moody-events-v2__arrow">→</span></span>
+            </div>
+          </article>
+        </section>
+
+        <section class="preview-state moody-events-v2__item--without-media">
+          <h2>Disabled</h2>
+          <article class="moody-events-v2__event" data-preview-state="disabled">
+            <div class="moody-events-v2__event-content">
+              <time class="moody-events-v2__date" datetime="2026-10-01T11:00:00-05:00">Thu, Oct 1 2026, 11am–noon</time>
+              <h3 class="moody-events-v2__title"><span class="moody-events-v2__event-link" aria-disabled="true"><span class="moody-events-v2__event-link-label">Registration not yet open</span></span></h3>
+              <p class="moody-events-v2__description">The destination remains unavailable until registration opens.</p>
+              <span class="moody-events-v2__cue" aria-hidden="true">Unavailable</span>
+            </div>
+          </article>
+        </section>
+
+        <section class="preview-state moody-events-v2__item--without-media">
+          <h2>Loading</h2>
+          <article class="moody-events-v2__event" data-preview-state="loading" aria-busy="true">
+            <div class="moody-events-v2__event-content">
+              <time class="moody-events-v2__date" datetime="2026-10-08T13:00:00-05:00">Thu, Oct 8 2026, 1–2pm</time>
+              <h3 class="moody-events-v2__title">Guest lecture</h3>
+              <p class="moody-events-v2__description">The event destination is being prepared.</p>
+              <span class="moody-events-v2__cue" role="status">Loading event…</span>
+            </div>
+          </article>
+        </section>
+
+        <section class="preview-state moody-events-v2__item--without-media">
+          <h2>Error</h2>
+          <article class="moody-events-v2__event" data-preview-state="error">
+            <div class="moody-events-v2__event-content">
+              <time class="moody-events-v2__date" datetime="2026-10-15T17:00:00-05:00">Thu, Oct 15 2026, 5–6pm</time>
+              <h3 class="moody-events-v2__title">Event details unavailable</h3>
+              <p class="moody-events-v2__description">The calendar could not provide this destination. Try the full calendar.</p>
+              <span class="moody-events-v2__cue">Event unavailable</span>
+            </div>
+          </article>
+        </section>
+
+        <section class="preview-state moody-events-v2__item--without-media">
+          <h2>Success</h2>
+          <article class="moody-events-v2__event" data-preview-state="success">
+            <div class="moody-events-v2__event-content">
+              <time class="moody-events-v2__date" datetime="2026-10-22T14:00:00-05:00">Thu, Oct 22 2026, 2–3pm</time>
+              <h3 class="moody-events-v2__title"><a class="moody-events-v2__event-link" href="#success"><span class="moody-events-v2__event-link-label">Application workshop</span></a></h3>
+              <p class="moody-events-v2__description">The event destination is ready.</p>
+              <span class="moody-events-v2__cue" aria-hidden="true">Event ready <span class="moody-events-v2__arrow">→</span></span>
+            </div>
+          </article>
+        </section>
+      </div>
+    </main>
+  </body>
+</html>

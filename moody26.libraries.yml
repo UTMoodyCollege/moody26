@@ -1,5 +1,5 @@
 global:
-  version: 0.42.0
+  version: 0.43.0
   css:
     base:
       css/fonts.css: { weight: 90 }
@@ -40,6 +40,7 @@ global:
       css/components/shorthand-story.css: { weight: 138.9999980926513671875 }
       css/components/pdf-document.css: { weight: 138.99999904632568359375 }
       css/components/student-stories.css: { weight: 138.999999523162841796875 }
+      css/components/events-listing.css: { weight: 138.9999997615814208984375 }
       css/components/newsroom.css: { weight: 139 }
       css/components/motion.css: { weight: 140 }
   js:
@@ -51,14 +52,14 @@ global:
     - core/once
 
 motion:
-  version: 0.42.0
+  version: 0.43.0
   js:
     js/dist/motion.min.js: { minified: true }
   dependencies:
     - moody26/global
 
 settings:
-  version: 0.42.0
+  version: 0.43.0
   css:
     theme:
       css/components/theme-settings.css: {}

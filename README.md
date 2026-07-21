@@ -813,6 +813,34 @@ image, placeholder art, or empty media rail. The body, action, and remaining
 details stay available. Event pages add no event-only JavaScript, universal
 crop, sticky panel, decorative motion, or fabricated content.
 
+### Shared upcoming event listings
+
+The API-backed Moody Events V2 block renders as a flat editorial events ledger
+wherever editors place it. The provider still owns remote retrieval, filters,
+image visibility, event limits, and caching; Moody26 owns only the portable
+Twig and CSS presentation. Each event is an article inside a semantic list,
+its supplied start value is a machine-readable `time`, and its title is the
+single descriptive destination. Date, summary, thumbnail, and the visible
+“Event details” cue do not create duplicate links.
+
+Remote thumbnails are decorative beside the same visible event title and
+reserve a stable 16:10 region while loading. If a source fails, the existing
+idempotent accessibility behavior hides only that media rail and recomposes the
+event as text without removing its date, description, or link. Events without
+a destination remain readable articles rather than dead controls.
+
+When the provider returns no events, the component reports “No upcoming events
+are available from the Moody calendar right now.” It retains the full-calendar
+and event-submission destinations in a labelled navigation region, without
+inventing events or claiming whether the remote feed is empty or temporarily
+unavailable. Actions stack at narrow widths, then form a compact rail when the
+component has room. The list uses a safe single track before adopting a 5/7
+media-content split at a 42rem component width.
+
+Production output is static and server rendered. The companion preview covers
+default, hover, focus, active, disabled, loading, error, and success states;
+preview-only asynchronous states never enter the Drupal template.
+
 ### Shared faculty profiles
 
 Every published `moody_faculty_bio` node uses an Index-First profile dossier:
@@ -1168,7 +1196,7 @@ than replace manual assistive-technology review.
 | `tokens.css` | Brand, type, spacing, motion, focus, and layout tokens |
 | `css/fonts.css` | Local approved digital font declarations |
 | `css/moody26.css` | Global foundation, shell, navigation, forms, and footer |
-| `css/components/` | Header social, ambient-video and shared Hero, Basic and Rich Text, editorial, discovery, resource-hub, accordion, Featured Highlight and Moody Promotion signal bands, Promo List, Flex Content Area, Image Link, Flex Color Block, Moody Quotation, Moody Flex Grid, Impact Facts, Contact Info, Call to Action, Social Links, Moody Anchor gallery, people-directory, student-story, faculty-profile, newsroom, feature-story, Shorthand and PDF document boundaries, event-detail, quick-action, and settings components |
+| `css/components/` | Header social, ambient-video and shared Hero, Basic and Rich Text, editorial, discovery, resource-hub, accordion, Featured Highlight and Moody Promotion signal bands, Promo List, Flex Content Area, Image Link, Flex Color Block, Moody Quotation, Moody Flex Grid, Impact Facts, Contact Info, Call to Action, Social Links, Moody Anchor gallery, people-directory, student-story, faculty-profile, newsroom, feature-story, Shorthand and PDF document boundaries, event-detail and event-listing, quick-action, and settings components |
 | `js/navigation.js` | Drawer and disclosure navigation state |
 | `js/quick-actions.js` | Native dialog and rendered-destination discovery |
 | `js/accessibility.js` | Progressive safeguards for media controls and rendered content components |

@@ -52,6 +52,8 @@ const files = {
   peopleDirectory: 'css/components/people-directory.css',
   studentStoriesCss: 'css/components/student-stories.css',
   studentStoriesPreview: 'css/components/student-stories.preview.html',
+  eventsListingCss: 'css/components/events-listing.css',
+  eventsListingPreview: 'css/components/events-listing.preview.html',
   newsroom: 'css/components/newsroom.css',
   featureStoryCss: 'css/components/feature-story.css',
   eventDetailCss: 'css/components/event-detail.css',
@@ -88,6 +90,7 @@ const files = {
   newsFields: 'templates/views/views-view-fields--news-filtered--block-filtered.html.twig',
   featureCreditTemplate: 'templates/components/moody-feature-credit.html.twig',
   eventTemplate: 'templates/content/node--moody-event.html.twig',
+  eventsListingTemplate: 'templates/components/moody-events-v2-block.html.twig',
   facultyProfileTemplate: 'templates/content/node--faculty-bio.html.twig',
   shorthandStoryTemplate: 'templates/blocks/block--moody-shorthand-zip-shorthand-zip-story.html.twig',
   pdfDocumentTemplate: 'templates/blocks/block--moody-flipbook-pdf-flipbook.html.twig',
@@ -210,8 +213,8 @@ const forbidPattern = (file, pattern, message) => {
 
 try {
   const packageJson = JSON.parse(contents.package ?? '');
-  if (packageJson.version !== '0.42.0') {
-    errors.push('The semantic student-story release must remain versioned as 0.42.0.');
+  if (packageJson.version !== '0.43.0') {
+    errors.push('The semantic events-listing release must remain versioned as 0.43.0.');
   }
   for (const [dependency, version] of [
     ['animejs', '4.5.0'],
@@ -266,6 +269,7 @@ requireText('richTextCss', 'overflow-wrap: anywhere;', 'Pasted rich-text destina
 forbidPattern('richTextCss', /(?:online-teaching|deans-ambassadors|node-\d+|block-[\da-f]{8}-[\da-f-]{27,})/i, 'Basic and Rich Text styling must not depend on routes, node IDs, or block UUIDs.');
 requireText('libraries', 'css/components/people-directory.css', 'Shared people-directory styles must remain attached.');
 requireText('libraries', 'css/components/student-stories.css', 'Shared student-story styles must remain attached.');
+requireText('libraries', 'css/components/events-listing.css', 'Shared upcoming-events styles must remain attached.');
 requireText('libraries', 'css/components/newsroom.css', 'Shared newsroom styles must remain attached.');
 requireText('libraries', 'css/components/feature-story.css', 'Shared feature-story styles must remain attached.');
 requireText('libraries', 'css/components/event-detail.css', 'Shared event-detail styles must remain attached.');
@@ -294,7 +298,7 @@ requireText('libraries', 'css/components/quick-links.css', 'Shared UT Drupal Kit
 requireText('libraries', 'css/components/social-links.css', 'Shared UT Drupal Kit Social Links styles must remain attached.');
 requireText('libraries', 'css/components/anchor-gallery.css', 'Shared Moody Anchor gallery styles must remain attached.');
 requireText('libraries', 'js/dist/motion.min.js', 'The built motion integration must remain attached.');
-requireText('libraries', 'version: 0.42.0', 'The Drupal asset version must match the semantic student-story release.');
+requireText('libraries', 'version: 0.43.0', 'The Drupal asset version must match the semantic events-listing release.');
 forbidText('info', '- moody26/motion', 'Optional motion must be attached from theme settings rather than globally.');
 
 requireText('settings', "header_social_links_block: ''", 'Header social links must be optional for new installs.');
@@ -967,6 +971,39 @@ requireText('eventTemplate', "'external link'|t", 'Event source actions must ann
 requireText('eventTemplate', '{{ content._layout_builder }}', 'Event pages must preserve Layout Builder extensions.');
 forbidText('eventTemplate', '<h3', 'Event templates must not skip from the page h1 to an h3.');
 forbidText('eventTemplate', 'col-md', 'Event templates must not depend on legacy Bootstrap layout classes.');
+requireText('eventsListingCss', 'component: editorial events ledger', 'Upcoming events must retain the Hallmark component contract.');
+requireText('eventsListingCss', 'container: moody-events / inline-size;', 'Upcoming events must respond to their Layout Builder container.');
+requireText('eventsListingCss', 'grid-template-columns: minmax(0, 1fr);', 'Upcoming events must retain a safe narrow track.');
+requireText('eventsListingCss', 'grid-template-columns: minmax(0, 5fr) minmax(0, 7fr);', 'Upcoming events must retain safe wide media-content tracks.');
+requireText('eventsListingCss', '.moody-events-v2__item--media-unavailable', 'Upcoming events must retain remote-image failure reflow.');
+requireText('eventsListingCss', '.moody-events-v2__event-link:focus-visible', 'Upcoming event links need immediate visible focus.');
+requirePattern('eventsListingCss', /\.moody-events-v2__event-link\s*\{[\s\S]*?min-height:\s*var\(--target-min\);/, 'Upcoming event title links must retain a 44 CSS-pixel target.');
+requireText('eventsListingCss', 'min-height: var(--target-min);', 'Upcoming event actions must retain accessible minimum targets.');
+requireText('eventsListingCss', '@media (hover: hover) and (pointer: fine)', 'Upcoming event hover feedback must be capability-gated.');
+requireText('eventsListingCss', '@supports not (container-type: inline-size)', 'Upcoming events need a responsive fallback when container queries are unavailable.');
+requireText('eventsListingCss', '@media (prefers-reduced-motion: reduce)', 'Upcoming event preview loading must retain a reduced-motion path.');
+forbidPattern('eventsListingCss', /(?:alumni|node-\d+|block-[\da-f]{8}-[\da-f-]{27,})/i, 'Upcoming-event styling must not depend on a route, node ID, or block UUID.');
+forbidText('eventsListingCss', 'transition:', 'The editorial events ledger must remain static without decorative motion.');
+for (const state of ['default', 'hover', 'focus', 'active', 'disabled', 'loading', 'error', 'success']) {
+  requireText('eventsListingPreview', `data-preview-state="${state}"`, `The events-listing preview must demonstrate its ${state} state.`);
+}
+requireText('eventsListingTemplate', '<ul class="moody-events-v2__list" role="list">', 'Upcoming events must expose semantic list markup.');
+requireText('eventsListingTemplate', '<article class="moody-events-v2__event">', 'Each upcoming event must remain an article.');
+requireText('eventsListingTemplate', '<time class="moody-events-v2__date" datetime="{{ event.date_sort }}">', 'Upcoming event dates must expose the provider ISO value.');
+requireText('eventsListingTemplate', "|replace({' - ': '–'})", 'Upcoming event time ranges must use typographic range punctuation.');
+requireText('eventsListingTemplate', '<h3 class="moody-events-v2__title">', 'Upcoming event titles must follow the visible block h2.');
+requireText('eventsListingTemplate', 'class="moody-events-v2__event-link"', 'Each linked event must expose one descriptive title destination.');
+requireText('eventsListingTemplate', 'alt=""', 'Remote event thumbnails must remain decorative beside the same visible title.');
+requireText('eventsListingTemplate', 'width="640"', 'Remote event thumbnails must reserve intrinsic width.');
+requireText('eventsListingTemplate', 'height="400"', 'Remote event thumbnails must reserve intrinsic height.');
+requireText('eventsListingTemplate', '<div class="moody-events-v2__empty" role="status">', 'Empty event feeds need a truthful status in ordinary document flow.');
+requireText('eventsListingTemplate', "{{ 'No upcoming events are available from the Moody calendar right now.'|t }}", 'Empty event feeds need translated factual copy.');
+requireText('eventsListingTemplate', '<nav class="moody-events-v2__actions"', 'Event calendar recovery actions need a labelled navigation region.');
+forbidText('eventsListingTemplate', 'View Event Details', 'Upcoming events must not create a duplicate details destination.');
+forbidText('eventsListingTemplate', 'target="_blank"', 'Event calendar actions must not force a new browsing context.');
+forbidText('eventsListingTemplate', '|raw', 'Upcoming event listings must not bypass Twig escaping.');
+requireText('accessibility', "once('moody26-event-list-image'", 'Upcoming event image recovery must be idempotent.');
+requireText('accessibility', "classList.add('moody-events-v2__item--media-unavailable')", 'Failed event thumbnails must preserve and recompose event content.');
 requireText('facultyProfileCss', 'macrostructure: Index-First profile dossier', 'Faculty profiles must retain the Hallmark Index-First dossier contract.');
 requireText('facultyProfileCss', 'grid-template-columns: minmax(12rem, 3fr) minmax(0, 9fr);', 'Faculty profiles must retain safe responsive portrait and identity tracks.');
 requireText('facultyProfileCss', '.moody26-faculty-profile--media-unavailable', 'Faculty profiles must retain missing-portrait reflow.');
@@ -1424,7 +1461,7 @@ const runtimeFiles = [
   'newsroom', 'newsRows', 'newsFields',
   'featureStoryCss', 'featureCreditTemplate', 'shorthandStoryCss', 'shorthandStoryTemplate',
   'pdfDocumentCss', 'pdfDocumentTemplate',
-  'eventDetailCss', 'eventTemplate',
+  'eventDetailCss', 'eventTemplate', 'eventsListingCss', 'eventsListingTemplate',
   'focusAreas', 'promoUnits',
   'motionCss', 'settingsCss', 'accessibility', 'navigation', 'quickActions', 'motion', 'html', 'page', 'brandbar',
   'header', 'footer', 'brandingBlock', 'menuBlock', 'menu',
@@ -1444,7 +1481,7 @@ for (const file of runtimeFiles) {
   }
 }
 
-const cssFiles = ['css', 'headerSocialCss', 'quickActionsCss', 'landingHero', 'richTextCss', 'editorialSections', 'featuredHighlightCss', 'promoListCss', 'flexContentCss', 'imageLinkCss', 'flexColorBlocksCss', 'quotationCss', 'flexGridCss', 'impactFactsCss', 'showcaseCss', 'contactInfoCss', 'callToActionCss', 'resourceGroupCss', 'flexTabsCss', 'heroCarouselCss', 'photoContentCss', 'socialLinksCss', 'discoveryIndex', 'accordionCss', 'peopleDirectory', 'newsroom', 'featureStoryCss', 'shorthandStoryCss', 'pdfDocumentCss', 'eventDetailCss', 'motionCss', 'settingsCss'];
+const cssFiles = ['css', 'headerSocialCss', 'quickActionsCss', 'landingHero', 'richTextCss', 'editorialSections', 'featuredHighlightCss', 'promoListCss', 'flexContentCss', 'imageLinkCss', 'flexColorBlocksCss', 'quotationCss', 'flexGridCss', 'impactFactsCss', 'showcaseCss', 'contactInfoCss', 'callToActionCss', 'resourceGroupCss', 'flexTabsCss', 'heroCarouselCss', 'photoContentCss', 'socialLinksCss', 'discoveryIndex', 'accordionCss', 'peopleDirectory', 'studentStoriesCss', 'eventsListingCss', 'newsroom', 'featureStoryCss', 'shorthandStoryCss', 'pdfDocumentCss', 'eventDetailCss', 'motionCss', 'settingsCss'];
 const forbiddenCss = [
   [/#(?:[0-9a-f]{3}|[0-9a-f]{6}|[0-9a-f]{8})\b/i, 'Raw hex colors belong only in tokens.css.'],
   [/\b(?:rgb|rgba|hsl|hsla|oklch)\(/i, 'Raw color functions belong only in tokens.css.'],
@@ -1475,7 +1512,7 @@ for (const file of ['preflight', 'log']) {
     errors.push(`${file} must contain valid JSON.`);
   }
 }
-requireText('preflight', '"package_version": "0.42.0"', 'Hallmark preflight must match the semantic student-story release.');
+requireText('preflight', '"package_version": "0.43.0"', 'Hallmark preflight must match the semantic events-listing release.');
 requireText('log', 'Index-First profile dossier within the Ecosystem Index', 'Hallmark memory must record the shared faculty-profile composition.');
 requireText('log', 'Split Studio event brief within the Ecosystem Index', 'Hallmark memory must record the shared event-detail composition.');
 requireText('log', 'Long Document feature story within the Ecosystem Index', 'Hallmark memory must record the shared feature-story composition.');
@@ -1506,6 +1543,7 @@ requireText('readme', 'Shared resource hubs', 'README must document the reusable
 requireText('readme', 'Shared newsroom components', 'README must document the reusable newsroom layer.');
 requireText('readme', 'Shared feature stories', 'README must document the reusable feature-story layer.');
 requireText('readme', 'Shared event details', 'README must document the reusable event-detail layer.');
+requireText('readme', 'Shared upcoming event listings', 'README must document the reusable upcoming-events layer.');
 requireText('readme', 'Shared faculty profiles', 'README must document the reusable faculty-profile layer.');
 requireText('readme', 'Shared accordions', 'README must document the native shared accordion layer.');
 requireText('readme', 'Shared Featured Highlights', 'README must document the reusable Featured Highlight layer.');
@@ -1544,6 +1582,7 @@ requireText('agents', '### Resource hubs', 'AGENTS.md must preserve the resource
 requireText('agents', '### Newsroom components', 'AGENTS.md must preserve the newsroom component contract.');
 requireText('agents', '### Feature stories', 'AGENTS.md must preserve the feature-story component contract.');
 requireText('agents', '### Event details', 'AGENTS.md must preserve the event-detail component contract.');
+requireText('agents', '### Upcoming event listings', 'AGENTS.md must preserve the upcoming-events component contract.');
 requireText('agents', '### Faculty profiles', 'AGENTS.md must preserve the faculty-profile component contract.');
 requireText('agents', '### Accordions', 'AGENTS.md must preserve the native accordion contract.');
 requireText('agents', '### Featured Highlights', 'AGENTS.md must preserve the Featured Highlight component contract.');
@@ -1587,5 +1626,5 @@ if (errors.length) {
   process.exitCode = 1;
 }
 else {
-  console.log(`Moody26 verification passed (${Object.keys(files).length} source files, ${fonts.length} local fonts, standalone shell, UT brand, Basic and Rich Text, accessible directories, student-story directories and profiles, UTProf Profile Listings, and faculty profile dossiers, accessible ambient-video heroes, resource hubs, Resource Groups, Flex Tabs, UT Drupal Kit Flex Lists, Hero Carousels, Photo Content Areas, Moody Newsletter destination bands, UT Drupal Kit Quick Links, semantic Social Links, Moody Anchor galleries, failure-safe Shorthand stories, and keyboard-safe PDF documents, newsroom, feature stories, event details, accordions, Featured Highlights, Moody Promotions, Promo Lists, Flex Content Areas, Image Links, Flex Color Blocks, Moody Quotations, Moody Flex Grids, Moody Impact Facts, Moody and UT Drupal Kit Heroes, Moody Showcases, Moody Contact Info, and Call to Action blocks, header social links, motion, responsive, and Hallmark gates).`);
+  console.log(`Moody26 verification passed (${Object.keys(files).length} source files, ${fonts.length} local fonts, standalone shell, UT brand, Basic and Rich Text, accessible directories, student-story directories and profiles, UTProf Profile Listings, and faculty profile dossiers, accessible ambient-video heroes, resource hubs, Resource Groups, Flex Tabs, UT Drupal Kit Flex Lists, Hero Carousels, Photo Content Areas, Moody Newsletter destination bands, UT Drupal Kit Quick Links, semantic Social Links, Moody Anchor galleries, failure-safe Shorthand stories, keyboard-safe PDF documents, and API-backed upcoming-event ledgers, newsroom, feature stories, event details, accordions, Featured Highlights, Moody Promotions, Promo Lists, Flex Content Areas, Image Links, Flex Color Blocks, Moody Quotations, Moody Flex Grids, Moody Impact Facts, Moody and UT Drupal Kit Heroes, Moody Showcases, Moody Contact Info, and Call to Action blocks, header social links, motion, responsive, and Hallmark gates).`);
 }

@@ -1,0 +1,86 @@
+{#
+/**
+ * @file
+ * Theme-owned presentation for the API-backed Moody Events V2 block.
+ *
+ * The provider remains responsible for fetching, filtering, and normalizing
+ * event data. This template owns list semantics, link density, and the
+ * truthful no-results boundary.
+ */
+#}
+<div class="moody-events-v2">
+  {% if events %}
+    <ul class="moody-events-v2__list" role="list">
+      {% for event in events %}
+        {% set event_title = event.title|default('Untitled event'|t) %}
+        {% set event_has_media = show_images and event.image_url %}
+        <li class="moody-events-v2__item{{ event_has_media ? ' moody-events-v2__item--with-media' : ' moody-events-v2__item--without-media' }}">
+          <article class="moody-events-v2__event">
+            {% if event_has_media %}
+              <figure class="moody-events-v2__media" aria-hidden="true">
+                <img
+                  src="{{ event.image_url }}"
+                  alt=""
+                  width="640"
+                  height="400"
+                  loading="lazy"
+                  decoding="async"
+                >
+              </figure>
+            {% endif %}
+
+            <div class="moody-events-v2__event-content">
+              {% if event.date_display %}
+                <time class="moody-events-v2__date" datetime="{{ event.date_sort }}">{{ event.date_display|replace({' - ': '–'}) }}</time>
+              {% endif %}
+
+              <h3 class="moody-events-v2__title">
+                {% if event.url %}
+                  <a class="moody-events-v2__event-link" href="{{ event.url }}">
+                    <span class="moody-events-v2__event-link-label">{{ event_title }}</span>
+                  </a>
+                {% else %}
+                  {{ event_title }}
+                {% endif %}
+              </h3>
+
+              {% if event.description %}
+                <p class="moody-events-v2__description">{{ event.description|replace({'...': '…'}) }}</p>
+              {% endif %}
+
+              {% if event.url %}
+                <span class="moody-events-v2__cue" aria-hidden="true">
+                  {{ 'Event details'|t }}
+                  <span class="moody-events-v2__arrow">→</span>
+                </span>
+              {% endif %}
+            </div>
+          </article>
+        </li>
+      {% endfor %}
+    </ul>
+  {% else %}
+    <div class="moody-events-v2__empty" role="status">
+      <span class="moody-events-v2__empty-mark" aria-hidden="true"><span></span></span>
+      <div class="moody-events-v2__empty-copy">
+        <p class="moody-events-v2__empty-title">{{ 'No upcoming events are available from the Moody calendar right now.'|t }}</p>
+        <p>{{ 'Browse the full calendar or share an event for consideration.'|t }}</p>
+      </div>
+    </div>
+  {% endif %}
+
+  <nav class="moody-events-v2__actions" aria-label="{{ 'Moody event calendar'|t }}">
+    <ul class="moody-events-v2__action-list" role="list">
+      <li>
+        <a class="moody-events-v2__action moody-events-v2__action--primary" href="https://events.moody.utexas.edu/">
+          {{ 'View all events'|t }}
+        </a>
+      </li>
+      <li>
+        <a class="moody-events-v2__action" href="https://events.moody.utexas.edu/submit-event">
+          {{ 'Submit an event'|t }}
+        </a>
+      </li>
+    </ul>
+  </nav>
+</div>

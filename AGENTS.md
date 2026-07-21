@@ -1073,6 +1073,51 @@ not belong outside the token and font declaration files.
   including a title longer than 90 characters, a missing source image, optional
   facts, keyboard focus, heading order, 200% zoom, and horizontal reflow.
 
+### Upcoming event listings
+
+- Treat every `moody_events_moody_events_v2` placement as one shared
+  API-backed events ledger. Never scope it to `/alumni`, a block UUID, label,
+  department, event ID, or Layout Builder position.
+- The provider module continues to own remote retrieval, filtering, limits,
+  cache lifetime, image visibility, event data, and its attached library.
+  Moody26 owns `templates/components/moody-events-v2-block.html.twig` and the
+  `moody-events-v2__*` presentation contract. Do not copy the HTTP client,
+  rebuild provider URLs, or edit the Composer-managed module.
+- Require a visible block label before the list so each event can use `h3`
+  without skipping a heading level. Render the collection as `ul`/`li`, each
+  event as an `article`, and the supplied start value as a `time` with its
+  provider-owned ISO `datetime` value.
+- Give each event at most one destination. The title names that link; the
+  pointer target may cover its event surface, but date, description, and the
+  decorative “Event details” cue must not create duplicate links or inflate the
+  accessible name. Events without a URL remain readable non-interactive
+  articles and must not receive a guessed destination.
+- Remote listing thumbnails duplicate the adjacent event title because the
+  provider exposes no independent editorial alternative. Render them with an
+  empty alternative, reserved dimensions, lazy decoding, and the existing
+  `js/accessibility.js` failure boundary. A failed image hides only its media
+  rail, adds `moody-events-v2__item--media-unavailable`, and preserves the
+  event’s title, date, description, and destination.
+- An empty or unavailable provider response must say “No upcoming events are
+  available from the Moody calendar right now.” Keep the full-calendar and
+  submission destinations available as a labelled navigation region. Never
+  fabricate events, dates, availability, or distinguish an empty feed from a
+  provider failure when the provider supplies no error state.
+- Keep the ledger flat and left aligned. Begin with one safe content track and
+  add the 5/7 media-content split only at a 42rem component width; use the same
+  viewport fallback when container queries are unavailable. Action labels stay
+  on one line, reflow into separate rows at narrow widths, retain 44 CSS-pixel
+  targets, and expose immediate visible focus.
+- Production listings are static and server rendered. Disabled, loading,
+  error, and success examples belong only in
+  `css/components/events-listing.preview.html`; do not add feed polling,
+  decorative reveal motion, scripted repeat announcements, or event-list-only
+  navigation JavaScript.
+- Test events-present, feed-empty, missing-image, missing-URL, image-hidden,
+  long-title, and long-description cases at 320, 375, 414, 768, and 1280 CSS
+  pixels, plus keyboard order, heading order, 200% zoom, reduced motion, and
+  horizontal reflow.
+
 ### Faculty profiles
 
 - Treat every published `moody_faculty_bio` node as one shared fleet profile
@@ -1640,6 +1685,10 @@ Texas requirements. The current University compliance date is March 1, 2026.
   media, responsive Split Studio layout, and semantic attendance-fact ledger.
 - `templates/content/node--moody-event.html.twig`: event body, external source
   action, resilient image output, and page-safe `h2`/definition-list details.
+- `css/components/events-listing.css`, its eight-state preview, and
+  `templates/components/moody-events-v2-block.html.twig`: semantic API-backed
+  event ledgers, truthful feed-empty recovery, one destination per event, and
+  remote-image failure reflow.
 - `css/components/faculty-profile.css`: Index-First profile mastheads, semantic
   contact ledgers, resilient portrait reflow, actions, and dossier sections.
 - `templates/content/node--faculty-bio.html.twig`: formatter-preserving profile

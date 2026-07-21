@@ -1,6 +1,6 @@
 {
   "date": "2026-07-21",
-  "package_version": "0.42.0",
+  "package_version": "0.43.0",
   "framework": "Drupal 11 / UT Drupal Kit",
   "base_theme": false,
   "font_stack": "Charis SIL + Libre Franklin bundled locally by Moody26",
@@ -58,6 +58,7 @@
     "semantic Moody Anchor fields as editor-repairable, public-failure-safe portrait galleries with provider-owned responsive media, authored alternatives and destinations, container-aware layout, and complete static link states",
     "failure-safe Shorthand story boundaries that preserve valid provider markup and replace empty exports with a truthful semantic status",
     "keyboard-safe PDF document boundaries that replace legacy canvas flipbooks with native links and truthful unavailable states",
-    "semantic Life After Moody directories with one destination per story, honest result counts, content-derived missing-media fallbacks, and one visible profile h1"
+    "semantic Life After Moody directories with one destination per story, honest result counts, content-derived missing-media fallbacks, and one visible profile h1",
+    "semantic API-backed event ledgers with one destination per event, machine-readable dates, truthful feed-empty recovery, and resilient remote media"
   ]
 }
