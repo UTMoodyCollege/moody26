@@ -1,0 +1,146 @@
+/* Hallmark · component: UT Drupal Kit Social Links rail · genre: editorial
+ * tone: youthful academic restraint · anchor hue: exact UT burnt orange
+ * macrostructure: compact destination rail · states: default · visited · hover · focus · active · disabled
+ * contrast: pass (40–41) · nav: N11 · footer: Ft1 · slop: pass (1–58)
+ * honest: pass (46) · chrome: pass (47) · tokens: pass (48) · icons: pass (30)
+ * responsive: pass (34, 49–57; 320/375/414/768/1280) · motion: cut
+ * asynchronous states: not applicable to static formatter-owned links
+ */
+/* Hallmark · pre-emit critique: P5 H5 E5 S5 R5 V5 */
+
+.block-bundle-social-links {
+  container: social-links / inline-size;
+  min-inline-size: 0;
+}
+
+.block-bundle-social-links .social-links,
+.block-bundle-social-links .social-links__group,
+.block-bundle-social-links .social-links__list,
+.block-bundle-social-links .social-links__item {
+  min-inline-size: 0;
+}
+
+.block-bundle-social-links .social-links {
+  --social-link-target: var(--target-min);
+  --social-link-icon: var(--space-lg);
+
+  color: var(--color-ink);
+  font-family: var(--font-body);
+}
+
+.moody26-main .block-bundle-social-links .social-links {
+  padding-block: var(--space-lg) var(--space-md);
+  border-block-start: var(--rule-strong) solid var(--color-accent);
+}
+
+.moody26-main .block-bundle-social-links + .utexas-block-top-margin-remove {
+  margin-top: 0 !important;
+}
+
+.block-bundle-social-links .social-links__group {
+  display: grid;
+  gap: var(--space-md);
+}
+
+.block-bundle-social-links .social-links__title {
+  max-width: 28ch;
+  margin: 0;
+  color: var(--color-ink);
+  font-family: var(--font-display);
+  font-size: var(--text-heading-sm);
+  font-style: normal;
+  font-weight: 700;
+  letter-spacing: -0.025em;
+  line-height: var(--leading-heading);
+  overflow-wrap: anywhere;
+  text-wrap: balance;
+}
+
+.block-bundle-social-links .social-links__list {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--space-sm);
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.block-bundle-social-links .social-links__item {
+  flex: 0 0 auto;
+  inline-size: var(--social-link-target);
+  block-size: var(--social-link-target);
+  margin: 0;
+  padding: 0;
+  border: 0;
+  border-radius: var(--radius-sm);
+}
+
+.block-bundle-social-links .block__ut-social-links--link {
+  display: block;
+  inline-size: 100%;
+  block-size: 100%;
+  border-radius: inherit;
+  background-color: var(--color-transparent);
+  background-image: var(--social-icon-image);
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: var(--social-link-icon);
+  color: var(--color-link);
+  -webkit-mask: none;
+  mask: none;
+  transform: none;
+  transition: none;
+}
+
+.block-bundle-social-links .block__ut-social-links--link:visited {
+  background-color: var(--color-transparent);
+  color: var(--color-link);
+}
+
+.block-bundle-social-links .block__ut-social-links--link:focus-visible {
+  outline: none;
+}
+
+.block-bundle-social-links .social-links__item:focus-within {
+  padding: 0;
+  border: 0;
+  outline: var(--focus-outline);
+  outline-offset: var(--space-2xs);
+  box-shadow: var(--focus-halo);
+}
+
+.block-bundle-social-links .block__ut-social-links--link:not([aria-disabled="true"]):active {
+  background-color: var(--color-paper-3);
+  color: var(--color-ink);
+  transform: none;
+}
+
+.block-bundle-social-links .block__ut-social-links--link[aria-disabled="true"] {
+  background-color: var(--color-paper-2);
+  color: var(--color-muted);
+  cursor: not-allowed;
+  opacity: 0.7;
+  pointer-events: none;
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .block-bundle-social-links .block__ut-social-links--link:not([aria-disabled="true"]):hover {
+    background-color: var(--color-paper-2);
+    color: var(--color-link);
+    transform: none;
+  }
+}
+
+@container social-links (min-width: 14rem) {
+  .block-bundle-social-links .social-links.ut-social-links--medium {
+    --social-link-target: calc(var(--target-min) + var(--space-xs));
+    --social-link-icon: calc(var(--space-lg) + var(--space-xs));
+  }
+
+  .block-bundle-social-links .social-links.ut-social-links--large {
+    --social-link-target: calc(var(--target-min) + var(--space-lg));
+    --social-link-icon: var(--space-xl);
+  }
+}

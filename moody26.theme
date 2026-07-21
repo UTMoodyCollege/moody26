@@ -97,9 +97,14 @@ function moody26_preprocess_node(array &$variables): void {
 }
 
 /**
- * Builds resilient, deterministic data for the legacy Moody Flex Tabs field.
+ * Preprocesses shared field component data.
  */
 function moody26_preprocess_field(array &$variables): void {
+  if (($variables['field_type'] ?? '') === 'utexas_social_link_field') {
+    moody26_preprocess_social_links_field($variables);
+    return;
+  }
+
   if (($variables['field_type'] ?? '') !== 'moody_flex_tabs') {
     return;
   }
@@ -161,6 +166,58 @@ function moody26_preprocess_field(array &$variables): void {
 
   $variables['flex_tabs'] = $tabs;
   $variables['flex_tabs_supplemental'] = $supplemental;
+}
+
+/**
+ * Exposes provider-owned social icon URLs as safe component image variables.
+ */
+function moody26_preprocess_social_links_field(array &$variables): void {
+  if (!class_exists('Drupal\\utexas_block_social_links\\Services\\UTexasSocialLinkOptions')) {
+    return;
+  }
+
+  static $icon_urls;
+  if ($icon_urls === NULL) {
+    $icon_urls = [];
+    $file_url_generator = \Drupal::service('file_url_generator');
+    $icons = \Drupal\utexas_block_social_links\Services\UTexasSocialLinkOptions::getIcons();
+    foreach ($icons as $network => $icon) {
+      if (!is_string($icon) || !file_exists($icon)) {
+        continue;
+      }
+
+      $absolute_url = $file_url_generator->generateAbsoluteString($icon);
+      $icon_urls[$network] = $file_url_generator->transformRelative($absolute_url);
+    }
+  }
+
+  foreach ($variables['items'] ?? [] as &$item) {
+    foreach ($item['content']['links'] ?? [] as &$link) {
+      $url = $link['#url'] ?? NULL;
+      if (!$url instanceof \Drupal\Core\Url) {
+        continue;
+      }
+
+      $attributes = $url->getOption('attributes') ?? [];
+      $classes = (array) ($attributes['class'] ?? []);
+      $network = array_values(array_intersect($classes, array_keys($icon_urls)))[0] ?? NULL;
+      if (!$network) {
+        continue;
+      }
+
+      $declaration = '--social-icon-image: url(' . json_encode(
+        $icon_urls[$network],
+        JSON_HEX_TAG | JSON_HEX_AMP | JSON_HEX_APOS | JSON_UNESCAPED_SLASHES,
+      ) . ')';
+      $style = trim((string) ($attributes['style'] ?? ''));
+      $attributes['style'] = $style === ''
+        ? $declaration
+        : rtrim($style, ';') . '; ' . $declaration;
+      $url->setOption('attributes', $attributes);
+    }
+    unset($link);
+  }
+  unset($item);
 }
 
 /**

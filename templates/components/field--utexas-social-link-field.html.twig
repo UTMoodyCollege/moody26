@@ -1,0 +1,52 @@
+{#
+/**
+ * @file
+ * Semantic, theme-owned output for UT Drupal Kit Social Links fields.
+ *
+ * The formatter remains responsible for filtered headlines, configured icon
+ * assets, link destinations, accessible names, cacheability, and attachments.
+ */
+#}
+
+{% set size_class = icon_size|default('ut-social-links--small', true)|clean_class %}
+{% set wrapper_classes = [
+  'block__ut-social-links',
+  'social-links',
+  size_class,
+] %}
+
+<div{{ attributes.addClass(wrapper_classes) }}>
+  {% for item in items %}
+    {% set rendered_headline = item.content.headline|default('')|render %}
+    {% set has_headline = rendered_headline|striptags|trim %}
+    {% set rendered_links = [] %}
+
+    {% for link in item.content.links|default([]) %}
+      {% set rendered_link = link|render %}
+      {% if rendered_link|striptags|trim %}
+        {% set rendered_links = rendered_links|merge([rendered_link]) %}
+      {% endif %}
+    {% endfor %}
+
+    {% if has_headline or rendered_links %}
+      {% set heading_id = has_headline ? ('social-links-' ~ loop.index ~ '-' ~ has_headline)|clean_unique_id : null %}
+      <div
+        class="social-links__group"
+        role="group"
+        {% if has_headline %}aria-labelledby="{{ heading_id }}"{% else %}aria-label="{{ 'Social media'|t }}"{% endif %}
+      >
+        {% if has_headline %}
+          <h2 id="{{ heading_id }}" class="ut-headline social-links__title">{{ rendered_headline }}</h2>
+        {% endif %}
+
+        {% if rendered_links %}
+          <ul class="social-links__list" role="list">
+            {% for link in rendered_links %}
+              <li{{ item.attributes.addClass('social-links__item') }}>{{ link }}</li>
+            {% endfor %}
+          </ul>
+        {% endif %}
+      </div>
+    {% endif %}
+  {% endfor %}
+</div>

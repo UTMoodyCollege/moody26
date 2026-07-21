@@ -6,7 +6,7 @@ visual identity with an accessible, editorial system that can serve academic,
 research, film, journalism, advertising, alumni, event, and public-facing
 sites without requiring the legacy Moody or Speedway themes.
 
-> **Project status:** pre-release (`0.30.0`). The theme is being validated in
+> **Project status:** pre-release (`0.31.0`). The theme is being validated in
 > [Moody Core](https://github.com/UTMoodyCollege/moody-core) before its first
 > stable tag. Pin an exact commit when evaluating the `main` branch.
 
@@ -70,6 +70,9 @@ sites without requiring the legacy Moody or Speedway themes.
   formatter-owned links, neutral migration styles, and container-aware reflow.
 - Shared UT Drupal Kit Quick Links with labelled navigation landmarks,
   formatter-owned destinations, complete link states, and responsive indexes.
+- Shared UT Drupal Kit Social Links with semantic grouped lists, provider-owned
+  icons and destinations, container-aware target sizes, and complete static
+  link states across content, header, drawer, and footer placements.
 - Shared people directories with semantic list and heading structure,
   accessible linked profiles, responsive filters, honest result counts, and a
   useful empty state.
@@ -392,6 +395,31 @@ destination has at least a 44 CSS-pixel target with readable visited color,
 immediate focus, active and authored disabled feedback, and capability-gated
 hover. Long editor-owned academic and event labels remain complete and may wrap
 between words rather than being clipped, truncated, or allowed to overflow.
+
+### Shared UT Drupal Kit Social Links
+
+Moody26 renders every UT Drupal Kit Social Links field as a labelled group and
+semantic list. A non-empty authored headline becomes a page-safe `h2` and names
+the group; a link-only rail receives the translated `Social media` name. Empty
+formatter output is omitted, and the theme does not recreate link destinations
+or accessible names.
+
+The UT Drupal Kit formatter remains authoritative for configured networks,
+link ordering, destinations, cacheability, attachments, and its uploaded SVG
+artwork. Moody26 exposes those existing provider-owned SVG URLs to the rendered
+links and presents the artwork directly, avoiding the solid-square result that
+alpha masking produces with the current black-square icon files. The assets are
+not copied into the theme and continue to follow the consuming site's Social
+Links configuration.
+
+Every destination keeps at least a 44 CSS-pixel target, immediate visible
+focus, readable visited, active, authored disabled, and capability-gated hover
+states. Authored medium and large sizes expand only when the component's own
+container can support them. Rails wrap without horizontal page overflow, and a
+following legacy negative-margin block is prevented from covering the targets.
+The same semantic field output remains compatible with content regions, the
+optional responsive header placement, and footer block regions without adding
+JavaScript, motion, synthetic labels, or fabricated asynchronous states.
 
 ### Shared Moody Showcases
 

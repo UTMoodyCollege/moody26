@@ -76,9 +76,9 @@ not belong outside the token and font declaration files.
   the accessibility tree.
 - When a theme-selected Social Links block is available, suppress the legacy
   `header_tertiary` drawer fallback so the same destinations are not repeated.
-- Preserve formatter-provided accessible link names and masks. Each icon link
-  keeps a 44-by-44 CSS-pixel target, a visible focus indicator, and a 24-pixel
-  mark. The landmark label is `Social media`.
+- Preserve formatter-provided accessible link names and provider-owned icon
+  assets. Each icon link keeps a 44-by-44 CSS-pixel target, a visible focus
+  indicator, and a 24-pixel mark. The landmark label is `Social media`.
 - Missing, unpublished, non-reusable, inaccessible, wrong-bundle, or malformed
   selections fail closed without an empty landmark.
 - Offset the sticky header with `--drupal-displace-offset-top` when Drupal’s
@@ -471,6 +471,41 @@ not belong outside the token and font declaration files.
 - Quick Links are static server-rendered navigation. Do not add JavaScript,
   decorative motion, generated numbering, synthetic arrows, invented copy, or
   fabricated loading, error, success, or disabled controls.
+
+### UT Drupal Kit Social Links
+
+- Treat every `utexas_social_link_field` as a compact shared destination rail,
+  not a route-specific promotion, icon cloud, or replacement menu. Keep the
+  optional headline, configured networks, link ordering, destinations, icon
+  size, block label, and Layout Builder placement under Drupal and editor
+  control.
+- Moody26 owns `field--utexas-social-link-field.html.twig` and the
+  `social-links__*` presentation contract. Preserve the formatter-built Link
+  render arrays, accessible names, network classes, URL options, cacheability,
+  attachments, and provider-managed SVG files. Never reconstruct an `href`,
+  use `|raw`, copy icon files into the theme, or edit the UT Drupal Kit
+  provider.
+- Render an optional non-empty headline as a page-safe `h2` and use it to label
+  the group. A link-only rail receives the translated `Social media` name.
+  Render valid destinations as one semantic list and omit empty formatter
+  output without inventing a headline or label from block administration text.
+- `moody26_preprocess_social_links_field()` may expose only the URL of an
+  existing icon returned by `UTexasSocialLinkOptions::getIcons()`. Validate the
+  provider file, preserve the formatter-owned `Url` object, and use the asset
+  as a direct background image; the current black-square SVG files become
+  featureless squares when treated only as alpha masks.
+- Keep a 44 CSS-pixel minimum target, a 24-pixel minimum visible mark, readable
+  visited color, immediate focus, active feedback, an authored
+  `aria-disabled` treatment, and capability-gated hover. Medium and large
+  authoring sizes may expand only when the component's own container can
+  support them. Rails may wrap, but they must remain horizontal, avoid
+  document overflow, and never be covered by a following legacy negative-margin
+  block.
+- Preserve the same field semantics in Layout Builder, footer blocks, and the
+  optional responsive header placement. Header-specific CSS may change only
+  placement and scale. Social Links are static server-rendered navigation; do
+  not add JavaScript, motion, synthetic glyphs, generated copy, or fabricated
+  loading, error, or success states.
 
 ### Moody Showcases
 
@@ -1143,6 +1178,9 @@ Texas requirements. The current University compliance date is March 1, 2026.
   eight-state preview support.
 - `css/components/header-social.css`: responsive placement, targets, icon
   scale, and interaction states for formatter-owned Social Links output.
+- `css/components/social-links.css`: semantic container-aware Social Links
+  rails, provider-asset presentation, static link states, and legacy-spacing
+  collision protection for content and footer placements.
 - `css/components/theme-settings.css`: narrowly scoped 44-pixel target support
   for the native Drupal visual-options form.
 - `css/components/landing-hero.css`: semantic Moody Hero overlay/split system

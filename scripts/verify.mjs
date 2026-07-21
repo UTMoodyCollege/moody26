@@ -44,6 +44,7 @@ const files = {
   photoContentCss: 'css/components/photo-content.css',
   newsletterCss: 'css/components/newsletter.css',
   quickLinksCss: 'css/components/quick-links.css',
+  socialLinksCss: 'css/components/social-links.css',
   discoveryIndex: 'css/components/discovery-index.css',
   accordionCss: 'css/components/accordion.css',
   peopleDirectory: 'css/components/people-directory.css',
@@ -101,6 +102,7 @@ const files = {
   photoContentTemplate: 'templates/components/utexas-photo-content-area.html.twig',
   newsletterTemplate: 'templates/components/moody-newsletter.html.twig',
   quickLinksTemplate: 'templates/components/utexas-quick-links.html.twig',
+  socialLinksTemplate: 'templates/components/field--utexas-social-link-field.html.twig',
   heroTemplate: 'templates/components/moody-hero.html.twig',
   heroStyle1Template: 'templates/components/moody-hero-1.html.twig',
   heroStyle2Template: 'templates/components/moody-hero-2.html.twig',
@@ -187,8 +189,8 @@ const forbidPattern = (file, pattern, message) => {
 
 try {
   const packageJson = JSON.parse(contents.package ?? '');
-  if (packageJson.version !== '0.30.0') {
-    errors.push('The shared UT Drupal Kit Quick Links release must remain versioned as 0.30.0.');
+  if (packageJson.version !== '0.31.0') {
+    errors.push('The shared UT Drupal Kit Social Links release must remain versioned as 0.31.0.');
   }
   for (const [dependency, version] of [
     ['animejs', '4.5.0'],
@@ -254,8 +256,9 @@ requireText('libraries', 'css/components/hero-carousel.css', 'Accessible UT Drup
 requireText('libraries', 'css/components/photo-content.css', 'Shared UT Drupal Kit Photo Content Area styles must remain attached.');
 requireText('libraries', 'css/components/newsletter.css', 'Shared Moody Newsletter styles must remain attached.');
 requireText('libraries', 'css/components/quick-links.css', 'Shared UT Drupal Kit Quick Links styles must remain attached.');
+requireText('libraries', 'css/components/social-links.css', 'Shared UT Drupal Kit Social Links styles must remain attached.');
 requireText('libraries', 'js/dist/motion.min.js', 'The built motion integration must remain attached.');
-requireText('libraries', 'version: 0.30.0', 'The Drupal asset version must match the UT Drupal Kit Quick Links release.');
+requireText('libraries', 'version: 0.31.0', 'The Drupal asset version must match the UT Drupal Kit Social Links release.');
 forbidText('info', '- moody26/motion', 'Optional motion must be attached from theme settings rather than globally.');
 
 requireText('settings', "header_social_links_block: ''", 'Header social links must be optional for new installs.');
@@ -439,7 +442,10 @@ requireText('quickActionsCss', 'component: command palette', 'Quick actions must
 requireText('headerSocialCss', 'component: responsive header social links', 'Header Social Links must retain the Hallmark component contract.');
 requireText('headerSocialCss', 'inline-size: var(--target-min);', 'Header social links must preserve 44 CSS-pixel targets.');
 requireText('headerSocialCss', 'block-size: var(--target-min);', 'Header social links must preserve 44 CSS-pixel targets.');
-requireText('headerSocialCss', 'mask-size: var(--space-lg);', 'Header social marks must remain subordinate to their touch targets.');
+requireText('headerSocialCss', 'background-size: var(--space-lg);', 'Header social marks must remain subordinate to their touch targets.');
+requireText('headerSocialCss', 'background-image: var(--social-icon-image);', 'Header social marks must use provider-owned icon artwork.');
+requireText('headerSocialCss', '-webkit-mask: none;', 'Header social artwork must not retain the provider alpha mask.');
+requireText('headerSocialCss', '.social-links__list', 'Header social placement must support the semantic field template.');
 requireText('headerSocialCss', ':focus-within', 'Header social links must expose visible parent focus without relying on :has().');
 forbidText('headerSocialCss', ':has(', 'Header social focus must remain compatible with supported Firefox releases.');
 requireText('headerSocialCss', '@media (hover: hover) and (pointer: fine)', 'Header social hover feedback must be capability-gated.');
@@ -687,6 +693,36 @@ forbidText('quickLinksTemplate', 'href=', 'Quick Links destinations must not be 
 forbidText('quickLinksTemplate', '|raw', 'Quick Links must not bypass Drupal render safety.');
 forbidText('quickLinksTemplate', 'attach_library', 'Quick Links must use the theme global library without duplicate attachments.');
 forbidText('quickLinksTemplate', '→', 'Quick Links must not invent a synthetic arrow.');
+requireText('socialLinksCss', 'component: UT Drupal Kit Social Links rail', 'Social Links must retain the Hallmark component contract.');
+requireText('socialLinksCss', 'macrostructure: compact destination rail', 'Social Links must retain its Hallmark structural fingerprint.');
+requireText('socialLinksCss', 'container: social-links / inline-size;', 'Social Links must respond to their Layout Builder container.');
+requireText('socialLinksCss', '--social-link-target: var(--target-min);', 'Social Links must preserve 44 CSS-pixel targets.');
+requireText('socialLinksCss', 'background-image: var(--social-icon-image);', 'Social Links must present provider-owned icon artwork.');
+requireText('socialLinksCss', '-webkit-mask: none;', 'Social Links must remove the provider alpha mask.');
+requireText('socialLinksCss', '.social-links__item:focus-within', 'Social Links need immediate visible parent focus.');
+requirePattern('socialLinksCss', /\.social-links__item:focus-within\s*\{[\s\S]*?padding: 0;[\s\S]*?border: 0;/, 'Social Links focus must override provider geometry without layout shift.');
+requireText('socialLinksCss', '.block__ut-social-links--link:visited', 'Social Links need an explicit visited state.');
+requireText('socialLinksCss', '.block__ut-social-links--link:not([aria-disabled="true"]):active', 'Social Links need active feedback.');
+requireText('socialLinksCss', '.block__ut-social-links--link[aria-disabled="true"]', 'Social Links must honor an authored disabled state.');
+requireText('socialLinksCss', '@media (hover: hover) and (pointer: fine)', 'Social Links hover feedback must be capability-gated.');
+requireText('socialLinksCss', '@container social-links (min-width: 14rem)', 'Authored Social Links sizes must expand only in viable containers.');
+requireText('socialLinksCss', '.block-bundle-social-links + .utexas-block-top-margin-remove', 'Legacy spacing must not cover Social Links targets.');
+requireText('socialLinksCss', 'margin-top: 0 !important;', 'Social Links must override the provider’s important negative margin collision.');
+forbidPattern('socialLinksCss', /(?:^|\s)(?:#(?:[\da-f]{3}){1,2}|(?:rgb|hsl|oklch)\()/im, 'Social Links styles must use locked color tokens.');
+requireText('socialLinksTemplate', "icon_size|default('ut-social-links--small', true)", 'Social Links must retain the provider’s backward-compatible default size.');
+requireText('socialLinksTemplate', 'role="group"', 'Social Links must expose a labelled group.');
+requireText('socialLinksTemplate', "aria-label=\"{{ 'Social media'|t }}\"", 'Link-only Social Links need a translated accessible name.');
+requireText('socialLinksTemplate', '<h2 id="{{ heading_id }}" class="ut-headline social-links__title">', 'Social Links headlines must not skip the page heading level.');
+requireText('socialLinksTemplate', '<ul class="social-links__list" role="list">', 'Social Links must expose explicit list semantics.');
+requireText('socialLinksTemplate', 'rendered_link|striptags|trim', 'Social Links must omit empty formatter links.');
+forbidText('socialLinksTemplate', 'href=', 'Social Links destinations must not be reconstructed in Twig.');
+forbidText('socialLinksTemplate', '|raw', 'Social Links must not bypass Drupal render safety.');
+forbidText('socialLinksTemplate', 'attach_library', 'Social Links must use the theme global library without duplicate attachments.');
+requireText('theme', "($variables['field_type'] ?? '') === 'utexas_social_link_field'", 'Social Link preprocessing must remain field-type scoped.');
+requireText('theme', 'UTexasSocialLinkOptions::getIcons()', 'Social Links must discover provider-owned icon assets.');
+requireText('theme', 'file_exists($icon)', 'Social Links must omit unavailable provider icon files.');
+requireText('theme', '$url instanceof \\Drupal\\Core\\Url', 'Social Links must preserve formatter-owned URL objects.');
+requireText('theme', '--social-icon-image: url(', 'Social Links must expose the validated provider icon URL.');
 requireText('discoveryIndex', 'repeat(12, minmax(0, 1fr))', 'Discovery grids must use safe image-bearing tracks.');
 requireText('discoveryIndex', '.linked-focus-area-item:focus-visible', 'Focus Area tasks need immediate visible focus.');
 requireText('discoveryIndex', '.utexas-promo-unit .data-wrapper > a:focus-visible', 'Promo Unit links need immediate visible focus.');
@@ -1091,6 +1127,7 @@ const runtimeFiles = [
   'flexTabsCss', 'flexTabsTemplate',
   'heroCarouselCss', 'heroCarouselTemplate',
   'photoContentCss', 'photoContentTemplate',
+  'socialLinksCss', 'socialLinksTemplate',
   'heroTemplate', 'heroStyle1Template', 'heroStyle2Template', 'heroStyle3Template',
   'heroStyle4Template', 'heroStyle5Template', 'heroStyle6Template', 'heroStyle6ShortTemplate',
   'heroStyle7Template', 'heroStyle8Template',
@@ -1118,7 +1155,7 @@ for (const file of runtimeFiles) {
   }
 }
 
-const cssFiles = ['css', 'headerSocialCss', 'quickActionsCss', 'landingHero', 'editorialSections', 'featuredHighlightCss', 'promoListCss', 'flexContentCss', 'imageLinkCss', 'flexColorBlocksCss', 'quotationCss', 'flexGridCss', 'impactFactsCss', 'showcaseCss', 'contactInfoCss', 'callToActionCss', 'resourceGroupCss', 'flexTabsCss', 'heroCarouselCss', 'photoContentCss', 'discoveryIndex', 'accordionCss', 'peopleDirectory', 'newsroom', 'motionCss', 'settingsCss'];
+const cssFiles = ['css', 'headerSocialCss', 'quickActionsCss', 'landingHero', 'editorialSections', 'featuredHighlightCss', 'promoListCss', 'flexContentCss', 'imageLinkCss', 'flexColorBlocksCss', 'quotationCss', 'flexGridCss', 'impactFactsCss', 'showcaseCss', 'contactInfoCss', 'callToActionCss', 'resourceGroupCss', 'flexTabsCss', 'heroCarouselCss', 'photoContentCss', 'socialLinksCss', 'discoveryIndex', 'accordionCss', 'peopleDirectory', 'newsroom', 'motionCss', 'settingsCss'];
 const forbiddenCss = [
   [/#(?:[0-9a-f]{3}|[0-9a-f]{6}|[0-9a-f]{8})\b/i, 'Raw hex colors belong only in tokens.css.'],
   [/\b(?:rgb|rgba|hsl|hsla|oklch)\(/i, 'Raw color functions belong only in tokens.css.'],
@@ -1149,12 +1186,13 @@ for (const file of ['preflight', 'log']) {
     errors.push(`${file} must contain valid JSON.`);
   }
 }
-requireText('preflight', '"package_version": "0.30.0"', 'Hallmark preflight must match the UT Drupal Kit Quick Links release.');
+requireText('preflight', '"package_version": "0.31.0"', 'Hallmark preflight must match the UT Drupal Kit Social Links release.');
 requireText('log', 'Conversational FAQ within the Ecosystem Index', 'Hallmark memory must record the shared accordion macrostructure.');
 requireText('log', 'Editorial media directory within the Ecosystem Index', 'Hallmark memory must record the shared Moody Flex Grid component.');
 requireText('log', 'Editorial Signal Band within the Ecosystem Index', 'Hallmark memory must record the shared Moody Promotion signal band.');
 requireText('log', 'Progressive tab index within the Ecosystem Index', 'Hallmark memory must record the shared Flex Tabs component.');
 requireText('log', 'Editorial Content Ledger within the Ecosystem Index', 'Hallmark memory must record the shared Flex List component.');
+requireText('log', 'Compact destination rail within the Ecosystem Index', 'Hallmark memory must record the shared Social Links component.');
 
 requirePattern('readme', /standalone/i, 'README must describe the standalone architecture.');
 forbidText('readme', 'Base theme | `moody`', 'README must not advertise the legacy base theme.');
@@ -1191,6 +1229,7 @@ requireText('readme', 'Accessible UT Drupal Kit Hero Carousels', 'README must do
 requireText('readme', 'Shared UT Drupal Kit Photo Content Areas', 'README must document the shared Photo Content Area layer.');
 requireText('readme', 'Shared Moody Newsletter destination bands', 'README must document the shared Moody Newsletter layer.');
 requireText('readme', 'Shared UT Drupal Kit Quick Links', 'README must document the shared Quick Links layer.');
+requireText('readme', 'Shared UT Drupal Kit Social Links', 'README must document the shared Social Links layer.');
 requireText('agents', '`header_social_links_block`', 'AGENTS.md must preserve the header Social Links contract.');
 requireText('agents', 'Missing, unpublished, non-reusable, inaccessible, wrong-bundle, or malformed', 'AGENTS.md must require Social Links to fail closed.');
 requireText('agents', '### People directories', 'AGENTS.md must preserve the people-directory contract.');
@@ -1212,6 +1251,7 @@ requireText('agents', '### UT Drupal Kit Hero Carousels', 'AGENTS.md must preser
 requireText('agents', '### UT Drupal Kit Photo Content Areas', 'AGENTS.md must preserve the Photo Content Area component contract.');
 requireText('agents', '### Moody Newsletter destination bands', 'AGENTS.md must preserve the Moody Newsletter component contract.');
 requireText('agents', '### UT Drupal Kit Quick Links', 'AGENTS.md must preserve the Quick Links component contract.');
+requireText('agents', '### UT Drupal Kit Social Links', 'AGENTS.md must preserve the Social Links component contract.');
 requireText('agents', '### Moody Showcases', 'AGENTS.md must preserve the Moody Showcase component contract.');
 requireText('agents', '### Moody Heroes', 'AGENTS.md must preserve the Moody Hero component contract.');
 requireText('agents', '### UT Drupal Kit Heroes', 'AGENTS.md must preserve the UT Drupal Kit Hero component contract.');
@@ -1227,5 +1267,5 @@ if (errors.length) {
   process.exitCode = 1;
 }
 else {
-  console.log(`Moody26 verification passed (${Object.keys(files).length} source files, ${fonts.length} local fonts, standalone shell, UT brand, accessible directories, resource hubs, Resource Groups, Flex Tabs, UT Drupal Kit Flex Lists, Hero Carousels, Photo Content Areas, Moody Newsletter destination bands, and UT Drupal Kit Quick Links, newsroom, accordions, Featured Highlights, Moody Promotions, Promo Lists, Flex Content Areas, Image Links, Flex Color Blocks, Moody Quotations, Moody Flex Grids, Moody Impact Facts, Moody and UT Drupal Kit Heroes, Moody Showcases, Moody Contact Info, and Call to Action blocks, header social links, motion, responsive, and Hallmark gates).`);
+  console.log(`Moody26 verification passed (${Object.keys(files).length} source files, ${fonts.length} local fonts, standalone shell, UT brand, accessible directories, resource hubs, Resource Groups, Flex Tabs, UT Drupal Kit Flex Lists, Hero Carousels, Photo Content Areas, Moody Newsletter destination bands, UT Drupal Kit Quick Links, and semantic Social Links, newsroom, accordions, Featured Highlights, Moody Promotions, Promo Lists, Flex Content Areas, Image Links, Flex Color Blocks, Moody Quotations, Moody Flex Grids, Moody Impact Facts, Moody and UT Drupal Kit Heroes, Moody Showcases, Moody Contact Info, and Call to Action blocks, header social links, motion, responsive, and Hallmark gates).`);
 }

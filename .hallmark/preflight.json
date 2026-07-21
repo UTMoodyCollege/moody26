@@ -1,6 +1,6 @@
 {
   "date": "2026-07-20",
-  "package_version": "0.30.0",
+  "package_version": "0.31.0",
   "framework": "Drupal 11 / UT Drupal Kit",
   "base_theme": false,
   "font_stack": "Charis SIL + Libre Franklin bundled locally by Moody26",
@@ -46,6 +46,7 @@
     "progressively enhanced UT Drupal Kit Hero Carousels with bounded autoplay, focus and hover pausing, reduced-motion protection, concise native controls, and a complete no-JavaScript reading order",
     "semantic UT Drupal Kit Photo Content Areas with intrinsic responsive media, real figure credits, optional-field resilience, explicit stacked presentation, and honest media failure recovery",
     "semantic Moody Newsletter destination bands with page-safe headings, formatter-owned actions, neutralized migration styles, and complete static link states",
-    "semantic UT Drupal Kit Quick Links as responsive navigation ledgers with page-safe headings, formatter-owned destinations, and complete static link states"
+    "semantic UT Drupal Kit Quick Links as responsive navigation ledgers with page-safe headings, formatter-owned destinations, and complete static link states",
+    "semantic UT Drupal Kit Social Links as compact destination rails with page-safe headings, provider-owned icon assets, container-aware targets, and complete static link states"
   ]
 }
