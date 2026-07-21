@@ -1,6 +1,6 @@
 /* Hallmark · component: Moody + UT Drupal Kit responsive editorial hero · macrostructure: Split Studio
  * genre: editorial · theme: UT custom · media: content-owned · motion: static
- * states: media unavailable · link default/visited/hover/focus/active/disabled
+ * states: foreground/background media unavailable · link default/visited/hover/focus/active/disabled
  * ambient states: named play/pause · media unavailable · reduced motion
  * contrast: overlay and paper pairs verified · responsive: 320/375/414/768
  * audit: slop pass (1–58) · mobile pass (34, 49–57)
@@ -23,8 +23,15 @@
 }
 
 /* A page-leading hero owns its vertical edge on every Moody page bundle. */
-.node__content > .section-wrapper:has(:is(.block-bundle-moody-hero, .block-bundle-utexas-hero)) {
+.node__content > .section-wrapper.moody26-section--hero {
   padding-block: 0;
+}
+
+@supports selector(.section-wrapper:has(*)) {
+  .node__content > .section-wrapper:has(.block-bundle-moody-hero),
+  .node__content > .section-wrapper:has(.block-bundle-utexas-hero) {
+    padding-block: 0;
+  }
 }
 
 .moody26-hero {
@@ -285,6 +292,8 @@
   margin-inline: auto;
 }
 
+/* Native media and provider-set CSS backgrounds converge on one honest text
+   composition when their authored asset cannot load. */
 .moody26-hero--media-unavailable {
   grid-template-columns: minmax(0, 1fr) !important;
   min-height: 0;

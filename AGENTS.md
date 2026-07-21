@@ -749,9 +749,10 @@ not belong outside the token and font declaration files.
   immediate focus with a paper halo, active feedback, capability-gated hover,
   an `aria-disabled` treatment, a 44 CSS-pixel minimum target, and a one-line
   label. Do not add a synthetic arrow, destination, or replacement label.
-- A failed intrinsic image hides only its media wrapper, adds
-  `moody26-hero--media-unavailable`, and recomposes the authored content.
-  Background images retain an ink fallback. Do not invent placeholder art.
+- A failed intrinsic image or provider-set CSS background hides only its media
+  wrapper, adds `moody26-hero--media-unavailable`, and recomposes the authored
+  content on paper. Probe the resolved background URL because CSS backgrounds
+  do not expose native error events. Do not invent placeholder art.
 - Heroes are static server-rendered content. Do not add parallax, scroll
   scrubbing, reveal motion, viewport-forced panels, or fabricated loading,
   error, success, or disabled states.
@@ -790,10 +791,9 @@ not belong outside the token and font declaration files.
   immediate focus, and visited, hover, active, and truthful disabled states.
   At 320, 375, 414, and 768 CSS pixels, media-bearing tracks remain safe and
   headings can wrap within long words without causing horizontal overflow.
-- A failed intrinsic image collapses through the shared
-  `moody26-hero--media-unavailable` state. A failed CSS background leaves the
-  authored content readable on the ink fallback. Never insert placeholder art
-  or duplicate a destination.
+- A failed intrinsic image or CSS background collapses through the shared
+  `moody26-hero--media-unavailable` state and leaves the authored content
+  readable on paper. Never insert placeholder art or duplicate a destination.
 
 ### UT Drupal Kit Hero Carousels
 

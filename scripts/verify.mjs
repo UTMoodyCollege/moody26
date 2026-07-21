@@ -194,8 +194,8 @@ const forbidPattern = (file, pattern, message) => {
 
 try {
   const packageJson = JSON.parse(contents.package ?? '');
-  if (packageJson.version !== '0.35.0') {
-    errors.push('The accessible ambient-video release must remain versioned as 0.35.0.');
+  if (packageJson.version !== '0.36.0') {
+    errors.push('The resilient background-Hero release must remain versioned as 0.36.0.');
   }
   for (const [dependency, version] of [
     ['animejs', '4.5.0'],
@@ -272,7 +272,7 @@ requireText('libraries', 'css/components/quick-links.css', 'Shared UT Drupal Kit
 requireText('libraries', 'css/components/social-links.css', 'Shared UT Drupal Kit Social Links styles must remain attached.');
 requireText('libraries', 'css/components/anchor-gallery.css', 'Shared Moody Anchor gallery styles must remain attached.');
 requireText('libraries', 'js/dist/motion.min.js', 'The built motion integration must remain attached.');
-requireText('libraries', 'version: 0.35.0', 'The Drupal asset version must match the accessible ambient-video release.');
+requireText('libraries', 'version: 0.36.0', 'The Drupal asset version must match the resilient background-Hero release.');
 forbidText('info', '- moody26/motion', 'Optional motion must be attached from theme settings rather than globally.');
 
 requireText('settings', "header_social_links_block: ''", 'Header social links must be optional for new installs.');
@@ -475,7 +475,9 @@ for (const state of ['Default', 'Hover', 'Focus', 'Active', 'Disabled', 'Loading
   requireText('quickActionsPreview', `>${state}<`, `The state sheet must include ${state.toLowerCase()}.`);
 }
 requireText('landingHero', 'macrostructure: Split Studio', 'Landing components must preserve the Split Studio decision.');
-requireText('landingHero', ':has(:is(.block-bundle-moody-hero, .block-bundle-utexas-hero))', 'Full-bleed heroes from both providers must remove generic section padding.');
+requireText('landingHero', '.section-wrapper.moody26-section--hero', 'Heroes must remove generic section padding without requiring relational selectors.');
+requireText('landingHero', '@supports selector(.section-wrapper:has(*))', 'Modern browsers must retain the server-rendered Hero edge selector.');
+forbidText('landingHero', ':has(:is(', 'Hero edge selectors must remain compatible with older browser engines.');
 requireText('landingHero', '@media (min-width: 56.25rem)', 'Ambient-video posters must remain the mobile-first media below the provider video breakpoint.');
 requireText('landingHero', '#play-pause:focus-visible', 'Ambient-video controls need immediate visible focus.');
 requireText('landingHero', '#play-pause:disabled', 'Unavailable ambient-video controls need a truthful disabled treatment before removal.');
@@ -489,7 +491,7 @@ requireText('agents', 'Preserve source-order keyboard flow across component boun
 requireText('readme', 'The `/students` route is the reference integration fixture', 'Public documentation must identify the complete resource-hub fixture.');
 requireText('contactInfoCss', 'component: editorial service band', 'Moody Contact Info must retain its Hallmark component contract.');
 requireText('contactInfoCss', 'container: contact-info / inline-size;', 'Moody Contact Info must remain container-aware.');
-requireText('contactInfoCss', ':has(.block-bundle-moody-contact-info)', 'Contact Info closes must remove generic outer section padding.');
+requireText('contactInfoCss', '.section-wrapper.moody26-section--contact-info', 'Contact Info closes must remove generic outer section padding without relational-selector support.');
 requireText('contactInfoCss', 'a:focus-visible', 'Contact Info links need immediate visible focus.');
 requireText('contactInfoCss', '@media (hover: hover) and (pointer: fine)', 'Contact Info hover feedback must be capability-gated.');
 requireText('contactInfoCss', '@container contact-info (min-width: 48rem)', 'Contact Info must retain its component-responsive layout.');
@@ -1045,7 +1047,7 @@ requireText('landingHero', 'component: Moody + UT Drupal Kit responsive editoria
 requireText('landingHero', 'container: moody-hero / inline-size;', 'Moody Heroes must respond to their Layout Builder container.');
 requireText('landingHero', ':where(.block-bundle-moody-hero, .block-bundle-utexas-hero)', 'Both hero providers must share one component container contract.');
 requireText('landingHero', ':where(.field--type-moody-hero, .field--type-utexas-hero)', 'Both hero field providers must retain safe media tracks.');
-requireText('landingHero', '.node__content > .section-wrapper:has(:is(.block-bundle-moody-hero, .block-bundle-utexas-hero))', 'Shared Heroes must cover every page bundle without a route or bundle whitelist.');
+requireText('landingHero', '.node__content > .section-wrapper.moody26-section--hero', 'Shared Heroes must cover every page bundle without a route or bundle whitelist.');
 requireText('landingHero', 'grid-template-columns: minmax(0, 7fr) minmax(0, 5fr);', 'Split Moody Heroes must retain safe 7/5 media-copy tracks.');
 requireText('landingHero', '.moody26-hero--layout-overlay .moody26-hero__media::after', 'Overlay Moody Heroes must retain the readable tokenized scrim.');
 requireText('landingHero', '.moody26-hero__action > a:visited', 'Moody Hero CTA visited states must preserve compliant link contrast.');
@@ -1156,6 +1158,9 @@ requireText('accessibility', "classList.add('people-directory__media--fallback')
 requireText('accessibility', "once('moody26-profile-listing-image'", 'UTProf portrait failure recovery must remain idempotent.');
 requireText('accessibility', "classList.add('utprof__profile-item--media-unavailable')", 'Failed UTProf portraits must preserve and recompose profile content.');
 requireText('accessibility', "once('moody26-ambient-video'", 'Ambient-video accessibility enhancement must remain idempotent.');
+requireText('accessibility', "once('moody26-section-edge'", 'Hero and Contact Info edge classes must remain idempotent.');
+requireText('accessibility', "classList.add('moody26-section--hero')", 'Hero sections need a relational-selector-independent edge class.');
+requireText('accessibility', "classList.add('moody26-section--contact-info')", 'Contact Info sections need a relational-selector-independent edge class.');
 requireText('accessibility', "Drupal.t('Play background video')", 'Paused ambient video controls need a translated action name.');
 requireText('accessibility', "Drupal.t('Pause background video')", 'Playing ambient video controls need a translated action name.');
 requireText('accessibility', "control.setAttribute('aria-controls', video.id)", 'Ambient-video controls must identify their controlled media.');
@@ -1166,6 +1171,9 @@ requireText('accessibility', "classList.add('moody26-ambient-video--fallback')",
 requireText('accessibility', "once('moody26-showcase-image'", 'Showcase media fallbacks must be idempotent.');
 requireText('accessibility', "classList.add('showcase--media-unavailable')", 'Failed Showcase media must preserve its text composition.');
 requireText('accessibility', "once('moody26-hero-image'", 'Moody Hero media fallbacks must be idempotent.');
+requireText('accessibility', "once('moody26-hero-background'", 'CSS-background Moody Hero fallbacks must remain idempotent.');
+requireText('accessibility', '.backgroundImage', 'CSS-background Moody Heroes must inspect the formatter-resolved media source.');
+requireText('accessibility', 'const probe = new Image();', 'CSS-background Moody Heroes must use a native image failure probe.');
 requireText('accessibility', "classList.add('moody26-hero--media-unavailable')", 'Failed Moody Hero media must preserve and recompose its content.');
 requireText('accessibility', "'moody26-resource-image'", 'Resource media fallbacks must be idempotent.');
 requireText('accessibility', "classList.add('resource-media--unavailable')", 'Failed resource media must preserve its text and links.');
@@ -1278,7 +1286,7 @@ for (const file of ['preflight', 'log']) {
     errors.push(`${file} must contain valid JSON.`);
   }
 }
-requireText('preflight', '"package_version": "0.35.0"', 'Hallmark preflight must match the accessible ambient-video release.');
+requireText('preflight', '"package_version": "0.36.0"', 'Hallmark preflight must match the resilient background-Hero release.');
 requireText('log', 'Conversational FAQ within the Ecosystem Index', 'Hallmark memory must record the shared accordion macrostructure.');
 requireText('log', 'Editorial media directory within the Ecosystem Index', 'Hallmark memory must record the shared Moody Flex Grid component.');
 requireText('log', 'Editorial Signal Band within the Ecosystem Index', 'Hallmark memory must record the shared Moody Promotion signal band.');
@@ -1315,6 +1323,7 @@ requireText('readme', 'Shared Moody Quotations', 'README must document the reusa
 requireText('readme', 'Shared Moody Flex Grids', 'README must document the reusable Moody Flex Grid layer.');
 requireText('readme', 'Shared Moody Impact Facts', 'README must document the reusable Moody Impact Facts layer.');
 requireText('readme', 'Shared Moody Heroes', 'README must document the reusable Moody Hero layer.');
+requireText('readme', 'provider-set CSS background', 'README must document CSS-background Hero failure recovery.');
 requireText('readme', 'Shared UT Drupal Kit Heroes', 'README must document the reusable UT Drupal Kit Hero layer.');
 requireText('readme', 'Shared Moody Contact Info', 'README must document the reusable Moody Contact Info layer.');
 requireText('readme', 'Shared Call to Action blocks', 'README must document the reusable Call to Action layer.');
@@ -1356,6 +1365,7 @@ requireText('agents', '### UT Drupal Kit Social Links', 'AGENTS.md must preserve
 requireText('agents', '### Moody Anchor galleries', 'AGENTS.md must preserve the Moody Anchor gallery component contract.');
 requireText('agents', '### Moody Showcases', 'AGENTS.md must preserve the Moody Showcase component contract.');
 requireText('agents', '### Moody Heroes', 'AGENTS.md must preserve the Moody Hero component contract.');
+requireText('agents', 'do not expose native error events', 'AGENTS.md must preserve the CSS-background Hero failure contract.');
 requireText('agents', '### UT Drupal Kit Heroes', 'AGENTS.md must preserve the UT Drupal Kit Hero component contract.');
 requireText('agents', '### Moody Contact Info', 'AGENTS.md must preserve the Moody Contact Info component contract.');
 requireText('agents', '### Call to Action blocks', 'AGENTS.md must preserve the Call to Action component contract.');

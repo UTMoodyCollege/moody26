@@ -22,8 +22,14 @@
 }
 
 /* The service close supplies its own rhythm and surface on every page bundle. */
-.node__content > .section-wrapper:has(.block-bundle-moody-contact-info) {
+.node__content > .section-wrapper.moody26-section--contact-info {
   padding-block: 0;
+}
+
+@supports selector(.section-wrapper:has(*)) {
+  .node__content > .section-wrapper:has(.block-bundle-moody-contact-info) {
+    padding-block: 0;
+  }
 }
 
 .contact-info {

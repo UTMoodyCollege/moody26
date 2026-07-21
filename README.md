@@ -6,7 +6,7 @@ visual identity with an accessible, editorial system that can serve academic,
 research, film, journalism, advertising, alumni, event, and public-facing
 sites without requiring the legacy Moody or Speedway themes.
 
-> **Project status:** pre-release (`0.35.0`). The theme is being validated in
+> **Project status:** pre-release (`0.36.0`). The theme is being validated in
 > [Moody Core](https://github.com/UTMoodyCollege/moody-core) before its first
 > stable tag. Pin an exact commit when evaluating the `main` branch.
 
@@ -67,7 +67,8 @@ sites without requiring the legacy Moody or Speedway themes.
 - Shared Moody Impact Facts with semantic list structure, optional authored
   headings, tabular figures, and migration-aware responsive compositions.
 - Shared Moody Heroes with one page-safe heading contract, named background
-  media, resilient image handling, and container-aware overlay or split layouts.
+  media, truthful native/CSS-image failure handling, and container-aware
+  overlay or split layouts.
 - Shared Moody Contact Info with independent optional fields, page-safe heading
   levels, narrow-screen-safe contact links, and page-bundle-independent styling.
 - Shared Call to Action blocks with formatter-owned destinations, compact
@@ -587,9 +588,11 @@ Burnt orange stays a rule and focus signal rather than a large panel.
 
 Formatter-owned CTA links keep 44-pixel targets, one-line labels, complete
 keyboard states, and a paper halo around visible focus over photography. A
-failed inline image removes only its media wrapper and recomposes the remaining
-content; background media always retains an ink fallback. Heroes remain static
-and never add parallax, scroll scrubbing, or fabricated actions.
+failed native image or provider-set CSS background removes only its media
+wrapper and recomposes the remaining content on paper. The theme probes the
+resolved background URL because CSS backgrounds do not expose native error
+events. Heroes remain static and never add parallax, scroll scrubbing, or
+fabricated actions.
 
 ### Shared UT Drupal Kit Heroes
 

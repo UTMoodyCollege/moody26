@@ -8,6 +8,19 @@
 
   Drupal.behaviors.moody26ContentSafeguards = {
     attach(context) {
+      once('moody26-section-edge', '.section-wrapper', context).forEach((section) => {
+        if (section.querySelector([
+          '.block-bundle-moody-hero',
+          '.block-bundle-utexas-hero',
+          '.moody-ambient-video',
+        ].join(','))) {
+          section.classList.add('moody26-section--hero');
+        }
+        if (section.querySelector('.block-bundle-moody-contact-info')) {
+          section.classList.add('moody26-section--contact-info');
+        }
+      });
+
       once('moody26-layout-region', '.utexas-layout--twocol-wrapper', context).forEach((layout) => {
         const regions = [...layout.querySelectorAll(':scope > .layout__region')];
         regions.forEach((region) => {
@@ -77,13 +90,31 @@
         }
       });
 
+      const hideFailedHeroMedia = (media) => {
+        media.closest('.moody26-hero__media')?.setAttribute('hidden', '');
+        media.closest('.moody26-hero')?.classList.add('moody26-hero--media-unavailable');
+      };
+
       once('moody26-hero-image', '.moody26-hero__media-inner img', context).forEach((image) => {
-        const hideFailedMedia = () => {
-          image.closest('.moody26-hero__media')?.setAttribute('hidden', '');
-          image.closest('.moody26-hero')?.classList.add('moody26-hero--media-unavailable');
-        };
+        const hideFailedMedia = () => hideFailedHeroMedia(image);
         image.addEventListener('error', hideFailedMedia, { once: true });
         if (image.complete && image.currentSrc && !image.naturalWidth) {
+          hideFailedMedia();
+        }
+      });
+
+      once('moody26-hero-background', '.moody26-hero__background', context).forEach((background) => {
+        const source = getComputedStyle(background).backgroundImage
+          .match(/url\(["']?(.*?)["']?\)/u)?.[1];
+        if (!source) {
+          return;
+        }
+
+        const probe = new Image();
+        const hideFailedMedia = () => hideFailedHeroMedia(background);
+        probe.addEventListener('error', hideFailedMedia, { once: true });
+        probe.src = source;
+        if (probe.complete && !probe.naturalWidth) {
           hideFailedMedia();
         }
       });
