@@ -55,6 +55,8 @@ const files = {
   eventDetailCss: 'css/components/event-detail.css',
   facultyProfileCss: 'css/components/faculty-profile.css',
   shorthandStoryCss: 'css/components/shorthand-story.css',
+  pdfDocumentCss: 'css/components/pdf-document.css',
+  pdfDocumentPreview: 'css/components/pdf-document.preview.html',
   motionCss: 'css/components/motion.css',
   settingsCss: 'css/components/theme-settings.css',
   accessibility: 'js/accessibility.js',
@@ -83,6 +85,7 @@ const files = {
   eventTemplate: 'templates/content/node--moody-event.html.twig',
   facultyProfileTemplate: 'templates/content/node--faculty-bio.html.twig',
   shorthandStoryTemplate: 'templates/blocks/block--moody-shorthand-zip-shorthand-zip-story.html.twig',
+  pdfDocumentTemplate: 'templates/blocks/block--moody-flipbook-pdf-flipbook.html.twig',
   focusAreas: 'templates/components/moody-focus-areas.html.twig',
   promoUnits: 'templates/components/utexas-promo-unit.html.twig',
   featuredHighlightTemplate: 'templates/components/utexas-featured-highlight.html.twig',
@@ -202,8 +205,8 @@ const forbidPattern = (file, pattern, message) => {
 
 try {
   const packageJson = JSON.parse(contents.package ?? '');
-  if (packageJson.version !== '0.40.0') {
-    errors.push('The failure-safe Shorthand-story release must remain versioned as 0.40.0.');
+  if (packageJson.version !== '0.41.0') {
+    errors.push('The keyboard-safe PDF-document release must remain versioned as 0.41.0.');
   }
   for (const [dependency, version] of [
     ['animejs', '4.5.0'],
@@ -262,6 +265,7 @@ requireText('libraries', 'css/components/feature-story.css', 'Shared feature-sto
 requireText('libraries', 'css/components/event-detail.css', 'Shared event-detail styles must remain attached.');
 requireText('libraries', 'css/components/faculty-profile.css', 'Shared faculty-profile styles must remain attached.');
 requireText('libraries', 'css/components/shorthand-story.css', 'The Shorthand integration boundary must remain attached.');
+requireText('libraries', 'css/components/pdf-document.css', 'The PDF document boundary must remain attached.');
 requireText('libraries', 'css/components/accordion.css', 'Shared accordion styles must remain attached.');
 requireText('libraries', 'css/components/featured-highlight.css', 'Shared Featured Highlight styles must remain attached.');
 requireText('libraries', 'css/components/promo-list.css', 'Shared Promo List styles must remain attached.');
@@ -284,7 +288,7 @@ requireText('libraries', 'css/components/quick-links.css', 'Shared UT Drupal Kit
 requireText('libraries', 'css/components/social-links.css', 'Shared UT Drupal Kit Social Links styles must remain attached.');
 requireText('libraries', 'css/components/anchor-gallery.css', 'Shared Moody Anchor gallery styles must remain attached.');
 requireText('libraries', 'js/dist/motion.min.js', 'The built motion integration must remain attached.');
-requireText('libraries', 'version: 0.40.0', 'The Drupal asset version must match the failure-safe Shorthand-story release.');
+requireText('libraries', 'version: 0.41.0', 'The Drupal asset version must match the keyboard-safe PDF-document release.');
 forbidText('info', '- moody26/motion', 'Optional motion must be attached from theme settings rather than globally.');
 
 requireText('settings', "header_social_links_block: ''", 'Header social links must be optional for new installs.');
@@ -857,6 +861,39 @@ requireText('shorthandStoryTemplate', "'aria-labelledby'", 'Unavailable Shorthan
 forbidText('shorthandStoryTemplate', '|raw', 'Shorthand boundaries must not add a second raw-output path.');
 forbidText('shorthandStoryTemplate', 'aria-live', 'Server-rendered Shorthand failure states must not announce as live updates.');
 forbidText('shorthandStoryTemplate', 'href=', 'Shorthand failure states must not invent a destination.');
+requireText('pdfDocumentCss', 'component: PDF document boundary', 'PDF documents must retain the Hallmark component contract.');
+requireText('pdfDocumentCss', 'container: pdf-document / inline-size;', 'PDF document boundaries must respond to their Layout Builder container.');
+requireText('pdfDocumentCss', 'min-height: var(--target-min);', 'PDF actions must retain accessible minimum targets.');
+requireText('pdfDocumentCss', ".moody26-pdf-document__action:focus-visible", 'PDF actions must retain an immediate visible keyboard focus state.');
+requireText('pdfDocumentCss', '@media (hover: hover) and (pointer: fine)', 'PDF hover treatments must remain capability gated.');
+requireText('pdfDocumentCss', '@media (prefers-reduced-motion: reduce)', 'PDF document states must retain their reduced-motion path.');
+requireText('pdfDocumentCss', 'grid-template-columns: minmax(0, 8fr) minmax(10rem, 4fr);', 'PDF document boundaries must retain safe asymmetric tracks.');
+forbidPattern('pdfDocumentCss', /(?:node|page)-\d+/, 'PDF document styling must not depend on route-specific node or page IDs.');
+forbidText('pdfDocumentCss', 'width: 100vw', 'PDF document boundaries must not widen the viewport.');
+for (const state of ['is-hover', 'is-focus', 'is-active', 'is-disabled', 'is-loading']) {
+  requireText('pdfDocumentCss', state, `PDF document action CSS must retain its ${state} state.`);
+  requireText('pdfDocumentPreview', state, `The PDF document preview must demonstrate its ${state} state.`);
+}
+requireText('pdfDocumentPreview', 'moody26-pdf-document--unavailable', 'The PDF document preview must demonstrate the error state.');
+requireText('pdfDocumentPreview', 'moody26-pdf-document--available', 'The PDF document preview must demonstrate the success state.');
+requireText('theme', 'moody_flipbook_pdf_flipbook', 'PDF document preprocessing must remain plugin scoped.');
+requireText('theme', 'block__moody_flipbook_pdf_flipbook', 'PDF document blocks must receive their dedicated template suggestion.');
+requireText('theme', 'moody26_remove_flipbook_attachments', 'Moody26 must remove the inaccessible DFlip runtime.');
+requireText('theme', "!== 'moody_flipbook/moody_dflip'", 'Moody26 must explicitly remove the DFlip asset library.');
+requireText('theme', "str_starts_with($key, 'flip_data_')", 'Moody26 must remove per-instance DFlip settings.');
+requireText('theme', "$media->access('view', NULL, TRUE)", 'PDF documents must enforce Media view access with cacheability.');
+requireText('theme', "$file->access('view', NULL, TRUE)", 'PDF documents must enforce File view access with cacheability.');
+requireText('theme', "$file->getMimeType() === 'application/pdf'", 'PDF document boundaries must validate the selected file type.');
+requireText('theme', '!file_exists($uri)', 'PDF document boundaries must fail closed when the physical source is unavailable.');
+requireText('theme', 'setCacheMaxAge(0)', 'Missing physical PDF sources must not become stale cached failures.');
+requireText('pdfDocumentTemplate', '<section{{ attributes', 'PDF document boundaries must use a semantic section.');
+requireText('pdfDocumentTemplate', "'aria-labelledby'", 'PDF document boundaries must expose a stable accessible name.');
+requireText('pdfDocumentTemplate', "{{ 'Open PDF'|t }}", 'Available PDF documents need a translated concise action.');
+requireText('pdfDocumentTemplate', "{{ 'Document unavailable'|t }}", 'Unavailable PDF documents need a translated factual status.');
+requireText('pdfDocumentTemplate', "{{ 'The PDF could not be loaded. Try this page again later.'|t }}", 'Unavailable PDF documents need a translated recovery instruction.');
+forbidText('pdfDocumentTemplate', '{{ content }}', 'The inaccessible provider viewer must not render inside Moody26.');
+forbidText('pdfDocumentTemplate', 'target="_blank"', 'PDF links must not force a new browsing context.');
+forbidText('pdfDocumentTemplate', 'aria-live', 'Server-rendered PDF failures must not announce as live updates.');
 requireText('eventDetailCss', 'macrostructure: Split Studio', 'Event details must retain the Hallmark Split Studio contract.');
 requireText('eventDetailCss', '.moody26-event--long-title', 'Long event titles must retain their length-aware masthead.');
 requireText('eventDetailCss', 'overflow-wrap: anywhere;', 'Event titles and body copy must survive long unbroken text.');
@@ -1346,6 +1383,7 @@ const runtimeFiles = [
   'profileListingBlock', 'profileDesignationField',
   'newsroom', 'newsRows', 'newsFields',
   'featureStoryCss', 'featureCreditTemplate', 'shorthandStoryCss', 'shorthandStoryTemplate',
+  'pdfDocumentCss', 'pdfDocumentTemplate',
   'eventDetailCss', 'eventTemplate',
   'focusAreas', 'promoUnits',
   'motionCss', 'settingsCss', 'accessibility', 'navigation', 'quickActions', 'motion', 'html', 'page', 'brandbar',
@@ -1366,7 +1404,7 @@ for (const file of runtimeFiles) {
   }
 }
 
-const cssFiles = ['css', 'headerSocialCss', 'quickActionsCss', 'landingHero', 'richTextCss', 'editorialSections', 'featuredHighlightCss', 'promoListCss', 'flexContentCss', 'imageLinkCss', 'flexColorBlocksCss', 'quotationCss', 'flexGridCss', 'impactFactsCss', 'showcaseCss', 'contactInfoCss', 'callToActionCss', 'resourceGroupCss', 'flexTabsCss', 'heroCarouselCss', 'photoContentCss', 'socialLinksCss', 'discoveryIndex', 'accordionCss', 'peopleDirectory', 'newsroom', 'featureStoryCss', 'shorthandStoryCss', 'eventDetailCss', 'motionCss', 'settingsCss'];
+const cssFiles = ['css', 'headerSocialCss', 'quickActionsCss', 'landingHero', 'richTextCss', 'editorialSections', 'featuredHighlightCss', 'promoListCss', 'flexContentCss', 'imageLinkCss', 'flexColorBlocksCss', 'quotationCss', 'flexGridCss', 'impactFactsCss', 'showcaseCss', 'contactInfoCss', 'callToActionCss', 'resourceGroupCss', 'flexTabsCss', 'heroCarouselCss', 'photoContentCss', 'socialLinksCss', 'discoveryIndex', 'accordionCss', 'peopleDirectory', 'newsroom', 'featureStoryCss', 'shorthandStoryCss', 'pdfDocumentCss', 'eventDetailCss', 'motionCss', 'settingsCss'];
 const forbiddenCss = [
   [/#(?:[0-9a-f]{3}|[0-9a-f]{6}|[0-9a-f]{8})\b/i, 'Raw hex colors belong only in tokens.css.'],
   [/\b(?:rgb|rgba|hsl|hsla|oklch)\(/i, 'Raw color functions belong only in tokens.css.'],
@@ -1397,7 +1435,7 @@ for (const file of ['preflight', 'log']) {
     errors.push(`${file} must contain valid JSON.`);
   }
 }
-requireText('preflight', '"package_version": "0.40.0"', 'Hallmark preflight must match the failure-safe Shorthand-story release.');
+requireText('preflight', '"package_version": "0.41.0"', 'Hallmark preflight must match the keyboard-safe PDF-document release.');
 requireText('log', 'Index-First profile dossier within the Ecosystem Index', 'Hallmark memory must record the shared faculty-profile composition.');
 requireText('log', 'Split Studio event brief within the Ecosystem Index', 'Hallmark memory must record the shared event-detail composition.');
 requireText('log', 'Long Document feature story within the Ecosystem Index', 'Hallmark memory must record the shared feature-story composition.');
@@ -1494,6 +1532,10 @@ requireText('agents', '### Shorthand stories', 'AGENTS.md must preserve the shar
 requireText('agents', 'provider module must resolve and validate', 'AGENTS.md must keep Shorthand file validation as a production prerequisite.');
 requireText('readme', '### Shared Shorthand stories', 'README must document the Shorthand integration boundary.');
 requireText('readme', 'Try this page again later.', 'README must document the truthful Shorthand recovery state.');
+requireText('agents', '### PDF documents', 'AGENTS.md must preserve the shared PDF document contract.');
+requireText('agents', 'document-wide Left/Right listener', 'AGENTS.md must preserve the DFlip keyboard-risk rationale.');
+requireText('readme', '### Shared PDF documents', 'README must document the keyboard-safe PDF document boundary.');
+requireText('readme', 'A themed link cannot make an inaccessible PDF compliant.', 'README must preserve document-level accessibility ownership.');
 
 if (errors.length) {
   console.error(`Moody26 verification failed (${errors.length}):`);
@@ -1503,5 +1545,5 @@ if (errors.length) {
   process.exitCode = 1;
 }
 else {
-  console.log(`Moody26 verification passed (${Object.keys(files).length} source files, ${fonts.length} local fonts, standalone shell, UT brand, Basic and Rich Text, accessible directories, UTProf Profile Listings, and faculty profile dossiers, accessible ambient-video heroes, resource hubs, Resource Groups, Flex Tabs, UT Drupal Kit Flex Lists, Hero Carousels, Photo Content Areas, Moody Newsletter destination bands, UT Drupal Kit Quick Links, semantic Social Links, Moody Anchor galleries, and failure-safe Shorthand stories, newsroom, feature stories, event details, accordions, Featured Highlights, Moody Promotions, Promo Lists, Flex Content Areas, Image Links, Flex Color Blocks, Moody Quotations, Moody Flex Grids, Moody Impact Facts, Moody and UT Drupal Kit Heroes, Moody Showcases, Moody Contact Info, and Call to Action blocks, header social links, motion, responsive, and Hallmark gates).`);
+  console.log(`Moody26 verification passed (${Object.keys(files).length} source files, ${fonts.length} local fonts, standalone shell, UT brand, Basic and Rich Text, accessible directories, UTProf Profile Listings, and faculty profile dossiers, accessible ambient-video heroes, resource hubs, Resource Groups, Flex Tabs, UT Drupal Kit Flex Lists, Hero Carousels, Photo Content Areas, Moody Newsletter destination bands, UT Drupal Kit Quick Links, semantic Social Links, Moody Anchor galleries, failure-safe Shorthand stories, and keyboard-safe PDF documents, newsroom, feature stories, event details, accordions, Featured Highlights, Moody Promotions, Promo Lists, Flex Content Areas, Image Links, Flex Color Blocks, Moody Quotations, Moody Flex Grids, Moody Impact Facts, Moody and UT Drupal Kit Heroes, Moody Showcases, Moody Contact Info, and Call to Action blocks, header social links, motion, responsive, and Hallmark gates).`);
 }

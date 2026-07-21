@@ -952,6 +952,37 @@ not belong outside the token and font declaration files.
   must retain the provider output; the empty state must expose one semantic
   fallback, contain no interactive controls, and create no horizontal overflow.
 
+### PDF documents
+
+- Treat `moody_flipbook_pdf_flipbook` as a shared PDF document boundary, never
+  as a route-, node-, title-, component-UUID-, or position-specific exception.
+- Do not render or attach the legacy DFlip canvas runtime in Moody26. Its
+  document-wide Left/Right listener, mouse-only `<div>` controls, sub-44-pixel
+  targets, and optional WebGL page motion do not meet the theme’s keyboard,
+  target-size, and reduced-motion contracts. Do not attempt a cosmetic CSS-only
+  repair or recreate those controls in theme JavaScript.
+- Keep the editor-selected Media entity as the source of truth. Resolve legacy
+  scalar or widget-array configuration, check Media and File view access,
+  require a PDF MIME type or `.pdf` filename, verify the physical stream-wrapper
+  source, and bubble entity and access cacheability before exposing a URL.
+- Render one labelled `section` with the authored block label or document title.
+  A valid source gets one descriptive native “Open PDF” link whose accessible
+  name includes the document title. Do not force a new window, claim that the
+  PDF itself is accessible, add autoplay, or invent metadata or destinations.
+- A missing, inaccessible, or non-PDF source gets “Document unavailable” and
+  “The PDF could not be loaded. Try this page again later.” in ordinary document
+  flow. Do not emit the provider seed, a live region, spinner, disabled action,
+  placeholder preview, or broken link. Keep physical-file failures uncacheable
+  because restoring a file alone may not invalidate an entity cache tag.
+- Keep the boundary flat, left aligned, token governed, and container-aware.
+  The action remains at least 44 by 44 CSS pixels, on one line, with visible
+  non-animated focus and complete static-link states. Verify 320, 375, 414, and
+  768 CSS pixels, 200% zoom, keyboard order, and no horizontal overflow.
+- Treat each PDF as independently authored content. Before production, validate
+  its tags, title, language, reading order, headings, link names, tables, image
+  alternatives, and contrast with a document accessibility tool and manual
+  review; the outer HTML boundary cannot certify the file.
+
 ### Event details
 
 - Treat every published `moody_event` node as one shared fleet event-detail
@@ -1546,6 +1577,9 @@ Texas requirements. The current University compliance date is March 1, 2026.
   `templates/blocks/block--moody-shorthand-zip-shorthand-zip-story.html.twig`:
   provider-preserving Shorthand integration boundary and semantic unavailable
   state for empty exports.
+- `css/components/pdf-document.css`, its eight-state preview, and
+  `templates/blocks/block--moody-flipbook-pdf-flipbook.html.twig`: native-link
+  PDF document boundary with provider-asset removal and truthful failure state.
 - `css/components/event-detail.css`: length-aware event mastheads, uncropped
   media, responsive Split Studio layout, and semantic attendance-fact ledger.
 - `templates/content/node--moody-event.html.twig`: event body, external source

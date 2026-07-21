@@ -667,6 +667,9 @@ function moody26_theme_suggestions_block_alter(array &$suggestions, array $varia
   if ($plugin_id === 'moody_shorthand_zip_shorthand_zip_story') {
     $suggestions[] = 'block__moody_shorthand_zip_shorthand_zip_story';
   }
+  if ($plugin_id === 'moody_flipbook_pdf_flipbook') {
+    $suggestions[] = 'block__moody_flipbook_pdf_flipbook';
+  }
 }
 
 /**
@@ -735,7 +738,10 @@ function moody26_preprocess_block(array &$variables): void {
     CacheableMetadata::createFromObject($block_content)->applyTo($variables);
   }
 
-  $plugin_id = $variables['base_plugin_id'] ?? '';
+  $plugin_id = $variables['base_plugin_id']
+    ?? $variables['elements']['#base_plugin_id']
+    ?? $variables['elements']['#plugin_id']
+    ?? '';
   $derivative_plugin_id = $variables['derivative_plugin_id']
     ?? $variables['elements']['#derivative_plugin_id']
     ?? '';
@@ -746,6 +752,10 @@ function moody26_preprocess_block(array &$variables): void {
       ?? '';
     $variables['shorthand_story_available'] = trim((string) $story_markup) !== '';
     $variables['shorthand_story_status_id'] = Html::getUniqueId('shorthand-story-status');
+  }
+
+  if ($plugin_id === 'moody_flipbook_pdf_flipbook') {
+    moody26_preprocess_pdf_document($variables);
   }
 
   $feature_story_components = [
@@ -817,6 +827,131 @@ function moody26_preprocess_block(array &$variables): void {
   if (isset($utility_classes[$plugin_id])) {
     $variables['attributes']['class'][] = $utility_classes[$plugin_id];
   }
+}
+
+/**
+ * Replaces the legacy canvas flipbook with a resilient document boundary.
+ *
+ * The provider's DFlip runtime installs document-wide arrow-key handlers and
+ * emits mouse-only controls. Moody26 therefore keeps the editor-selected Media
+ * entity but presents its PDF as a native link instead of loading that runtime.
+ */
+function moody26_preprocess_pdf_document(array &$variables): void {
+  $variables['pdf_document_available'] = FALSE;
+  $variables['pdf_document_name'] = '';
+  $variables['pdf_document_url'] = '';
+  $variables['pdf_document_heading_id'] = Html::getUniqueId('pdf-document-title');
+
+  moody26_remove_flipbook_attachments($variables['content']);
+  if (isset($variables['elements']) && is_array($variables['elements'])) {
+    moody26_remove_flipbook_attachments($variables['elements']);
+  }
+
+  $configuration = $variables['elements']['#configuration']
+    ?? $variables['configuration']
+    ?? [];
+  $media_id = moody26_extract_media_id($configuration['pdf'] ?? NULL);
+  if ($media_id === NULL) {
+    return;
+  }
+
+  $media = \Drupal::entityTypeManager()->getStorage('media')->load($media_id);
+  if (!$media instanceof MediaInterface) {
+    return;
+  }
+
+  $cacheability = (new CacheableMetadata())->addCacheableDependency($media);
+  $media_access = $media->access('view', NULL, TRUE);
+  $cacheability->addCacheableDependency($media_access);
+  $variables['pdf_document_name'] = trim($media->label());
+
+  if (
+    !$media_access->isAllowed()
+    || !$media->hasField('field_media_file')
+    || $media->get('field_media_file')->isEmpty()
+  ) {
+    $cacheability->applyTo($variables);
+    return;
+  }
+
+  $file = $media->get('field_media_file')->entity;
+  if (!$file instanceof FileInterface) {
+    $cacheability->applyTo($variables);
+    return;
+  }
+
+  $cacheability->addCacheableDependency($file);
+  $file_access = $file->access('view', NULL, TRUE);
+  $cacheability->addCacheableDependency($file_access);
+  $uri = trim($file->getFileUri());
+  $filename = trim($file->getFilename());
+  $is_pdf = $file->getMimeType() === 'application/pdf'
+    || str_ends_with(mb_strtolower($filename), '.pdf');
+
+  if ($variables['pdf_document_name'] === '') {
+    $variables['pdf_document_name'] = $filename;
+  }
+
+  if (!$file_access->isAllowed() || !$is_pdf || $uri === '') {
+    $cacheability->applyTo($variables);
+    return;
+  }
+
+  if (!file_exists($uri)) {
+    // Physical files can be restored without changing the entity cache tag.
+    $cacheability->setCacheMaxAge(0)->applyTo($variables);
+    return;
+  }
+
+  $variables['pdf_document_available'] = TRUE;
+  $variables['pdf_document_url'] = \Drupal::service('file_url_generator')
+    ->generateAbsoluteString($uri);
+  $cacheability->applyTo($variables);
+}
+
+/**
+ * Removes provider assets and per-instance settings from one render array.
+ */
+function moody26_remove_flipbook_attachments(array &$build): void {
+  $libraries = $build['#attached']['library'] ?? [];
+  if (is_array($libraries)) {
+    $build['#attached']['library'] = array_values(array_filter(
+      $libraries,
+      static fn (string $library): bool => $library !== 'moody_flipbook/moody_dflip',
+    ));
+  }
+
+  $settings = $build['#attached']['drupalSettings'] ?? [];
+  if (!is_array($settings)) {
+    return;
+  }
+  foreach (array_keys($settings) as $key) {
+    if (is_string($key) && str_starts_with($key, 'flip_data_')) {
+      unset($build['#attached']['drupalSettings'][$key]);
+    }
+  }
+}
+
+/**
+ * Extracts the first numeric Media ID from legacy widget configuration.
+ */
+function moody26_extract_media_id(mixed $value): ?int {
+  if (is_numeric($value)) {
+    return (int) $value;
+  }
+  if (!is_array($value)) {
+    return NULL;
+  }
+  if (isset($value['target_id']) && is_numeric($value['target_id'])) {
+    return (int) $value['target_id'];
+  }
+  foreach ($value as $item) {
+    $media_id = moody26_extract_media_id($item);
+    if ($media_id !== NULL) {
+      return $media_id;
+    }
+  }
+  return NULL;
 }
 
 /**

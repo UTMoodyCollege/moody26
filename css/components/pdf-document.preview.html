@@ -1,0 +1,116 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Moody26 PDF document states</title>
+    <link rel="stylesheet" href="../fonts.css">
+    <link rel="stylesheet" href="../../tokens.css">
+    <link rel="stylesheet" href="pdf-document.css">
+    <style>
+      body {
+        margin: 0;
+        padding: var(--space-lg);
+        background: var(--color-paper);
+        color: var(--color-ink);
+        font-family: var(--font-body);
+      }
+      main {
+        display: grid;
+        gap: var(--space-xl);
+        max-width: var(--content-max);
+        margin-inline: auto;
+      }
+      .preview-state {
+        display: grid;
+        gap: var(--space-sm);
+      }
+      .preview-state > h2 {
+        margin: 0;
+        font: 700 var(--text-base) / var(--leading-body) var(--font-body);
+      }
+      .preview-state > .moody26-pdf-document__action {
+        justify-self: start;
+      }
+    </style>
+  </head>
+  <body>
+    <main>
+      <h1>PDF document states</h1>
+
+      <section class="preview-state">
+        <h2>Default</h2>
+        <a class="moody26-pdf-document__action" href="#default">
+          <span class="moody26-pdf-document__action-label">Open PDF</span>
+          <span class="moody26-pdf-document__file-mark" aria-hidden="true">PDF</span>
+        </a>
+      </section>
+
+      <section class="preview-state">
+        <h2>Hover</h2>
+        <a class="moody26-pdf-document__action is-hover" href="#hover">
+          <span class="moody26-pdf-document__action-label">Open PDF</span>
+          <span class="moody26-pdf-document__file-mark" aria-hidden="true">PDF</span>
+        </a>
+      </section>
+
+      <section class="preview-state">
+        <h2>Focus</h2>
+        <a class="moody26-pdf-document__action is-focus" href="#focus">
+          <span class="moody26-pdf-document__action-label">Open PDF</span>
+          <span class="moody26-pdf-document__file-mark" aria-hidden="true">PDF</span>
+        </a>
+      </section>
+
+      <section class="preview-state">
+        <h2>Active</h2>
+        <a class="moody26-pdf-document__action is-active" href="#active">
+          <span class="moody26-pdf-document__action-label">Open PDF</span>
+          <span class="moody26-pdf-document__file-mark" aria-hidden="true">PDF</span>
+        </a>
+      </section>
+
+      <section class="preview-state">
+        <h2>Disabled</h2>
+        <span class="moody26-pdf-document__action is-disabled" aria-disabled="true">
+          <span class="moody26-pdf-document__action-label">Open PDF</span>
+          <span class="moody26-pdf-document__file-mark" aria-hidden="true">PDF</span>
+        </span>
+      </section>
+
+      <section class="preview-state">
+        <h2>Loading</h2>
+        <span class="moody26-pdf-document__action is-loading" role="status">
+          <span class="moody26-pdf-document__action-label">Loading PDF…</span>
+          <span class="moody26-pdf-document__file-mark" aria-hidden="true">PDF</span>
+        </span>
+      </section>
+
+      <section class="moody26-pdf-document moody26-pdf-document--unavailable">
+        <h2 class="moody26-pdf-document__heading">Error</h2>
+        <div class="moody26-pdf-document__body">
+          <div class="moody26-pdf-document__copy">
+            <p class="moody26-pdf-document__status"><strong>Document unavailable</strong></p>
+            <p class="moody26-pdf-document__description">The PDF could not be loaded. Try this page again later.</p>
+          </div>
+        </div>
+      </section>
+
+      <section class="moody26-pdf-document moody26-pdf-document--available">
+        <h2 class="moody26-pdf-document__heading">Success</h2>
+        <div class="moody26-pdf-document__body">
+          <div class="moody26-pdf-document__copy">
+            <p class="moody26-pdf-document__name">Moody College program guide</p>
+            <p class="moody26-pdf-document__description">Open the PDF in your browser or preferred document reader.</p>
+          </div>
+          <div class="moody26-pdf-document__actions">
+            <a class="moody26-pdf-document__action" href="#success">
+              <span class="moody26-pdf-document__action-label">Open PDF</span>
+              <span class="moody26-pdf-document__file-mark" aria-hidden="true">PDF</span>
+            </a>
+          </div>
+        </div>
+      </section>
+    </main>
+  </body>
+</html>

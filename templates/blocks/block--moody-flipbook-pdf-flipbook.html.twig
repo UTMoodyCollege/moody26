@@ -1,0 +1,65 @@
+{#
+/**
+ * @file
+ * Keyboard-safe boundary for an editor-selected PDF document.
+ *
+ * The provider's legacy canvas viewer is intentionally not rendered: it
+ * installs document-wide arrow-key handlers and exposes mouse-only controls.
+ */
+#}
+{% set classes = [
+  'block',
+  'block-' ~ configuration.provider|clean_class,
+  'block-' ~ plugin_id|clean_class,
+  'moody26-pdf-document',
+  pdf_document_available
+    ? 'moody26-pdf-document--available'
+    : 'moody26-pdf-document--unavailable',
+] %}
+{% set heading = label ?: pdf_document_name ?: 'PDF document'|t %}
+
+<section{{ attributes
+  .setAttribute('aria-labelledby', pdf_document_heading_id)
+  .addClass(classes)
+}}>
+  {{ title_prefix }}
+  <h2{{ title_attributes
+    .setAttribute('id', pdf_document_heading_id)
+    .addClass('moody26-pdf-document__heading')
+  }}>{{ heading }}</h2>
+  {{ title_suffix }}
+
+  <div class="moody26-pdf-document__body">
+    <div class="moody26-pdf-document__copy">
+      {% if pdf_document_name and pdf_document_name != heading %}
+        <p class="moody26-pdf-document__name">{{ pdf_document_name }}</p>
+      {% endif %}
+
+      {% if pdf_document_available %}
+        <p class="moody26-pdf-document__description">
+          {{ 'Open the PDF in your browser or preferred document reader.'|t }}
+        </p>
+      {% else %}
+        <p class="moody26-pdf-document__status">
+          <strong>{{ 'Document unavailable'|t }}</strong>
+        </p>
+        <p class="moody26-pdf-document__description">
+          {{ 'The PDF could not be loaded. Try this page again later.'|t }}
+        </p>
+      {% endif %}
+    </div>
+
+    {% if pdf_document_available %}
+      <div class="moody26-pdf-document__actions">
+        <a
+          class="moody26-pdf-document__action"
+          href="{{ pdf_document_url }}"
+          aria-label="{{ 'Open @title (PDF)'|t({'@title': pdf_document_name ?: heading}) }}"
+        >
+          <span class="moody26-pdf-document__action-label">{{ 'Open PDF'|t }}</span>
+          <span class="moody26-pdf-document__file-mark" aria-hidden="true">PDF</span>
+        </a>
+      </div>
+    {% endif %}
+  </div>
+</section>

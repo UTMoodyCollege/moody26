@@ -6,7 +6,7 @@ visual identity with an accessible, editorial system that can serve academic,
 research, film, journalism, advertising, alumni, event, and public-facing
 sites without requiring the legacy Moody or Speedway themes.
 
-> **Project status:** pre-release (`0.40.0`). The theme is being validated in
+> **Project status:** pre-release (`0.41.0`). The theme is being validated in
 > [Moody Core](https://github.com/UTMoodyCollege/moody-core) before its first
 > stable tag. Pin an exact commit when evaluating the `main` branch.
 
@@ -736,6 +736,31 @@ specific absolute path; then rebuild Drupal caches. The fallback disappears
 automatically when the provider returns non-empty markup. Spot-test at least one
 complete story and one intentionally unavailable story before activation.
 
+### Shared PDF documents
+
+The `moody_flipbook_pdf_flipbook` block is rendered as a portable PDF document
+boundary. Moody26 deliberately replaces the provider’s legacy DFlip canvas:
+that runtime creates mouse-only controls smaller than 44 CSS pixels and installs
+document-wide Left/Right handlers that can turn pages while focus is elsewhere.
+The theme keeps the editor-selected Media entity and exposes a concise native
+“Open PDF” link with the document title in its accessible name. It also avoids
+loading the retired viewer’s jQuery, canvas, WebGL, sound, and animation assets.
+
+Moody26 validates Media and File view access, the PDF type, and the physical
+source before exposing the destination. A missing, inaccessible, or non-PDF
+source becomes a labelled “Document unavailable” section with the recovery
+instruction “The PDF could not be loaded. Try this page again later.” No dead
+viewer seed, spinner, guessed destination, or global keyboard handler remains.
+Because a restored physical file may not invalidate its Drupal entity cache
+tag, missing-file results are deliberately uncacheable until the asset returns.
+
+The component is mobile-first, container-aware, complete at 320, 375, 414, and
+768 CSS pixels, and uses one 44-pixel action target with explicit default,
+hover, focus, active, disabled, loading, error, and success treatments. The
+published PDF itself remains content: editors must verify tags, reading order,
+language, link text, image alternatives, tables, and document-title metadata
+before production. A themed link cannot make an inaccessible PDF compliant.
+
 ### Shared event details
 
 Every published `moody_event` node uses the Split Studio composition: the
@@ -1114,7 +1139,7 @@ than replace manual assistive-technology review.
 | `tokens.css` | Brand, type, spacing, motion, focus, and layout tokens |
 | `css/fonts.css` | Local approved digital font declarations |
 | `css/moody26.css` | Global foundation, shell, navigation, forms, and footer |
-| `css/components/` | Header social, ambient-video and shared Hero, Basic and Rich Text, editorial, discovery, resource-hub, accordion, Featured Highlight and Moody Promotion signal bands, Promo List, Flex Content Area, Image Link, Flex Color Block, Moody Quotation, Moody Flex Grid, Impact Facts, Contact Info, Call to Action, Social Links, Moody Anchor gallery, people-directory, faculty-profile, newsroom, feature-story, Shorthand boundary, event-detail, quick-action, and settings components |
+| `css/components/` | Header social, ambient-video and shared Hero, Basic and Rich Text, editorial, discovery, resource-hub, accordion, Featured Highlight and Moody Promotion signal bands, Promo List, Flex Content Area, Image Link, Flex Color Block, Moody Quotation, Moody Flex Grid, Impact Facts, Contact Info, Call to Action, Social Links, Moody Anchor gallery, people-directory, faculty-profile, newsroom, feature-story, Shorthand and PDF document boundaries, event-detail, quick-action, and settings components |
 | `js/navigation.js` | Drawer and disclosure navigation state |
 | `js/quick-actions.js` | Native dialog and rendered-destination discovery |
 | `js/accessibility.js` | Progressive safeguards for media controls and rendered content components |
