@@ -1,0 +1,156 @@
+/* Hallmark · component: Moody Anchor image gallery · genre: editorial
+ * tone: youthful academic restraint · anchor hue: exact UT burnt orange
+ * macrostructure: staggered portrait strip · states: default · visited · hover · focus · active · disabled
+ * contrast: pass (40–41) · responsive: pass (34, 49–57; 320/375/414/768/1280)
+ * honest: pass (46) · chrome: pass (47) · tokens: pass (48) · motion: cut
+ * loading/error/success states: not applicable to static formatter-owned media
+ */
+/* Hallmark · pre-emit critique: P5 H5 E5 S5 R5 V5 */
+
+.block-bundle-moody-anchors-block {
+  min-inline-size: 0;
+  container-name: anchor-gallery;
+  container-type: inline-size;
+}
+
+.block-bundle-moody-anchors-block[hidden] {
+  display: none;
+}
+
+.anchor-gallery,
+.anchor-gallery__list,
+.anchor-gallery__item,
+.anchor-gallery__media,
+.anchor-gallery__action {
+  min-inline-size: 0;
+}
+
+.anchor-gallery {
+  padding-block: var(--space-lg) var(--space-xl);
+  border-block-start: var(--rule-strong) solid var(--color-accent);
+  color: var(--color-ink);
+}
+
+.anchor-gallery__list {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 14rem), 1fr));
+  gap: var(--space-xl) var(--space-lg);
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.anchor-gallery__item {
+  margin: 0;
+  padding: 0;
+}
+
+.anchor-gallery__media {
+  aspect-ratio: 5 / 7;
+  overflow: clip;
+  background: var(--color-paper-2);
+}
+
+.anchor-gallery__media :where(picture, img) {
+  display: block;
+  inline-size: 100%;
+  block-size: 100%;
+}
+
+.anchor-gallery__media img {
+  object-fit: cover;
+}
+
+.anchor-gallery__action {
+  margin-block-start: var(--space-sm);
+}
+
+.anchor-gallery__action .anchor-btn {
+  position: relative;
+  display: inline-flex;
+  inline-size: max-content;
+  max-inline-size: 100%;
+  min-block-size: var(--target-min);
+  align-items: center;
+  padding-block: var(--space-sm);
+  padding-inline: var(--space-md) calc(var(--space-xl) + var(--space-lg));
+  border: var(--rule-strong) solid var(--color-accent);
+  border-radius: var(--radius-sm);
+  background: var(--color-accent);
+  color: var(--color-accent-ink);
+  font-family: var(--font-body);
+  font-size: var(--text-base);
+  font-weight: 700;
+  line-height: 1.25;
+  overflow-wrap: normal;
+  text-align: center;
+  text-decoration: none;
+  transform: none;
+  white-space: nowrap;
+  word-break: normal;
+}
+
+.anchor-gallery__action .anchor-btn::after {
+  position: absolute;
+  inset-block: 0;
+  inset-inline-end: var(--space-md);
+  display: block;
+  inline-size: calc(var(--space-lg) + var(--space-xs));
+  block-size: var(--space-md);
+  margin-block: auto;
+  background: currentColor;
+  clip-path: polygon(0 40%, 68% 40%, 68% 0, 100% 50%, 68% 100%, 68% 60%, 0 60%);
+  content: "";
+  text-decoration: none;
+}
+
+.anchor-gallery__action .anchor-btn:visited {
+  color: var(--color-accent-ink);
+}
+
+.anchor-gallery__action .anchor-btn:focus-visible {
+  outline: var(--rule-strong) solid var(--color-paper);
+  outline-offset: var(--rule-strong);
+  box-shadow: 0 0 0 var(--space-xs) var(--color-ink);
+}
+
+.anchor-gallery__action .anchor-btn:not([aria-disabled="true"]):active {
+  background: var(--color-paper-3);
+  color: var(--color-accent);
+}
+
+.anchor-gallery__action .anchor-btn[aria-disabled="true"] {
+  border-color: var(--color-control-border);
+  background: var(--color-paper-2);
+  color: var(--color-muted);
+  cursor: not-allowed;
+  opacity: 0.7;
+  pointer-events: none;
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .anchor-gallery__action .anchor-btn:not([aria-disabled="true"]):hover {
+    background: var(--color-paper);
+    color: var(--color-accent);
+  }
+}
+
+@container anchor-gallery (min-width: 30rem) {
+  .anchor-gallery__list {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+@container anchor-gallery (min-width: 60rem) {
+  .anchor-gallery__list {
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+  }
+
+  .anchor-gallery__item:nth-child(even):not(.anchor-gallery__item--action-only) {
+    margin-block-start: var(--space-lg);
+  }
+}
+
+.anchor-gallery__item--action-only {
+  grid-column: 1 / -1;
+}

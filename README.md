@@ -6,7 +6,7 @@ visual identity with an accessible, editorial system that can serve academic,
 research, film, journalism, advertising, alumni, event, and public-facing
 sites without requiring the legacy Moody or Speedway themes.
 
-> **Project status:** pre-release (`0.31.0`). The theme is being validated in
+> **Project status:** pre-release (`0.32.0`). The theme is being validated in
 > [Moody Core](https://github.com/UTMoodyCollege/moody-core) before its first
 > stable tag. Pin an exact commit when evaluating the `main` branch.
 
@@ -73,6 +73,9 @@ sites without requiring the legacy Moody or Speedway themes.
 - Shared UT Drupal Kit Social Links with semantic grouped lists, provider-owned
   icons and destinations, container-aware target sizes, and complete static
   link states across content, header, drawer, and footer placements.
+- Shared Moody Anchor fields rendered as semantic portrait galleries with
+  provider-owned responsive media, honest missing-file recovery, container-
+  aware one-, two-, and four-column layouts, and complete optional link states.
 - Shared people directories with semantic list and heading structure,
   accessible linked profiles, responsive filters, honest result counts, and a
   useful empty state.
@@ -420,6 +423,34 @@ following legacy negative-margin block is prevented from covering the targets.
 The same semantic field output remains compatible with content regions, the
 optional responsive header placement, and footer block regions without adding
 JavaScript, motion, synthetic labels, or fabricated asynchronous states.
+
+### Shared Moody Anchor galleries
+
+The legacy-named Moody Anchors block is an image collection, not page
+navigation. Moody26 renders its retained items as one explicitly semantic
+`Image gallery` list and removes the provider’s generic card wrappers and
+leaked `Anchor Image` field label. Drupal still owns the item order, responsive
+image formatter, alternative text, optional destinations, cacheability, and
+attachments; the theme never recreates media or links.
+
+The gallery uses one portrait column in narrow Layout Builder regions, two
+columns when its own container reaches 30rem, and a subtly staggered four-image
+strip at 60rem. Image tracks use `minmax(0, 1fr)`, media keeps a stable portrait
+frame, and concise optional link labels remain complete on one line rather than
+being clipped. Editors should shorten an action that does not fit at 320 CSS
+pixels; the theme never rewrites it. Links have 44 CSS-pixel minimum targets
+with readable visited, immediate focus, active, authored disabled, and
+capability-gated hover states.
+
+An item whose original source file is unavailable is omitted before Twig
+renders it. If no valid media or optional action remains, the block label,
+field output, and wrapper are hidden together, preventing broken image icons,
+empty administrative headings, and large blank regions. Restoring migrated
+files followed by a Drupal cache rebuild makes those editor-owned images
+eligible again; Moody26 does not manufacture placeholders or replacement copy.
+The empty wrapper remains available on Layout Builder routes so editors can
+repair it, and that route-dependent state has an explicit cache context. The
+component is static and adds no JavaScript or motion.
 
 ### Shared Moody Showcases
 
@@ -880,7 +911,7 @@ than replace manual assistive-technology review.
 | `tokens.css` | Brand, type, spacing, motion, focus, and layout tokens |
 | `css/fonts.css` | Local approved digital font declarations |
 | `css/moody26.css` | Global foundation, shell, navigation, forms, and footer |
-| `css/components/` | Header social, Moody Hero, editorial, discovery, resource-hub, accordion, Featured Highlight and Moody Promotion signal bands, Promo List, Flex Content Area, Image Link, Flex Color Block, Moody Quotation, Moody Flex Grid, Impact Facts, Contact Info, Call to Action, people-directory, newsroom, quick-action, and settings components |
+| `css/components/` | Header social, Moody Hero, editorial, discovery, resource-hub, accordion, Featured Highlight and Moody Promotion signal bands, Promo List, Flex Content Area, Image Link, Flex Color Block, Moody Quotation, Moody Flex Grid, Impact Facts, Contact Info, Call to Action, Social Links, Moody Anchor gallery, people-directory, newsroom, quick-action, and settings components |
 | `js/navigation.js` | Drawer and disclosure navigation state |
 | `js/quick-actions.js` | Native dialog and rendered-destination discovery |
 | `js/accessibility.js` | Progressive safeguards for rendered content components |

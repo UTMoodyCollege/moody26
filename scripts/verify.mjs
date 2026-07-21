@@ -45,6 +45,7 @@ const files = {
   newsletterCss: 'css/components/newsletter.css',
   quickLinksCss: 'css/components/quick-links.css',
   socialLinksCss: 'css/components/social-links.css',
+  anchorGalleryCss: 'css/components/anchor-gallery.css',
   discoveryIndex: 'css/components/discovery-index.css',
   accordionCss: 'css/components/accordion.css',
   peopleDirectory: 'css/components/people-directory.css',
@@ -103,6 +104,7 @@ const files = {
   newsletterTemplate: 'templates/components/moody-newsletter.html.twig',
   quickLinksTemplate: 'templates/components/utexas-quick-links.html.twig',
   socialLinksTemplate: 'templates/components/field--utexas-social-link-field.html.twig',
+  anchorGalleryTemplate: 'templates/components/field--block-content--field-anchor-image--moody-anchors-block.html.twig',
   heroTemplate: 'templates/components/moody-hero.html.twig',
   heroStyle1Template: 'templates/components/moody-hero-1.html.twig',
   heroStyle2Template: 'templates/components/moody-hero-2.html.twig',
@@ -189,8 +191,8 @@ const forbidPattern = (file, pattern, message) => {
 
 try {
   const packageJson = JSON.parse(contents.package ?? '');
-  if (packageJson.version !== '0.31.0') {
-    errors.push('The shared UT Drupal Kit Social Links release must remain versioned as 0.31.0.');
+  if (packageJson.version !== '0.32.0') {
+    errors.push('The shared Moody Anchor gallery release must remain versioned as 0.32.0.');
   }
   for (const [dependency, version] of [
     ['animejs', '4.5.0'],
@@ -257,8 +259,9 @@ requireText('libraries', 'css/components/photo-content.css', 'Shared UT Drupal K
 requireText('libraries', 'css/components/newsletter.css', 'Shared Moody Newsletter styles must remain attached.');
 requireText('libraries', 'css/components/quick-links.css', 'Shared UT Drupal Kit Quick Links styles must remain attached.');
 requireText('libraries', 'css/components/social-links.css', 'Shared UT Drupal Kit Social Links styles must remain attached.');
+requireText('libraries', 'css/components/anchor-gallery.css', 'Shared Moody Anchor gallery styles must remain attached.');
 requireText('libraries', 'js/dist/motion.min.js', 'The built motion integration must remain attached.');
-requireText('libraries', 'version: 0.31.0', 'The Drupal asset version must match the UT Drupal Kit Social Links release.');
+requireText('libraries', 'version: 0.32.0', 'The Drupal asset version must match the Moody Anchor gallery release.');
 forbidText('info', '- moody26/motion', 'Optional motion must be attached from theme settings rather than globally.');
 
 requireText('settings', "header_social_links_block: ''", 'Header social links must be optional for new installs.');
@@ -723,6 +726,39 @@ requireText('theme', 'UTexasSocialLinkOptions::getIcons()', 'Social Links must d
 requireText('theme', 'file_exists($icon)', 'Social Links must omit unavailable provider icon files.');
 requireText('theme', '$url instanceof \\Drupal\\Core\\Url', 'Social Links must preserve formatter-owned URL objects.');
 requireText('theme', '--social-icon-image: url(', 'Social Links must expose the validated provider icon URL.');
+requireText('anchorGalleryCss', 'component: Moody Anchor image gallery', 'Moody Anchor galleries must retain the Hallmark component contract.');
+requireText('anchorGalleryCss', 'macrostructure: staggered portrait strip', 'Moody Anchor galleries must retain their structural fingerprint.');
+requireText('anchorGalleryCss', 'container-name: anchor-gallery;', 'Moody Anchor galleries must retain their named Layout Builder container.');
+requireText('anchorGalleryCss', 'container-type: inline-size;', 'Moody Anchor galleries must respond to their Layout Builder container.');
+requireText('anchorGalleryCss', 'repeat(auto-fit, minmax(min(100%, 14rem), 1fr))', 'Moody Anchor galleries need a content-width fallback when container queries are unavailable.');
+requireText('anchorGalleryCss', 'grid-template-columns: repeat(2, minmax(0, 1fr));', 'Moody Anchor galleries must retain safe two-column tracks.');
+requireText('anchorGalleryCss', 'grid-template-columns: repeat(4, minmax(0, 1fr));', 'Moody Anchor galleries must retain safe four-column tracks.');
+requireText('anchorGalleryCss', 'aspect-ratio: 5 / 7;', 'Moody Anchor media must retain its portrait frame.');
+requireText('anchorGalleryCss', 'min-block-size: var(--target-min);', 'Moody Anchor actions must preserve 44 CSS-pixel targets.');
+requireText('anchorGalleryCss', 'white-space: nowrap;', 'Moody Anchor actions must remain one-line affordances.');
+requireText('anchorGalleryCss', '.anchor-btn:visited', 'Moody Anchor actions need an explicit visited state.');
+requireText('anchorGalleryCss', '.anchor-btn:focus-visible', 'Moody Anchor actions need immediate visible focus.');
+requireText('anchorGalleryCss', '.anchor-btn:not([aria-disabled="true"]):active', 'Moody Anchor actions need active feedback.');
+requireText('anchorGalleryCss', '.anchor-btn[aria-disabled="true"]', 'Moody Anchor actions must honor an authored disabled state.');
+requireText('anchorGalleryCss', '@media (hover: hover) and (pointer: fine)', 'Moody Anchor hover feedback must be capability-gated.');
+forbidPattern('anchorGalleryCss', /(?:^|\s)(?:#(?:[\da-f]{3}){1,2}|(?:rgb|hsl|oklch)\()/im, 'Moody Anchor gallery styles must use locked color tokens.');
+requireText('anchorGalleryTemplate', '<ul class="anchor-gallery__list" role="list" aria-label="{{ \'Image gallery\'|t }}">', 'Moody Anchor galleries must expose a translated semantic list.');
+requireText('anchorGalleryTemplate', '<li{{ item.attributes.addClass(item_classes) }}>', 'Moody Anchor galleries must keep direct semantic list items.');
+requireText('anchorGalleryTemplate', '{{ item.media }}', 'Moody Anchor galleries must preserve formatter-owned responsive media.');
+requireText('anchorGalleryTemplate', '{{ item.action }}', 'Moody Anchor galleries must preserve formatter-owned actions.');
+forbidText('anchorGalleryTemplate', '{{ label }}', 'Moody Anchor galleries must not leak the generic field label.');
+forbidText('anchorGalleryTemplate', 'href=', 'Moody Anchor destinations must not be reconstructed in Twig.');
+forbidText('anchorGalleryTemplate', '|raw', 'Moody Anchor galleries must not bypass Drupal render safety.');
+forbidText('anchorGalleryTemplate', 'attach_library', 'Moody Anchor galleries must use the theme global library without duplicate attachments.');
+requireText('theme', "($variables['field_name'] ?? '') === 'field_anchor_image'", 'Moody Anchor preprocessing must remain field-name scoped.');
+requireText('theme', "$entity->bundle() === 'moody_anchors_block'", 'Moody Anchor preprocessing must remain bundle scoped.');
+requireText('theme', "($media['#theme'] ?? NULL) !== 'responsive_image_formatter'", 'Moody Anchor validation must require provider responsive media.');
+requireText('theme', 'file_exists($uri)', 'Moody Anchor galleries must omit unavailable source files.');
+requireText('theme', '$action instanceof Link', 'Moody Anchor galleries must preserve formatter-owned Link objects.');
+requireText('theme', "str_starts_with($route_name, 'layout_builder.')", 'Empty Moody Anchor blocks must remain reachable in Layout Builder.');
+requireText('theme', "->addCacheContexts(['route'])", 'Moody Anchor editor/public output must vary by route.');
+requireText('theme', "$variables['attributes']['hidden'] = 'hidden';", 'Empty Moody Anchor blocks must leave the layout and accessibility tree.');
+requireText('theme', "$variables['content']['field_anchor_image']['#access'] = FALSE;", 'Empty Moody Anchor fields must not render provider fallbacks.');
 requireText('discoveryIndex', 'repeat(12, minmax(0, 1fr))', 'Discovery grids must use safe image-bearing tracks.');
 requireText('discoveryIndex', '.linked-focus-area-item:focus-visible', 'Focus Area tasks need immediate visible focus.');
 requireText('discoveryIndex', '.utexas-promo-unit .data-wrapper > a:focus-visible', 'Promo Unit links need immediate visible focus.');
@@ -1186,7 +1222,7 @@ for (const file of ['preflight', 'log']) {
     errors.push(`${file} must contain valid JSON.`);
   }
 }
-requireText('preflight', '"package_version": "0.31.0"', 'Hallmark preflight must match the UT Drupal Kit Social Links release.');
+requireText('preflight', '"package_version": "0.32.0"', 'Hallmark preflight must match the Moody Anchor gallery release.');
 requireText('log', 'Conversational FAQ within the Ecosystem Index', 'Hallmark memory must record the shared accordion macrostructure.');
 requireText('log', 'Editorial media directory within the Ecosystem Index', 'Hallmark memory must record the shared Moody Flex Grid component.');
 requireText('log', 'Editorial Signal Band within the Ecosystem Index', 'Hallmark memory must record the shared Moody Promotion signal band.');
@@ -1230,6 +1266,7 @@ requireText('readme', 'Shared UT Drupal Kit Photo Content Areas', 'README must d
 requireText('readme', 'Shared Moody Newsletter destination bands', 'README must document the shared Moody Newsletter layer.');
 requireText('readme', 'Shared UT Drupal Kit Quick Links', 'README must document the shared Quick Links layer.');
 requireText('readme', 'Shared UT Drupal Kit Social Links', 'README must document the shared Social Links layer.');
+requireText('readme', 'Shared Moody Anchor galleries', 'README must document the shared Moody Anchor gallery layer.');
 requireText('agents', '`header_social_links_block`', 'AGENTS.md must preserve the header Social Links contract.');
 requireText('agents', 'Missing, unpublished, non-reusable, inaccessible, wrong-bundle, or malformed', 'AGENTS.md must require Social Links to fail closed.');
 requireText('agents', '### People directories', 'AGENTS.md must preserve the people-directory contract.');
@@ -1252,6 +1289,7 @@ requireText('agents', '### UT Drupal Kit Photo Content Areas', 'AGENTS.md must p
 requireText('agents', '### Moody Newsletter destination bands', 'AGENTS.md must preserve the Moody Newsletter component contract.');
 requireText('agents', '### UT Drupal Kit Quick Links', 'AGENTS.md must preserve the Quick Links component contract.');
 requireText('agents', '### UT Drupal Kit Social Links', 'AGENTS.md must preserve the Social Links component contract.');
+requireText('agents', '### Moody Anchor galleries', 'AGENTS.md must preserve the Moody Anchor gallery component contract.');
 requireText('agents', '### Moody Showcases', 'AGENTS.md must preserve the Moody Showcase component contract.');
 requireText('agents', '### Moody Heroes', 'AGENTS.md must preserve the Moody Hero component contract.');
 requireText('agents', '### UT Drupal Kit Heroes', 'AGENTS.md must preserve the UT Drupal Kit Hero component contract.');
@@ -1267,5 +1305,5 @@ if (errors.length) {
   process.exitCode = 1;
 }
 else {
-  console.log(`Moody26 verification passed (${Object.keys(files).length} source files, ${fonts.length} local fonts, standalone shell, UT brand, accessible directories, resource hubs, Resource Groups, Flex Tabs, UT Drupal Kit Flex Lists, Hero Carousels, Photo Content Areas, Moody Newsletter destination bands, UT Drupal Kit Quick Links, and semantic Social Links, newsroom, accordions, Featured Highlights, Moody Promotions, Promo Lists, Flex Content Areas, Image Links, Flex Color Blocks, Moody Quotations, Moody Flex Grids, Moody Impact Facts, Moody and UT Drupal Kit Heroes, Moody Showcases, Moody Contact Info, and Call to Action blocks, header social links, motion, responsive, and Hallmark gates).`);
+  console.log(`Moody26 verification passed (${Object.keys(files).length} source files, ${fonts.length} local fonts, standalone shell, UT brand, accessible directories, resource hubs, Resource Groups, Flex Tabs, UT Drupal Kit Flex Lists, Hero Carousels, Photo Content Areas, Moody Newsletter destination bands, UT Drupal Kit Quick Links, semantic Social Links, and Moody Anchor galleries, newsroom, accordions, Featured Highlights, Moody Promotions, Promo Lists, Flex Content Areas, Image Links, Flex Color Blocks, Moody Quotations, Moody Flex Grids, Moody Impact Facts, Moody and UT Drupal Kit Heroes, Moody Showcases, Moody Contact Info, and Call to Action blocks, header social links, motion, responsive, and Hallmark gates).`);
 }

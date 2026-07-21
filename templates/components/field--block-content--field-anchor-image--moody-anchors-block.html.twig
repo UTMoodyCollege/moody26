@@ -1,0 +1,30 @@
+{#
+/**
+ * @file
+ * Semantic, failure-safe image gallery for the Moody Anchors block.
+ *
+ * The provider remains responsible for media, alternative text, responsive
+ * image styles, optional destinations, cacheability, and attachments.
+ */
+#}
+
+{% if anchor_gallery_items %}
+  <div{{ attributes.addClass('anchor-gallery') }}>
+    <ul class="anchor-gallery__list" role="list" aria-label="{{ 'Image gallery'|t }}">
+      {% for item in anchor_gallery_items %}
+        {% set item_classes = [
+          'anchor-gallery__item',
+          not item.media ? 'anchor-gallery__item--action-only',
+        ] %}
+        <li{{ item.attributes.addClass(item_classes) }}>
+          {% if item.media %}
+            <div class="anchor-gallery__media">{{ item.media }}</div>
+          {% endif %}
+          {% if item.action %}
+            <div class="anchor-gallery__action">{{ item.action }}</div>
+          {% endif %}
+        </li>
+      {% endfor %}
+    </ul>
+  </div>
+{% endif %}

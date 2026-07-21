@@ -10,6 +10,7 @@ use Drupal\Component\Utility\Html;
 use Drupal\Core\Cache\CacheableMetadata;
 use Drupal\Core\Entity\ContentEntityInterface;
 use Drupal\Core\Form\FormStateInterface;
+use Drupal\Core\Link;
 use Drupal\Core\Template\Attribute;
 use Drupal\node\NodeInterface;
 
@@ -105,11 +106,30 @@ function moody26_preprocess_field(array &$variables): void {
     return;
   }
 
+  $entity = $variables['element']['#object'] ?? NULL;
+  if (
+    ($variables['field_name'] ?? '') === 'field_anchor_image'
+    && ($variables['field_type'] ?? '') === 'moody_card'
+    && $entity instanceof ContentEntityInterface
+    && $entity->bundle() === 'moody_anchors_block'
+  ) {
+    $variables['anchor_gallery_items'] = [];
+    foreach ($variables['items'] ?? [] as $item) {
+      $normalized = moody26_anchor_gallery_item($item['content'] ?? []);
+      if ($normalized === NULL) {
+        continue;
+      }
+
+      $normalized['attributes'] = $item['attributes'] ?? new Attribute();
+      $variables['anchor_gallery_items'][] = $normalized;
+    }
+    return;
+  }
+
   if (($variables['field_type'] ?? '') !== 'moody_flex_tabs') {
     return;
   }
 
-  $entity = $variables['element']['#object'] ?? NULL;
   $identity = [
     $variables['entity_type'] ?? 'entity',
     $variables['field_name'] ?? 'moody-flex-tabs',
@@ -166,6 +186,44 @@ function moody26_preprocess_field(array &$variables): void {
 
   $variables['flex_tabs'] = $tabs;
   $variables['flex_tabs_supplemental'] = $supplemental;
+}
+
+/**
+ * Normalizes one provider-owned Moody Anchor item for safe theme output.
+ */
+function moody26_anchor_gallery_item(mixed $content): ?array {
+  if (!is_array($content)) {
+    return NULL;
+  }
+
+  $media = $content['#media'] ?? [];
+  $action = $content['#cta'] ?? NULL;
+  $has_media = moody26_anchor_gallery_media_is_available($media);
+  $has_action = $action instanceof Link;
+  if (!$has_media && !$has_action) {
+    return NULL;
+  }
+
+  if ($has_media) {
+    moody26_add_intrinsic_image_dimensions($media);
+  }
+
+  return [
+    'media' => $has_media ? $media : [],
+    'action' => $has_action ? $action : NULL,
+  ];
+}
+
+/**
+ * Reports whether a Moody Anchor formatter item has a usable source image.
+ */
+function moody26_anchor_gallery_media_is_available(mixed $media): bool {
+  if (!is_array($media) || ($media['#theme'] ?? NULL) !== 'responsive_image_formatter') {
+    return FALSE;
+  }
+
+  $uri = $media['#item']->uri ?? NULL;
+  return is_string($uri) && $uri !== '' && file_exists($uri);
 }
 
 /**
@@ -296,6 +354,27 @@ function moody26_add_intrinsic_image_dimensions(mixed &$media): void {
  */
 function moody26_preprocess_block(array &$variables): void {
   $block_content = $variables['content']['#block_content'] ?? NULL;
+  if ($block_content instanceof ContentEntityInterface && $block_content->bundle() === 'moody_anchors_block') {
+    $has_items = FALSE;
+    foreach ($variables['content']['field_anchor_image'] ?? [] as $delta => $content) {
+      if (is_int($delta) && moody26_anchor_gallery_item($content) !== NULL) {
+        $has_items = TRUE;
+        break;
+      }
+    }
+
+    $route_name = (string) \Drupal::routeMatch()->getRouteName();
+    $is_layout_builder_ui = str_starts_with($route_name, 'layout_builder.');
+    if (!$has_items && !$is_layout_builder_ui) {
+      $variables['label'] = NULL;
+      $variables['attributes']['hidden'] = 'hidden';
+      $variables['content']['field_anchor_image']['#access'] = FALSE;
+    }
+    CacheableMetadata::createFromObject($block_content)
+      ->addCacheContexts(['route'])
+      ->applyTo($variables);
+  }
+
   if ($block_content instanceof ContentEntityInterface && $block_content->bundle() === 'utexas_hero_carousel') {
     $autoplay = $block_content->hasField('field_hero_carousel_autoplay')
       && $block_content->get('field_hero_carousel_autoplay')->getString() === '1';

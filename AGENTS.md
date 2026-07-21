@@ -507,6 +507,44 @@ not belong outside the token and font declaration files.
   not add JavaScript, motion, synthetic glyphs, generated copy, or fabricated
   loading, error, or success states.
 
+### Moody Anchor galleries
+
+- Treat `moody_anchors_block` as a shared portrait image gallery despite its
+  legacy name. It is not page navigation, a mini-nav, a card grid, or a place
+  to synthesize section anchors. Keep media, alternative text, item order,
+  optional destinations, link options, block labels, and Layout Builder
+  placement under Drupal and editor control.
+- Moody26 owns
+  `field--block-content--field-anchor-image--moody-anchors-block.html.twig`,
+  `moody26_anchor_gallery_item()`, and the `anchor-gallery__*` presentation
+  contract. Preserve the formatter-owned responsive-image and Link values,
+  cacheability, and attachments. Do not edit the Composer-installed provider,
+  reconstruct an image or `href`, use `|raw`, or copy source media into the
+  theme.
+- Omit a media item when its original source URI is empty or unavailable. Keep
+  a valid optional action independently; when neither valid media nor action
+  remains anywhere in the field, hide the block label, field output, and block
+  wrapper together. Never expose the generic `Anchor Image` field label, an
+  empty administrative block label, a broken-image placeholder, replacement
+  art, or generated copy. Restored migrated files become visible after Drupal
+  caches are rebuilt. Keep the empty block reachable on `layout_builder.*`
+  routes so editors can repair it, and preserve the route cache context that
+  prevents editor/public state from crossing cache entries.
+- Render retained items as one translated `Image gallery` `<ul role="list">`
+  with direct `<li>` children. Preserve image alternative text and intrinsic
+  dimensions from the provider’s responsive formatter. Use one safe portrait
+  column in narrow component containers, two columns at 30rem, and four
+  `minmax(0, 1fr)` columns at 60rem; the wide alternating offset may not change
+  DOM, reading, or keyboard order.
+- Optional actions need a 44 CSS-pixel minimum target, concise editor-owned text
+  that remains on one line at 320 CSS pixels, readable visited color, immediate
+  focus, active feedback, an authored `aria-disabled` treatment, and
+  capability-gated hover. Require editors to shorten an oversized label; never
+  rewrite or truncate it in the theme. The decorative arrow is CSS-only,
+  inherits current color, and must never receive its own underline or
+  accessible name. The gallery is static server-rendered content; do not add
+  JavaScript, animation, fabricated loading, error, or success UI.
+
 ### Moody Showcases
 
 - Treat Moody Showcase as a shared editorial media ledger, not a route-specific
@@ -1181,6 +1219,11 @@ Texas requirements. The current University compliance date is March 1, 2026.
 - `css/components/social-links.css`: semantic container-aware Social Links
   rails, provider-asset presentation, static link states, and legacy-spacing
   collision protection for content and footer placements.
+- `css/components/anchor-gallery.css`: semantic container-aware Moody Anchor
+  portrait galleries, optional static action states, wide editorial offset,
+  and missing-content-safe presentation.
+- `templates/components/field--block-content--field-anchor-image--moody-anchors-block.html.twig`:
+  theme-owned list semantics around provider-owned responsive media and links.
 - `css/components/theme-settings.css`: narrowly scoped 44-pixel target support
   for the native Drupal visual-options form.
 - `css/components/landing-hero.css`: semantic Moody Hero overlay/split system
