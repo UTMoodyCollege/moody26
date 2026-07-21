@@ -1,5 +1,5 @@
 global:
-  version: 0.45.0
+  version: 0.46.0
   css:
     base:
       css/fonts.css: { weight: 90 }
@@ -36,6 +36,7 @@ global:
       css/components/anchor-gallery.css: { weight: 138.999969482421875 }
       css/components/image-gallery.css: { weight: 138.99997711181640625 }
       css/components/scroll-reveal-media.css: { weight: 138.999980926513671875 }
+      css/components/focal-point.css: { weight: 138.9999828338623046875 }
       css/components/feature-story.css: { weight: 138.9999847412109375 }
       css/components/event-detail.css: { weight: 138.99999237060546875 }
       css/components/faculty-profile.css: { weight: 138.999996185302734375 }
@@ -54,14 +55,14 @@ global:
     - core/once
 
 motion:
-  version: 0.45.0
+  version: 0.46.0
   js:
     js/dist/motion.min.js: { minified: true }
   dependencies:
     - moody26/global
 
 settings:
-  version: 0.45.0
+  version: 0.46.0
   css:
     theme:
       css/components/theme-settings.css: {}

@@ -1,0 +1,58 @@
+{% if image and focal_points %}
+  <section class="moody26-focal-point" id="{{ block_id }}" aria-labelledby="{{ focal_point_heading_id }}">
+    <h2 class="visually-hidden" id="{{ focal_point_heading_id }}">{{ 'Image details'|t }}</h2>
+
+    <div class="moody26-focal-point__layout">
+      <figure class="moody26-focal-point__overview">
+        <div class="moody26-focal-point__overview-media">
+          {{ image }}
+
+          {% if focal_point_has_markers %}
+            <div class="moody26-focal-point__markers" aria-hidden="true">
+              {% for point in focal_points %}
+                {% if point.show_square %}
+                  <span
+                    class="moody26-focal-point__marker"
+                    style="--marker-left: {{ point.marker_left }}%; --marker-top: {{ point.marker_top }}%; --marker-width: {{ point.area_width }}%; --marker-height: {{ point.area_height }}%;"></span>
+                {% endif %}
+              {% endfor %}
+            </div>
+          {% endif %}
+        </div>
+      </figure>
+
+      <ol class="moody26-focal-point__details" role="list">
+        {% for point in focal_points %}
+          <li
+            class="moody26-focal-point__detail moody26-focal-point__detail--border-{{ point.caption_border|clean_class }}{% if point.show_arrow %} moody26-focal-point__detail--with-cue{% endif %}"
+            style="--focal-x: {{ point.x_position }}%; --focal-y: {{ point.y_position }}%; --focal-scale: {{ point.focal_scale }};"
+            {% if point.caption_title %}aria-labelledby="{{ point.title_id }}"{% endif %}>
+            <figure class="moody26-focal-point__detail-figure">
+              <div class="moody26-focal-point__detail-media" aria-hidden="true">
+                {{ point.detail_image }}
+              </div>
+
+              <figcaption class="moody26-focal-point__caption">
+                {% if show_slide_counter %}
+                  <p class="moody26-focal-point__counter" aria-hidden="true">{{ loop.index }} / {{ focal_points|length }}</p>
+                {% endif %}
+
+                {% if point.caption_title %}
+                  <h3 class="moody26-focal-point__title" id="{{ point.title_id }}">{{ point.caption_title }}</h3>
+                {% endif %}
+
+                {% if point.has_body %}
+                  <div class="moody26-focal-point__body">{{ point.caption_body }}</div>
+                {% endif %}
+
+                {% if point.show_arrow %}
+                  <span class="moody26-focal-point__cue" aria-hidden="true"></span>
+                {% endif %}
+              </figcaption>
+            </figure>
+          </li>
+        {% endfor %}
+      </ol>
+    </div>
+  </section>
+{% endif %}

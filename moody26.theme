@@ -63,13 +63,16 @@ function moody26_preprocess_html(array &$variables): void {
 /**
  * Implements hook_library_info_alter().
  *
- * Moody26 renders Scroll Reveal Media as a static editorial sequence, so the
- * provider's scroll-scrub runtime and its second GSAP owner are not needed.
- * The provider's separate Layout Builder administration library is untouched.
+ * Moody26 owns static, readable presentations for provider components whose
+ * public libraries otherwise force scroll-scrub timelines. Separate Layout
+ * Builder administration libraries remain available to editors.
  */
 function moody26_library_info_alter(array &$libraries, string $extension): void {
   if ($extension === 'moody_scroll_reveal_media') {
     unset($libraries['moody_scroll_reveal_media']);
+  }
+  if ($extension === 'moody_focal_point') {
+    unset($libraries['moody_focal_point']);
   }
 }
 
@@ -852,6 +855,108 @@ function moody26_preprocess_block(array &$variables): void {
       ['visually-hidden'],
     ));
   }
+}
+
+/**
+ * Prepares Moody Focal Point as an overview and semantic detail rail.
+ */
+function moody26_preprocess_moody_focal_point(array &$variables): void {
+  if (!is_array($variables['image'] ?? NULL)) {
+    $variables['focal_points'] = [];
+    return;
+  }
+
+  $source_image = $variables['image'];
+  $variables['image'] = moody26_focal_point_image(
+    $source_image,
+    'moody26-focal-point__overview-image',
+  );
+  $variables['block_id'] = Html::getUniqueId(
+    (string) (($variables['block_id'] ?? '') ?: 'moody26-focal-point'),
+  );
+  $variables['focal_point_heading_id'] = $variables['block_id'] . '-heading';
+  $variables['show_slide_counter'] = !empty($variables['show_slide_counter']);
+  $variables['focal_point_has_markers'] = FALSE;
+
+  $points = [];
+  foreach (($variables['focal_points'] ?? []) as $point) {
+    if (!is_array($point)) {
+      continue;
+    }
+
+    $title = trim((string) ($point['caption_title'] ?? ''));
+    $body_text = $point['caption_body']['#text'] ?? '';
+    $has_body = is_string($body_text) && trim(strip_tags($body_text)) !== '';
+    if ($title === '' && !$has_body) {
+      continue;
+    }
+
+    $x = max(0.0, min(100.0, (float) ($point['x_position'] ?? 50)));
+    $y = max(0.0, min(100.0, (float) ($point['y_position'] ?? 50)));
+    $width = max(5.0, min(100.0, (float) ($point['area_width'] ?? 24)));
+    $height = max(5.0, min(100.0, (float) ($point['area_height'] ?? 24)));
+    $border = (string) ($point['caption_border'] ?? 'thin');
+    if (!in_array($border, ['none', 'thin', 'thick', 'rounded', 'rounded-thick'], TRUE)) {
+      $border = 'thin';
+    }
+
+    $point['caption_title'] = $title;
+    $point['has_body'] = $has_body;
+    $point['x_position'] = round($x, 3);
+    $point['y_position'] = round($y, 3);
+    $point['area_width'] = round($width, 3);
+    $point['area_height'] = round($height, 3);
+    $point['marker_left'] = round(min(100.0 - $width, max(0.0, $x - ($width / 2))), 3);
+    $point['marker_top'] = round(min(100.0 - $height, max(0.0, $y - ($height / 2))), 3);
+    $point['focal_scale'] = round(max(1.0, min(4.0, min(100 / $width, 100 / $height))), 3);
+    $point['caption_border'] = $border;
+    $point['show_square'] = !empty($point['show_square']);
+    $point['show_arrow'] = !empty($point['show_arrow']);
+    $point['detail_image'] = moody26_focal_point_image(
+      $source_image,
+      'moody26-focal-point__detail-image',
+      TRUE,
+    );
+    $point['title_id'] = $variables['block_id'] . '-detail-' . (count($points) + 1);
+    $variables['focal_point_has_markers'] = $variables['focal_point_has_markers']
+      || $point['show_square'];
+    $points[] = $point;
+  }
+
+  $variables['focal_points'] = $points;
+}
+
+/**
+ * Returns one provider image with Moody26-safe attributes and dimensions.
+ */
+function moody26_focal_point_image(array $image, string $class, bool $decorative = FALSE): array {
+  moody26_add_intrinsic_image_dimensions($image);
+  $attributes = $image['#attributes'] ?? [];
+  if ($attributes instanceof Attribute) {
+    $attributes = clone $attributes;
+    $attributes
+      ->removeClass('moody-focal-point__image')
+      ->addClass($class)
+      ->setAttribute('loading', 'lazy')
+      ->setAttribute('decoding', 'async');
+    if ($decorative) {
+      $attributes->setAttribute('aria-hidden', 'true');
+    }
+  }
+  else {
+    $attributes['class'] = [$class];
+    $attributes['loading'] = 'lazy';
+    $attributes['decoding'] = 'async';
+    if ($decorative) {
+      $attributes['aria-hidden'] = 'true';
+    }
+  }
+  $image['#attributes'] = $attributes;
+  if ($decorative) {
+    $image['#alt'] = '';
+  }
+
+  return $image;
 }
 
 /**

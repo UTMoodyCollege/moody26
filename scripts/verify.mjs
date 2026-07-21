@@ -51,6 +51,8 @@ const files = {
   imageGalleryPreview: 'css/components/image-gallery.preview.html',
   scrollRevealMediaCss: 'css/components/scroll-reveal-media.css',
   scrollRevealMediaPreview: 'css/components/scroll-reveal-media.preview.html',
+  focalPointCss: 'css/components/focal-point.css',
+  focalPointPreview: 'css/components/focal-point.preview.html',
   discoveryIndex: 'css/components/discovery-index.css',
   accordionCss: 'css/components/accordion.css',
   peopleDirectory: 'css/components/people-directory.css',
@@ -132,6 +134,7 @@ const files = {
   socialLinksTemplate: 'templates/components/field--utexas-social-link-field.html.twig',
   anchorGalleryTemplate: 'templates/components/field--block-content--field-anchor-image--moody-anchors-block.html.twig',
   scrollRevealMediaTemplate: 'templates/components/moody-scroll-reveal-media.html.twig',
+  focalPointTemplate: 'templates/components/moody-focal-point.html.twig',
   heroTemplate: 'templates/components/moody-hero.html.twig',
   heroStyle1Template: 'templates/components/moody-hero-1.html.twig',
   heroStyle2Template: 'templates/components/moody-hero-2.html.twig',
@@ -218,8 +221,8 @@ const forbidPattern = (file, pattern, message) => {
 
 try {
   const packageJson = JSON.parse(contents.package ?? '');
-  if (packageJson.version !== '0.45.0') {
-    errors.push('The accessible Scroll Reveal Media release must remain versioned as 0.45.0.');
+  if (packageJson.version !== '0.46.0') {
+    errors.push('The accessible Moody Focal Point release must remain versioned as 0.46.0.');
   }
   for (const [dependency, version] of [
     ['animejs', '4.5.0'],
@@ -304,8 +307,9 @@ requireText('libraries', 'css/components/social-links.css', 'Shared UT Drupal Ki
 requireText('libraries', 'css/components/anchor-gallery.css', 'Shared Moody Anchor gallery styles must remain attached.');
 requireText('libraries', 'css/components/image-gallery.css', 'Accessible Moody image-gallery styles must remain attached.');
 requireText('libraries', 'css/components/scroll-reveal-media.css', 'Accessible Moody Scroll Reveal Media styles must remain attached.');
+requireText('libraries', 'css/components/focal-point.css', 'Accessible Moody Focal Point styles must remain attached.');
 requireText('libraries', 'js/dist/motion.min.js', 'The built motion integration must remain attached.');
-requireText('libraries', 'version: 0.45.0', 'The Drupal asset version must match the accessible Scroll Reveal Media release.');
+requireText('libraries', 'version: 0.46.0', 'The Drupal asset version must match the accessible Moody Focal Point release.');
 forbidText('info', '- moody26/motion', 'Optional motion must be attached from theme settings rather than globally.');
 
 requireText('settings', "header_social_links_block: ''", 'Header social links must be optional for new installs.');
@@ -884,6 +888,50 @@ requireText('theme', "$query['controls'] = '1';", 'Vimeo Scroll Reveal Media mus
 requireText('accessibility', "Drupal.t('Media unavailable: @description'", 'Failed Scroll Reveal Media images must retain their authored description.');
 requireText('accessibility', "Drupal.t('Video unavailable')", 'Failed Scroll Reveal Media video needs a translated factual status.');
 requireText('accessibility', "video.removeAttribute('autoplay')", 'Scroll Reveal Media direct video must remain autoplay-free after behavior attachment.');
+requireText('focalPointCss', 'component: Moody Focal Point', 'Moody Focal Point must retain its Hallmark component contract.');
+requireText('focalPointCss', 'macrostructure: sticky overview + indexed detail rail', 'Moody Focal Point must retain its overview-and-detail structure.');
+requireText('focalPointCss', 'states: default · hover · focus · active · disabled · loading · error · success', 'The Moody Focal Point preview must retain all eight states.');
+requireText('focalPointCss', 'container: moody26-focal-point / inline-size;', 'Moody Focal Point must remain container-aware in Layout Builder.');
+requireText('focalPointCss', 'grid-template-columns: minmax(8rem, 2fr) minmax(0, 3fr);', 'Moody Focal Point details must use safe media-copy tracks.');
+requireText('focalPointCss', 'grid-template-columns: minmax(0, 5fr) minmax(0, 7fr);', 'Wide Moody Focal Point layouts must use safe overview-detail tracks.');
+requireText('focalPointCss', 'object-position: var(--focal-x) var(--focal-y);', 'Moody Focal Point must preserve editor-owned focal coordinates.');
+requireText('focalPointCss', 'var(--sticky-offset) + var(--drupal-displace-offset-top, 0rem)', 'Sticky Moody Focal Point overviews must clear site and Drupal chrome.');
+requireText('focalPointCss', '@supports not (container-type: inline-size)', 'Moody Focal Point needs a restrained fallback for older supported browsers.');
+requirePattern('focalPointCss', /@supports not \(container-type: inline-size\)[\s\S]*?\.moody26-focal-point__overview \{[\s\S]*?position: sticky;/, 'Moody Focal Point fallback must preserve the wide sticky overview.');
+requireText('focalPointCss', '@media (hover: hover) and (pointer: fine)', 'Moody Focal Point hover feedback must be capability-gated.');
+requireText('focalPointCss', '@media (prefers-reduced-motion: reduce)', 'Moody Focal Point must retain an explicit motion-free preference path.');
+requireText('focalPointCss', '@media (forced-colors: active)', 'Moody Focal Point boundaries must survive forced colors.');
+forbidPattern('focalPointCss', /(?:^|\s)(?:#(?:[\da-f]{3}){1,2}|(?:rgb|hsl|oklch)\()/im, 'Moody Focal Point styles must use locked color tokens.');
+forbidText('focalPointCss', '100vh', 'Moody Focal Point must not restore forced viewport-height panels.');
+forbidText('focalPointCss', 'animation:', 'Moody Focal Point content must never depend on animation.');
+for (const state of ['Default', 'Hover', 'Focus', 'Active', 'Disabled', 'Loading', 'Error', 'Success']) {
+  requireText('focalPointPreview', `<h2>${state}</h2>`, `The Moody Focal Point preview must include its ${state.toLowerCase()} state.`);
+}
+requireText('focalPointPreview', 'box-sizing: border-box;', 'The Moody Focal Point preview must remain padding-safe at narrow widths.');
+requireText('focalPointTemplate', '<section class="moody26-focal-point"', 'Moody Focal Point must expose one labelled section.');
+requireText('focalPointTemplate', '<ol class="moody26-focal-point__details" role="list">', 'Moody Focal Point must expose one semantic ordered detail list.');
+requireText('focalPointTemplate', '<li', 'Moody Focal Point details must remain list items.');
+requireText('focalPointTemplate', '<figure class="moody26-focal-point__detail-figure">', 'Moody Focal Point details must retain figure semantics.');
+requireText('focalPointTemplate', '<figcaption class="moody26-focal-point__caption">', 'Moody Focal Point captions must remain associated with their decorative crops.');
+requireText('focalPointTemplate', '<h3 class="moody26-focal-point__title"', 'Moody Focal Point titles must remain subordinate headings.');
+requireText('focalPointTemplate', '{{ image }}', 'Moody Focal Point must preserve the provider-rendered source image.');
+requireText('focalPointTemplate', '{{ point.caption_body }}', 'Moody Focal Point must preserve processed editor copy.');
+forbidText('focalPointTemplate', 'moody-focal-point__', 'Moody26 must not reactivate provider focal-point selectors.');
+forbidText('focalPointTemplate', '|raw', 'Moody Focal Point must not bypass Drupal render safety.');
+forbidText('focalPointTemplate', 'attach_library', 'Moody Focal Point must use the global theme layer without duplicate attachments.');
+requireText('theme', "$extension === 'moody_focal_point'", 'Moody26 library removal must remain focal-point-provider scoped.');
+requireText('theme', "unset($libraries['moody_focal_point'])", 'Moody26 must remove only the provider public focal-point library.');
+requireText('theme', 'function moody26_preprocess_moody_focal_point', 'Moody Focal Point must retain theme-owned preprocessing.');
+requireText('theme', "min(4.0, min(100 / $width, 100 / $height))", 'Moody Focal Point crop scale must remain bounded.');
+requireText('theme', "in_array($border, ['none', 'thin', 'thick', 'rounded', 'rounded-thick'], TRUE)", 'Moody Focal Point migration classes must remain allow-listed.');
+requireText('theme', 'function moody26_focal_point_image', 'Moody Focal Point must retain safe image cloning.');
+requireText('theme', "moody26_add_intrinsic_image_dimensions($image);", 'Moody Focal Point media must retain intrinsic dimensions.');
+requireText('theme', '$attributes = clone $attributes;', 'Moody Focal Point image clones must not share mutable Attribute objects.');
+requireText('theme', "$image['#alt'] = '';", 'Repeated Moody Focal Point crops must remain decorative.');
+requireText('accessibility', "once('moody26-focal-point-image'", 'Moody Focal Point source failure recovery must remain once-bound.');
+requireText('accessibility', "Drupal.t('Media unavailable: @description'", 'Failed Moody Focal Point media must retain its authored description.');
+requireText('accessibility', "'.moody26-focal-point__detail-media'", 'Failed Moody Focal Point media must hide every derived crop.');
+requireText('accessibility', 'media.append(status);', 'Moody Focal Point must expose one truthful failure status.');
 requireText('discoveryIndex', 'repeat(12, minmax(0, 1fr))', 'Discovery grids must use safe image-bearing tracks.');
 requireText('discoveryIndex', '.linked-focus-area-item:focus-visible', 'Focus Area tasks need immediate visible focus.');
 requireText('discoveryIndex', '.utexas-promo-unit .data-wrapper > a:focus-visible', 'Promo Unit links need immediate visible focus.');
@@ -1524,7 +1572,7 @@ const runtimeFiles = [
   'heroCarouselCss', 'heroCarouselTemplate',
   'photoContentCss', 'photoContentTemplate',
   'socialLinksCss', 'socialLinksTemplate', 'imageGalleryCss',
-  'scrollRevealMediaCss', 'scrollRevealMediaTemplate',
+  'scrollRevealMediaCss', 'scrollRevealMediaTemplate', 'focalPointCss', 'focalPointTemplate',
   'heroTemplate', 'heroStyle1Template', 'heroStyle2Template', 'heroStyle3Template',
   'heroStyle4Template', 'heroStyle5Template', 'heroStyle6Template', 'heroStyle6ShortTemplate',
   'heroStyle7Template', 'heroStyle8Template',
@@ -1556,7 +1604,7 @@ for (const file of runtimeFiles) {
   }
 }
 
-const cssFiles = ['css', 'headerSocialCss', 'quickActionsCss', 'landingHero', 'richTextCss', 'editorialSections', 'featuredHighlightCss', 'promoListCss', 'flexContentCss', 'imageLinkCss', 'flexColorBlocksCss', 'quotationCss', 'flexGridCss', 'impactFactsCss', 'showcaseCss', 'contactInfoCss', 'callToActionCss', 'resourceGroupCss', 'flexTabsCss', 'heroCarouselCss', 'photoContentCss', 'socialLinksCss', 'imageGalleryCss', 'scrollRevealMediaCss', 'discoveryIndex', 'accordionCss', 'peopleDirectory', 'studentStoriesCss', 'eventsListingCss', 'newsroom', 'featureStoryCss', 'shorthandStoryCss', 'pdfDocumentCss', 'eventDetailCss', 'motionCss', 'settingsCss'];
+const cssFiles = ['css', 'headerSocialCss', 'quickActionsCss', 'landingHero', 'richTextCss', 'editorialSections', 'featuredHighlightCss', 'promoListCss', 'flexContentCss', 'imageLinkCss', 'flexColorBlocksCss', 'quotationCss', 'flexGridCss', 'impactFactsCss', 'showcaseCss', 'contactInfoCss', 'callToActionCss', 'resourceGroupCss', 'flexTabsCss', 'heroCarouselCss', 'photoContentCss', 'socialLinksCss', 'imageGalleryCss', 'scrollRevealMediaCss', 'focalPointCss', 'discoveryIndex', 'accordionCss', 'peopleDirectory', 'studentStoriesCss', 'eventsListingCss', 'newsroom', 'featureStoryCss', 'shorthandStoryCss', 'pdfDocumentCss', 'eventDetailCss', 'motionCss', 'settingsCss'];
 const forbiddenCss = [
   [/#(?:[0-9a-f]{3}|[0-9a-f]{6}|[0-9a-f]{8})\b/i, 'Raw hex colors belong only in tokens.css.'],
   [/\b(?:rgb|rgba|hsl|hsla|oklch)\(/i, 'Raw color functions belong only in tokens.css.'],
@@ -1587,7 +1635,7 @@ for (const file of ['preflight', 'log']) {
     errors.push(`${file} must contain valid JSON.`);
   }
 }
-requireText('preflight', '"package_version": "0.45.0"', 'Hallmark preflight must match the accessible Scroll Reveal Media release.');
+requireText('preflight', '"package_version": "0.46.0"', 'Hallmark preflight must match the accessible Moody Focal Point release.');
 requireText('log', 'Index-First profile dossier within the Ecosystem Index', 'Hallmark memory must record the shared faculty-profile composition.');
 requireText('log', 'Split Studio event brief within the Ecosystem Index', 'Hallmark memory must record the shared event-detail composition.');
 requireText('log', 'Long Document feature story within the Ecosystem Index', 'Hallmark memory must record the shared feature-story composition.');
@@ -1647,6 +1695,8 @@ requireText('readme', 'Shared UT Drupal Kit Social Links', 'README must document
 requireText('readme', 'Shared Moody Anchor galleries', 'README must document the shared Moody Anchor gallery layer.');
 requireText('readme', 'Accessible Moody image galleries', 'README must document the interactive Moody image-gallery layer.');
 requireText('readme', 'Shared Moody Scroll Reveal Media', 'README must document the static shared Scroll Reveal Media layer.');
+requireText('readme', 'Shared Moody Focal Point', 'README must document the static shared Moody Focal Point layer.');
+requireText('readme', 'Every caption is', 'README must document focal-point reading-order independence.');
 requireText('agents', '`header_social_links_block`', 'AGENTS.md must preserve the header Social Links contract.');
 requireText('agents', 'Missing, unpublished, non-reusable, inaccessible, wrong-bundle, or malformed', 'AGENTS.md must require Social Links to fail closed.');
 requireText('agents', '### People directories', 'AGENTS.md must preserve the people-directory contract.');
@@ -1681,6 +1731,8 @@ requireText('agents', '### UT Drupal Kit Social Links', 'AGENTS.md must preserve
 requireText('agents', '### Moody Anchor galleries', 'AGENTS.md must preserve the Moody Anchor gallery component contract.');
 requireText('agents', '### Moody image galleries', 'AGENTS.md must preserve the interactive Moody image-gallery component contract.');
 requireText('agents', '### Moody Scroll Reveal Media', 'AGENTS.md must preserve the static Scroll Reveal Media component contract.');
+requireText('agents', '### Moody Focal Point', 'AGENTS.md must preserve the static Moody Focal Point component contract.');
+requireText('agents', 'Do not attach the provider public focal-point library', 'AGENTS.md must keep focal-point content independent from provider scroll behavior.');
 requireText('agents', '### Moody Showcases', 'AGENTS.md must preserve the Moody Showcase component contract.');
 requireText('agents', '### Moody Heroes', 'AGENTS.md must preserve the Moody Hero component contract.');
 requireText('agents', 'do not expose native error events', 'AGENTS.md must preserve the CSS-background Hero failure contract.');
@@ -1705,5 +1757,5 @@ if (errors.length) {
   process.exitCode = 1;
 }
 else {
-  console.log(`Moody26 verification passed (${Object.keys(files).length} source files, ${fonts.length} local fonts, standalone shell, UT brand, Basic and Rich Text, accessible directories, student-story directories and profiles, UTProf Profile Listings, and faculty profile dossiers, accessible ambient-video heroes, resource hubs, Resource Groups, Flex Tabs, UT Drupal Kit Flex Lists, Hero Carousels, Photo Content Areas, Moody Newsletter destination bands, UT Drupal Kit Quick Links, semantic Social Links, Moody Anchor and interactive image galleries, static Scroll Reveal Media sequences, failure-safe Shorthand stories, keyboard-safe PDF documents, and API-backed upcoming-event ledgers, newsroom, feature stories, event details, accordions, Featured Highlights, Moody Promotions, Promo Lists, Flex Content Areas, Image Links, Flex Color Blocks, Moody Quotations, Moody Flex Grids, Moody Impact Facts, Moody and UT Drupal Kit Heroes, Moody Showcases, Moody Contact Info, and Call to Action blocks, header social links, motion, responsive, and Hallmark gates).`);
+  console.log(`Moody26 verification passed (${Object.keys(files).length} source files, ${fonts.length} local fonts, standalone shell, UT brand, Basic and Rich Text, accessible directories, student-story directories and profiles, UTProf Profile Listings, and faculty profile dossiers, accessible ambient-video heroes, resource hubs, Resource Groups, Flex Tabs, UT Drupal Kit Flex Lists, Hero Carousels, Photo Content Areas, Moody Newsletter destination bands, UT Drupal Kit Quick Links, semantic Social Links, Moody Anchor and interactive image galleries, static Scroll Reveal Media sequences and Focal Point narratives, failure-safe Shorthand stories, keyboard-safe PDF documents, and API-backed upcoming-event ledgers, newsroom, feature stories, event details, accordions, Featured Highlights, Moody Promotions, Promo Lists, Flex Content Areas, Image Links, Flex Color Blocks, Moody Quotations, Moody Flex Grids, Moody Impact Facts, Moody and UT Drupal Kit Heroes, Moody Showcases, Moody Contact Info, and Call to Action blocks, header social links, motion, responsive, and Hallmark gates).`);
 }

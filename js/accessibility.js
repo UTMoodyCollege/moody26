@@ -104,6 +104,41 @@
         });
       });
 
+      once('moody26-focal-point-image', '.moody26-focal-point__overview-image', context).forEach((image) => {
+        const showUnavailableMedia = () => {
+          const component = image.closest('.moody26-focal-point');
+          const media = image.closest('.moody26-focal-point__overview-media');
+          if (!component || !media || component.classList.contains('is-error')) {
+            return;
+          }
+
+          const description = image.alt.trim();
+          const status = document.createElement('p');
+          status.className = 'moody26-focal-point__status';
+          status.setAttribute('role', 'status');
+          status.textContent = description
+            ? Drupal.t('Media unavailable: @description', { '@description': description })
+            : Drupal.t('Media unavailable');
+
+          component.querySelectorAll([
+            '.moody26-focal-point__overview-image',
+            '.moody26-focal-point__detail-media',
+            '.moody26-focal-point__markers',
+          ].join(', ')).forEach((element) => {
+            element.hidden = true;
+          });
+          component.classList.remove('is-loading');
+          component.classList.add('is-error');
+          component.removeAttribute('aria-busy');
+          media.append(status);
+        };
+
+        image.addEventListener('error', showUnavailableMedia, { once: true });
+        if (image.complete && image.currentSrc && !image.naturalWidth) {
+          showUnavailableMedia();
+        }
+      });
+
       once(
         'moody26-basic-new-window',
         '.block-bundle-basic .ut-copy a[target="_blank"]',

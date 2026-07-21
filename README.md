@@ -6,7 +6,7 @@ visual identity with an accessible, editorial system that can serve academic,
 research, film, journalism, advertising, alumni, event, and public-facing
 sites without requiring the legacy Moody or Speedway themes.
 
-> **Project status:** pre-release (`0.45.0`). The theme is being validated in
+> **Project status:** pre-release (`0.46.0`). The theme is being validated in
 > [Moody Core](https://github.com/UTMoodyCollege/moody-core) before its first
 > stable tag. Pin an exact commit when evaluating the `main` branch.
 
@@ -89,6 +89,9 @@ sites without requiring the legacy Moody or Speedway themes.
 - Shared Moody Scroll Reveal Media rendered as a static, container-aware media
   sequence with user-controlled playback, semantic list order, and no second
   scroll-scrub motion owner.
+- Shared Moody Focal Point rendered as a full-context image and ordered static
+  detail rail with editor-owned crops, readable captions, and no scroll-scrub
+  visibility dependency.
 - Shared people directories with semantic list and heading structure,
   accessible linked profiles, responsive filters, honest result counts, and a
   useful empty state.
@@ -623,6 +626,30 @@ keeps the item and exposes translated `Media unavailable` or `Video
 unavailable` text—never replacement art or a retry claim. The standalone
 preview records default, hover, focus, active, disabled, loading, error, and
 success states for regression review.
+
+### Shared Moody Focal Point
+
+Moody26 keeps the `moody_focal_point_block` image, alternative text, focal
+geometry, caption order and processed copy, marker choice, counter preference,
+cacheability, and Layout Builder placement. It replaces the provider’s pinned
+scroll timeline with a static overview-and-detail composition. Every caption is
+therefore present in DOM and reading order without a scroll event, animation
+library, or JavaScript enhancement.
+
+The full image establishes context. Each ordered detail reuses the editor’s x/y
+position and a bounded crop scale derived from the stored focal area; repeated
+crop images are decorative so the authored alternative is announced only once.
+At narrow component widths the details stack. They adopt a safe 2/3 media-copy
+split when space permits, and a wide component may keep the overview beside the
+detail rail with a sticky offset that clears both Moody26 and Drupal chrome.
+
+Configured focus squares use the exact University burnt orange rather than the
+provider’s unrestricted stored color. Caption overlay positions and ornamental
+border variants remain migration data but cannot force unreadable text over the
+image. If the source image fails, all derived media disappears, captions remain,
+and one translated status retains the authored alternative. The standalone
+preview covers default, hover, focus, active, disabled, loading, error, and
+success states. `/technology/new-components` is the integration fixture.
 
 ### Shared Moody Showcases
 
@@ -1259,7 +1286,7 @@ than replace manual assistive-technology review.
 | `tokens.css` | Brand, type, spacing, motion, focus, and layout tokens |
 | `css/fonts.css` | Local approved digital font declarations |
 | `css/moody26.css` | Global foundation, shell, navigation, forms, and footer |
-| `css/components/` | Header social, ambient-video and shared Hero, Basic and Rich Text, editorial, discovery, resource-hub, accordion, Featured Highlight and Moody Promotion signal bands, Promo List, Flex Content Area, Image Link, Flex Color Block, Moody Quotation, Moody Flex Grid, Impact Facts, Contact Info, Call to Action, Social Links, Moody Anchor and interactive image galleries, static Scroll Reveal Media sequences, people-directory, student-story, faculty-profile, newsroom, feature-story, Shorthand and PDF document boundaries, event-detail and event-listing, quick-action, and settings components |
+| `css/components/` | Header social, ambient-video and shared Hero, Basic and Rich Text, editorial, discovery, resource-hub, accordion, Featured Highlight and Moody Promotion signal bands, Promo List, Flex Content Area, Image Link, Flex Color Block, Moody Quotation, Moody Flex Grid, Impact Facts, Contact Info, Call to Action, Social Links, Moody Anchor and interactive image galleries, static Scroll Reveal Media and Focal Point narratives, people-directory, student-story, faculty-profile, newsroom, feature-story, Shorthand and PDF document boundaries, event-detail and event-listing, quick-action, and settings components |
 | `js/navigation.js` | Drawer and disclosure navigation state |
 | `js/quick-actions.js` | Native dialog and rendered-destination discovery |
 | `js/accessibility.js` | Progressive safeguards for media controls and rendered content components |

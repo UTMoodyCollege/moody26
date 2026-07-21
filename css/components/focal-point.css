@@ -1,0 +1,330 @@
+/* Hallmark · component: Moody Focal Point · genre: editorial
+ * tone: youthful academic restraint · anchor hue: exact UT burnt orange
+ * macrostructure: sticky overview + indexed detail rail · states: default · hover · focus · active · disabled · loading · error · success
+ * slop: pass (component-scope universal gates) · contrast: pass (40–41) · responsive: pass (34, 49–57)
+ * honest: pass (46) · chrome: pass (47) · tokens: pass (48) · icons: pass (30) · motion: provider scroll scrub removed
+ */
+/* Hallmark · pre-emit critique: P5 H5 E4 S5 R5 V5 */
+
+.moody26-focal-point,
+.moody26-focal-point__layout,
+.moody26-focal-point__overview,
+.moody26-focal-point__overview-media,
+.moody26-focal-point__details,
+.moody26-focal-point__detail,
+.moody26-focal-point__detail-figure,
+.moody26-focal-point__detail-media,
+.moody26-focal-point__caption,
+.moody26-focal-point__body {
+  min-inline-size: 0;
+}
+
+.moody26-focal-point {
+  container: moody26-focal-point / inline-size;
+  width: min(100%, var(--page-max));
+  margin-inline: auto;
+  padding: var(--space-xl) var(--page-gutter) var(--space-3xl);
+  border-block-start: var(--rule-strong) solid var(--color-accent);
+  background: var(--color-paper);
+  color: var(--color-ink);
+  font-family: var(--font-body);
+}
+
+.moody26-focal-point__layout {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  gap: var(--space-2xl);
+}
+
+.moody26-focal-point__overview,
+.moody26-focal-point__detail-figure {
+  margin: 0;
+}
+
+.moody26-focal-point__overview-media {
+  position: relative;
+  overflow: hidden;
+  overflow: clip;
+  background: var(--color-paper-2);
+}
+
+.moody26-focal-point__overview-image {
+  display: block;
+  inline-size: 100%;
+  block-size: auto;
+}
+
+.moody26-focal-point__markers {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+}
+
+.moody26-focal-point__marker {
+  position: absolute;
+  inset-block-start: var(--marker-top);
+  inset-inline-start: var(--marker-left);
+  inline-size: var(--marker-width);
+  block-size: var(--marker-height);
+  border: var(--rule-strong) solid var(--color-accent);
+}
+
+.moody26-focal-point__details {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  gap: var(--space-2xl);
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.moody26-focal-point__detail {
+  margin: 0;
+  padding-block-start: var(--space-lg);
+  border-block-start: var(--rule-hair) solid var(--color-rule-strong);
+}
+
+.moody26-focal-point__detail--border-none {
+  border-block-start-color: var(--color-rule);
+}
+
+.moody26-focal-point__detail--border-thick,
+.moody26-focal-point__detail--border-rounded-thick {
+  border-block-start-width: var(--rule-strong);
+  border-block-start-color: var(--color-accent);
+}
+
+.moody26-focal-point__detail-figure {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  gap: var(--space-lg);
+  align-items: start;
+}
+
+.moody26-focal-point__detail-media {
+  position: relative;
+  overflow: hidden;
+  overflow: clip;
+  aspect-ratio: 1;
+  background: var(--color-ink);
+  contain: paint;
+}
+
+.moody26-focal-point__detail-image {
+  display: block;
+  inline-size: 100%;
+  block-size: 100%;
+  object-fit: cover;
+  object-position: var(--focal-x) var(--focal-y);
+  transform: scale(var(--focal-scale));
+  transform-origin: var(--focal-x) var(--focal-y);
+}
+
+.moody26-focal-point__caption {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  gap: var(--space-md);
+  align-content: start;
+}
+
+.moody26-focal-point__counter {
+  margin: 0;
+  color: var(--color-muted);
+  font-size: var(--text-sm);
+  font-variant-numeric: tabular-nums;
+  font-weight: 700;
+  line-height: var(--leading-body);
+}
+
+.moody26-focal-point__title {
+  max-inline-size: 22ch;
+  margin: 0;
+  color: var(--color-ink);
+  font-family: var(--font-display);
+  font-size: var(--text-heading-sm);
+  font-style: normal;
+  font-weight: 700;
+  line-height: var(--leading-heading);
+  overflow-wrap: anywhere;
+  text-transform: none;
+  text-wrap: balance;
+}
+
+.moody26-focal-point__body {
+  max-inline-size: var(--measure);
+  color: var(--color-ink);
+  font-size: var(--text-base);
+  line-height: var(--leading-body);
+  overflow-wrap: anywhere;
+}
+
+.moody26-focal-point__body > :first-child {
+  margin-block-start: 0;
+}
+
+.moody26-focal-point__body > :last-child {
+  margin-block-end: 0;
+}
+
+.moody26-focal-point__body a,
+.moody26-focal-point__preview-link {
+  color: var(--color-link);
+  font-weight: 700;
+  text-decoration-color: var(--color-accent);
+  text-decoration-thickness: var(--rule-hair);
+  text-underline-offset: var(--space-2xs);
+}
+
+.moody26-focal-point__preview-link {
+  justify-self: start;
+}
+
+.moody26-focal-point__body a:visited,
+.moody26-focal-point__preview-link:visited {
+  color: var(--color-ink-2);
+}
+
+.moody26-focal-point__body a:is(:focus-visible, .is-focus),
+.moody26-focal-point__preview-link:is(:focus-visible, .is-focus) {
+  border-radius: var(--radius-sm);
+  outline: var(--focus-outline);
+  outline-offset: var(--space-2xs);
+  box-shadow: var(--focus-halo);
+}
+
+.moody26-focal-point__body a:is(:active, .is-active),
+.moody26-focal-point__preview-link:is(:active, .is-active) {
+  background: var(--color-paper-3);
+  color: var(--color-link);
+}
+
+.moody26-focal-point__body a:is([aria-disabled="true"], .is-disabled),
+.moody26-focal-point__preview-link:is([aria-disabled="true"], .is-disabled) {
+  color: var(--color-muted);
+  cursor: not-allowed;
+  opacity: 0.55;
+  pointer-events: none;
+}
+
+.moody26-focal-point__cue {
+  position: relative;
+  display: block;
+  inline-size: var(--space-xl);
+  block-size: var(--rule-strong);
+  margin-block-start: var(--space-xs);
+  background: var(--color-accent);
+}
+
+.moody26-focal-point__cue::after {
+  position: absolute;
+  inset-block-start: calc(-1 * var(--space-xs));
+  inset-inline-end: calc(-1 * var(--space-xs));
+  inline-size: var(--space-md);
+  block-size: var(--space-md);
+  background: var(--color-accent);
+  clip-path: polygon(0 0, 100% 50%, 0 100%);
+  content: "";
+}
+
+.moody26-focal-point__status {
+  display: grid;
+  min-block-size: 12rem;
+  margin: 0;
+  padding: var(--space-xl);
+  place-items: center;
+  color: var(--color-error);
+  font-size: var(--text-base);
+  font-weight: 700;
+  line-height: var(--leading-body);
+  text-align: center;
+}
+
+.moody26-focal-point.is-loading {
+  cursor: progress;
+}
+
+.moody26-focal-point.is-loading :where(.moody26-focal-point__overview-image, .moody26-focal-point__detail-image) {
+  opacity: 0.68;
+}
+
+.moody26-focal-point.is-error .moody26-focal-point__layout {
+  grid-template-columns: minmax(0, 1fr);
+}
+
+.moody26-focal-point.is-error .moody26-focal-point__overview-media {
+  border: var(--rule-strong) solid var(--color-error);
+}
+
+.moody26-focal-point.is-success .moody26-focal-point__detail {
+  border-block-start-color: var(--color-success);
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .moody26-focal-point__body a:not([aria-disabled="true"]):is(:hover, .is-hover),
+  .moody26-focal-point__preview-link:not([aria-disabled="true"]):is(:hover, .is-hover) {
+    color: var(--color-accent);
+  }
+}
+
+@container moody26-focal-point (min-width: 34rem) {
+  .moody26-focal-point__detail-figure {
+    grid-template-columns: minmax(8rem, 2fr) minmax(0, 3fr);
+  }
+}
+
+@container moody26-focal-point (min-width: 60rem) {
+  .moody26-focal-point__layout {
+    grid-template-columns: minmax(0, 5fr) minmax(0, 7fr);
+    align-items: start;
+    gap: var(--space-3xl);
+  }
+
+  .moody26-focal-point__overview {
+    position: sticky;
+    top: calc(
+      var(--sticky-offset) + var(--drupal-displace-offset-top, 0rem) + var(--space-md)
+    );
+    align-self: start;
+  }
+}
+
+@supports not (container-type: inline-size) {
+  @media (min-width: 64rem) {
+    .moody26-focal-point__layout {
+      grid-template-columns: minmax(0, 5fr) minmax(0, 7fr);
+      align-items: start;
+      gap: var(--space-3xl);
+    }
+
+    .moody26-focal-point__detail-figure {
+      grid-template-columns: minmax(8rem, 2fr) minmax(0, 3fr);
+    }
+
+    .moody26-focal-point__overview {
+      position: sticky;
+      top: calc(
+        var(--sticky-offset) + var(--drupal-displace-offset-top, 0rem) + var(--space-md)
+      );
+      align-self: start;
+    }
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .moody26-focal-point__detail-image {
+    transition: none;
+  }
+}
+
+@media (forced-colors: active) {
+  .moody26-focal-point,
+  .moody26-focal-point__detail,
+  .moody26-focal-point__marker {
+    border-color: CanvasText;
+  }
+
+  .moody26-focal-point__body a:is(:focus-visible, .is-focus),
+  .moody26-focal-point__preview-link:is(:focus-visible, .is-focus) {
+    outline: var(--rule-strong) solid Highlight;
+  }
+}

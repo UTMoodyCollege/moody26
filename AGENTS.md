@@ -780,6 +780,44 @@ not belong outside the token and font declaration files.
   decorative motion survives. Maintain an eight-state preview; loading and
   success remain regression fixtures rather than fabricated production states.
 
+### Moody Focal Point
+
+- Treat `moody_focal_point_block` as an authored image-detail narrative, not
+  permission to make reading depend on scroll position. Keep image selection,
+  alternative text, focal-point order and geometry, processed captions, slide
+  counter preference, marker preference, cacheability, and Layout Builder
+  placement under Drupal and editor control. Do not edit the Composer-installed
+  provider.
+- Moody26 owns `moody-focal-point.html.twig` and the
+  `moody26-focal-point__*` presentation contract. Render one labelled section,
+  one full-context figure, and one semantic ordered detail list. The translated
+  section heading may be visually hidden; authored point titles are subordinate
+  `h3` headings and body-only points remain readable list items.
+- Do not attach the provider public focal-point library in Moody26. Its forced
+  viewport footprint, sticky scroll listener, caption visibility changes, and
+  second GSAP owner conflict with the theme motion and reading contracts. Keep
+  the provider’s separate administration library and visual crop editor intact.
+- Use the stored x/y coordinates and bounded area size to position each static
+  detail crop. A configured focus square may remain on the overview, but render
+  it with the exact burnt-orange token rather than the provider’s unrestricted
+  stored color. Caption position and rounded-border values may survive as
+  migration hooks without forcing overlay geometry into responsive layouts.
+- Use one safe column in narrow containers. Detail figures may use a 2/3 split
+  at 34rem, and the full overview may become a sticky 5/7 companion only at a
+  60rem component width. The sticky offset must clear the site header and any
+  Drupal displacement; never use a second `top: 0` sticky layer.
+- Every point must be present in DOM and reading order without JavaScript. Do
+  not hide captions behind scroll progress, invent carousel controls, announce
+  ordinary scrolling, or duplicate alternative text on decorative crop images.
+- If the source image fails, hide overview and detail media, retain every
+  authored caption, and expose one translated `Media unavailable` status that
+  includes the authored alternative when available. Do not fabricate retry UI,
+  placeholder art, or inferred descriptions.
+- Caption links need default, visited, capability-gated hover, immediate focus,
+  active, and authored-disabled states. Maintain an eight-state preview;
+  loading and success are regression fixtures, not fabricated public lifecycle
+  messaging. `/technology/new-components` is the browser fixture.
+
 ### Moody Showcases
 
 - Treat Moody Showcase as a shared editorial media ledger, not a route-specific
@@ -1739,6 +1777,10 @@ Texas requirements. The current University compliance date is March 1, 2026.
   `templates/components/moody-scroll-reveal-media.html.twig`: semantic static
   media sequences, user-controlled playback, intrinsic media, and truthful
   media failure recovery without the provider scroll-scrub runtime.
+- `css/components/focal-point.css`, its eight-state preview, and
+  `templates/components/moody-focal-point.html.twig`: semantic overview/detail
+  image narratives, bounded editor-owned crops, and truthful source failure
+  recovery without the provider scroll-scrub runtime.
 - `css/components/contact-info.css`: page-safe, container-aware editorial
   service bands with independently optional authored fields.
 - `css/components/call-to-action.css`: portable formatter-owned action rules,
