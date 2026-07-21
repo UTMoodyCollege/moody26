@@ -6,7 +6,7 @@ visual identity with an accessible, editorial system that can serve academic,
 research, film, journalism, advertising, alumni, event, and public-facing
 sites without requiring the legacy Moody or Speedway themes.
 
-> **Project status:** pre-release (`0.32.0`). The theme is being validated in
+> **Project status:** pre-release (`0.33.0`). The theme is being validated in
 > [Moody Core](https://github.com/UTMoodyCollege/moody-core) before its first
 > stable tag. Pin an exact commit when evaluating the `main` branch.
 
@@ -27,6 +27,8 @@ sites without requiring the legacy Moody or Speedway themes.
   existing accessible link names and official UT Drupal Kit icon formatter.
 - Shared tokens for University colors, typography roles, spacing, type scale,
   focus, motion, target sizes, responsive containers, and elevation.
+- Shared Basic and Rich Text treatment with measured editorial rhythm,
+  page-safe headings, responsive media, and announced new-window behavior.
 - Layout Builder-friendly landing heroes, editorial pairings, calls to action,
   forms, proof treatments, and discovery grids.
 - Shared resource hubs with compact Focus Area shortcuts, asymmetric Promo
@@ -208,6 +210,37 @@ formatter-provided icon assets, accessible names, access checks, translations,
 and cache metadata remain authoritative. If the selected block becomes
 unpublished, non-reusable, inaccessible, or unavailable, the header omits the
 social landmark instead of rendering stale links.
+
+### Shared Basic and Rich Text
+
+Moody26 treats the `basic` content-block bundle as the fleet’s shared
+long-form editorial foundation. Drupal and the active text format continue to
+own every word, destination, heading, list, figure, embed, and cache
+dependency. The theme adds measured prose rhythm, compact burnt-orange list
+markers, restrained quotation rules, uncropped responsive media, captions,
+horizontal code scrolling, and long-link reflow without wrapping the content
+in cards or changing stored markup.
+
+The page-title block remains the document’s sole `h1`; an `h1` pasted into a
+Basic block renders as `h2` with its attributes and wording intact. Other
+heading levels remain editor-owned. Moody26 does not invent descriptive link
+text, image alternatives, embed titles, table captions, or header
+associations—generic links and incomplete content remain editorial issues to
+correct at the source.
+
+For an authored `target="_blank"` destination, the progressive safeguard adds
+the `noopener` relationship and references one translated, visually hidden
+“Opens in new window.” description. Existing relationship tokens, accessible
+names, titles, and `aria-describedby` references remain intact. A quiet CSS
+northeast mark supplies the equivalent visual cue. Without JavaScript, the
+link, visible label, target, and visual cue still work; repeated Drupal
+behavior attachment cannot duplicate the enhancement.
+
+`/online-teaching/design-your-course` is the reference fixture for dense Rich
+Text links and lists. `/students/deans-ambassadors` verifies the one-`h1`
+document contract. Browser coverage checks both routes at narrow and wide
+viewports, including relationship preservation, shared descriptions, focus,
+and horizontal reflow.
 
 ### Shared people directories
 
@@ -911,7 +944,7 @@ than replace manual assistive-technology review.
 | `tokens.css` | Brand, type, spacing, motion, focus, and layout tokens |
 | `css/fonts.css` | Local approved digital font declarations |
 | `css/moody26.css` | Global foundation, shell, navigation, forms, and footer |
-| `css/components/` | Header social, Moody Hero, editorial, discovery, resource-hub, accordion, Featured Highlight and Moody Promotion signal bands, Promo List, Flex Content Area, Image Link, Flex Color Block, Moody Quotation, Moody Flex Grid, Impact Facts, Contact Info, Call to Action, Social Links, Moody Anchor gallery, people-directory, newsroom, quick-action, and settings components |
+| `css/components/` | Header social, Moody Hero, Basic and Rich Text, editorial, discovery, resource-hub, accordion, Featured Highlight and Moody Promotion signal bands, Promo List, Flex Content Area, Image Link, Flex Color Block, Moody Quotation, Moody Flex Grid, Impact Facts, Contact Info, Call to Action, Social Links, Moody Anchor gallery, people-directory, newsroom, quick-action, and settings components |
 | `js/navigation.js` | Drawer and disclosure navigation state |
 | `js/quick-actions.js` | Native dialog and rendered-destination discovery |
 | `js/accessibility.js` | Progressive safeguards for rendered content components |

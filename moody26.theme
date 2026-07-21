@@ -445,6 +445,19 @@ function moody26_preprocess_block(array &$variables): void {
     $variables['attributes']['class'][] = 'moody26-news-lead';
   }
 
+  // The page-title block owns the document h1. Basic blocks are portable body
+  // content, so retain every authored attribute and word while lowering only
+  // a nested h1 tag to the first valid section level.
+  if ($block_content instanceof ContentEntityInterface && $block_content->bundle() === 'basic') {
+    $body_text = $variables['content']['body'][0]['#text'] ?? NULL;
+    if (is_string($body_text) && stripos($body_text, '<h1') !== FALSE) {
+      $normalized_body = preg_replace('/<(\/?)h1(\b[^>]*)>/i', '<$1h2$2>', $body_text);
+      if (is_string($normalized_body)) {
+        $variables['content']['body'][0]['#text'] = $normalized_body;
+      }
+    }
+  }
+
   if ($plugin_id === 'system_branding_block') {
     $variables['logo_alt_text'] = t('@name, The University of Texas at Austin', [
       '@name' => \Drupal::config('system.site')->get('name'),

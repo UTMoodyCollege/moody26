@@ -26,6 +26,49 @@
         }
       });
 
+      once(
+        'moody26-basic-new-window',
+        '.block-bundle-basic .ut-copy a[target="_blank"]',
+        context,
+      ).forEach((link) => {
+        link.relList.add('noopener');
+
+        const qualifier = Drupal.t('Opens in new window.');
+        const qualifierStem = qualifier.replace(/[.!?]+$/u, '').toLocaleLowerCase();
+        const describedBy = (link.getAttribute('aria-describedby') ?? '')
+          .split(/\s+/u)
+          .filter(Boolean);
+        const describedText = describedBy
+          .map((id) => document.getElementById(id)?.textContent ?? '')
+          .join(' ');
+        const accessibilityText = [
+          link.textContent,
+          link.getAttribute('aria-label'),
+          link.getAttribute('title'),
+          describedText,
+        ]
+          .filter(Boolean)
+          .join(' ')
+          .toLocaleLowerCase();
+        if (accessibilityText.includes(qualifierStem)) {
+          return;
+        }
+
+        const descriptionId = 'moody26-new-window-description';
+        let description = document.getElementById(descriptionId);
+        if (!description) {
+          description = document.createElement('span');
+          description.id = descriptionId;
+          description.className = 'visually-hidden';
+          description.textContent = qualifier;
+          document.body.append(description);
+        }
+        if (!describedBy.includes(descriptionId)) {
+          describedBy.push(descriptionId);
+          link.setAttribute('aria-describedby', describedBy.join(' '));
+        }
+      });
+
       once('moody26-news-image', '.latest-news-block-image-field img', context).forEach((image) => {
         const hideFailedMedia = () => image.closest('.latest-news-block-image-field')?.setAttribute('hidden', '');
         image.addEventListener('error', hideFailedMedia, { once: true });

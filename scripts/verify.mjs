@@ -25,6 +25,7 @@ const files = {
   quickActionsCss: 'css/components/quick-actions.css',
   quickActionsPreview: 'css/components/quick-actions.preview.html',
   landingHero: 'css/components/landing-hero.css',
+  richTextCss: 'css/components/rich-text.css',
   editorialSections: 'css/components/editorial-sections.css',
   featuredHighlightCss: 'css/components/featured-highlight.css',
   promoListCss: 'css/components/promo-list.css',
@@ -191,8 +192,8 @@ const forbidPattern = (file, pattern, message) => {
 
 try {
   const packageJson = JSON.parse(contents.package ?? '');
-  if (packageJson.version !== '0.32.0') {
-    errors.push('The shared Moody Anchor gallery release must remain versioned as 0.32.0.');
+  if (packageJson.version !== '0.33.0') {
+    errors.push('The shared Basic and Rich Text release must remain versioned as 0.33.0.');
   }
   for (const [dependency, version] of [
     ['animejs', '4.5.0'],
@@ -237,6 +238,14 @@ requireText('libraries', 'js/navigation.js', 'Theme-owned navigation behavior mu
 requireText('libraries', 'js/quick-actions.js', 'Quick actions must remain attached.');
 requireText('libraries', 'css/components/motion.css', 'Motion safeguards must remain attached.');
 requireText('libraries', 'css/components/header-social.css', 'Responsive header social styles must remain attached.');
+requireText('libraries', 'css/components/rich-text.css', 'Shared Basic and Rich Text styles must remain attached.');
+requireText('richTextCss', 'container: moody26-rich-text / inline-size;', 'Basic blocks must expose a portable component container.');
+requireText('richTextCss', '.block-bundle-basic .ut-copy li::marker', 'Basic lists must retain a restrained non-color-independent marker treatment.');
+requireText('richTextCss', 'a[target="_blank"]', 'Basic new-window links need a visible behavior signal.');
+requireText('richTextCss', 'clip-path: polygon(', 'Basic new-window links must retain a custom CSS behavior mark.');
+requireText('richTextCss', 'Hallmark · pre-emit critique: P5 H5 E5 S5 R5 V4', 'Basic and Rich Text styles must retain their Hallmark self-critique.');
+requireText('richTextCss', 'overflow-wrap: anywhere;', 'Pasted rich-text destinations must not widen the page.');
+forbidPattern('richTextCss', /(?:online-teaching|deans-ambassadors|node-\d+|block-[\da-f]{8}-[\da-f-]{27,})/i, 'Basic and Rich Text styling must not depend on routes, node IDs, or block UUIDs.');
 requireText('libraries', 'css/components/people-directory.css', 'Shared people-directory styles must remain attached.');
 requireText('libraries', 'css/components/newsroom.css', 'Shared newsroom styles must remain attached.');
 requireText('libraries', 'css/components/accordion.css', 'Shared accordion styles must remain attached.');
@@ -261,7 +270,7 @@ requireText('libraries', 'css/components/quick-links.css', 'Shared UT Drupal Kit
 requireText('libraries', 'css/components/social-links.css', 'Shared UT Drupal Kit Social Links styles must remain attached.');
 requireText('libraries', 'css/components/anchor-gallery.css', 'Shared Moody Anchor gallery styles must remain attached.');
 requireText('libraries', 'js/dist/motion.min.js', 'The built motion integration must remain attached.');
-requireText('libraries', 'version: 0.32.0', 'The Drupal asset version must match the Moody Anchor gallery release.');
+requireText('libraries', 'version: 0.33.0', 'The Drupal asset version must match the Basic and Rich Text release.');
 forbidText('info', '- moody26/motion', 'Optional motion must be attached from theme settings rather than globally.');
 
 requireText('settings', "header_social_links_block: ''", 'Header social links must be optional for new installs.');
@@ -381,6 +390,12 @@ requireText('quickActions', "target.closest('input, textarea, select, [contented
 requireText('quickActions', 'returnFocus = document.activeElement', 'Quick actions must preserve the invoking control or destination.');
 requireText('quickActions', 'returnFocus.focus({ preventScroll: true })', 'Quick actions must return focus without scrolling the drawer.');
 requireText('accessibility', "icon.removeAttribute('tabindex')", 'Decorative scroll hints must stay out of the tab order.');
+requireText('accessibility', "once(\n        'moody26-basic-new-window'", 'Basic new-window enhancement must remain idempotent.');
+requireText('accessibility', "link.relList.add('noopener')", 'Basic new-window links must receive an explicit safe relationship.');
+requireText('accessibility', "Drupal.t('Opens in new window.')", 'Basic new-window behavior must have a translated assistive description.');
+requireText('accessibility', "link.setAttribute('aria-describedby'", 'Basic new-window links must preserve their accessible name and reference a description.');
+requireText('theme', "$block_content->bundle() === 'basic'", 'Basic block safeguards must use the portable bundle contract.');
+requireText('theme', "preg_replace('/<(\\/?)h1(\\b[^>]*)>/i', '<$1h2$2>'", 'Basic block h1 elements must render at the first valid section level.');
 requireText('navigation', "new CustomEvent('moody26:reveal'", 'Submenus must expose a progressive motion hook.');
 requireText('quickActions', "detail: { kind: 'quick-actions' }", 'Quick actions must expose a first-open motion hook.');
 
@@ -1148,7 +1163,7 @@ requireText('newsFields', "'Story topics'|t", 'News topic destinations need a tr
 
 const runtimeFiles = [
   'info', 'libraries', 'theme', 'themeSettings', 'fontsCss', 'css',
-  'headerSocialCss', 'quickActionsCss', 'landingHero', 'editorialSections', 'discoveryIndex',
+  'headerSocialCss', 'quickActionsCss', 'landingHero', 'richTextCss', 'editorialSections', 'discoveryIndex',
   'featuredHighlightCss', 'featuredHighlightTemplate', 'promoListCss', 'promoListTemplate',
   'flexContentCss', 'flexContentFieldTemplate', 'flexContentTemplate',
   'imageLinkCss', 'imageLinkTemplate',
@@ -1191,7 +1206,7 @@ for (const file of runtimeFiles) {
   }
 }
 
-const cssFiles = ['css', 'headerSocialCss', 'quickActionsCss', 'landingHero', 'editorialSections', 'featuredHighlightCss', 'promoListCss', 'flexContentCss', 'imageLinkCss', 'flexColorBlocksCss', 'quotationCss', 'flexGridCss', 'impactFactsCss', 'showcaseCss', 'contactInfoCss', 'callToActionCss', 'resourceGroupCss', 'flexTabsCss', 'heroCarouselCss', 'photoContentCss', 'socialLinksCss', 'discoveryIndex', 'accordionCss', 'peopleDirectory', 'newsroom', 'motionCss', 'settingsCss'];
+const cssFiles = ['css', 'headerSocialCss', 'quickActionsCss', 'landingHero', 'richTextCss', 'editorialSections', 'featuredHighlightCss', 'promoListCss', 'flexContentCss', 'imageLinkCss', 'flexColorBlocksCss', 'quotationCss', 'flexGridCss', 'impactFactsCss', 'showcaseCss', 'contactInfoCss', 'callToActionCss', 'resourceGroupCss', 'flexTabsCss', 'heroCarouselCss', 'photoContentCss', 'socialLinksCss', 'discoveryIndex', 'accordionCss', 'peopleDirectory', 'newsroom', 'motionCss', 'settingsCss'];
 const forbiddenCss = [
   [/#(?:[0-9a-f]{3}|[0-9a-f]{6}|[0-9a-f]{8})\b/i, 'Raw hex colors belong only in tokens.css.'],
   [/\b(?:rgb|rgba|hsl|hsla|oklch)\(/i, 'Raw color functions belong only in tokens.css.'],
@@ -1222,7 +1237,7 @@ for (const file of ['preflight', 'log']) {
     errors.push(`${file} must contain valid JSON.`);
   }
 }
-requireText('preflight', '"package_version": "0.32.0"', 'Hallmark preflight must match the Moody Anchor gallery release.');
+requireText('preflight', '"package_version": "0.33.0"', 'Hallmark preflight must match the Basic and Rich Text release.');
 requireText('log', 'Conversational FAQ within the Ecosystem Index', 'Hallmark memory must record the shared accordion macrostructure.');
 requireText('log', 'Editorial media directory within the Ecosystem Index', 'Hallmark memory must record the shared Moody Flex Grid component.');
 requireText('log', 'Editorial Signal Band within the Ecosystem Index', 'Hallmark memory must record the shared Moody Promotion signal band.');
@@ -1241,6 +1256,7 @@ requireText('readme', 'Interface motion (Anime.js)', 'README must document the A
 requireText('readme', 'Header social links', 'README must document the responsive Social Links option.');
 requireText('readme', 'stores the selected block’s UUID', 'README must explain Social Links configuration portability.');
 requireText('readme', 'Shared people directories', 'README must document the reusable directory layer.');
+requireText('readme', 'Shared Basic and Rich Text', 'README must document the reusable Basic and Rich Text layer.');
 requireText('readme', 'Shared resource hubs', 'README must document the reusable resource-hub layer.');
 requireText('readme', 'Shared newsroom components', 'README must document the reusable newsroom layer.');
 requireText('readme', 'Shared accordions', 'README must document the native shared accordion layer.');
@@ -1270,6 +1286,7 @@ requireText('readme', 'Shared Moody Anchor galleries', 'README must document the
 requireText('agents', '`header_social_links_block`', 'AGENTS.md must preserve the header Social Links contract.');
 requireText('agents', 'Missing, unpublished, non-reusable, inaccessible, wrong-bundle, or malformed', 'AGENTS.md must require Social Links to fail closed.');
 requireText('agents', '### People directories', 'AGENTS.md must preserve the people-directory contract.');
+requireText('agents', '### Basic and Rich Text blocks', 'AGENTS.md must preserve the Basic and Rich Text component contract.');
 requireText('agents', '### Resource hubs', 'AGENTS.md must preserve the resource-hub contract.');
 requireText('agents', '### Newsroom components', 'AGENTS.md must preserve the newsroom component contract.');
 requireText('agents', '### Accordions', 'AGENTS.md must preserve the native accordion contract.');
@@ -1305,5 +1322,5 @@ if (errors.length) {
   process.exitCode = 1;
 }
 else {
-  console.log(`Moody26 verification passed (${Object.keys(files).length} source files, ${fonts.length} local fonts, standalone shell, UT brand, accessible directories, resource hubs, Resource Groups, Flex Tabs, UT Drupal Kit Flex Lists, Hero Carousels, Photo Content Areas, Moody Newsletter destination bands, UT Drupal Kit Quick Links, semantic Social Links, and Moody Anchor galleries, newsroom, accordions, Featured Highlights, Moody Promotions, Promo Lists, Flex Content Areas, Image Links, Flex Color Blocks, Moody Quotations, Moody Flex Grids, Moody Impact Facts, Moody and UT Drupal Kit Heroes, Moody Showcases, Moody Contact Info, and Call to Action blocks, header social links, motion, responsive, and Hallmark gates).`);
+  console.log(`Moody26 verification passed (${Object.keys(files).length} source files, ${fonts.length} local fonts, standalone shell, UT brand, Basic and Rich Text, accessible directories, resource hubs, Resource Groups, Flex Tabs, UT Drupal Kit Flex Lists, Hero Carousels, Photo Content Areas, Moody Newsletter destination bands, UT Drupal Kit Quick Links, semantic Social Links, and Moody Anchor galleries, newsroom, accordions, Featured Highlights, Moody Promotions, Promo Lists, Flex Content Areas, Image Links, Flex Color Blocks, Moody Quotations, Moody Flex Grids, Moody Impact Facts, Moody and UT Drupal Kit Heroes, Moody Showcases, Moody Contact Info, and Call to Action blocks, header social links, motion, responsive, and Hallmark gates).`);
 }

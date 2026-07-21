@@ -182,6 +182,51 @@ not belong outside the token and font declaration files.
   animation instances must be scoped and reversible so AJAX and Layout Builder
   do not create duplicate listeners or stale inline transforms.
 
+### Basic and Rich Text blocks
+
+- Treat the `basic` content-block bundle and its `.ut-copy` output as the
+  shared long-form editorial foundation, not as route-specific freeform HTML.
+  Keep copy, links, headings, lists, media, captions, embeds, text format,
+  cacheability, and Layout Builder placement under Drupal and editor control.
+- Moody26 owns `css/components/rich-text.css`, the narrow Basic-block heading
+  safeguard in `moody26_preprocess_block()`, and the idempotent new-window
+  enhancement in `js/accessibility.js`. Do not replace the provider template,
+  reconstruct a destination, use `|raw`, or alter stored body content.
+- The page-title block owns the document `h1`. Render an authored Basic-block
+  `h1` as `h2` while preserving its attributes and text. Keep every other
+  heading level unchanged; editors remain responsible for a logical hierarchy
+  below that first section level.
+- Keep prose measured and flat. Lists use real browser semantics and a small
+  burnt-orange marker; quotations use one start rule; figures retain authored
+  proportions and captions; code may scroll inside its own frame. Do not turn
+  paragraphs, lists, quotations, or media into cards.
+- Preserve processed-text filtering and formatter-owned media. Images and
+  video must stay within their region without a universal crop. Iframes keep
+  their provider-owned height and title; the theme must not guess an embed
+  title, caption, table header, image alternative, or missing media.
+- An authored `target="_blank"` link receives an explicit `rel="noopener"`
+  token without replacing any existing relationship. Add one translated,
+  shared offscreen `Opens in new window.` description through
+  `aria-describedby`, preserving any existing accessible name, title, and
+  description references. The northeast visual mark is CSS-only and must not
+  acquire its own accessible name or underline.
+- Enhancement is progressive: without JavaScript every destination, target,
+  visible label, and visual new-window signal remains usable. Drupal behaviors
+  use `once()` so AJAX and Layout Builder cannot duplicate relationship tokens
+  or description references.
+- Never rewrite generic `Here`, `Click here`, `Read more`, or `Learn more`
+  labels into invented copy. Report them as editorial debt and require an
+  editor to supply destination-specific text. Do not silently repair missing
+  table captions, header associations, alternatives, or heading context.
+- Rich-text links may wrap between words or within a pasted URL at narrow
+  widths; never clip, truncate, split surrounding prose, or widen the page.
+  Keep visible focus immediate and retain default, visited, hover, active, and
+  authored `aria-disabled` states. Inline prose links use the WCAG target-size
+  exception; button-styled links continue to use the shared 44-pixel target.
+- Basic and Rich Text content is static server-rendered editorial content. Do
+  not add decorative reveal motion or fabricate loading, error, success, or
+  disabled controls that the editor did not author.
+
 ### People directories
 
 - Treat the shared `faculty_bio_view` as the reference people-directory
