@@ -78,6 +78,7 @@ function moody26_library_info_alter(array &$libraries, string $extension): void 
   }
   if ($extension === 'moody_flip_things') {
     unset($libraries['moody_flip_image_grid']);
+    unset($libraries['moody_dynamic_flip_grid']);
   }
 }
 
@@ -949,7 +950,13 @@ function moody26_preprocess_moody_flip_things_image_grid(array &$variables): voi
     $has_body = trim(strip_tags($body_text)) !== '';
     $media_id = (string) ($item['image'] ?? '');
     $media_description = '';
-    $image = moody26_people_grid_image($media_id, $variables, $media_description);
+    $image = moody26_media_image(
+      $media_id,
+      $variables,
+      $media_description,
+      'moody26-people-grid__image',
+      'moody_image_style_960w_x_540h',
+    );
     $link_url = trim((string) ($item['link_url'] ?? ''));
     if ($link_url !== '' && UrlHelper::stripDangerousProtocols($link_url) !== $link_url) {
       $link_url = '';
@@ -975,9 +982,82 @@ function moody26_preprocess_moody_flip_things_image_grid(array &$variables): voi
 }
 
 /**
- * Builds one access-checked, cacheable people-grid image from provider media.
+ * Prepares the legacy Dynamic Flip Grid as a static paired-media contact sheet.
  */
-function moody26_people_grid_image(string $media_id, array &$variables, string &$description): array {
+function moody26_preprocess_moody_dynamic_flip_grid(array &$variables): void {
+  $variables['pair_grid_heading_id'] = Html::getUniqueId('moody26-pair-grid-heading');
+  $variables['headline'] = trim((string) ($variables['headline'] ?? ''));
+  $style = (string) ($variables['style'] ?? 'square');
+  $variables['pair_grid_style'] = in_array($style, ['round', 'square', 'rectangle'], TRUE)
+    ? $style
+    : 'square';
+  $items_per_row = (string) ($variables['items_per_row'] ?? '2');
+  $variables['pair_grid_columns'] = in_array($items_per_row, ['1', '2', '3', '4'], TRUE)
+    ? $items_per_row
+    : '2';
+  $pairs = [];
+
+  foreach (($variables['items'] ?? []) as $item) {
+    if (!is_array($item)) {
+      continue;
+    }
+
+    $sides = [];
+    foreach (['front', 'back'] as $side_name) {
+      $side = is_array($item[$side_name] ?? NULL) ? $item[$side_name] : [];
+      $headline = trim((string) ($side['headline'] ?? ''));
+      $has_body = !empty($side['body_rendered']);
+      $has_cta = !empty($side['cta_render']);
+      $media_id = (string) ($side['media'] ?? '');
+      $media_description = '';
+      $image = moody26_media_image(
+        $media_id,
+        $variables,
+        $media_description,
+        'moody26-pair-grid__image',
+        'utexas_image_style_600w',
+      );
+      $media_unavailable = $media_id !== '' && !$image;
+
+      if ($headline === '' && !$has_body && !$has_cta && !$image && !$media_unavailable) {
+        continue;
+      }
+
+      $sides[] = [
+        'name' => $side_name,
+        'headline' => $headline,
+        'has_body' => $has_body,
+        'body_rendered' => $has_body ? $side['body_rendered'] : [],
+        'has_cta' => $has_cta,
+        'cta_render' => $has_cta ? $side['cta_render'] : [],
+        'image' => $image,
+        'media_unavailable' => $media_unavailable,
+        'media_description' => $media_description,
+        'title_id' => $variables['pair_grid_heading_id'] . '-side-' . (count($pairs) + 1) . '-' . (count($sides) + 1),
+      ];
+    }
+
+    if ($sides) {
+      $pairs[] = [
+        'number' => count($pairs) + 1,
+        'sides' => $sides,
+      ];
+    }
+  }
+
+  $variables['pair_grid_items'] = $pairs;
+}
+
+/**
+ * Builds one access-checked, cacheable image from provider Media.
+ */
+function moody26_media_image(
+  string $media_id,
+  array &$variables,
+  string &$description,
+  string $class,
+  ?string $image_style_name = NULL,
+): array {
   if ($media_id === '' || !ctype_digit($media_id)) {
     return [];
   }
@@ -1019,7 +1099,9 @@ function moody26_people_grid_image(string $media_id, array &$variables, string &
     return [];
   }
 
-  $style = $entity_type_manager->getStorage('image_style')->load('moody_image_style_960w_x_540h');
+  $style = $image_style_name
+    ? $entity_type_manager->getStorage('image_style')->load($image_style_name)
+    : NULL;
   $build = [
     '#theme' => $style ? 'image_style' : 'image',
     '#uri' => $uri,
@@ -1028,7 +1110,7 @@ function moody26_people_grid_image(string $media_id, array &$variables, string &
     '#alt' => (string) ($image_item->alt ?? ''),
     '#title' => (string) ($image_item->title ?? ''),
     '#attributes' => [
-      'class' => ['moody26-people-grid__image'],
+      'class' => [$class],
       'loading' => 'lazy',
       'decoding' => 'async',
     ],

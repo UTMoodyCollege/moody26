@@ -6,7 +6,7 @@ visual identity with an accessible, editorial system that can serve academic,
 research, film, journalism, advertising, alumni, event, and public-facing
 sites without requiring the legacy Moody or Speedway themes.
 
-> **Project status:** pre-release (`0.47.0`). The theme is being validated in
+> **Project status:** pre-release (`0.48.0`). The theme is being validated in
 > [Moody Core](https://github.com/UTMoodyCollege/moody-core) before its first
 > stable tag. Pin an exact commit when evaluating the `main` branch.
 
@@ -678,6 +678,34 @@ If an image is inaccessible, invalid, missing, or fails in the browser, only
 that figure is removed; the title, copy, and destination remain, and one
 translated status preserves the authored alternative when available. `/` is
 the current integration fixture.
+
+### Shared Moody Dynamic Flip Grid
+
+Moody26 treats `moody_flip_things_dynamic_flip_grid` as an editor-authored
+paired-media story, not as permission to hide half of the content behind hover.
+The theme keeps the section heading, pair and side order, media selections,
+authored alternatives, optional side headings, processed copy, formatter-owned
+actions, author-selected column count, cacheability, and Layout Builder
+placement. It removes the provider’s public dynamic flip CSS, jQuery Flip
+plugin, JavaScript runtime, CSS background images, and duplicate SVG arrows.
+
+Each non-empty component is one labelled section with an ordered list of media
+pairs. Each pair is an article containing an ordered list whose “side one” and
+“side two” sections are always present in DOM and reading order. Real `<img>`
+elements replace CSS backgrounds, preserve intrinsic dimensions, use the
+available scale-only image style, and retain the authored alternative rather
+than applying a circular or rectangular crop to text-bearing artwork.
+
+The contact sheet begins with one safe column. It honors the editor’s requested
+pair count only as the component gains enough inline space, and each pair places
+its two sides beside one another only when that pair—not the viewport—is wide
+enough. Missing, inaccessible, invalid, or browser-failed images remove only the
+affected figure. The full authored alternative becomes a translated visible
+status, which keeps migrated text-bearing graphics understandable even before
+their files are restored. Optional actions retain default, visited,
+capability-gated hover, immediate focus, active, and authored-disabled states;
+the standalone preview records all eight regression states. `/test123` is the
+current integration fixture.
 
 ### Shared Moody Showcases
 

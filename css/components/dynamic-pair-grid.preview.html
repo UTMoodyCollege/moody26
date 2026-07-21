@@ -1,0 +1,70 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Moody26 paired media states</title>
+    <link rel="stylesheet" href="../fonts.css">
+    <link rel="stylesheet" href="../../tokens.css">
+    <link rel="stylesheet" href="dynamic-pair-grid.css">
+    <style>
+      *,
+      *::before,
+      *::after {
+        box-sizing: border-box;
+      }
+      body {
+        margin: 0;
+        padding: var(--space-lg);
+        background: var(--color-paper);
+        color: var(--color-ink);
+        font-family: var(--font-body);
+      }
+      main {
+        width: min(100%, var(--content-max));
+        margin-inline: auto;
+      }
+      .preview-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(min(100%, 20rem), 1fr));
+        gap: var(--space-xl);
+      }
+      .preview-state {
+        min-width: 0;
+      }
+      .preview-state > h2 {
+        margin: 0 0 var(--space-sm);
+        font: 700 var(--text-base) / var(--leading-body) var(--font-body);
+      }
+      .preview-state .moody26-pair-grid {
+        padding: var(--space-md);
+      }
+      .preview-state .moody26-pair-grid__pairs {
+        display: block;
+      }
+      .preview-media {
+        display: grid;
+        min-block-size: 9rem;
+        place-items: center;
+        background: var(--color-paper-2);
+        color: var(--color-muted);
+        font: 700 var(--text-display-s) / 1 var(--font-display);
+      }
+    </style>
+  </head>
+  <body>
+    <main>
+      <h1>Paired media states</h1>
+      <div class="preview-grid">
+        <section class="preview-state"><h2>Default</h2><article class="moody26-pair-grid"><ol class="moody26-pair-grid__pairs"><li class="moody26-pair-grid__pair"><div class="preview-media" aria-hidden="true">01</div><div class="moody26-pair-grid__content"><a class="moody26-pair-grid__link" href="#default">View story</a></div></li></ol></article></section>
+        <section class="preview-state"><h2>Hover</h2><article class="moody26-pair-grid"><ol class="moody26-pair-grid__pairs"><li class="moody26-pair-grid__pair"><div class="preview-media" aria-hidden="true">02</div><div class="moody26-pair-grid__content"><a class="moody26-pair-grid__link is-hover" href="#hover">View story</a></div></li></ol></article></section>
+        <section class="preview-state"><h2>Focus</h2><article class="moody26-pair-grid"><ol class="moody26-pair-grid__pairs"><li class="moody26-pair-grid__pair"><div class="preview-media" aria-hidden="true">03</div><div class="moody26-pair-grid__content"><a class="moody26-pair-grid__link is-focus" href="#focus">View story</a></div></li></ol></article></section>
+        <section class="preview-state"><h2>Active</h2><article class="moody26-pair-grid"><ol class="moody26-pair-grid__pairs"><li class="moody26-pair-grid__pair"><div class="preview-media" aria-hidden="true">04</div><div class="moody26-pair-grid__content"><a class="moody26-pair-grid__link is-active" href="#active">View story</a></div></li></ol></article></section>
+        <section class="preview-state"><h2>Disabled</h2><article class="moody26-pair-grid"><ol class="moody26-pair-grid__pairs"><li class="moody26-pair-grid__pair"><div class="preview-media" aria-hidden="true">05</div><div class="moody26-pair-grid__content"><a class="moody26-pair-grid__link is-disabled" aria-disabled="true">View story</a></div></li></ol></article></section>
+        <section class="preview-state"><h2>Loading</h2><article class="moody26-pair-grid" aria-busy="true"><ol class="moody26-pair-grid__pairs"><li class="moody26-pair-grid__pair"><section class="moody26-pair-grid__side is-loading"><div class="preview-media" aria-hidden="true">06</div><div class="moody26-pair-grid__content"><p>Loading media…</p></div></section></li></ol></article></section>
+        <section class="preview-state"><h2>Error</h2><article class="moody26-pair-grid"><ol class="moody26-pair-grid__pairs"><li class="moody26-pair-grid__pair"><section class="moody26-pair-grid__side is-error"><div class="moody26-pair-grid__content"><p class="moody26-pair-grid__status" role="status">Image unavailable: authored description</p></div></section></li></ol></article></section>
+        <section class="preview-state"><h2>Success</h2><article class="moody26-pair-grid"><ol class="moody26-pair-grid__pairs"><li class="moody26-pair-grid__pair"><section class="moody26-pair-grid__side is-success"><div class="preview-media" aria-hidden="true">08</div><div class="moody26-pair-grid__content"><p>Media available.</p></div></section></li></ol></article></section>
+      </div>
+    </main>
+  </body>
+</html>

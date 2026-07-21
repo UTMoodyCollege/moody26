@@ -1,0 +1,59 @@
+{% if pair_grid_items %}
+  <section class="moody26-pair-grid is-style-{{ pair_grid_style }} items-per-row-{{ pair_grid_columns }}" aria-labelledby="{{ pair_grid_heading_id }}">
+    {% if headline %}
+      <header class="moody26-pair-grid__header">
+        <h2 class="moody26-pair-grid__heading" id="{{ pair_grid_heading_id }}">{{ headline }}</h2>
+        <span class="moody26-pair-grid__header-rule" aria-hidden="true"></span>
+      </header>
+    {% else %}
+      <h2 class="visually-hidden" id="{{ pair_grid_heading_id }}">{{ 'Paired media stories'|t }}</h2>
+    {% endif %}
+
+    <ol class="moody26-pair-grid__pairs" role="list">
+      {% for pair in pair_grid_items %}
+        {% set pair_label = 'Media pair @number'|t({'@number': pair.number}) %}
+        <li class="moody26-pair-grid__pair">
+          <article class="moody26-pair-grid__entry" aria-label="{{ pair_label }}">
+            <ol class="moody26-pair-grid__sides" role="list">
+              {% for side in pair.sides %}
+                {% set side_label = side.name == 'front' ? 'Side one'|t : 'Side two'|t %}
+                <li class="moody26-pair-grid__side{% if side.media_unavailable %} is-error{% endif %}">
+                  <section{% if side.headline %} aria-labelledby="{{ side.title_id }}"{% else %} aria-label="{{ side_label }}"{% endif %}>
+                    {% if side.image %}
+                      <figure class="moody26-pair-grid__media">
+                        {{ side.image }}
+                      </figure>
+                    {% endif %}
+
+                    <div class="moody26-pair-grid__content">
+                      {% if side.media_unavailable %}
+                        <p class="moody26-pair-grid__status" role="status">
+                          {{ side.media_description
+                            ? 'Image unavailable: @description'|t({'@description': side.media_description})
+                            : 'Image unavailable'|t
+                          }}
+                        </p>
+                      {% endif %}
+
+                      {% if side.headline %}
+                        <h3 class="moody26-pair-grid__title" id="{{ side.title_id }}">{{ side.headline }}</h3>
+                      {% endif %}
+
+                      {% if side.has_body %}
+                        <div class="moody26-pair-grid__body">{{ side.body_rendered }}</div>
+                      {% endif %}
+
+                      {% if side.has_cta %}
+                        <div class="moody26-pair-grid__cta">{{ side.cta_render }}</div>
+                      {% endif %}
+                    </div>
+                  </section>
+                </li>
+              {% endfor %}
+            </ol>
+          </article>
+        </li>
+      {% endfor %}
+    </ol>
+  </section>
+{% endif %}

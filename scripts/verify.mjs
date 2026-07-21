@@ -55,6 +55,8 @@ const files = {
   focalPointPreview: 'css/components/focal-point.preview.html',
   flipImageGridCss: 'css/components/flip-image-grid.css',
   flipImageGridPreview: 'css/components/flip-image-grid.preview.html',
+  dynamicPairGridCss: 'css/components/dynamic-pair-grid.css',
+  dynamicPairGridPreview: 'css/components/dynamic-pair-grid.preview.html',
   discoveryIndex: 'css/components/discovery-index.css',
   accordionCss: 'css/components/accordion.css',
   peopleDirectory: 'css/components/people-directory.css',
@@ -138,6 +140,7 @@ const files = {
   scrollRevealMediaTemplate: 'templates/components/moody-scroll-reveal-media.html.twig',
   focalPointTemplate: 'templates/components/moody-focal-point.html.twig',
   flipImageGridTemplate: 'templates/components/moody-flip-things-image-grid.html.twig',
+  dynamicPairGridTemplate: 'templates/components/moody-dynamic-flip-grid.html.twig',
   heroTemplate: 'templates/components/moody-hero.html.twig',
   heroStyle1Template: 'templates/components/moody-hero-1.html.twig',
   heroStyle2Template: 'templates/components/moody-hero-2.html.twig',
@@ -224,8 +227,8 @@ const forbidPattern = (file, pattern, message) => {
 
 try {
   const packageJson = JSON.parse(contents.package ?? '');
-  if (packageJson.version !== '0.47.0') {
-    errors.push('The accessible Moody Flip Image Grid release must remain versioned as 0.47.0.');
+  if (packageJson.version !== '0.48.0') {
+    errors.push('The accessible Moody Dynamic Flip Grid release must remain versioned as 0.48.0.');
   }
   for (const [dependency, version] of [
     ['animejs', '4.5.0'],
@@ -312,8 +315,9 @@ requireText('libraries', 'css/components/image-gallery.css', 'Accessible Moody i
 requireText('libraries', 'css/components/scroll-reveal-media.css', 'Accessible Moody Scroll Reveal Media styles must remain attached.');
 requireText('libraries', 'css/components/focal-point.css', 'Accessible Moody Focal Point styles must remain attached.');
 requireText('libraries', 'css/components/flip-image-grid.css', 'Accessible Moody Flip Image Grid styles must remain attached.');
+requireText('libraries', 'css/components/dynamic-pair-grid.css', 'Accessible Moody Dynamic Flip Grid styles must remain attached.');
 requireText('libraries', 'js/dist/motion.min.js', 'The built motion integration must remain attached.');
-requireText('libraries', 'version: 0.47.0', 'The Drupal asset version must match the accessible Moody Flip Image Grid release.');
+requireText('libraries', 'version: 0.48.0', 'The Drupal asset version must match the accessible Moody Dynamic Flip Grid release.');
 forbidText('info', '- moody26/motion', 'Optional motion must be attached from theme settings rather than globally.');
 
 requireText('settings', "header_social_links_block: ''", 'Header social links must be optional for new installs.');
@@ -978,11 +982,11 @@ requireText('theme', "$extension === 'moody_flip_things'", 'Moody26 library remo
 requireText('theme', "unset($libraries['moody_flip_image_grid'])", 'Moody26 must remove only the provider public Flip Image Grid library.');
 requireText('theme', 'function moody26_preprocess_moody_flip_things_image_grid', 'Moody Flip Image Grid must retain theme-owned preprocessing.');
 requireText('theme', 'UrlHelper::stripDangerousProtocols($link_url)', 'Moody Flip Image Grid must reject unsafe authored link protocols.');
-requireText('theme', 'function moody26_people_grid_image', 'Moody Flip Image Grid must retain safe media rendering.');
+requireText('theme', 'function moody26_media_image', 'Shared provider media must retain safe image rendering.');
 requireText('theme', "getTranslationFromContext($media)", 'Moody Flip Image Grid media must honor the current content language.');
 requireText('theme', "$media->access('view', NULL, TRUE)", 'Moody Flip Image Grid must enforce Media view access with cacheability.');
 requireText('theme', "$file->access('view', NULL, TRUE)", 'Moody Flip Image Grid must enforce File view access with cacheability.');
-requireText('theme', "load('moody_image_style_960w_x_540h')", 'Moody Flip Image Grid must use the available fleet image style.');
+requireText('theme', "'moody_image_style_960w_x_540h'", 'Moody Flip Image Grid must use the available fleet image style.');
 requireText('theme', "'#alt' => (string) ($image_item->alt ?? '')", 'Moody Flip Image Grid must preserve authored image alternatives.');
 requireText('accessibility', "once('moody26-people-grid-image'", 'Moody Flip Image Grid source failure recovery must remain once-bound.');
 requireText('accessibility', "Drupal.t('Image unavailable: @description'", 'Failed Moody Flip Image Grid media must retain its authored description.');
@@ -990,6 +994,58 @@ requireText('accessibility', 'media.hidden = true;', 'Failed Moody Flip Image Gr
 requireText('accessibility', 'content.prepend(status);', 'Moody Flip Image Grid must expose one truthful failure status.');
 forbidText('discoveryIndex', 'moody-flip-things-image-grid', 'Discovery styles must not target the retired provider Flip Image Grid markup.');
 forbidText('motion', 'moody-flip-things-image-grid', 'Optional theme motion must not target the static Moody Flip Image Grid.');
+requireText('dynamicPairGridCss', 'component: Moody Dynamic Flip Grid', 'Moody Dynamic Flip Grid must retain its Hallmark component contract.');
+requireText('dynamicPairGridCss', 'macrostructure: static paired-media contact sheet', 'Moody Dynamic Flip Grid must retain its static paired-media composition.');
+requireText('dynamicPairGridCss', 'states: default · hover · focus · active · disabled · loading · error · success', 'Moody Dynamic Flip Grid must retain all eight states.');
+requireText('dynamicPairGridCss', 'container: moody26-pair-grid / inline-size;', 'Moody Dynamic Flip Grid must remain container-aware in Layout Builder.');
+requireText('dynamicPairGridCss', 'container: moody26-pair / inline-size;', 'Each Dynamic Flip Grid pair must govern its own side layout.');
+requireText('dynamicPairGridCss', '@container moody26-pair (min-width: 30rem)', 'Paired Dynamic Flip Grid sides must wait for adequate inline space.');
+requireText('dynamicPairGridCss', 'grid-template-columns: repeat(2, minmax(0, 1fr));', 'Moody Dynamic Flip Grid two-column layouts must use safe tracks.');
+requireText('dynamicPairGridCss', 'grid-template-columns: repeat(4, minmax(0, 1fr));', 'Moody Dynamic Flip Grid must safely honor the widest author choice.');
+requireText('dynamicPairGridCss', 'object-fit: contain;', 'Moody Dynamic Flip Grid must not crop text-bearing migrated artwork.');
+requireText('dynamicPairGridCss', '@supports not (container-type: inline-size)', 'Moody Dynamic Flip Grid needs a restrained fallback for older supported browsers.');
+requireText('dynamicPairGridCss', '.moody26-pair-grid__link:is(:focus-visible, .is-focus)', 'Moody Dynamic Flip Grid actions need immediate visible focus.');
+requireText('dynamicPairGridCss', 'min-block-size: var(--target-min);', 'Moody Dynamic Flip Grid actions must retain 44 CSS-pixel targets.');
+requireText('dynamicPairGridCss', '@media (hover: hover) and (pointer: fine)', 'Moody Dynamic Flip Grid hover feedback must be capability-gated.');
+requireText('dynamicPairGridCss', '@media (prefers-reduced-motion: reduce)', 'Moody Dynamic Flip Grid must retain an explicit motion-free preference path.');
+requireText('dynamicPairGridCss', '@media (forced-colors: active)', 'Moody Dynamic Flip Grid boundaries must survive forced colors.');
+requireText('dynamicPairGridCss', ':is([aria-disabled="true"], .is-disabled)', 'Moody Dynamic Flip Grid actions must honor an authored disabled state.');
+forbidPattern('dynamicPairGridCss', /(?:^|\s)(?:#(?:[\da-f]{3}){1,2}|(?:rgb|hsl|oklch)\()/im, 'Moody Dynamic Flip Grid styles must use locked color tokens.');
+forbidText('dynamicPairGridCss', '100vh', 'Moody Dynamic Flip Grid must not restore forced viewport-height panels.');
+forbidText('dynamicPairGridCss', 'rotateY', 'Moody Dynamic Flip Grid must not restore flip transforms.');
+forbidText('dynamicPairGridCss', 'perspective:', 'Moody Dynamic Flip Grid must not restore a perspective scene.');
+forbidText('dynamicPairGridCss', 'animation:', 'Moody Dynamic Flip Grid content must never depend on animation.');
+for (const state of ['Default', 'Hover', 'Focus', 'Active', 'Disabled', 'Loading', 'Error', 'Success']) {
+  requireText('dynamicPairGridPreview', `<h2>${state}</h2>`, `The Moody Dynamic Flip Grid preview must include its ${state.toLowerCase()} state.`);
+}
+requireText('dynamicPairGridPreview', 'box-sizing: border-box;', 'The Moody Dynamic Flip Grid preview must remain padding-safe at narrow widths.');
+requireText('dynamicPairGridTemplate', '<section class="moody26-pair-grid', 'Moody Dynamic Flip Grid must expose one labelled section.');
+requireText('dynamicPairGridTemplate', '<ol class="moody26-pair-grid__pairs" role="list">', 'Moody Dynamic Flip Grid must expose one ordered pair list.');
+requireText('dynamicPairGridTemplate', '<article class="moody26-pair-grid__entry"', 'Moody Dynamic Flip Grid pairs must remain articles.');
+requireText('dynamicPairGridTemplate', '<ol class="moody26-pair-grid__sides" role="list">', 'Moody Dynamic Flip Grid sides must remain in an ordered list.');
+requireText('dynamicPairGridTemplate', '<figure class="moody26-pair-grid__media">', 'Moody Dynamic Flip Grid images must retain figure semantics.');
+requireText('dynamicPairGridTemplate', '<h3 class="moody26-pair-grid__title"', 'Moody Dynamic Flip Grid side titles must remain subordinate headings.');
+requireText('dynamicPairGridTemplate', '{{ side.body_rendered }}', 'Moody Dynamic Flip Grid must preserve processed editor copy.');
+requireText('dynamicPairGridTemplate', '{{ side.cta_render }}', 'Moody Dynamic Flip Grid must preserve formatter-owned actions.');
+requireText('dynamicPairGridTemplate', "'Image unavailable: @description'|t", 'Server-side Moody Dynamic Flip Grid failures must retain authored alternatives.');
+forbidText('dynamicPairGridTemplate', 'moody-dynamic-flip-grid-container', 'Moody26 must not reactivate provider Dynamic Flip Grid selectors.');
+forbidText('dynamicPairGridTemplate', '|raw', 'Moody Dynamic Flip Grid must not bypass Drupal render safety.');
+forbidText('dynamicPairGridTemplate', 'attach_library', 'Moody Dynamic Flip Grid must use the global theme layer without duplicate attachments.');
+forbidText('dynamicPairGridTemplate', '<svg', 'Moody Dynamic Flip Grid must not duplicate raw provider SVG arrows.');
+forbidText('dynamicPairGridTemplate', 'class="front"', 'Moody Dynamic Flip Grid must not restore a hover-only front face.');
+forbidText('dynamicPairGridTemplate', 'class="back"', 'Moody Dynamic Flip Grid must not restore a hover-only back face.');
+forbidText('dynamicPairGridTemplate', 'background-image', 'Moody Dynamic Flip Grid must use real image elements rather than CSS backgrounds.');
+requireText('theme', "unset($libraries['moody_dynamic_flip_grid'])", 'Moody26 must remove only the provider public Dynamic Flip Grid library.');
+requireText('theme', 'function moody26_preprocess_moody_dynamic_flip_grid', 'Moody Dynamic Flip Grid must retain theme-owned preprocessing.');
+requireText('theme', "in_array($style, ['round', 'square', 'rectangle'], TRUE)", 'Moody Dynamic Flip Grid migration styles must remain allow-listed.');
+requireText('theme', "in_array($items_per_row, ['1', '2', '3', '4'], TRUE)", 'Moody Dynamic Flip Grid author columns must remain allow-listed.');
+requireText('theme', "'utexas_image_style_600w'", 'Moody Dynamic Flip Grid must use the scale-only fleet image style.');
+requireText('theme', "'#width' => $image_item->width ?: $image->getWidth()", 'Shared provider media must retain intrinsic width.');
+requireText('theme', "'#height' => $image_item->height ?: $image->getHeight()", 'Shared provider media must retain intrinsic height.');
+requireText('accessibility', "once('moody26-pair-grid-image'", 'Moody Dynamic Flip Grid source failure recovery must remain once-bound.');
+requireText('accessibility', "side.classList.add('is-error')", 'Failed Moody Dynamic Flip Grid media must expose a non-color error state.');
+requireText('accessibility', "Drupal.t('Image unavailable: @description'", 'Failed Moody Dynamic Flip Grid media must retain its authored alternative.');
+forbidText('motion', 'moody-dynamic-flip-grid', 'Optional theme motion must not target the static Moody Dynamic Flip Grid.');
 requireText('discoveryIndex', 'repeat(12, minmax(0, 1fr))', 'Discovery grids must use safe image-bearing tracks.');
 requireText('discoveryIndex', '.linked-focus-area-item:focus-visible', 'Focus Area tasks need immediate visible focus.');
 requireText('discoveryIndex', '.utexas-promo-unit .data-wrapper > a:focus-visible', 'Promo Unit links need immediate visible focus.');
@@ -1631,7 +1687,7 @@ const runtimeFiles = [
   'photoContentCss', 'photoContentTemplate',
   'socialLinksCss', 'socialLinksTemplate', 'imageGalleryCss',
   'scrollRevealMediaCss', 'scrollRevealMediaTemplate', 'focalPointCss', 'focalPointTemplate',
-  'flipImageGridCss', 'flipImageGridTemplate',
+  'flipImageGridCss', 'flipImageGridTemplate', 'dynamicPairGridCss', 'dynamicPairGridTemplate',
   'heroTemplate', 'heroStyle1Template', 'heroStyle2Template', 'heroStyle3Template',
   'heroStyle4Template', 'heroStyle5Template', 'heroStyle6Template', 'heroStyle6ShortTemplate',
   'heroStyle7Template', 'heroStyle8Template',
@@ -1663,7 +1719,7 @@ for (const file of runtimeFiles) {
   }
 }
 
-const cssFiles = ['css', 'headerSocialCss', 'quickActionsCss', 'landingHero', 'richTextCss', 'editorialSections', 'featuredHighlightCss', 'promoListCss', 'flexContentCss', 'imageLinkCss', 'flexColorBlocksCss', 'quotationCss', 'flexGridCss', 'impactFactsCss', 'showcaseCss', 'contactInfoCss', 'callToActionCss', 'resourceGroupCss', 'flexTabsCss', 'heroCarouselCss', 'photoContentCss', 'socialLinksCss', 'imageGalleryCss', 'scrollRevealMediaCss', 'focalPointCss', 'flipImageGridCss', 'discoveryIndex', 'accordionCss', 'peopleDirectory', 'studentStoriesCss', 'eventsListingCss', 'newsroom', 'featureStoryCss', 'shorthandStoryCss', 'pdfDocumentCss', 'eventDetailCss', 'motionCss', 'settingsCss'];
+const cssFiles = ['css', 'headerSocialCss', 'quickActionsCss', 'landingHero', 'richTextCss', 'editorialSections', 'featuredHighlightCss', 'promoListCss', 'flexContentCss', 'imageLinkCss', 'flexColorBlocksCss', 'quotationCss', 'flexGridCss', 'impactFactsCss', 'showcaseCss', 'contactInfoCss', 'callToActionCss', 'resourceGroupCss', 'flexTabsCss', 'heroCarouselCss', 'photoContentCss', 'socialLinksCss', 'imageGalleryCss', 'scrollRevealMediaCss', 'focalPointCss', 'flipImageGridCss', 'dynamicPairGridCss', 'discoveryIndex', 'accordionCss', 'peopleDirectory', 'studentStoriesCss', 'eventsListingCss', 'newsroom', 'featureStoryCss', 'shorthandStoryCss', 'pdfDocumentCss', 'eventDetailCss', 'motionCss', 'settingsCss'];
 const forbiddenCss = [
   [/#(?:[0-9a-f]{3}|[0-9a-f]{6}|[0-9a-f]{8})\b/i, 'Raw hex colors belong only in tokens.css.'],
   [/\b(?:rgb|rgba|hsl|hsla|oklch)\(/i, 'Raw color functions belong only in tokens.css.'],
@@ -1694,7 +1750,7 @@ for (const file of ['preflight', 'log']) {
     errors.push(`${file} must contain valid JSON.`);
   }
 }
-requireText('preflight', '"package_version": "0.47.0"', 'Hallmark preflight must match the accessible Moody Flip Image Grid release.');
+requireText('preflight', '"package_version": "0.48.0"', 'Hallmark preflight must match the accessible Moody Dynamic Flip Grid release.');
 requireText('log', 'Index-First profile dossier within the Ecosystem Index', 'Hallmark memory must record the shared faculty-profile composition.');
 requireText('log', 'Split Studio event brief within the Ecosystem Index', 'Hallmark memory must record the shared event-detail composition.');
 requireText('log', 'Long Document feature story within the Ecosystem Index', 'Hallmark memory must record the shared feature-story composition.');
@@ -1758,6 +1814,8 @@ requireText('readme', 'Shared Moody Focal Point', 'README must document the stat
 requireText('readme', 'Every caption is', 'README must document focal-point reading-order independence.');
 requireText('readme', 'Shared Moody Flip Image Grid', 'README must document the static shared Moody Flip Image Grid layer.');
 requireText('readme', 'provider’s public flip CSS', 'README must document removal of the hover-only provider runtime.');
+requireText('readme', 'Shared Moody Dynamic Flip Grid', 'README must document the static shared Moody Dynamic Flip Grid layer.');
+requireText('readme', 'provider’s public dynamic flip CSS', 'README must document removal of the dynamic hover-only provider runtime.');
 requireText('agents', '`header_social_links_block`', 'AGENTS.md must preserve the header Social Links contract.');
 requireText('agents', 'Missing, unpublished, non-reusable, inaccessible, wrong-bundle, or malformed', 'AGENTS.md must require Social Links to fail closed.');
 requireText('agents', '### People directories', 'AGENTS.md must preserve the people-directory contract.');
@@ -1796,6 +1854,8 @@ requireText('agents', '### Moody Focal Point', 'AGENTS.md must preserve the stat
 requireText('agents', 'Do not attach the provider public focal-point library', 'AGENTS.md must keep focal-point content independent from provider scroll behavior.');
 requireText('agents', '### Moody Flip Image Grid', 'AGENTS.md must preserve the static Moody Flip Image Grid component contract.');
 requireText('agents', 'Do not attach the provider’s public Flip Image Grid library', 'AGENTS.md must keep people-grid content independent from provider flip behavior.');
+requireText('agents', '### Moody Dynamic Flip Grid', 'AGENTS.md must preserve the static Moody Dynamic Flip Grid component contract.');
+requireText('agents', 'Do not attach the provider’s public Dynamic Flip Grid library', 'AGENTS.md must keep paired media independent from provider flip behavior.');
 requireText('agents', '### Moody Showcases', 'AGENTS.md must preserve the Moody Showcase component contract.');
 requireText('agents', '### Moody Heroes', 'AGENTS.md must preserve the Moody Hero component contract.');
 requireText('agents', 'do not expose native error events', 'AGENTS.md must preserve the CSS-background Hero failure contract.');
@@ -1820,5 +1880,5 @@ if (errors.length) {
   process.exitCode = 1;
 }
 else {
-  console.log(`Moody26 verification passed (${Object.keys(files).length} source files, ${fonts.length} local fonts, standalone shell, UT brand, Basic and Rich Text, accessible directories, student-story directories and profiles, UTProf Profile Listings, and faculty profile dossiers, accessible ambient-video heroes, resource hubs, Resource Groups, Flex Tabs, UT Drupal Kit Flex Lists, Hero Carousels, Photo Content Areas, Moody Newsletter destination bands, UT Drupal Kit Quick Links, semantic Social Links, Moody Anchor and interactive image galleries, static Scroll Reveal Media sequences, Focal Point narratives, and Flip Image Grid portrait triptychs, failure-safe Shorthand stories, keyboard-safe PDF documents, and API-backed upcoming-event ledgers, newsroom, feature stories, event details, accordions, Featured Highlights, Moody Promotions, Promo Lists, Flex Content Areas, Image Links, Flex Color Blocks, Moody Quotations, Moody Flex Grids, Moody Impact Facts, Moody and UT Drupal Kit Heroes, Moody Showcases, Moody Contact Info, and Call to Action blocks, header social links, motion, responsive, and Hallmark gates).`);
+  console.log(`Moody26 verification passed (${Object.keys(files).length} source files, ${fonts.length} local fonts, standalone shell, UT brand, Basic and Rich Text, accessible directories, student-story directories and profiles, UTProf Profile Listings, and faculty profile dossiers, accessible ambient-video heroes, resource hubs, Resource Groups, Flex Tabs, UT Drupal Kit Flex Lists, Hero Carousels, Photo Content Areas, Moody Newsletter destination bands, UT Drupal Kit Quick Links, semantic Social Links, Moody Anchor and interactive image galleries, static Scroll Reveal Media sequences, Focal Point narratives, Flip Image Grid portrait triptychs, and Dynamic Flip Grid paired-media contact sheets, failure-safe Shorthand stories, keyboard-safe PDF documents, and API-backed upcoming-event ledgers, newsroom, feature stories, event details, accordions, Featured Highlights, Moody Promotions, Promo Lists, Flex Content Areas, Image Links, Flex Color Blocks, Moody Quotations, Moody Flex Grids, Moody Impact Facts, Moody and UT Drupal Kit Heroes, Moody Showcases, Moody Contact Info, and Call to Action blocks, header social links, motion, responsive, and Hallmark gates).`);
 }

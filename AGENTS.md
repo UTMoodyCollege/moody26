@@ -860,6 +860,45 @@ not belong outside the token and font declaration files.
   fixtures rather than fabricated production messaging. `/` is the browser
   fixture.
 
+### Moody Dynamic Flip Grid
+
+- Treat `moody_flip_things_dynamic_flip_grid` as an editor-authored sequence
+  of paired media, not as a hover widget. Keep the heading, pair and side order,
+  media selections, authored alternatives, optional headings, processed copy,
+  formatter-owned CTAs, author-selected column count, cacheability, and Layout
+  Builder placement under Drupal control. Do not edit the Composer-installed
+  provider.
+- Moody26 owns `moody-dynamic-flip-grid.html.twig` and the
+  `moody26-pair-grid__*` contract. Render one labelled section, an ordered pair
+  list, one article per pair, and an ordered side list. Both sides must remain
+  visible in DOM and source order. Side titles are subordinate `h3` headings;
+  when absent, use concise translated structural labels rather than fabricated
+  public copy.
+- Do not attach the provider’s public Dynamic Flip Grid library. Its hover-only
+  jQuery Flip runtime, 3D transforms, CSS background images, duplicate raw SVG
+  arrows, and reduced-motion failure conflict with the theme contract. Provider
+  administration behavior must remain available to editors.
+- Validate Media and File view access, contextual translation, source field,
+  physical file, and image validity. Output a real responsive image with
+  intrinsic dimensions, lazy loading, the authored alternative and title, the
+  scale-only `utexas_image_style_600w` style, and complete cacheability. Never
+  crop text-bearing migrated artwork or invent missing words or images.
+- Allow only the stored `round`, `square`, or `rectangle` migration style and
+  one through four pair columns; these values may control allow-listed classes,
+  never raw CSS. Begin with one safe track, add requested pair tracks only when
+  the component has room, and place the two sides beside each other only when
+  their own pair container reaches 30rem. Every image-bearing track uses
+  `minmax(0, …)` and must reflow without horizontal scrolling at 320 CSS pixels.
+- When server validation or browser loading fails, hide only the affected
+  figure and expose one translated `Image unavailable` status containing the
+  complete authored alternative when available. Retain side headings, copy,
+  CTA, the companion side, and the pair’s position. Do not promise a retry.
+- Formatter-owned actions need 44 CSS-pixel targets, non-wrapping labels,
+  default and visited treatment, capability-gated hover, immediate visible
+  focus, active, and authored-disabled behavior. Keep an eight-state preview;
+  loading and success are test fixtures rather than invented public state.
+  `/test123` is the browser integration fixture.
+
 ### Moody Showcases
 
 - Treat Moody Showcase as a shared editorial media ledger, not a route-specific
