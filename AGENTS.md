@@ -331,6 +331,40 @@ not belong outside the token and font declaration files.
   have no asynchronous work, so do not fabricate loading, error, or success
   states.
 
+### UT Drupal Kit Flex Lists
+
+- Treat the UT Drupal Kit `utexas_flex_list` Default, Accordion, and Horizontal
+  Tabs view modes as three presentations of one shared structured-content
+  contract. Keep headers, processed bodies, ordering, field attributes,
+  cacheability, view-mode choice, and Layout Builder placement under Drupal
+  and editor control.
+- Moody26 owns `field--utexas-flex-list.html.twig`, its Accordion and `htabs`
+  suggestions, and the `flex-list__*` adapter vocabulary. Do not edit the
+  Composer-managed provider, reconstruct processed text, use `|raw`, or attach
+  Bootstrap’s tab controller.
+- Render Default as a real list whose authored headers are scannable labels,
+  not fixed document headings. The provider’s configured `h5` must not create
+  a heading skip when the block’s visible title is `h2` or when Layout Builder
+  moves the component to another context.
+- Reuse the theme’s native `.moody-accordion` contract for complete Accordion
+  pairs and the existing progressive `.flex-tabs` behavior for complete
+  Horizontal Tab pairs. Do not create a second disclosure or tab controller.
+- Preserve incomplete historical content honestly. A header-only or body-only
+  item stays visible as a static entry and must not become an empty disclosure
+  or dead tab. Omit only structurally empty items; never invent a title or
+  replacement body.
+- Horizontal Tabs retain ordinary fragment links and visible labelled panels
+  before JavaScript. ARIA Tabs semantics, inactive-panel hiding, and roving
+  `tabindex` appear only after the existing behavior can manage the complete
+  interaction.
+- Default uses one safe column on narrow component containers and may become
+  an asymmetric `minmax(0, 4fr) minmax(0, 8fr)` ledger when its own container
+  reaches 48rem. Long authored headers and processed links must reflow without
+  clipping, ordinary-word splitting, or document overflow.
+- Flex Lists are synchronous server-rendered content. Do not add decorative
+  reveal motion or fabricate loading, error, success, or disabled controls.
+  Honor a formatter-supplied `aria-disabled="true"` link when one is present.
+
 ### Moody Contact Info
 
 - Treat Moody Contact Info as a shared page-bundle-independent service band,

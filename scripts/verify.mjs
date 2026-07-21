@@ -39,6 +39,7 @@ const files = {
   callToActionCss: 'css/components/call-to-action.css',
   resourceGroupCss: 'css/components/resource-group.css',
   flexTabsCss: 'css/components/flex-tabs.css',
+  flexListCss: 'css/components/flex-list.css',
   discoveryIndex: 'css/components/discovery-index.css',
   accordionCss: 'css/components/accordion.css',
   peopleDirectory: 'css/components/people-directory.css',
@@ -89,6 +90,9 @@ const files = {
   utexasResourcesTemplate: 'templates/components/utexas-resources.html.twig',
   moodyResourceGroupTemplate: 'templates/components/moody-resource-group.html.twig',
   flexTabsTemplate: 'templates/components/field--moody-flex-tabs.html.twig',
+  flexListTemplate: 'templates/components/field--utexas-flex-list.html.twig',
+  flexListAccordionTemplate: 'templates/components/field--utexas-flex-list--accordion.html.twig',
+  flexListTabsTemplate: 'templates/components/field--utexas-flex-list--htabs.html.twig',
   heroTemplate: 'templates/components/moody-hero.html.twig',
   heroStyle1Template: 'templates/components/moody-hero-1.html.twig',
   heroStyle2Template: 'templates/components/moody-hero-2.html.twig',
@@ -175,8 +179,8 @@ const forbidPattern = (file, pattern, message) => {
 
 try {
   const packageJson = JSON.parse(contents.package ?? '');
-  if (packageJson.version !== '0.25.0') {
-    errors.push('The progressive Flex Tabs release must remain versioned as 0.25.0.');
+  if (packageJson.version !== '0.26.0') {
+    errors.push('The shared UT Drupal Kit Flex List release must remain versioned as 0.26.0.');
   }
   for (const [dependency, version] of [
     ['animejs', '4.5.0'],
@@ -237,8 +241,9 @@ requireText('libraries', 'css/components/contact-info.css', 'Shared Moody Contac
 requireText('libraries', 'css/components/call-to-action.css', 'Shared Call to Action styles must remain attached.');
 requireText('libraries', 'css/components/resource-group.css', 'Shared Resource Group styles must remain attached.');
 requireText('libraries', 'css/components/flex-tabs.css', 'Shared Flex Tabs styles must remain attached.');
+requireText('libraries', 'css/components/flex-list.css', 'Shared UT Drupal Kit Flex List styles must remain attached.');
 requireText('libraries', 'js/dist/motion.min.js', 'The built motion integration must remain attached.');
-requireText('libraries', 'version: 0.25.0', 'The Drupal asset version must match the progressive Flex Tabs release.');
+requireText('libraries', 'version: 0.26.0', 'The Drupal asset version must match the shared Flex List release.');
 forbidText('info', '- moody26/motion', 'Optional motion must be attached from theme settings rather than globally.');
 
 requireText('settings', "header_social_links_block: ''", 'Header social links must be optional for new installs.');
@@ -551,6 +556,32 @@ requireText('accessibility', "event.key === 'End'", 'Flex Tabs must support last
 requireText('accessibility', 'focus({ preventScroll: true })', 'Flex Tab keyboard activation must avoid focus scroll jumps.');
 requireText('accessibility', 'tabList.scrollLeft', 'Flex Tabs must reveal the selected label without scrolling the page.');
 requireText('accessibility', 'panels[index].hidden = !selected;', 'Flex Tabs must remove inactive panel content from keyboard order.');
+requireText('flexListCss', 'component: shared UT Drupal Kit Flex List', 'Flex Lists must retain the Hallmark component contract.');
+requireText('flexListCss', 'container-name: flex-list flex-tabs;', 'Flex Lists must remain independently responsive and share the tab container contract.');
+requireText('flexListCss', 'grid-template-columns: minmax(0, 4fr) minmax(0, 8fr);', 'Default Flex Lists must retain their safe asymmetric ledger.');
+requireText('flexListCss', 'border-block-start: var(--rule-strong) solid var(--color-accent);', 'Default Flex Lists must retain the exact burnt-orange rule.');
+requireText('flexListCss', '.flex-list__description a:focus-visible', 'Flex List content links need immediate visible focus.');
+requireText('flexListCss', '@media (hover: hover) and (pointer: fine)', 'Flex List hover feedback must be capability-gated.');
+requireText('flexListTemplate', '<ul class="flex-list__items" role="list">', 'Default Flex Lists must expose real list semantics.');
+requireText('flexListTemplate', "rendered_title|striptags|trim is not empty", 'Default Flex Lists must reject structurally empty authored headers.');
+requireText('flexListTemplate', "rendered_body|striptags|trim is not empty", 'Default Flex Lists must reject structurally empty authored bodies.');
+forbidPattern('flexListTemplate', /<h[1-6]/, 'Default Flex Lists must not guess a document heading level.');
+forbidText('flexListTemplate', '|raw', 'Default Flex Lists must not bypass Drupal render safety.');
+forbidText('flexListTemplate', 'attach_library', 'Flex Lists must use the theme global library without duplicate attachments.');
+requireText('flexListAccordionTemplate', '<details{{ entry.attributes.addClass(\'moody-accordion__item\') }}>', 'Flex List accordions must use native disclosure state.');
+requireText('flexListAccordionTemplate', '<summary class="moody-accordion__summary">', 'Flex List accordions must expose browser-owned summary controls.');
+requireText('flexListAccordionTemplate', "entry.has_title and entry.has_body", 'Only complete Flex List pairs may become disclosures.');
+requireText('flexListAccordionTemplate', 'flex-list__static-item', 'Incomplete Flex List accordion content must remain visible without a dead control.');
+forbidText('flexListAccordionTemplate', 'role="button"', 'Native Flex List summaries must not receive redundant button roles.');
+forbidText('flexListAccordionTemplate', '|raw', 'Flex List accordions must not bypass Drupal render safety.');
+requireText('flexListTabsTemplate', 'data-flex-tabs', 'Flex List horizontal tabs must reuse the shared progressive behavior.');
+requireText('flexListTabsTemplate', 'href="#{{ component_id }}-panel-{{ loop.index0 }}"', 'Flex List horizontal tabs must retain no-JavaScript fragment links.');
+requireText('flexListTabsTemplate', 'aria-labelledby="{{ component_id }}-tab-{{ loop.index0 }}"', 'Flex List fallback panels must retain accessible names.');
+requireText('flexListTabsTemplate', 'supplemental_items', 'Incomplete Flex List tab content must survive outside the interaction.');
+forbidText('flexListTabsTemplate', 'data-bs-toggle', 'Flex List horizontal tabs must not depend on Bootstrap state.');
+forbidText('flexListTabsTemplate', 'role="tab"', 'Flex List tabs must add ARIA tab semantics only after enhancement.');
+forbidText('flexListTabsTemplate', '|raw', 'Flex List horizontal tabs must not bypass Drupal render safety.');
+forbidText('flexListTabsTemplate', ' hidden', 'Flex List fallback panels must remain visible before enhancement.');
 requireText('discoveryIndex', 'repeat(12, minmax(0, 1fr))', 'Discovery grids must use safe image-bearing tracks.');
 requireText('discoveryIndex', '.linked-focus-area-item:focus-visible', 'Focus Area tasks need immediate visible focus.');
 requireText('discoveryIndex', '.utexas-promo-unit .data-wrapper > a:focus-visible', 'Promo Unit links need immediate visible focus.');
@@ -1011,11 +1042,12 @@ for (const file of ['preflight', 'log']) {
     errors.push(`${file} must contain valid JSON.`);
   }
 }
-requireText('preflight', '"package_version": "0.25.0"', 'Hallmark preflight must match the progressive Flex Tabs release.');
+requireText('preflight', '"package_version": "0.26.0"', 'Hallmark preflight must match the shared Flex List release.');
 requireText('log', 'Conversational FAQ within the Ecosystem Index', 'Hallmark memory must record the shared accordion macrostructure.');
 requireText('log', 'Editorial media directory within the Ecosystem Index', 'Hallmark memory must record the shared Moody Flex Grid component.');
 requireText('log', 'Editorial Signal Band within the Ecosystem Index', 'Hallmark memory must record the shared Moody Promotion signal band.');
 requireText('log', 'Progressive tab index within the Ecosystem Index', 'Hallmark memory must record the shared Flex Tabs component.');
+requireText('log', 'Editorial Content Ledger within the Ecosystem Index', 'Hallmark memory must record the shared Flex List component.');
 
 requirePattern('readme', /standalone/i, 'README must describe the standalone architecture.');
 forbidText('readme', 'Base theme | `moody`', 'README must not advertise the legacy base theme.');
@@ -1047,6 +1079,7 @@ requireText('readme', 'Shared Moody Contact Info', 'README must document the reu
 requireText('readme', 'Shared Call to Action blocks', 'README must document the reusable Call to Action layer.');
 requireText('readme', 'Shared Resource Groups', 'README must document the shared Resource Group layer.');
 requireText('readme', 'Shared Flex Tabs', 'README must document the progressive shared Flex Tabs layer.');
+requireText('readme', 'Shared UT Drupal Kit Flex Lists', 'README must document all UT Drupal Kit Flex List displays.');
 requireText('agents', '`header_social_links_block`', 'AGENTS.md must preserve the header Social Links contract.');
 requireText('agents', 'Missing, unpublished, non-reusable, inaccessible, wrong-bundle, or malformed', 'AGENTS.md must require Social Links to fail closed.');
 requireText('agents', '### People directories', 'AGENTS.md must preserve the people-directory contract.');
@@ -1063,6 +1096,7 @@ requireText('agents', '### Moody Quotations', 'AGENTS.md must preserve the Moody
 requireText('agents', '### Moody Flex Grids', 'AGENTS.md must preserve the Moody Flex Grid component contract.');
 requireText('agents', '### Moody Impact Facts', 'AGENTS.md must preserve the Moody Impact Facts component contract.');
 requireText('agents', '### Flex Tabs', 'AGENTS.md must preserve the progressive Flex Tabs component contract.');
+requireText('agents', '### UT Drupal Kit Flex Lists', 'AGENTS.md must preserve the shared Flex List component contract.');
 requireText('agents', '### Moody Showcases', 'AGENTS.md must preserve the Moody Showcase component contract.');
 requireText('agents', '### Moody Heroes', 'AGENTS.md must preserve the Moody Hero component contract.');
 requireText('agents', '### UT Drupal Kit Heroes', 'AGENTS.md must preserve the UT Drupal Kit Hero component contract.');
@@ -1078,5 +1112,5 @@ if (errors.length) {
   process.exitCode = 1;
 }
 else {
-  console.log(`Moody26 verification passed (${Object.keys(files).length} source files, ${fonts.length} local fonts, standalone shell, UT brand, accessible directories, resource hubs, Resource Groups, Flex Tabs, newsroom, accordions, Featured Highlights, Moody Promotions, Promo Lists, Flex Content Areas, Image Links, Flex Color Blocks, Moody Quotations, Moody Flex Grids, Moody Impact Facts, Moody and UT Drupal Kit Heroes, Moody Showcases, Moody Contact Info, and Call to Action blocks, header social links, motion, responsive, and Hallmark gates).`);
+  console.log(`Moody26 verification passed (${Object.keys(files).length} source files, ${fonts.length} local fonts, standalone shell, UT brand, accessible directories, resource hubs, Resource Groups, Flex Tabs, UT Drupal Kit Flex Lists, newsroom, accordions, Featured Highlights, Moody Promotions, Promo Lists, Flex Content Areas, Image Links, Flex Color Blocks, Moody Quotations, Moody Flex Grids, Moody Impact Facts, Moody and UT Drupal Kit Heroes, Moody Showcases, Moody Contact Info, and Call to Action blocks, header social links, motion, responsive, and Hallmark gates).`);
 }

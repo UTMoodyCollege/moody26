@@ -1,0 +1,98 @@
+{#
+/**
+ * @file
+ * Progressive UT Drupal Kit Flex List horizontal tabs for Moody26.
+ *
+ * Without JavaScript, labels are fragment links and all complete panels stay
+ * visible. Moody26's shared behavior adds the ARIA Tabs state model only after
+ * it can manage the complete interaction. Incomplete historical items remain
+ * visible after the tab panels instead of becoming dead controls.
+ */
+#}
+{% set tab_items = [] %}
+{% set supplemental_items = [] %}
+{% for item in items %}
+  {% set rendered_title = item.content.header|default('')|render %}
+  {% set rendered_body = item.content.body|default('')|render %}
+  {% set has_title = rendered_title|striptags|trim is not empty %}
+  {% set has_body = rendered_body|striptags|trim is not empty %}
+  {% set normalized_item = {
+    attributes: item.attributes,
+    body: rendered_body,
+    has_body: has_body,
+    has_title: has_title,
+    title: rendered_title
+  } %}
+  {% if has_title and has_body %}
+    {% set tab_items = tab_items|merge([normalized_item]) %}
+  {% elseif has_title or has_body %}
+    {% set supplemental_items = supplemental_items|merge([normalized_item]) %}
+  {% endif %}
+{% endfor %}
+{% set rendered_label = label|default('')|render %}
+{% set component_id = instance_id|default('flex-list-horizontal-tabs')|clean_class %}
+{% set classes = [
+  'field',
+  'field--name-' ~ field_name|clean_class,
+  'field--type-' ~ field_type|clean_class,
+  'field--label-' ~ label_display,
+  'utexas-flex-list',
+  'formatter-htabs',
+  'flex-list',
+  'flex-list--horizontal-tabs',
+  'flex-tabs'
+] %}
+
+{% if tab_items or supplemental_items %}
+  <div{{ attributes.addClass(classes) }}{% if tab_items %} data-flex-tabs{% endif %}>
+    {% if not label_hidden and rendered_label|striptags|trim %}
+      <div{{ title_attributes.addClass('flex-tabs__label') }}>{{ rendered_label }}</div>
+    {% endif %}
+
+    {% if tab_items %}
+      <div class="flex-tabs__index">
+        <ul class="flex-tabs__list" role="list" aria-label="{{ 'Content sections'|t }}" data-flex-tab-list>
+          {% for entry in tab_items %}
+            <li class="flex-tabs__item">
+              <a
+                id="{{ component_id }}-tab-{{ loop.index0 }}"
+                class="flex-tabs__tab"
+                href="#{{ component_id }}-panel-{{ loop.index0 }}"
+                data-flex-tab
+                {% if loop.first %}data-flex-tab-active{% endif %}
+              >{{ entry.title }}</a>
+            </li>
+          {% endfor %}
+        </ul>
+      </div>
+
+      <div class="flex-tabs__panels">
+        {% for entry in tab_items %}
+          <section
+            id="{{ component_id }}-panel-{{ loop.index0 }}"
+            class="flex-tabs__panel"
+            aria-labelledby="{{ component_id }}-tab-{{ loop.index0 }}"
+            data-flex-tab-panel
+          >
+            <div{{ entry.attributes.addClass('flex-tabs__body') }}>{{ entry.body }}</div>
+          </section>
+        {% endfor %}
+      </div>
+    {% endif %}
+
+    {% if supplemental_items %}
+      <div class="flex-tabs__supplemental">
+        {% for entry in supplemental_items %}
+          <div{{ entry.attributes.addClass('flex-list__static-item') }}>
+            {% if entry.has_title %}
+              <div class="flex-list__term">{{ entry.title }}</div>
+            {% endif %}
+            {% if entry.has_body %}
+              <div class="flex-list__description">{{ entry.body }}</div>
+            {% endif %}
+          </div>
+        {% endfor %}
+      </div>
+    {% endif %}
+  </div>
+{% endif %}

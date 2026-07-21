@@ -1,5 +1,5 @@
 global:
-  version: 0.25.0
+  version: 0.26.0
   css:
     base:
       css/fonts.css: { weight: 90 }
@@ -26,6 +26,7 @@ global:
       css/components/call-to-action.css: { weight: 138.984375 }
       css/components/resource-group.css: { weight: 138.9921875 }
       css/components/flex-tabs.css: { weight: 138.99609375 }
+      css/components/flex-list.css: { weight: 138.998046875 }
       css/components/newsroom.css: { weight: 139 }
       css/components/motion.css: { weight: 140 }
   js:
@@ -37,14 +38,14 @@ global:
     - core/once
 
 motion:
-  version: 0.25.0
+  version: 0.26.0
   js:
     js/dist/motion.min.js: { minified: true }
   dependencies:
     - moody26/global
 
 settings:
-  version: 0.25.0
+  version: 0.26.0
   css:
     theme:
       css/components/theme-settings.css: {}

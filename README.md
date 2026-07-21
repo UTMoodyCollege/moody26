@@ -6,7 +6,7 @@ visual identity with an accessible, editorial system that can serve academic,
 research, film, journalism, advertising, alumni, event, and public-facing
 sites without requiring the legacy Moody or Speedway themes.
 
-> **Project status:** pre-release (`0.25.0`). The theme is being validated in
+> **Project status:** pre-release (`0.26.0`). The theme is being validated in
 > [Moody Core](https://github.com/UTMoodyCollege/moody-core) before its first
 > stable tag. Pin an exact commit when evaluating the `main` branch.
 
@@ -33,6 +33,8 @@ sites without requiring the legacy Moody or Speedway themes.
   Unit ledgers, sticky-header-safe anchors, and a reusable contact close.
 - Shared Moody and UT Drupal Kit Resource Groups with semantic nested lists,
   adaptive heading levels, resilient optional media, and migration-safe views.
+- Shared UT Drupal Kit Flex Lists with a heading-safe editorial ledger, native
+  disclosures, and progressive horizontal tabs that do not require Bootstrap.
 - Shared Featured Highlights with resilient image and video handling,
   text-only composition, editor-owned links, and normalized legacy variants.
 - Shared Moody Promotions with page-safe headings, optional fields, empty-block
@@ -282,6 +284,31 @@ visible outside the tab interaction. Drupal continues to own processed editor
 copy, ordering, field attributes, cacheability, and Layout Builder placement.
 Panel changes are immediate and add no decorative animation or fabricated
 loading, error, or success states.
+
+### Shared UT Drupal Kit Flex Lists
+
+Moody26 supports all three editor-selectable UT Drupal Kit Flex List displays
+through theme-owned, dependency-free adapters. The Default display becomes a
+real list of authored header/content pairs. Headers are styled as scannable
+labels instead of inheriting the provider’s fixed `h5`, so a Flex List can move
+through Layout Builder without introducing a heading-level skip. At wide
+component sizes, the list becomes an asymmetric 4/8 editorial ledger; at narrow
+sizes, every item returns to one safe column.
+
+The Accordion display reuses Moody26’s native `<details>` disclosure contract,
+including browser-owned state, visible focus, a 44-pixel summary target, and a
+non-color plus-to-minus signal. The Horizontal Tabs display reuses the same
+progressive controller as Moody Flex Tabs: fragment links and all panels work
+without JavaScript, then upgrade to roving-tabindex WAI-ARIA tabs when the
+complete behavior is available. No Flex List display depends on Bootstrap’s
+tab JavaScript.
+
+Historical items with only a header or only meaningful body content stay
+visible as static entries instead of becoming empty accordion buttons or dead
+tabs. Structurally empty items are omitted. Drupal continues to own authored
+ordering, processed text, field attributes, view-mode selection, cacheability,
+and Layout Builder placement. The theme adds no synthetic copy, destination,
+heading, asynchronous state, or decorative motion.
 
 ### Shared Moody Contact Info
 

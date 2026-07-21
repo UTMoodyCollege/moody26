@@ -1,0 +1,63 @@
+{#
+/**
+ * @file
+ * Semantic, heading-context-independent UT Drupal Kit Flex List for Moody26.
+ *
+ * Each authored header/body pair remains one list item. Headers are scannable
+ * labels rather than guessed document headings, so a block can move through
+ * Layout Builder without creating a heading-level skip.
+ */
+#}
+{% set flex_list_items = [] %}
+{% for item in items %}
+  {% set rendered_title = item.content.header|default('')|render %}
+  {% set rendered_body = item.content.body|default('')|render %}
+  {% set has_title = rendered_title|striptags|trim is not empty %}
+  {% set has_body = rendered_body|striptags|trim is not empty %}
+  {% if has_title or has_body %}
+    {% set flex_list_items = flex_list_items|merge([{
+      attributes: item.attributes,
+      body: rendered_body,
+      has_body: has_body,
+      has_title: has_title,
+      title: rendered_title
+    }]) %}
+  {% endif %}
+{% endfor %}
+{% set rendered_label = label|default('')|render %}
+{% set classes = [
+  'field',
+  'field--name-' ~ field_name|clean_class,
+  'field--type-' ~ field_type|clean_class,
+  'field--label-' ~ label_display,
+  'utexas-flex-list',
+  'formatter-default',
+  'flex-list',
+  'flex-list--default'
+] %}
+
+{% if flex_list_items %}
+  <div{{ attributes.addClass(classes) }}>
+    {% if not label_hidden and rendered_label|striptags|trim %}
+      <div{{ title_attributes.addClass('flex-list__label') }}>{{ rendered_label }}</div>
+    {% endif %}
+
+    <ul class="flex-list__items" role="list">
+      {% for entry in flex_list_items %}
+        {% set item_classes = [
+          'flex-list__item',
+          entry.has_title and not entry.has_body ? 'flex-list__item--term-only',
+          entry.has_body and not entry.has_title ? 'flex-list__item--body-only'
+        ] %}
+        <li{{ entry.attributes.addClass(item_classes) }}>
+          {% if entry.has_title %}
+            <div class="flex-list__term">{{ entry.title }}</div>
+          {% endif %}
+          {% if entry.has_body %}
+            <div class="flex-list__description">{{ entry.body }}</div>
+          {% endif %}
+        </li>
+      {% endfor %}
+    </ul>
+  </div>
+{% endif %}
