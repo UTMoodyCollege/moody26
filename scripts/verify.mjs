@@ -51,6 +51,7 @@ const files = {
   accordionCss: 'css/components/accordion.css',
   peopleDirectory: 'css/components/people-directory.css',
   newsroom: 'css/components/newsroom.css',
+  featureStoryCss: 'css/components/feature-story.css',
   motionCss: 'css/components/motion.css',
   settingsCss: 'css/components/theme-settings.css',
   accessibility: 'js/accessibility.js',
@@ -75,6 +76,7 @@ const files = {
   profileDesignationField: 'templates/components/field--node--field-utprof-designation.html.twig',
   newsRows: 'templates/views/views-view-unformatted--news-filtered--block-filtered.html.twig',
   newsFields: 'templates/views/views-view-fields--news-filtered--block-filtered.html.twig',
+  featureCreditTemplate: 'templates/components/moody-feature-credit.html.twig',
   focusAreas: 'templates/components/moody-focus-areas.html.twig',
   promoUnits: 'templates/components/utexas-promo-unit.html.twig',
   featuredHighlightTemplate: 'templates/components/utexas-featured-highlight.html.twig',
@@ -194,8 +196,8 @@ const forbidPattern = (file, pattern, message) => {
 
 try {
   const packageJson = JSON.parse(contents.package ?? '');
-  if (packageJson.version !== '0.36.0') {
-    errors.push('The resilient background-Hero release must remain versioned as 0.36.0.');
+  if (packageJson.version !== '0.37.0') {
+    errors.push('The accessible feature-story release must remain versioned as 0.37.0.');
   }
   for (const [dependency, version] of [
     ['animejs', '4.5.0'],
@@ -250,6 +252,7 @@ requireText('richTextCss', 'overflow-wrap: anywhere;', 'Pasted rich-text destina
 forbidPattern('richTextCss', /(?:online-teaching|deans-ambassadors|node-\d+|block-[\da-f]{8}-[\da-f-]{27,})/i, 'Basic and Rich Text styling must not depend on routes, node IDs, or block UUIDs.');
 requireText('libraries', 'css/components/people-directory.css', 'Shared people-directory styles must remain attached.');
 requireText('libraries', 'css/components/newsroom.css', 'Shared newsroom styles must remain attached.');
+requireText('libraries', 'css/components/feature-story.css', 'Shared feature-story styles must remain attached.');
 requireText('libraries', 'css/components/accordion.css', 'Shared accordion styles must remain attached.');
 requireText('libraries', 'css/components/featured-highlight.css', 'Shared Featured Highlight styles must remain attached.');
 requireText('libraries', 'css/components/promo-list.css', 'Shared Promo List styles must remain attached.');
@@ -272,7 +275,7 @@ requireText('libraries', 'css/components/quick-links.css', 'Shared UT Drupal Kit
 requireText('libraries', 'css/components/social-links.css', 'Shared UT Drupal Kit Social Links styles must remain attached.');
 requireText('libraries', 'css/components/anchor-gallery.css', 'Shared Moody Anchor gallery styles must remain attached.');
 requireText('libraries', 'js/dist/motion.min.js', 'The built motion integration must remain attached.');
-requireText('libraries', 'version: 0.36.0', 'The Drupal asset version must match the resilient background-Hero release.');
+requireText('libraries', 'version: 0.37.0', 'The Drupal asset version must match the accessible feature-story release.');
 forbidText('info', '- moody26/motion', 'Optional motion must be attached from theme settings rather than globally.');
 
 requireText('settings', "header_social_links_block: ''", 'Header social links must be optional for new installs.');
@@ -806,6 +809,27 @@ requireText('newsroom', 'container: news-index / inline-size;', 'News indexes mu
 requireText('newsroom', 'repeat(12, minmax(0, 1fr))', 'News indexes must retain safe asymmetric tracks.');
 requireText('newsroom', '.news-teaser__story:focus-visible', 'News story links need a visible focus-equivalent detail.');
 requireText('newsroom', '@media (hover: hover) and (pointer: fine)', 'Newsroom hover feedback must be capability-gated.');
+requireText('featureStoryCss', 'macrostructure: Long Document', 'Feature stories must retain the Hallmark Long Document contract.');
+requireText('featureStoryCss', '.moody26-feature-story--long-title', 'Long feature-story titles must retain their length-aware masthead.');
+requireText('featureStoryCss', 'overflow-wrap: anywhere;', 'Feature-story mastheads must survive long unbroken text.');
+requireText('featureStoryCss', 'max-width: var(--measure);', 'Feature-story narrative copy must retain a readable measure.');
+requireText('featureStoryCss', 'font-variant-numeric: tabular-nums;', 'Feature-story dates must retain stable numeric spacing.');
+requireText('featureStoryCss', '@media (min-width: 40rem)', 'Feature stories must retain their responsive reading rhythm.');
+forbidPattern('featureStoryCss', /\.(?:node|page)-\d+/, 'Feature-story styling must not depend on route-specific node or page IDs.');
+forbidText('featureStoryCss', 'transition:', 'Feature stories must remain static without unnecessary motion.');
+requireText('theme', 'mb_strlen(trim($node->label())) > 90', 'Feature-story title treatment must derive from authored title length.');
+for (const derivative of [
+  'node:moody_feature_page:field_moody_subtitle',
+  'node:moody_feature_page:created',
+  'node:moody_feature_page:body',
+  'node:moody_feature_page:field_feature_page_author',
+]) {
+  requireText('theme', `'${derivative}'`, `Feature stories must recognize the ${derivative} Layout Builder field.`);
+}
+requireText('theme', "t('Story credits')", 'Feature-story credits must expose a translated group name.');
+requireText('featureCreditTemplate', "{{ 'By'|t }}", 'Feature-story credits must expose a translated assistive byline.');
+requireText('featureCreditTemplate', 'moody-feature-credit__name', 'Feature-story credits must preserve the contributor name.');
+requireText('featureCreditTemplate', '{% if title %}', 'Feature-story credits must omit empty contributor roles.');
 requireText('accordionCss', 'macrostructure: Conversational FAQ', 'Accordions must retain the Hallmark macrostructure contract.');
 requireText('accordionCss', '.moody-accordion__summary:focus-visible', 'Accordion summaries need immediate visible focus.');
 requireText('accordionCss', '.moody-accordion__item[open]', 'Accordions need a non-color expanded-state signal.');
@@ -1236,6 +1260,7 @@ const runtimeFiles = [
   'peopleDirectory', 'peopleDirectoryView', 'peopleDirectoryRows', 'peopleDirectoryFields',
   'profileListingBlock', 'profileDesignationField',
   'newsroom', 'newsRows', 'newsFields',
+  'featureStoryCss', 'featureCreditTemplate',
   'focusAreas', 'promoUnits',
   'motionCss', 'settingsCss', 'accessibility', 'navigation', 'quickActions', 'motion', 'html', 'page', 'brandbar',
   'header', 'footer', 'brandingBlock', 'menuBlock', 'menu',
@@ -1255,7 +1280,7 @@ for (const file of runtimeFiles) {
   }
 }
 
-const cssFiles = ['css', 'headerSocialCss', 'quickActionsCss', 'landingHero', 'richTextCss', 'editorialSections', 'featuredHighlightCss', 'promoListCss', 'flexContentCss', 'imageLinkCss', 'flexColorBlocksCss', 'quotationCss', 'flexGridCss', 'impactFactsCss', 'showcaseCss', 'contactInfoCss', 'callToActionCss', 'resourceGroupCss', 'flexTabsCss', 'heroCarouselCss', 'photoContentCss', 'socialLinksCss', 'discoveryIndex', 'accordionCss', 'peopleDirectory', 'newsroom', 'motionCss', 'settingsCss'];
+const cssFiles = ['css', 'headerSocialCss', 'quickActionsCss', 'landingHero', 'richTextCss', 'editorialSections', 'featuredHighlightCss', 'promoListCss', 'flexContentCss', 'imageLinkCss', 'flexColorBlocksCss', 'quotationCss', 'flexGridCss', 'impactFactsCss', 'showcaseCss', 'contactInfoCss', 'callToActionCss', 'resourceGroupCss', 'flexTabsCss', 'heroCarouselCss', 'photoContentCss', 'socialLinksCss', 'discoveryIndex', 'accordionCss', 'peopleDirectory', 'newsroom', 'featureStoryCss', 'motionCss', 'settingsCss'];
 const forbiddenCss = [
   [/#(?:[0-9a-f]{3}|[0-9a-f]{6}|[0-9a-f]{8})\b/i, 'Raw hex colors belong only in tokens.css.'],
   [/\b(?:rgb|rgba|hsl|hsla|oklch)\(/i, 'Raw color functions belong only in tokens.css.'],
@@ -1286,7 +1311,8 @@ for (const file of ['preflight', 'log']) {
     errors.push(`${file} must contain valid JSON.`);
   }
 }
-requireText('preflight', '"package_version": "0.36.0"', 'Hallmark preflight must match the resilient background-Hero release.');
+requireText('preflight', '"package_version": "0.37.0"', 'Hallmark preflight must match the accessible feature-story release.');
+requireText('log', 'Long Document feature story within the Ecosystem Index', 'Hallmark memory must record the shared feature-story composition.');
 requireText('log', 'Conversational FAQ within the Ecosystem Index', 'Hallmark memory must record the shared accordion macrostructure.');
 requireText('log', 'Editorial media directory within the Ecosystem Index', 'Hallmark memory must record the shared Moody Flex Grid component.');
 requireText('log', 'Editorial Signal Band within the Ecosystem Index', 'Hallmark memory must record the shared Moody Promotion signal band.');
@@ -1311,6 +1337,7 @@ requireText('readme', 'Shared ambient-video heroes', 'README must document the a
 requireText('readme', 'Shared Basic and Rich Text', 'README must document the reusable Basic and Rich Text layer.');
 requireText('readme', 'Shared resource hubs', 'README must document the reusable resource-hub layer.');
 requireText('readme', 'Shared newsroom components', 'README must document the reusable newsroom layer.');
+requireText('readme', 'Shared feature stories', 'README must document the reusable feature-story layer.');
 requireText('readme', 'Shared accordions', 'README must document the native shared accordion layer.');
 requireText('readme', 'Shared Featured Highlights', 'README must document the reusable Featured Highlight layer.');
 requireText('readme', 'Shared Moody Promotions', 'README must document the reusable Moody Promotion layer.');
@@ -1345,6 +1372,7 @@ requireText('agents', '### Ambient-video heroes', 'AGENTS.md must preserve the a
 requireText('agents', '### Basic and Rich Text blocks', 'AGENTS.md must preserve the Basic and Rich Text component contract.');
 requireText('agents', '### Resource hubs', 'AGENTS.md must preserve the resource-hub contract.');
 requireText('agents', '### Newsroom components', 'AGENTS.md must preserve the newsroom component contract.');
+requireText('agents', '### Feature stories', 'AGENTS.md must preserve the feature-story component contract.');
 requireText('agents', '### Accordions', 'AGENTS.md must preserve the native accordion contract.');
 requireText('agents', '### Featured Highlights', 'AGENTS.md must preserve the Featured Highlight component contract.');
 requireText('agents', '### Moody Promotions', 'AGENTS.md must preserve the Moody Promotion component contract.');
@@ -1379,5 +1407,5 @@ if (errors.length) {
   process.exitCode = 1;
 }
 else {
-  console.log(`Moody26 verification passed (${Object.keys(files).length} source files, ${fonts.length} local fonts, standalone shell, UT brand, Basic and Rich Text, accessible directories and UTProf Profile Listings, accessible ambient-video heroes, resource hubs, Resource Groups, Flex Tabs, UT Drupal Kit Flex Lists, Hero Carousels, Photo Content Areas, Moody Newsletter destination bands, UT Drupal Kit Quick Links, semantic Social Links, and Moody Anchor galleries, newsroom, accordions, Featured Highlights, Moody Promotions, Promo Lists, Flex Content Areas, Image Links, Flex Color Blocks, Moody Quotations, Moody Flex Grids, Moody Impact Facts, Moody and UT Drupal Kit Heroes, Moody Showcases, Moody Contact Info, and Call to Action blocks, header social links, motion, responsive, and Hallmark gates).`);
+  console.log(`Moody26 verification passed (${Object.keys(files).length} source files, ${fonts.length} local fonts, standalone shell, UT brand, Basic and Rich Text, accessible directories and UTProf Profile Listings, accessible ambient-video heroes, resource hubs, Resource Groups, Flex Tabs, UT Drupal Kit Flex Lists, Hero Carousels, Photo Content Areas, Moody Newsletter destination bands, UT Drupal Kit Quick Links, semantic Social Links, and Moody Anchor galleries, newsroom, feature stories, accordions, Featured Highlights, Moody Promotions, Promo Lists, Flex Content Areas, Image Links, Flex Color Blocks, Moody Quotations, Moody Flex Grids, Moody Impact Facts, Moody and UT Drupal Kit Heroes, Moody Showcases, Moody Contact Info, and Call to Action blocks, header social links, motion, responsive, and Hallmark gates).`);
 }

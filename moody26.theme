@@ -22,6 +22,15 @@ function moody26_preprocess_html(array &$variables): void {
     $variables['attributes']['class'][] = 'node-' . $variables['node_type'];
   }
 
+  $node = \Drupal::routeMatch()->getParameter('node');
+  if (
+    $node instanceof NodeInterface
+    && $node->bundle() === 'moody_feature_page'
+    && mb_strlen(trim($node->label())) > 90
+  ) {
+    $variables['attributes']['class'][] = 'moody26-feature-story--long-title';
+  }
+
   $directory = moody26_current_directory();
   if ($directory) {
     $variables['attributes']['class'][] = 'moody26-directory-' . Html::getClass($directory->label());
@@ -131,6 +140,12 @@ function moody26_dedupe_page_title_blocks(array &$page): void {
 function moody26_preprocess_node(array &$variables): void {
   $variables['content_attributes']['class'][] = 'node__content';
   $variables['content_attributes']['class'][] = 'moody26-node-content';
+
+  $node = $variables['node'] ?? NULL;
+  if ($node instanceof NodeInterface && $node->bundle() === 'moody_feature_page') {
+    $variables['attributes']['class'][] = 'moody26-feature-story';
+    $variables['content_attributes']['class'][] = 'moody26-feature-story__content';
+  }
 }
 
 /**
@@ -452,6 +467,23 @@ function moody26_preprocess_block(array &$variables): void {
   }
 
   $plugin_id = $variables['base_plugin_id'] ?? '';
+  $derivative_plugin_id = $variables['derivative_plugin_id']
+    ?? $variables['elements']['#derivative_plugin_id']
+    ?? '';
+
+  $feature_story_components = [
+    'node:moody_feature_page:field_moody_subtitle' => 'moody26-feature-story__lede',
+    'node:moody_feature_page:created' => 'moody26-feature-story__date',
+    'node:moody_feature_page:body' => 'moody26-feature-story__body',
+    'node:moody_feature_page:field_feature_page_author' => 'moody26-feature-story__credits',
+  ];
+  if (isset($feature_story_components[$derivative_plugin_id])) {
+    $variables['attributes']['class'][] = $feature_story_components[$derivative_plugin_id];
+  }
+  if ($derivative_plugin_id === 'node:moody_feature_page:field_feature_page_author') {
+    $variables['attributes']['role'] = 'group';
+    $variables['attributes']['aria-label'] = t('Story credits');
+  }
 
   // The news landing page's authored lead predates the one-h1 page contract.
   // Preserve its wording while rendering the nested heading at level two.

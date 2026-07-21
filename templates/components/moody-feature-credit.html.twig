@@ -1,0 +1,20 @@
+{#
+/**
+ * @file
+ * Accessible Moody feature-story credit.
+ *
+ * Available variables:
+ * - first_name: The contributor's first name.
+ * - last_name: The contributor's last name.
+ * - title: The contributor's role.
+ */
+#}
+<div class="moody-feature-credit">
+  <span class="moody-feature-credit__byline">
+    <span class="visually-hidden">{{ 'By'|t }} </span>
+    <span class="moody-feature-credit__name">{{ first_name }} {{ last_name }}</span>
+  </span>
+  {% if title %}
+    <span class="moody-feature-credit__role">{{ title }}</span>
+  {% endif %}
+</div>

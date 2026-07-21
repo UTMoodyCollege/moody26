@@ -891,6 +891,32 @@ not belong outside the token and font declaration files.
   and an asymmetric 12-track ledger at wide container sizes. Keep cards flat,
   motion static by default, hover capability-gated, and focus immediate.
 
+### Feature stories
+
+- Treat every published `moody_feature_page` node as one shared Long Document
+  article system, not as a route-specific News page. Never scope its runtime
+  contract to a node ID, component UUID, headline, or component position.
+- The page-title block remains the sole document `h1`. Add
+  `moody26-feature-story--long-title` only when the authored title exceeds 90
+  characters; step it down to the shared heading scale rather than clipping,
+  truncating, or rewriting it.
+- Derive lede, date, body, and credit classes from their Layout Builder field
+  plugin IDs in preprocess. Preserve each field’s formatter, render array,
+  cacheability, content, and editor-controlled ordering.
+- Keep the narrative in one 45–75-character reading column. Use a real `time`
+  element for the publication date, retain semantic heading order, and keep
+  lists, quotations, tables, inline media, captions, and links usable at 320,
+  375, 414, 768, and 1280 CSS pixels and at 200% zoom.
+- Theme-owned feature-credit markup must expose a translated assistive “By”
+  label, the supplied contributor name, and the optional supplied role. Group
+  the field as “Story credits”; never invent a contributor or job title.
+- Preserve editor-owned inline media and captions without a universal crop.
+  Missing media leaves the prose and credits intact and does not introduce
+  placeholder art, replacement copy, or an empty media track.
+- Feature stories remain static server-rendered articles. Do not add parallax,
+  scroll reveals, sticky reading progress, fabricated related links, or
+  article-only JavaScript.
+
 ### Featured Highlights
 
 - Treat the UT Drupal Kit Featured Highlight as a shared fleet component, not
@@ -1405,6 +1431,10 @@ Texas requirements. The current University compliance date is March 1, 2026.
 - `css/components/newsroom.css`: semantic news ledgers, source mentions,
   directory-aware landing composition, resilient media, and shared newsroom
   support components.
+- `css/components/feature-story.css`: length-aware story mastheads, measured
+  long-form fields, inline editorial media, tables, and explicit credits.
+- `templates/components/moody-feature-credit.html.twig`: translated byline,
+  supplied contributor name, and optional supplied role.
 - `templates/`: theme-owned document, page, shell, block, menu, shared
   component, and targeted View markup.
 - `js/navigation.js`: the sole drawer and disclosure state owner.
