@@ -43,6 +43,7 @@ const files = {
   heroCarouselCss: 'css/components/hero-carousel.css',
   photoContentCss: 'css/components/photo-content.css',
   newsletterCss: 'css/components/newsletter.css',
+  quickLinksCss: 'css/components/quick-links.css',
   discoveryIndex: 'css/components/discovery-index.css',
   accordionCss: 'css/components/accordion.css',
   peopleDirectory: 'css/components/people-directory.css',
@@ -99,6 +100,7 @@ const files = {
   heroCarouselTemplate: 'templates/components/field--block-content--utexas-hero-carousel.html.twig',
   photoContentTemplate: 'templates/components/utexas-photo-content-area.html.twig',
   newsletterTemplate: 'templates/components/moody-newsletter.html.twig',
+  quickLinksTemplate: 'templates/components/utexas-quick-links.html.twig',
   heroTemplate: 'templates/components/moody-hero.html.twig',
   heroStyle1Template: 'templates/components/moody-hero-1.html.twig',
   heroStyle2Template: 'templates/components/moody-hero-2.html.twig',
@@ -185,8 +187,8 @@ const forbidPattern = (file, pattern, message) => {
 
 try {
   const packageJson = JSON.parse(contents.package ?? '');
-  if (packageJson.version !== '0.29.0') {
-    errors.push('The shared Moody Newsletter destination-band release must remain versioned as 0.29.0.');
+  if (packageJson.version !== '0.30.0') {
+    errors.push('The shared UT Drupal Kit Quick Links release must remain versioned as 0.30.0.');
   }
   for (const [dependency, version] of [
     ['animejs', '4.5.0'],
@@ -251,8 +253,9 @@ requireText('libraries', 'css/components/flex-list.css', 'Shared UT Drupal Kit F
 requireText('libraries', 'css/components/hero-carousel.css', 'Accessible UT Drupal Kit Hero Carousel styles must remain attached.');
 requireText('libraries', 'css/components/photo-content.css', 'Shared UT Drupal Kit Photo Content Area styles must remain attached.');
 requireText('libraries', 'css/components/newsletter.css', 'Shared Moody Newsletter styles must remain attached.');
+requireText('libraries', 'css/components/quick-links.css', 'Shared UT Drupal Kit Quick Links styles must remain attached.');
 requireText('libraries', 'js/dist/motion.min.js', 'The built motion integration must remain attached.');
-requireText('libraries', 'version: 0.29.0', 'The Drupal asset version must match the Moody Newsletter release.');
+requireText('libraries', 'version: 0.30.0', 'The Drupal asset version must match the UT Drupal Kit Quick Links release.');
 forbidText('info', '- moody26/motion', 'Optional motion must be attached from theme settings rather than globally.');
 
 requireText('settings', "header_social_links_block: ''", 'Header social links must be optional for new installs.');
@@ -662,6 +665,28 @@ forbidText('newsletterTemplate', '|raw', 'Moody Newsletter must not bypass Drupa
 forbidText('newsletterTemplate', 'attach_library', 'Moody Newsletter must use the theme global library without duplicate attachments.');
 forbidText('newsletterTemplate', '→', 'Moody Newsletter must not invent a synthetic arrow.');
 forbidText('newsletterTemplate', 'class="moody-newsletter-wrapper {{ style }}"', 'Moody Newsletter must not restore raw legacy color classes.');
+requireText('quickLinksCss', 'component: UT Drupal Kit Quick Links index', 'Quick Links must retain the Hallmark component contract.');
+requireText('quickLinksCss', 'macrostructure: responsive resource ledger', 'Quick Links must retain its Hallmark structural fingerprint.');
+requireText('quickLinksCss', 'gate 49: UT content-integrity exception for editor-owned resource names', 'Quick Links must document the deliberate intact-label wrapping exception.');
+requireText('quickLinksCss', 'container: quick-links / inline-size;', 'Quick Links must respond to their Layout Builder container.');
+requireText('quickLinksCss', 'grid-template-columns: repeat(3, minmax(0, 1fr));', 'Quick Links must retain safe wide navigation-ledger tracks.');
+requireText('quickLinksCss', 'min-block-size: var(--target-min);', 'Quick Links must preserve 44 CSS-pixel targets.');
+requireText('quickLinksCss', '.quick-links__item > a:visited', 'Quick Links need an explicit visited state.');
+requireText('quickLinksCss', '.quick-links__item > a:focus-visible', 'Quick Links need immediate visible focus.');
+requireText('quickLinksCss', '.quick-links__item > a:not([aria-disabled="true"]):active', 'Quick Links need active feedback.');
+requireText('quickLinksCss', '.quick-links__item > a[aria-disabled="true"]', 'Quick Links must honor an authored disabled state.');
+requireText('quickLinksCss', '@media (hover: hover) and (pointer: fine)', 'Quick Links hover feedback must be capability-gated.');
+forbidPattern('quickLinksCss', /(?:^|\s)(?:#(?:[\da-f]{3}){1,2}|(?:rgb|hsl|oklch)\()/im, 'Quick Links styles must use locked color tokens.');
+requireText('quickLinksTemplate', "{% set wrapper = rendered_links ? 'nav' : 'div' %}", 'Quick Links with destinations must expose a navigation landmark.');
+requireText('quickLinksTemplate', '<h2 id="{{ heading_id }}" class="ut-headline quick-links__title">', 'Quick Links headlines must not skip the page heading level.');
+requireText('quickLinksTemplate', '<ul class="link-list quick-links__list" role="list">', 'Quick Links must expose explicit list semantics.');
+requireText('quickLinksTemplate', 'link is not iterable and link is not none', 'Quick Links must omit malformed stored link arrays.');
+requireText('quickLinksTemplate', 'rendered_link|striptags|trim', 'Quick Links must omit empty formatter links.');
+requireText('quickLinksTemplate', 'has_copy', 'Quick Links must omit empty processed-copy wrappers.');
+forbidText('quickLinksTemplate', 'href=', 'Quick Links destinations must not be reconstructed in Twig.');
+forbidText('quickLinksTemplate', '|raw', 'Quick Links must not bypass Drupal render safety.');
+forbidText('quickLinksTemplate', 'attach_library', 'Quick Links must use the theme global library without duplicate attachments.');
+forbidText('quickLinksTemplate', '→', 'Quick Links must not invent a synthetic arrow.');
 requireText('discoveryIndex', 'repeat(12, minmax(0, 1fr))', 'Discovery grids must use safe image-bearing tracks.');
 requireText('discoveryIndex', '.linked-focus-area-item:focus-visible', 'Focus Area tasks need immediate visible focus.');
 requireText('discoveryIndex', '.utexas-promo-unit .data-wrapper > a:focus-visible', 'Promo Unit links need immediate visible focus.');
@@ -1124,7 +1149,7 @@ for (const file of ['preflight', 'log']) {
     errors.push(`${file} must contain valid JSON.`);
   }
 }
-requireText('preflight', '"package_version": "0.29.0"', 'Hallmark preflight must match the Moody Newsletter release.');
+requireText('preflight', '"package_version": "0.30.0"', 'Hallmark preflight must match the UT Drupal Kit Quick Links release.');
 requireText('log', 'Conversational FAQ within the Ecosystem Index', 'Hallmark memory must record the shared accordion macrostructure.');
 requireText('log', 'Editorial media directory within the Ecosystem Index', 'Hallmark memory must record the shared Moody Flex Grid component.');
 requireText('log', 'Editorial Signal Band within the Ecosystem Index', 'Hallmark memory must record the shared Moody Promotion signal band.');
@@ -1165,6 +1190,7 @@ requireText('readme', 'Shared UT Drupal Kit Flex Lists', 'README must document a
 requireText('readme', 'Accessible UT Drupal Kit Hero Carousels', 'README must document the progressive Hero Carousel layer.');
 requireText('readme', 'Shared UT Drupal Kit Photo Content Areas', 'README must document the shared Photo Content Area layer.');
 requireText('readme', 'Shared Moody Newsletter destination bands', 'README must document the shared Moody Newsletter layer.');
+requireText('readme', 'Shared UT Drupal Kit Quick Links', 'README must document the shared Quick Links layer.');
 requireText('agents', '`header_social_links_block`', 'AGENTS.md must preserve the header Social Links contract.');
 requireText('agents', 'Missing, unpublished, non-reusable, inaccessible, wrong-bundle, or malformed', 'AGENTS.md must require Social Links to fail closed.');
 requireText('agents', '### People directories', 'AGENTS.md must preserve the people-directory contract.');
@@ -1185,6 +1211,7 @@ requireText('agents', '### UT Drupal Kit Flex Lists', 'AGENTS.md must preserve t
 requireText('agents', '### UT Drupal Kit Hero Carousels', 'AGENTS.md must preserve the accessible Hero Carousel component contract.');
 requireText('agents', '### UT Drupal Kit Photo Content Areas', 'AGENTS.md must preserve the Photo Content Area component contract.');
 requireText('agents', '### Moody Newsletter destination bands', 'AGENTS.md must preserve the Moody Newsletter component contract.');
+requireText('agents', '### UT Drupal Kit Quick Links', 'AGENTS.md must preserve the Quick Links component contract.');
 requireText('agents', '### Moody Showcases', 'AGENTS.md must preserve the Moody Showcase component contract.');
 requireText('agents', '### Moody Heroes', 'AGENTS.md must preserve the Moody Hero component contract.');
 requireText('agents', '### UT Drupal Kit Heroes', 'AGENTS.md must preserve the UT Drupal Kit Hero component contract.');
@@ -1200,5 +1227,5 @@ if (errors.length) {
   process.exitCode = 1;
 }
 else {
-  console.log(`Moody26 verification passed (${Object.keys(files).length} source files, ${fonts.length} local fonts, standalone shell, UT brand, accessible directories, resource hubs, Resource Groups, Flex Tabs, UT Drupal Kit Flex Lists, Hero Carousels, Photo Content Areas, and Moody Newsletter destination bands, newsroom, accordions, Featured Highlights, Moody Promotions, Promo Lists, Flex Content Areas, Image Links, Flex Color Blocks, Moody Quotations, Moody Flex Grids, Moody Impact Facts, Moody and UT Drupal Kit Heroes, Moody Showcases, Moody Contact Info, and Call to Action blocks, header social links, motion, responsive, and Hallmark gates).`);
+  console.log(`Moody26 verification passed (${Object.keys(files).length} source files, ${fonts.length} local fonts, standalone shell, UT brand, accessible directories, resource hubs, Resource Groups, Flex Tabs, UT Drupal Kit Flex Lists, Hero Carousels, Photo Content Areas, Moody Newsletter destination bands, and UT Drupal Kit Quick Links, newsroom, accordions, Featured Highlights, Moody Promotions, Promo Lists, Flex Content Areas, Image Links, Flex Color Blocks, Moody Quotations, Moody Flex Grids, Moody Impact Facts, Moody and UT Drupal Kit Heroes, Moody Showcases, Moody Contact Info, and Call to Action blocks, header social links, motion, responsive, and Hallmark gates).`);
 }

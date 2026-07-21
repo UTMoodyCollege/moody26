@@ -1,5 +1,5 @@
 global:
-  version: 0.29.0
+  version: 0.30.0
   css:
     base:
       css/fonts.css: { weight: 90 }
@@ -30,6 +30,7 @@ global:
       css/components/hero-carousel.css: { weight: 138.9990234375 }
       css/components/photo-content.css: { weight: 138.99951171875 }
       css/components/newsletter.css: { weight: 138.999755859375 }
+      css/components/quick-links.css: { weight: 138.9998779296875 }
       css/components/newsroom.css: { weight: 139 }
       css/components/motion.css: { weight: 140 }
   js:
@@ -41,14 +42,14 @@ global:
     - core/once
 
 motion:
-  version: 0.29.0
+  version: 0.30.0
   js:
     js/dist/motion.min.js: { minified: true }
   dependencies:
     - moody26/global
 
 settings:
-  version: 0.29.0
+  version: 0.30.0
   css:
     theme:
       css/components/theme-settings.css: {}

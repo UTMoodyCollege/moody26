@@ -440,6 +440,38 @@ not belong outside the token and font declaration files.
   decorative motion, a synthetic arrow, or fabricated form, loading, error,
   success, or disabled controls.
 
+### UT Drupal Kit Quick Links
+
+- Treat UT Drupal Kit Quick Links as a shared navigation ledger, not a card
+  grid, CTA collection, route-specific table of contents, or replacement menu.
+  Keep headlines, processed copy, link labels, destinations, link options,
+  ordering, block labels, and Layout Builder placement under Drupal and editor
+  control.
+- Moody26 owns `utexas-quick-links.html.twig` and the `quick-links__*`
+  presentation contract. Preserve formatter-built `Link` objects, target and
+  rel attributes, icon-option classes, accessible-name qualifiers,
+  cacheability, and attachments; never reconstruct an `href`, use `|raw`, or
+  edit the UT Drupal Kit provider.
+- Omit malformed legacy link arrays without a destination and empty rendered
+  links. Render an optional non-empty headline as a page-safe `h2`, use it to
+  label the navigation landmark, and omit empty processed-copy wrappers. A
+  link-only group gets the translated `Quick links` landmark name; copy-only
+  output remains a non-navigation container.
+- Render destinations as one semantic list with a 44 CSS-pixel minimum target,
+  readable visited color, immediate focus, active feedback, an authored
+  `aria-disabled` treatment, and capability-gated hover. Preserve fragment,
+  internal, entity, and external destinations without changing keyboard or
+  browser behavior. Editors must pair every fragment destination with a real,
+  unique, stable target ID on the same rendered page; the theme must not guess,
+  fabricate, or silently redirect a missing content anchor.
+- Use one safe column in narrow component containers, two columns at 36rem,
+  and three at 60rem. Long editor-owned academic and event resource names may
+  wrap between words; never clip, truncate, split a word, shrink below the body
+  type floor, or create document overflow merely to force a single-line label.
+- Quick Links are static server-rendered navigation. Do not add JavaScript,
+  decorative motion, generated numbering, synthetic arrows, invented copy, or
+  fabricated loading, error, success, or disabled controls.
+
 ### Moody Showcases
 
 - Treat Moody Showcase as a shared editorial media ledger, not a route-specific
@@ -1154,6 +1186,8 @@ Texas requirements. The current University compliance date is March 1, 2026.
   responsive long-label handling, and complete static link states.
 - `css/components/newsletter.css`: semantic, container-aware Moody Newsletter
   destination bands with neutral migration styles and complete static links.
+- `css/components/quick-links.css`: semantic UT Drupal Kit navigation ledgers,
+  optional-content resilience, responsive index tracks, and static link states.
 - `css/components/people-directory.css`: responsive filters, semantic people
   indexes, linked profile treatments, current-directory state, and empty-state
   presentation.

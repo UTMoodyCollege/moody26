@@ -6,7 +6,7 @@ visual identity with an accessible, editorial system that can serve academic,
 research, film, journalism, advertising, alumni, event, and public-facing
 sites without requiring the legacy Moody or Speedway themes.
 
-> **Project status:** pre-release (`0.29.0`). The theme is being validated in
+> **Project status:** pre-release (`0.30.0`). The theme is being validated in
 > [Moody Core](https://github.com/UTMoodyCollege/moody-core) before its first
 > stable tag. Pin an exact commit when evaluating the `main` branch.
 
@@ -68,6 +68,8 @@ sites without requiring the legacy Moody or Speedway themes.
   branded action rules, complete link states, and narrow-region-safe labels.
 - Shared Moody Newsletter destination bands with page-safe headings,
   formatter-owned links, neutral migration styles, and container-aware reflow.
+- Shared UT Drupal Kit Quick Links with labelled navigation landmarks,
+  formatter-owned destinations, complete link states, and responsive indexes.
 - Shared people directories with semantic list and heading structure,
   accessible linked profiles, responsive filters, honest result counts, and a
   useful empty state.
@@ -371,6 +373,25 @@ in a 44-pixel target with readable visited, immediate focus, active, authored
 disabled, and capability-gated hover states. Empty output creates no heading,
 rule, or decorative space, and the static component adds no synthetic arrow,
 copy, motion, or asynchronous state.
+
+### Shared UT Drupal Kit Quick Links
+
+Moody26 treats UT Drupal Kit Quick Links as compact navigation ledgers rather
+than generic link dumps or card grids. A non-empty authored headline becomes a
+page-safe `h2` and labels the navigation landmark; a link-only collection gets
+a concise translated landmark name. Processed copy is emitted only when it has
+real text, and malformed legacy rows without destinations are omitted instead
+of printing array data.
+
+Drupal remains responsible for link text, destinations, target and rel
+attributes, icon-option classes, new-window accessible-name qualifiers,
+cacheability, and attachments. The theme never reconstructs an `href` or adds
+synthetic arrows. Lists use one safe column in narrow Layout Builder regions,
+two columns when their own container reaches 36rem, and three at 60rem. Every
+destination has at least a 44 CSS-pixel target with readable visited color,
+immediate focus, active and authored disabled feedback, and capability-gated
+hover. Long editor-owned academic and event labels remain complete and may wrap
+between words rather than being clipped, truncated, or allowed to overflow.
 
 ### Shared Moody Showcases
 

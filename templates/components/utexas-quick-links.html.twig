@@ -1,0 +1,51 @@
+{#
+/**
+ * @file
+ * Semantic, theme-owned output for UT Drupal Kit Quick Links.
+ *
+ * The formatter remains responsible for filtered text, processed copy,
+ * link destinations and options, cacheability, and attachments.
+ */
+#}
+
+{% set rendered_headline = headline|default('')|render %}
+{% set rendered_copy = copy|default([])|render %}
+{% set has_headline = rendered_headline|striptags|trim %}
+{% set has_copy = rendered_copy|striptags|trim %}
+{% set rendered_links = [] %}
+
+{% for link in links|default([])|filter(link => link is not iterable and link is not none) %}
+  {% set rendered_link = link|render %}
+  {% if rendered_link|striptags|trim %}
+    {% set rendered_links = rendered_links|merge([rendered_link]) %}
+  {% endif %}
+{% endfor %}
+
+{% if has_headline or has_copy or rendered_links %}
+  {% set wrapper = rendered_links ? 'nav' : 'div' %}
+  {% set heading_id = has_headline ? ('quick-links-' ~ has_headline)|clean_unique_id : null %}
+  {% set quick_links_classes = [
+    'utexas-quick-links',
+    'quick-links',
+    has_headline ? 'quick-links--with-heading' : 'quick-links--without-heading',
+    has_copy ? 'quick-links--with-copy' : 'quick-links--without-copy',
+  ] %}
+
+  <{{ wrapper }} class="{{ quick_links_classes|join(' ') }}"{% if rendered_links and has_headline %} aria-labelledby="{{ heading_id }}"{% elseif rendered_links %} aria-label="{{ 'Quick links'|t }}"{% endif %}>
+    {% if has_headline %}
+      <h2 id="{{ heading_id }}" class="ut-headline quick-links__title">{{ rendered_headline }}</h2>
+    {% endif %}
+
+    {% if has_copy %}
+      <div class="ut-copy quick-links__copy">{{ rendered_copy }}</div>
+    {% endif %}
+
+    {% if rendered_links %}
+      <ul class="link-list quick-links__list" role="list">
+        {% for link in rendered_links %}
+          <li class="quick-links__item">{{ link }}</li>
+        {% endfor %}
+      </ul>
+    {% endif %}
+  </{{ wrapper }}>
+{% endif %}
