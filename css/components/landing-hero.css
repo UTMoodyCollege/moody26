@@ -1,8 +1,9 @@
 /* Hallmark · component: Moody + UT Drupal Kit responsive editorial hero · macrostructure: Split Studio
  * genre: editorial · theme: UT custom · media: content-owned · motion: static
  * states: media unavailable · link default/visited/hover/focus/active/disabled
+ * ambient states: named play/pause · media unavailable · reduced motion
  * contrast: overlay and paper pairs verified · responsive: 320/375/414/768
- * audit: slop pass (42–49) · mobile pass (34, 49–57)
+ * audit: slop pass (1–58) · mobile pass (34, 49–57)
  */
 /* Hallmark · pre-emit critique: P5 H5 E5 S5 R5 V5 */
 
@@ -382,7 +383,7 @@
 .node-page .moody-ambient-video .homepage-hero__fallback-image {
   position: absolute;
   inset: 0;
-  display: none;
+  display: block;
   overflow: clip;
   background: var(--color-ink);
 }
@@ -433,9 +434,66 @@
 }
 
 .node-page .moody-ambient-video #video-controls #play-pause {
+  display: inline-grid;
   min-width: var(--target-min);
   min-height: var(--target-min);
   padding: var(--space-sm);
+  align-items: center;
+  justify-items: center;
+  border: var(--rule-hair) solid var(--color-ut-white);
+  background: var(--color-overlay);
+  color: var(--color-ut-white);
+  line-height: 1;
+  transition: background-color var(--dur-short) var(--ease-out),
+    color var(--dur-short) var(--ease-out),
+    transform var(--dur-micro) var(--ease-out);
+}
+
+.node-page .moody-ambient-video #video-controls #play-pause svg {
+  display: block;
+  width: var(--target-min);
+  height: var(--target-min);
+  opacity: 1;
+  fill: currentColor;
+}
+
+.node-page .moody-ambient-video #video-controls #play-pause:focus-visible {
+  outline: var(--focus-outline);
+  outline-offset: var(--space-2xs);
+  box-shadow: var(--focus-halo);
+}
+
+.node-page .moody-ambient-video #video-controls #play-pause:active {
+  background: var(--color-ink);
+  color: var(--color-ut-white);
+  transform: translateY(var(--space-3xs));
+}
+
+.node-page .moody-ambient-video #video-controls #play-pause:disabled {
+  cursor: not-allowed;
+  opacity: 0.6;
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .node-page .moody-ambient-video #video-controls #play-pause:not(:disabled):hover {
+    background: var(--color-ink);
+    color: var(--color-ut-white);
+  }
+}
+
+@media (min-width: 56.25rem) {
+  .node-page .moody-ambient-video .homepage-hero__fallback-image {
+    display: none;
+  }
+}
+
+.moody-ambient-video.moody26-ambient-video--fallback #video-wrapper,
+.moody-ambient-video.moody26-ambient-video--fallback #video-controls {
+  display: none;
+}
+
+.moody-ambient-video.moody26-ambient-video--fallback .homepage-hero__fallback-image {
+  display: block;
 }
 
 @media (min-width: 60rem) {
@@ -445,7 +503,8 @@
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .node-page .moody-ambient-video #video-wrapper {
+  .node-page .moody-ambient-video #video-wrapper,
+  .node-page .moody-ambient-video #video-controls {
     display: none;
   }
 

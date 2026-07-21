@@ -194,8 +194,8 @@ const forbidPattern = (file, pattern, message) => {
 
 try {
   const packageJson = JSON.parse(contents.package ?? '');
-  if (packageJson.version !== '0.34.0') {
-    errors.push('The shared UTProf Profile Listing release must remain versioned as 0.34.0.');
+  if (packageJson.version !== '0.35.0') {
+    errors.push('The accessible ambient-video release must remain versioned as 0.35.0.');
   }
   for (const [dependency, version] of [
     ['animejs', '4.5.0'],
@@ -272,7 +272,7 @@ requireText('libraries', 'css/components/quick-links.css', 'Shared UT Drupal Kit
 requireText('libraries', 'css/components/social-links.css', 'Shared UT Drupal Kit Social Links styles must remain attached.');
 requireText('libraries', 'css/components/anchor-gallery.css', 'Shared Moody Anchor gallery styles must remain attached.');
 requireText('libraries', 'js/dist/motion.min.js', 'The built motion integration must remain attached.');
-requireText('libraries', 'version: 0.34.0', 'The Drupal asset version must match the UTProf Profile Listing release.');
+requireText('libraries', 'version: 0.35.0', 'The Drupal asset version must match the accessible ambient-video release.');
 forbidText('info', '- moody26/motion', 'Optional motion must be attached from theme settings rather than globally.');
 
 requireText('settings', "header_social_links_block: ''", 'Header social links must be optional for new installs.');
@@ -476,6 +476,12 @@ for (const state of ['Default', 'Hover', 'Focus', 'Active', 'Disabled', 'Loading
 }
 requireText('landingHero', 'macrostructure: Split Studio', 'Landing components must preserve the Split Studio decision.');
 requireText('landingHero', ':has(:is(.block-bundle-moody-hero, .block-bundle-utexas-hero))', 'Full-bleed heroes from both providers must remove generic section padding.');
+requireText('landingHero', '@media (min-width: 56.25rem)', 'Ambient-video posters must remain the mobile-first media below the provider video breakpoint.');
+requireText('landingHero', '#play-pause:focus-visible', 'Ambient-video controls need immediate visible focus.');
+requireText('landingHero', '#play-pause:disabled', 'Unavailable ambient-video controls need a truthful disabled treatment before removal.');
+requireText('landingHero', '.moody26-ambient-video--fallback #video-wrapper', 'Failed ambient videos must leave the visual composition.');
+requireText('landingHero', '.moody26-ambient-video--fallback .homepage-hero__fallback-image', 'Failed ambient videos must retain their authored poster surface.');
+requireText('landingHero', '@media (prefers-reduced-motion: reduce)', 'Ambient-video CSS must retain a static reduced-motion path.');
 requireText('editorialSections', 'var(--drupal-displace-offset-top, 0rem)', 'Layout Builder anchors must clear the optional Drupal toolbar.');
 requireText('editorialSections', '.moody26-directory-students .node__content > .section-wrapper:nth-child(2)', 'The Students reference composition must remain directory-scoped rather than route-scoped.');
 requireText('editorialSections', '.layout__region--main > .block-bundle-basic:first-child', 'The Students lead treatment must stay isolated to the first main-region Basic block.');
@@ -1149,6 +1155,14 @@ requireText('accessibility', "once('moody26-person-image'", 'Directory portrait 
 requireText('accessibility', "classList.add('people-directory__media--fallback')", 'Failed portraits must reveal the stable fallback tile.');
 requireText('accessibility', "once('moody26-profile-listing-image'", 'UTProf portrait failure recovery must remain idempotent.');
 requireText('accessibility', "classList.add('utprof__profile-item--media-unavailable')", 'Failed UTProf portraits must preserve and recompose profile content.');
+requireText('accessibility', "once('moody26-ambient-video'", 'Ambient-video accessibility enhancement must remain idempotent.');
+requireText('accessibility', "Drupal.t('Play background video')", 'Paused ambient video controls need a translated action name.');
+requireText('accessibility', "Drupal.t('Pause background video')", 'Playing ambient video controls need a translated action name.');
+requireText('accessibility', "control.setAttribute('aria-controls', video.id)", 'Ambient-video controls must identify their controlled media.');
+requireText('accessibility', "window.matchMedia('(prefers-reduced-motion: reduce)')", 'Ambient-video playback must honor reduced motion in JavaScript.');
+requireText('accessibility', "video.removeAttribute('autoplay')", 'Reduced-motion and failed ambient videos must remove autoplay before source loading.');
+requireText('accessibility', "control.hidden = reducedMotion.matches || !mediaAvailable;", 'Ambient-video controls must leave the interaction model when playback is unavailable.');
+requireText('accessibility', "classList.add('moody26-ambient-video--fallback')", 'Ambient-video failures must expose a stable fallback state.');
 requireText('accessibility', "once('moody26-showcase-image'", 'Showcase media fallbacks must be idempotent.');
 requireText('accessibility', "classList.add('showcase--media-unavailable')", 'Failed Showcase media must preserve its text composition.');
 requireText('accessibility', "once('moody26-hero-image'", 'Moody Hero media fallbacks must be idempotent.');
@@ -1264,7 +1278,7 @@ for (const file of ['preflight', 'log']) {
     errors.push(`${file} must contain valid JSON.`);
   }
 }
-requireText('preflight', '"package_version": "0.34.0"', 'Hallmark preflight must match the UTProf Profile Listing release.');
+requireText('preflight', '"package_version": "0.35.0"', 'Hallmark preflight must match the accessible ambient-video release.');
 requireText('log', 'Conversational FAQ within the Ecosystem Index', 'Hallmark memory must record the shared accordion macrostructure.');
 requireText('log', 'Editorial media directory within the Ecosystem Index', 'Hallmark memory must record the shared Moody Flex Grid component.');
 requireText('log', 'Editorial Signal Band within the Ecosystem Index', 'Hallmark memory must record the shared Moody Promotion signal band.');
@@ -1285,6 +1299,7 @@ requireText('readme', 'stores the selected block’s UUID', 'README must explain
 requireText('readme', 'Shared people directories', 'README must document the reusable directory layer.');
 requireText('readme', 'Page-title ownership', 'README must document one-document-h1 ownership.');
 requireText('readme', 'Shared UTProf Profile Listings', 'README must document the shared UTProf listing layer.');
+requireText('readme', 'Shared ambient-video heroes', 'README must document the accessible ambient-video layer.');
 requireText('readme', 'Shared Basic and Rich Text', 'README must document the reusable Basic and Rich Text layer.');
 requireText('readme', 'Shared resource hubs', 'README must document the reusable resource-hub layer.');
 requireText('readme', 'Shared newsroom components', 'README must document the reusable newsroom layer.');
@@ -1317,6 +1332,7 @@ requireText('agents', 'Missing, unpublished, non-reusable, inaccessible, wrong-b
 requireText('agents', '### People directories', 'AGENTS.md must preserve the people-directory contract.');
 requireText('agents', '### Page-title ownership', 'AGENTS.md must preserve the one-document-h1 contract.');
 requireText('agents', '### UTProf Profile Listings', 'AGENTS.md must preserve the UTProf listing contract.');
+requireText('agents', '### Ambient-video heroes', 'AGENTS.md must preserve the ambient-video component contract.');
 requireText('agents', '### Basic and Rich Text blocks', 'AGENTS.md must preserve the Basic and Rich Text component contract.');
 requireText('agents', '### Resource hubs', 'AGENTS.md must preserve the resource-hub contract.');
 requireText('agents', '### Newsroom components', 'AGENTS.md must preserve the newsroom component contract.');
@@ -1353,5 +1369,5 @@ if (errors.length) {
   process.exitCode = 1;
 }
 else {
-  console.log(`Moody26 verification passed (${Object.keys(files).length} source files, ${fonts.length} local fonts, standalone shell, UT brand, Basic and Rich Text, accessible directories and UTProf Profile Listings, resource hubs, Resource Groups, Flex Tabs, UT Drupal Kit Flex Lists, Hero Carousels, Photo Content Areas, Moody Newsletter destination bands, UT Drupal Kit Quick Links, semantic Social Links, and Moody Anchor galleries, newsroom, accordions, Featured Highlights, Moody Promotions, Promo Lists, Flex Content Areas, Image Links, Flex Color Blocks, Moody Quotations, Moody Flex Grids, Moody Impact Facts, Moody and UT Drupal Kit Heroes, Moody Showcases, Moody Contact Info, and Call to Action blocks, header social links, motion, responsive, and Hallmark gates).`);
+  console.log(`Moody26 verification passed (${Object.keys(files).length} source files, ${fonts.length} local fonts, standalone shell, UT brand, Basic and Rich Text, accessible directories and UTProf Profile Listings, accessible ambient-video heroes, resource hubs, Resource Groups, Flex Tabs, UT Drupal Kit Flex Lists, Hero Carousels, Photo Content Areas, Moody Newsletter destination bands, UT Drupal Kit Quick Links, semantic Social Links, and Moody Anchor galleries, newsroom, accordions, Featured Highlights, Moody Promotions, Promo Lists, Flex Content Areas, Image Links, Flex Color Blocks, Moody Quotations, Moody Flex Grids, Moody Impact Facts, Moody and UT Drupal Kit Heroes, Moody Showcases, Moody Contact Info, and Call to Action blocks, header social links, motion, responsive, and Hallmark gates).`);
 }

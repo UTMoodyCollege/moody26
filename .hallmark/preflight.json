@@ -1,6 +1,6 @@
 {
   "date": "2026-07-20",
-  "package_version": "0.34.0",
+  "package_version": "0.35.0",
   "framework": "Drupal 11 / UT Drupal Kit",
   "base_theme": false,
   "font_stack": "Charis SIL + Libre Franklin bundled locally by Moody26",
@@ -28,6 +28,7 @@
     "native shared accordions with truthful browser-owned disclosure state",
     "shared Basic and Rich Text with page-safe headings, measured editorial rhythm, visible and announced new-window behavior, and non-destructive responsive media",
     "shared UTProf Profile Listings with semantic designations, container-aware people ledgers, resilient portrait failure recovery, and one document-owned page title",
+    "ambient-video heroes with durable play/pause names, mobile poster-first rendering, failed-media recovery, and playback-free reduced motion",
     "theme-owned Featured Highlights with resilient media and editor-controlled content",
     "shared Moody Promotions using the resilient editorial signal-band contract",
     "semantic UT Promo Lists with corrected heading order and resilient media",

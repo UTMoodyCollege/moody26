@@ -255,6 +255,67 @@
         }
       });
 
+      once('moody26-ambient-video', '.moody-ambient-video', context).forEach((hero) => {
+        const video = hero.querySelector('video');
+        const control = hero.querySelector('#play-pause');
+        if (!video || !control) {
+          return;
+        }
+
+        const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)');
+        let mediaAvailable = true;
+
+        const syncControl = () => {
+          const label = video.paused
+            ? Drupal.t('Play background video')
+            : Drupal.t('Pause background video');
+          control.setAttribute('aria-label', label);
+          if (video.id) {
+            control.setAttribute('aria-controls', video.id);
+          }
+          control.querySelectorAll('svg').forEach((icon) => {
+            icon.setAttribute('aria-hidden', 'true');
+            icon.setAttribute('focusable', 'false');
+          });
+        };
+
+        const showFallback = () => {
+          if (!mediaAvailable) {
+            return;
+          }
+          mediaAvailable = false;
+          video.removeAttribute('autoplay');
+          video.autoplay = false;
+          video.pause();
+          control.disabled = true;
+          control.hidden = true;
+          hero.classList.add('moody26-ambient-video--fallback');
+          syncControl();
+        };
+
+        const applyMotionPreference = () => {
+          if (reducedMotion.matches) {
+            video.removeAttribute('autoplay');
+            video.autoplay = false;
+            video.pause();
+          }
+          control.hidden = reducedMotion.matches || !mediaAvailable;
+          syncControl();
+        };
+
+        video.addEventListener('play', syncControl);
+        video.addEventListener('pause', syncControl);
+        video.addEventListener('ended', syncControl);
+        control.addEventListener('click', () => window.setTimeout(syncControl, 0));
+        hero.addEventListener('error', (event) => {
+          if (event.target instanceof Element && event.target.matches('video, video source')) {
+            showFallback();
+          }
+        }, true);
+        reducedMotion.addEventListener('change', applyMotionPreference);
+        applyMotionPreference();
+      });
+
       once('moody26-ambient-fallback', 'img#fallback-image:not([alt])', context).forEach((image) => {
         const hideFailedPoster = () => image.setAttribute('hidden', '');
         image.alt = '';

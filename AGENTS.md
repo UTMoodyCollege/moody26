@@ -689,6 +689,35 @@ not belong outside the token and font declaration files.
   error, or success states that cannot occur; the only supported disabled state
   is a formatter-supplied `aria-disabled="true"` destination.
 
+### Ambient-video heroes
+
+- Treat `ambient_video` as an authored media lead, not a decorative animation.
+  Keep the provider-owned URL, poster, description track, headline, CTA, mask,
+  text position, short-height choice, and fixed-scroll behavior intact. Do not
+  edit the Composer-installed `moody_ambient_video` module or duplicate its
+  source-loading logic in the theme.
+- The provider may replace the play/pause button’s entire icon subtree after
+  activation. Moody26 must preserve a translated, truthful “Play background
+  video” or “Pause background video” accessible name, `aria-controls`, and a
+  decorative non-focusable icon after every replacement.
+- Keep the control at least 44 by 44 CSS pixels with immediate focus, active
+  feedback, authored-disabled treatment, and hover only on fine pointers.
+  The action name describes the next action; do not add contradictory
+  `aria-pressed` state.
+- Below the provider’s video breakpoint, render the authored poster as the
+  primary media. A missing poster falls back to the ink surface without
+  obscuring the headline or manufacturing replacement imagery.
+- On video or source failure, pause playback, remove autoplay, hide and disable
+  the unusable control, hide the video wrapper, and retain the poster/text
+  composition through `moody26-ambient-video--fallback`.
+- `prefers-reduced-motion: reduce` must remove autoplay before the provider
+  loads its source, pause active playback, hide the irrelevant control, and
+  expose the static fallback. A later preference change may reveal a truthful
+  Play control but must never restart playback automatically.
+- Keep one Ambient Video lead per page while the upstream provider uses global
+  element IDs and page-level Drupal settings. Supporting multiple instances
+  requires an upstream provider refactor, not duplicate theme controls.
+
 ### Moody Heroes
 
 - Treat Moody Hero as a shared editorial page lead, not a route-specific
@@ -1324,7 +1353,8 @@ Texas requirements. The current University compliance date is March 1, 2026.
 - `css/components/theme-settings.css`: narrowly scoped 44-pixel target support
   for the native Drupal visual-options form.
 - `css/components/landing-hero.css`: semantic Moody Hero overlay/split system
-  and restrained ambient-video composition.
+  plus mobile-first, reduced-motion-safe ambient-video composition and control
+  states.
 - `css/components/hero-carousel.css`: progressively enhanced UT Drupal Kit
   Hero Carousel viewport, compact controls, no-JavaScript flow, and motion
   preference safeguards.
@@ -1380,8 +1410,8 @@ Texas requirements. The current University compliance date is March 1, 2026.
 - `js/navigation.js`: the sole drawer and disclosure state owner.
 - `js/quick-actions.js`: dependency-free command discovery and native-dialog
   behavior.
-- `js/accessibility.js`: narrow, progressive safeguards for rendered content
-  modules; it must not repair a base theme.
+- `js/accessibility.js`: narrow, progressive safeguards for provider media
+  controls and rendered content modules; it must not repair a base theme.
 - `js/motion.js`: source for the narrow GSAP/Anime.js progressive-enhancement
   layer; it owns no functional UI state.
 - `js/dist/motion.min.js`: committed, tree-shaken Anime.js WAAPI integration.

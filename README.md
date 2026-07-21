@@ -6,7 +6,7 @@ visual identity with an accessible, editorial system that can serve academic,
 research, film, journalism, advertising, alumni, event, and public-facing
 sites without requiring the legacy Moody or Speedway themes.
 
-> **Project status:** pre-release (`0.34.0`). The theme is being validated in
+> **Project status:** pre-release (`0.35.0`). The theme is being validated in
 > [Moody Core](https://github.com/UTMoodyCollege/moody-core) before its first
 > stable tag. Pin an exact commit when evaluating the `main` branch.
 
@@ -31,6 +31,8 @@ sites without requiring the legacy Moody or Speedway themes.
   page-safe headings, responsive media, and announced new-window behavior.
 - Shared UTProf Profile Listings with semantic role text, responsive people
   ledgers, preserved profile links, and honest failed-portrait recovery.
+- Ambient-video heroes with durable play/pause names, authored-poster and ink
+  fallbacks, reduced-motion playback suppression, and mobile-first media.
 - Layout Builder-friendly landing heroes, editorial pairings, calls to action,
   forms, proof treatments, and discovery grids.
 - Shared resource hubs with compact Focus Area shortcuts, asymmetric Promo
@@ -545,6 +547,28 @@ capability-gated hover, and one-line labels. A failed image hides only its media
 wrapper and recomposes the row around the remaining headline, copy, and links;
 the theme never invents replacement art or text.
 
+### Shared ambient-video heroes
+
+Moody26 preserves the `moody_ambient_video` provider’s authored video URL,
+poster, description track, headline, CTA, mask, position, short-height choice,
+and fixed-scroll setting while adding a standalone accessibility contract.
+The provider continues to own media loading and its visual play/pause icon;
+the theme owns a durable translated control name that remains intact when the
+provider replaces that icon after activation.
+
+At widths below the provider’s video breakpoint, the authored poster is the
+primary media instead of a blank video frame. If that migrated poster is also
+unavailable, the ink surface still keeps the authored headline readable. A
+video or source failure removes the unusable player and control while retaining
+the poster and complete text composition.
+
+With `prefers-reduced-motion: reduce`, Moody26 removes autoplay before the
+provider loads its source, pauses any existing playback, hides the now
+irrelevant control, and renders the static fallback. The play/pause control is
+otherwise a 44-pixel target with an immediate focus ring, capability-gated
+hover, active feedback, `aria-controls`, a decorative icon, and a truthful
+“Play background video” or “Pause background video” name.
+
 ### Shared Moody Heroes
 
 Moody26 renders every Moody Hero formatter variant through one semantic,
@@ -982,10 +1006,10 @@ than replace manual assistive-technology review.
 | `tokens.css` | Brand, type, spacing, motion, focus, and layout tokens |
 | `css/fonts.css` | Local approved digital font declarations |
 | `css/moody26.css` | Global foundation, shell, navigation, forms, and footer |
-| `css/components/` | Header social, Moody Hero, Basic and Rich Text, editorial, discovery, resource-hub, accordion, Featured Highlight and Moody Promotion signal bands, Promo List, Flex Content Area, Image Link, Flex Color Block, Moody Quotation, Moody Flex Grid, Impact Facts, Contact Info, Call to Action, Social Links, Moody Anchor gallery, people-directory, newsroom, quick-action, and settings components |
+| `css/components/` | Header social, ambient-video and shared Hero, Basic and Rich Text, editorial, discovery, resource-hub, accordion, Featured Highlight and Moody Promotion signal bands, Promo List, Flex Content Area, Image Link, Flex Color Block, Moody Quotation, Moody Flex Grid, Impact Facts, Contact Info, Call to Action, Social Links, Moody Anchor gallery, people-directory, newsroom, quick-action, and settings components |
 | `js/navigation.js` | Drawer and disclosure navigation state |
 | `js/quick-actions.js` | Native dialog and rendered-destination discovery |
-| `js/accessibility.js` | Progressive safeguards for rendered content components |
+| `js/accessibility.js` | Progressive safeguards for media controls and rendered content components |
 | `js/motion.js` | GSAP orchestration and Anime.js WAAPI source |
 | `js/dist/motion.min.js` | Committed tree-shaken motion artifact |
 | `js/vendor/gsap.min.js` | Local GSAP core fallback |
