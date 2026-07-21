@@ -1,6 +1,18 @@
 [
   {
     "date": "2026-07-21",
+    "macrostructure": "Index-First profile dossier within the Ecosystem Index",
+    "theme": "custom standalone Drupal theme",
+    "theme_axes": "light / roman-serif / warm",
+    "vibe": "youthful editorial, academic, unmistakably Texas",
+    "enrichment": "editor-owned 400x400 faculty portrait with server-side missing-file recovery",
+    "nav": "N11 two-level disclosure mega-menu owned by Moody26",
+    "footer": "Ft1 Mast-headed with required University destinations",
+    "variation_knob": "Portrait-and-contact masthead followed by one progressive keyboard-complete section index; optional fields collapse without placeholder content",
+    "brief": "Modernize every Moody faculty profile without changing imported profile data or field formatters"
+  },
+  {
+    "date": "2026-07-21",
     "macrostructure": "Split Studio event brief within the Ecosystem Index",
     "theme": "custom standalone Drupal theme",
     "theme_axes": "light / roman-serif / warm",

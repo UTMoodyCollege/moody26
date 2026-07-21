@@ -53,6 +53,7 @@ const files = {
   newsroom: 'css/components/newsroom.css',
   featureStoryCss: 'css/components/feature-story.css',
   eventDetailCss: 'css/components/event-detail.css',
+  facultyProfileCss: 'css/components/faculty-profile.css',
   motionCss: 'css/components/motion.css',
   settingsCss: 'css/components/theme-settings.css',
   accessibility: 'js/accessibility.js',
@@ -79,6 +80,7 @@ const files = {
   newsFields: 'templates/views/views-view-fields--news-filtered--block-filtered.html.twig',
   featureCreditTemplate: 'templates/components/moody-feature-credit.html.twig',
   eventTemplate: 'templates/content/node--moody-event.html.twig',
+  facultyProfileTemplate: 'templates/content/node--faculty-bio.html.twig',
   focusAreas: 'templates/components/moody-focus-areas.html.twig',
   promoUnits: 'templates/components/utexas-promo-unit.html.twig',
   featuredHighlightTemplate: 'templates/components/utexas-featured-highlight.html.twig',
@@ -198,8 +200,8 @@ const forbidPattern = (file, pattern, message) => {
 
 try {
   const packageJson = JSON.parse(contents.package ?? '');
-  if (packageJson.version !== '0.38.0') {
-    errors.push('The accessible event-detail release must remain versioned as 0.38.0.');
+  if (packageJson.version !== '0.39.0') {
+    errors.push('The accessible faculty-profile release must remain versioned as 0.39.0.');
   }
   for (const [dependency, version] of [
     ['animejs', '4.5.0'],
@@ -256,6 +258,7 @@ requireText('libraries', 'css/components/people-directory.css', 'Shared people-d
 requireText('libraries', 'css/components/newsroom.css', 'Shared newsroom styles must remain attached.');
 requireText('libraries', 'css/components/feature-story.css', 'Shared feature-story styles must remain attached.');
 requireText('libraries', 'css/components/event-detail.css', 'Shared event-detail styles must remain attached.');
+requireText('libraries', 'css/components/faculty-profile.css', 'Shared faculty-profile styles must remain attached.');
 requireText('libraries', 'css/components/accordion.css', 'Shared accordion styles must remain attached.');
 requireText('libraries', 'css/components/featured-highlight.css', 'Shared Featured Highlight styles must remain attached.');
 requireText('libraries', 'css/components/promo-list.css', 'Shared Promo List styles must remain attached.');
@@ -278,7 +281,7 @@ requireText('libraries', 'css/components/quick-links.css', 'Shared UT Drupal Kit
 requireText('libraries', 'css/components/social-links.css', 'Shared UT Drupal Kit Social Links styles must remain attached.');
 requireText('libraries', 'css/components/anchor-gallery.css', 'Shared Moody Anchor gallery styles must remain attached.');
 requireText('libraries', 'js/dist/motion.min.js', 'The built motion integration must remain attached.');
-requireText('libraries', 'version: 0.38.0', 'The Drupal asset version must match the accessible event-detail release.');
+requireText('libraries', 'version: 0.39.0', 'The Drupal asset version must match the accessible faculty-profile release.');
 forbidText('info', '- moody26/motion', 'Optional motion must be attached from theme settings rather than globally.');
 
 requireText('settings', "header_social_links_block: ''", 'Header social links must be optional for new installs.');
@@ -866,6 +869,31 @@ requireText('eventTemplate', "'external link'|t", 'Event source actions must ann
 requireText('eventTemplate', '{{ content._layout_builder }}', 'Event pages must preserve Layout Builder extensions.');
 forbidText('eventTemplate', '<h3', 'Event templates must not skip from the page h1 to an h3.');
 forbidText('eventTemplate', 'col-md', 'Event templates must not depend on legacy Bootstrap layout classes.');
+requireText('facultyProfileCss', 'macrostructure: Index-First profile dossier', 'Faculty profiles must retain the Hallmark Index-First dossier contract.');
+requireText('facultyProfileCss', 'grid-template-columns: minmax(12rem, 3fr) minmax(0, 9fr);', 'Faculty profiles must retain safe responsive portrait and identity tracks.');
+requireText('facultyProfileCss', '.moody26-faculty-profile--media-unavailable', 'Faculty profiles must retain missing-portrait reflow.');
+requireText('facultyProfileCss', 'min-height: var(--target-min);', 'Faculty profile actions and resource links must retain accessible targets.');
+requireText('facultyProfileCss', '@media (hover: hover) and (pointer: fine)', 'Faculty profile hover feedback must remain capability-gated.');
+forbidPattern('facultyProfileCss', /(?:node|page)-\d+/, 'Faculty-profile styling must not depend on route-specific node or page IDs.');
+forbidText('facultyProfileCss', 'transition:', 'Faculty profiles must remain static without profile-only motion.');
+forbidText('facultyProfileCss', 'position: sticky', 'Faculty profiles must not trap identity content in a sticky rail.');
+requireText('theme', 'moody26_faculty_profile_image($node, $variables)', 'Faculty preprocess must use the failure-safe portrait builder.');
+requireText('theme', 'moody26_faculty_profile_cv_url($node, $variables)', 'Faculty preprocess must validate CV files before exposing downloads.');
+requireText('theme', "load('faculty_bio_image')", 'Faculty portraits must preserve the configured faculty image style.');
+requireText('theme', "'#theme' => 'image_style'", 'Faculty portraits must retain Drupal image-style delivery.');
+requireText('theme', "'fetchpriority' => 'high'", 'Faculty profile portraits must retain their loading priority.');
+requireText('theme', "'field_subordinates'", 'Faculty profile sections must preserve future assistant content.');
+requireText('theme', "t('More')", 'Untitled custom faculty content must receive a translated fallback label.');
+requireText('facultyProfileTemplate', '<dl class="moody26-faculty-profile__contact-list">', 'Faculty contact facts must retain definition-list semantics.');
+requireText('facultyProfileTemplate', "<dt>{{ 'Email address'|t }}</dt>", 'Faculty email addresses need a descriptive translated label.');
+requireText('facultyProfileTemplate', "{{ 'Download CV (PDF)'|t }}", 'Faculty CV actions must identify the file format.');
+requireText('facultyProfileTemplate', "{{ 'View UT directory'|t }}", 'Faculty directory actions must retain concise descriptive text.');
+requireText('facultyProfileTemplate', 'data-flex-tabs', 'Faculty sections must reuse the progressive tab controller.');
+requireText('facultyProfileTemplate', 'data-flex-tab-panel', 'Faculty content must expose complete progressive tab pairs.');
+requireText('facultyProfileTemplate', '<h2 class="moody26-faculty-profile__section-title">', 'Faculty sections must follow the page h1 with h2 headings.');
+requireText('facultyProfileTemplate', '{{ content._layout_builder }}', 'Faculty profiles must preserve Layout Builder extensions.');
+forbidText('facultyProfileTemplate', 'data-bs-toggle', 'Faculty profiles must not depend on Bootstrap tab behavior.');
+forbidText('facultyProfileTemplate', 'col-md', 'Faculty profiles must not depend on legacy Bootstrap layout classes.');
 requireText('accordionCss', 'macrostructure: Conversational FAQ', 'Accordions must retain the Hallmark macrostructure contract.');
 requireText('accordionCss', '.moody-accordion__summary:focus-visible', 'Accordion summaries need immediate visible focus.');
 requireText('accordionCss', '.moody-accordion__item[open]', 'Accordions need a non-color expanded-state signal.');
@@ -1347,7 +1375,8 @@ for (const file of ['preflight', 'log']) {
     errors.push(`${file} must contain valid JSON.`);
   }
 }
-requireText('preflight', '"package_version": "0.38.0"', 'Hallmark preflight must match the accessible event-detail release.');
+requireText('preflight', '"package_version": "0.39.0"', 'Hallmark preflight must match the accessible faculty-profile release.');
+requireText('log', 'Index-First profile dossier within the Ecosystem Index', 'Hallmark memory must record the shared faculty-profile composition.');
 requireText('log', 'Split Studio event brief within the Ecosystem Index', 'Hallmark memory must record the shared event-detail composition.');
 requireText('log', 'Long Document feature story within the Ecosystem Index', 'Hallmark memory must record the shared feature-story composition.');
 requireText('log', 'Conversational FAQ within the Ecosystem Index', 'Hallmark memory must record the shared accordion macrostructure.');
@@ -1376,6 +1405,7 @@ requireText('readme', 'Shared resource hubs', 'README must document the reusable
 requireText('readme', 'Shared newsroom components', 'README must document the reusable newsroom layer.');
 requireText('readme', 'Shared feature stories', 'README must document the reusable feature-story layer.');
 requireText('readme', 'Shared event details', 'README must document the reusable event-detail layer.');
+requireText('readme', 'Shared faculty profiles', 'README must document the reusable faculty-profile layer.');
 requireText('readme', 'Shared accordions', 'README must document the native shared accordion layer.');
 requireText('readme', 'Shared Featured Highlights', 'README must document the reusable Featured Highlight layer.');
 requireText('readme', 'Shared Moody Promotions', 'README must document the reusable Moody Promotion layer.');
@@ -1412,6 +1442,7 @@ requireText('agents', '### Resource hubs', 'AGENTS.md must preserve the resource
 requireText('agents', '### Newsroom components', 'AGENTS.md must preserve the newsroom component contract.');
 requireText('agents', '### Feature stories', 'AGENTS.md must preserve the feature-story component contract.');
 requireText('agents', '### Event details', 'AGENTS.md must preserve the event-detail component contract.');
+requireText('agents', '### Faculty profiles', 'AGENTS.md must preserve the faculty-profile component contract.');
 requireText('agents', '### Accordions', 'AGENTS.md must preserve the native accordion contract.');
 requireText('agents', '### Featured Highlights', 'AGENTS.md must preserve the Featured Highlight component contract.');
 requireText('agents', '### Moody Promotions', 'AGENTS.md must preserve the Moody Promotion component contract.');
@@ -1446,5 +1477,5 @@ if (errors.length) {
   process.exitCode = 1;
 }
 else {
-  console.log(`Moody26 verification passed (${Object.keys(files).length} source files, ${fonts.length} local fonts, standalone shell, UT brand, Basic and Rich Text, accessible directories and UTProf Profile Listings, accessible ambient-video heroes, resource hubs, Resource Groups, Flex Tabs, UT Drupal Kit Flex Lists, Hero Carousels, Photo Content Areas, Moody Newsletter destination bands, UT Drupal Kit Quick Links, semantic Social Links, and Moody Anchor galleries, newsroom, feature stories, event details, accordions, Featured Highlights, Moody Promotions, Promo Lists, Flex Content Areas, Image Links, Flex Color Blocks, Moody Quotations, Moody Flex Grids, Moody Impact Facts, Moody and UT Drupal Kit Heroes, Moody Showcases, Moody Contact Info, and Call to Action blocks, header social links, motion, responsive, and Hallmark gates).`);
+  console.log(`Moody26 verification passed (${Object.keys(files).length} source files, ${fonts.length} local fonts, standalone shell, UT brand, Basic and Rich Text, accessible directories, UTProf Profile Listings, and faculty profile dossiers, accessible ambient-video heroes, resource hubs, Resource Groups, Flex Tabs, UT Drupal Kit Flex Lists, Hero Carousels, Photo Content Areas, Moody Newsletter destination bands, UT Drupal Kit Quick Links, semantic Social Links, and Moody Anchor galleries, newsroom, feature stories, event details, accordions, Featured Highlights, Moody Promotions, Promo Lists, Flex Content Areas, Image Links, Flex Color Blocks, Moody Quotations, Moody Flex Grids, Moody Impact Facts, Moody and UT Drupal Kit Heroes, Moody Showcases, Moody Contact Info, and Call to Action blocks, header social links, motion, responsive, and Hallmark gates).`);
 }

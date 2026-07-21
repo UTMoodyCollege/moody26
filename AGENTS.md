@@ -951,6 +951,44 @@ not belong outside the token and font declaration files.
   including a title longer than 90 characters, a missing source image, optional
   facts, keyboard focus, heading order, 200% zoom, and horizontal reflow.
 
+### Faculty profiles
+
+- Treat every published `moody_faculty_bio` node as one shared fleet profile
+  dossier. Never scope presentation or behavior to a faculty name, node ID,
+  route, department, component UUID, or current field order.
+- The page-title block remains the sole document `h1`. Moody26 owns
+  `templates/content/node--faculty-bio.html.twig`; position and department form
+  the identity lead, Contact and Related links use `h2`, and every available
+  dossier panel begins with an `h2` matching its section index label.
+- Preserve Drupal formatter render arrays for position, departments, email,
+  telephone, office, personal links, social destinations, assistants, and all
+  profile sections. Hide only redundant field labels. Never flatten processed
+  text, entity labels, or links into unescaped strings.
+- Express email address, phone number, and office with `dl`, `dt`, and `dd`.
+  Keep personal link titles descriptive and wrapping; reserve one-line button
+  treatment for the concise “Download CV (PDF)” and “View UT directory”
+  actions. All actionable controls require immediate focus and a minimum 44
+  CSS-pixel target where the inline-target exception does not apply.
+- Preserve the existing `faculty_bio_image` image style and editor-authored
+  alternative. Validate its source server-side before rendering. Validate the
+  referenced PDF before exposing the CV action. Missing media and files must
+  recompose without a broken glyph, placeholder artwork, disabled control, or
+  empty track; position, contacts, links, and sections remain available.
+- Normalize Biography, Degrees, Expertise, Courses, Affiliations, Assistants,
+  and custom content into the existing progressive `.flex-tabs` contract.
+  Custom content without a title receives the translated fallback “More” so
+  historical editor content is not lost.
+- Preserve the complete no-JavaScript reading order: section labels remain
+  ordinary fragment links and every section remains visible. The shared tab
+  controller alone may add ARIA Tabs state, inactive-panel hiding, roving
+  `tabindex`, Arrow, Home, and End behavior after it can manage every pair.
+- Profiles remain static and server rendered. Do not add Bootstrap tabs,
+  profile-only JavaScript, sticky identity rails, placeholder biographies,
+  fabricated credentials, decorative motion, or asynchronous states.
+- Test representative complete and missing-file profiles at 320, 375, 414,
+  768, and 1280 CSS pixels, including long names, long personal-link labels,
+  keyboard section navigation, heading order, 200% zoom, and reflow.
+
 ### Featured Highlights
 
 - Treat the UT Drupal Kit Featured Highlight as a shared fleet component, not
@@ -1473,6 +1511,10 @@ Texas requirements. The current University compliance date is March 1, 2026.
   media, responsive Split Studio layout, and semantic attendance-fact ledger.
 - `templates/content/node--moody-event.html.twig`: event body, external source
   action, resilient image output, and page-safe `h2`/definition-list details.
+- `css/components/faculty-profile.css`: Index-First profile mastheads, semantic
+  contact ledgers, resilient portrait reflow, actions, and dossier sections.
+- `templates/content/node--faculty-bio.html.twig`: formatter-preserving profile
+  overview and progressive keyboard-complete section index.
 - `templates/`: theme-owned document, page, shell, block, menu, shared
   component, and targeted View markup.
 - `js/navigation.js`: the sole drawer and disclosure state owner.

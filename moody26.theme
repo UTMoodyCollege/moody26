@@ -12,6 +12,7 @@ use Drupal\Core\Entity\ContentEntityInterface;
 use Drupal\Core\Form\FormStateInterface;
 use Drupal\Core\Link;
 use Drupal\Core\Template\Attribute;
+use Drupal\Core\Url;
 use Drupal\file\FileInterface;
 use Drupal\media\MediaInterface;
 use Drupal\node\NodeInterface;
@@ -177,6 +178,176 @@ function moody26_preprocess_node(array &$variables): void {
       }
     }
   }
+  if ($node instanceof NodeInterface && $node->bundle() === 'moody_faculty_bio') {
+    $variables['faculty_image'] = moody26_faculty_profile_image($node, $variables);
+    $variables['faculty_cv_url'] = moody26_faculty_profile_cv_url($node, $variables);
+    $variables['faculty_directory_url'] = moody26_faculty_profile_directory_url($node);
+    $variables['faculty_sections'] = moody26_faculty_profile_sections($node, $variables);
+    $variables['attributes']['class'][] = 'moody26-faculty-profile';
+    $variables['attributes']['class'][] = $variables['faculty_image']
+      ? 'moody26-faculty-profile--has-media'
+      : 'moody26-faculty-profile--media-unavailable';
+    $variables['content_attributes']['class'][] = 'moody26-faculty-profile__content';
+
+    foreach ([
+      'field_position_faculty_bio',
+      'field_department_association_fac',
+      'field_email_address_faculty_bio',
+      'field_telephone_faculty_bio',
+      'field_office_number_faculty_bio',
+      'field_personal_link_faculty_bio',
+      'field_social_faculty_bio',
+    ] as $field_name) {
+      if (isset($variables['content'][$field_name])) {
+        $variables['content'][$field_name]['#label_display'] = 'hidden';
+      }
+    }
+  }
+}
+
+/**
+ * Builds a profile portrait only while its editor-owned source is available.
+ */
+function moody26_faculty_profile_image(NodeInterface $node, array &$variables): array {
+  if (!$node->hasField('field_headshot_faculty_bio')) {
+    return [];
+  }
+
+  $headshot = $node->get('field_headshot_faculty_bio')->first();
+  $file = $headshot?->entity;
+  if (!$headshot || $headshot->isEmpty() || !$file instanceof FileInterface) {
+    return [];
+  }
+
+  $uri = $file->getFileUri();
+  $image = \Drupal::service('image.factory')->get($uri);
+  $style = \Drupal::entityTypeManager()->getStorage('image_style')->load('faculty_bio_image');
+  if (!file_exists($uri) || !$image->isValid() || !$style) {
+    return [];
+  }
+
+  $build = [
+    '#theme' => 'image_style',
+    '#style_name' => 'faculty_bio_image',
+    '#uri' => $uri,
+    '#width' => $headshot->width ?: $image->getWidth(),
+    '#height' => $headshot->height ?: $image->getHeight(),
+    '#alt' => (string) ($headshot->alt ?? ''),
+    '#title' => (string) ($headshot->title ?? ''),
+    '#attributes' => [
+      'decoding' => 'async',
+      'fetchpriority' => 'high',
+    ],
+  ];
+  (new CacheableMetadata())
+    ->addCacheableDependency($node)
+    ->addCacheableDependency($file)
+    ->addCacheableDependency($style)
+    ->applyTo($build);
+
+  return $build;
+}
+
+/**
+ * Returns a public CV URL only while the referenced PDF exists.
+ */
+function moody26_faculty_profile_cv_url(NodeInterface $node, array &$variables): string {
+  if (!$node->hasField('field_cv_pdf_faculty_bio')) {
+    return '';
+  }
+
+  $cv_item = $node->get('field_cv_pdf_faculty_bio')->first();
+  if (!$cv_item || $cv_item->isEmpty()) {
+    return '';
+  }
+
+  $target_id = (string) ($cv_item->target_id ?? '');
+  if (!preg_match('/^\d+/', $target_id, $matches)) {
+    return '';
+  }
+
+  $file = \Drupal::entityTypeManager()->getStorage('file')->load($matches[0]);
+  if (!$file instanceof FileInterface || !file_exists($file->getFileUri())) {
+    return '';
+  }
+
+  CacheableMetadata::createFromObject($file)->applyTo($variables);
+  return \Drupal::service('file_url_generator')->generateAbsoluteString($file->getFileUri());
+}
+
+/**
+ * Returns the canonical UT directory search for an opted-in faculty profile.
+ */
+function moody26_faculty_profile_directory_url(NodeInterface $node): string {
+  if (
+    !$node->hasField('field_show_eid_faculty_bio')
+    || !$node->hasField('field_eid_faculty_bio')
+    || !(bool) $node->get('field_show_eid_faculty_bio')->value
+  ) {
+    return '';
+  }
+
+  $eid = trim((string) $node->get('field_eid_faculty_bio')->value);
+  return $eid === ''
+    ? ''
+    : Url::fromUri('https://directory.utexas.edu/index.php', ['query' => ['q' => $eid]])->toString();
+}
+
+/**
+ * Normalizes optional profile content into one progressive section index.
+ */
+function moody26_faculty_profile_sections(NodeInterface $node, array &$variables): array {
+  $definitions = [
+    'biography' => [t('Biography'), 'field_biography_faculty_bio'],
+    'degrees' => [t('Degrees'), 'field_degrees_faculty_bio'],
+    'expertise' => [t('Expertise'), 'field_expertise_faculty_bio'],
+    'courses' => [t('Courses'), 'field_courses_faculty_bio'],
+    'affiliations' => [t('Affiliations'), 'field_affiliations_faculty_bio'],
+    'assistants' => [t('Assistants'), 'field_subordinates'],
+  ];
+  $sections = [];
+
+  foreach ($definitions as $key => [$title, $field_name]) {
+    if (
+      !$node->hasField($field_name)
+      || $node->get($field_name)->isEmpty()
+      || !isset($variables['content'][$field_name])
+    ) {
+      continue;
+    }
+
+    $variables['content'][$field_name]['#label_display'] = 'hidden';
+    $sections[] = [
+      'title' => $title,
+      'content' => $variables['content'][$field_name],
+      'tab_id' => Html::getId("faculty-{$node->id()}-{$key}-tab"),
+      'panel_id' => Html::getId("faculty-{$node->id()}-{$key}-panel"),
+    ];
+  }
+
+  $custom_field = 'field_custom_tab_content_faculty';
+  if (
+    $node->hasField($custom_field)
+    && !$node->get($custom_field)->isEmpty()
+    && isset($variables['content'][$custom_field])
+  ) {
+    $title = $node->hasField('field_custom_tab_title_faculty')
+      ? trim((string) $node->get('field_custom_tab_title_faculty')->value)
+      : '';
+    $variables['content'][$custom_field]['#label_display'] = 'hidden';
+    $sections[] = [
+      'title' => $title !== '' ? $title : t('More'),
+      'content' => $variables['content'][$custom_field],
+      'tab_id' => Html::getId("faculty-{$node->id()}-custom-tab"),
+      'panel_id' => Html::getId("faculty-{$node->id()}-custom-panel"),
+    ];
+  }
+
+  if ($sections) {
+    $sections[0]['active'] = TRUE;
+  }
+
+  return $sections;
 }
 
 /**

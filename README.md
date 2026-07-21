@@ -6,7 +6,7 @@ visual identity with an accessible, editorial system that can serve academic,
 research, film, journalism, advertising, alumni, event, and public-facing
 sites without requiring the legacy Moody or Speedway themes.
 
-> **Project status:** pre-release (`0.38.0`). The theme is being validated in
+> **Project status:** pre-release (`0.39.0`). The theme is being validated in
 > [Moody Core](https://github.com/UTMoodyCollege/moody-core) before its first
 > stable tag. Pin an exact commit when evaluating the `main` branch.
 
@@ -93,6 +93,8 @@ sites without requiring the legacy Moody or Speedway themes.
   ledes and dates, measured long-form content, and named story credits.
 - Shared event-detail pages with length-aware titles, semantic attendance
   facts, intrinsic editor-owned media, and honest missing-file recovery.
+- Shared faculty profile dossiers with semantic contact details, resilient
+  portraits and CVs, and a progressive keyboard-complete section index.
 - Native shared accordions with truthful browser-owned disclosure state,
   44-pixel controls, visible focus, and no runtime JavaScript dependency.
 - A restrained GSAP + Anime.js motion layer with no CDN requests, no functional
@@ -728,6 +730,34 @@ image, placeholder art, or empty media rail. The body, action, and remaining
 details stay available. Event pages add no event-only JavaScript, universal
 crop, sticky panel, decorative motion, or fabricated content.
 
+### Shared faculty profiles
+
+Every published `moody_faculty_bio` node uses an Index-First profile dossier:
+the page-owned name leads into one portrait-and-contact masthead followed by a
+compact section index for Biography, Degrees, Expertise, Courses,
+Affiliations, Assistants, and editor-authored custom content when available.
+The page-title block remains the sole document `h1`; each available profile
+section begins with an `h2`.
+
+Email address, phone number, and office are expressed as a semantic definition
+list while their Drupal formatters retain mail and telephone behavior. Concise
+CV and UT directory actions remain one-line 44 CSS-pixel targets; long
+editor-authored personal-link titles remain ordinary descriptive links that
+can reflow. Optional fields collapse individually without empty cards or
+invented content.
+
+The existing 400×400 faculty image style preserves the content model’s
+deliberate portrait crop and editor-authored alternative. Moody26 validates
+the source before rendering it and validates referenced CV PDFs before
+offering a download, so stale imports recompose without broken images, broken
+downloads, placeholder art, or empty media tracks.
+
+Before JavaScript, the section names are ordinary fragment links and all
+sections remain in document order. The existing shared tab controller upgrades
+that complete structure to roving `tabindex`, Arrow, Home, and End navigation;
+Tab then moves into the selected panel. Profiles add no Bootstrap dependency,
+profile-only JavaScript, sticky rail, or decorative motion.
+
 ### Shared Featured Highlights
 
 Moody26 provides theme-owned markup and presentation for the UT Drupal Kit
@@ -1055,7 +1085,7 @@ than replace manual assistive-technology review.
 | `tokens.css` | Brand, type, spacing, motion, focus, and layout tokens |
 | `css/fonts.css` | Local approved digital font declarations |
 | `css/moody26.css` | Global foundation, shell, navigation, forms, and footer |
-| `css/components/` | Header social, ambient-video and shared Hero, Basic and Rich Text, editorial, discovery, resource-hub, accordion, Featured Highlight and Moody Promotion signal bands, Promo List, Flex Content Area, Image Link, Flex Color Block, Moody Quotation, Moody Flex Grid, Impact Facts, Contact Info, Call to Action, Social Links, Moody Anchor gallery, people-directory, newsroom, feature-story, event-detail, quick-action, and settings components |
+| `css/components/` | Header social, ambient-video and shared Hero, Basic and Rich Text, editorial, discovery, resource-hub, accordion, Featured Highlight and Moody Promotion signal bands, Promo List, Flex Content Area, Image Link, Flex Color Block, Moody Quotation, Moody Flex Grid, Impact Facts, Contact Info, Call to Action, Social Links, Moody Anchor gallery, people-directory, faculty-profile, newsroom, feature-story, event-detail, quick-action, and settings components |
 | `js/navigation.js` | Drawer and disclosure navigation state |
 | `js/quick-actions.js` | Native dialog and rendered-destination discovery |
 | `js/accessibility.js` | Progressive safeguards for media controls and rendered content components |

@@ -1,0 +1,129 @@
+{#
+/**
+ * @file
+ * Accessible, failure-safe faculty profile dossier for Moody26.
+ *
+ * The Core Page Title block owns the document h1. Profile fields retain their
+ * Drupal formatters and become one static reading order before JavaScript
+ * upgrades the section index to the WAI-ARIA Tabs pattern.
+ */
+#}
+{% set rendered_position = content.field_position_faculty_bio|default([])|render %}
+{% set rendered_departments = content.field_department_association_fac|default([])|render %}
+{% set rendered_email = content.field_email_address_faculty_bio|default([])|render %}
+{% set rendered_phone = content.field_telephone_faculty_bio|default([])|render %}
+{% set rendered_office = content.field_office_number_faculty_bio|default([])|render %}
+{% set rendered_personal_links = content.field_personal_link_faculty_bio|default([])|render %}
+{% set rendered_social = content.field_social_faculty_bio|default([])|render %}
+{% set has_contact = rendered_email|striptags|trim
+  or rendered_phone|striptags|trim
+  or rendered_office|striptags|trim
+%}
+{% set has_actions = faculty_cv_url or faculty_directory_url %}
+{% set has_resources = rendered_personal_links|striptags|trim or rendered_social|striptags|trim %}
+
+<article{{ attributes }}>
+  <div{{ content_attributes }}>
+    <div class="moody26-faculty-profile__overview">
+      {% if faculty_image %}
+        <figure class="moody26-faculty-profile__media">{{ faculty_image }}</figure>
+      {% endif %}
+
+      <div class="moody26-faculty-profile__identity">
+        {% if rendered_position|striptags|trim %}
+          <div class="moody26-faculty-profile__position">{{ rendered_position }}</div>
+        {% endif %}
+
+        {% if rendered_departments|striptags|trim %}
+          <div class="moody26-faculty-profile__departments">{{ rendered_departments }}</div>
+        {% endif %}
+
+        {% if has_contact %}
+          <section class="moody26-faculty-profile__contact" aria-labelledby="faculty-contact-{{ node.id }}">
+            <h2 id="faculty-contact-{{ node.id }}" class="moody26-faculty-profile__overview-title">{{ 'Contact'|t }}</h2>
+            <dl class="moody26-faculty-profile__contact-list">
+              {% if rendered_email|striptags|trim %}
+                <div class="moody26-faculty-profile__contact-item">
+                  <dt>{{ 'Email address'|t }}</dt>
+                  <dd>{{ rendered_email }}</dd>
+                </div>
+              {% endif %}
+              {% if rendered_phone|striptags|trim %}
+                <div class="moody26-faculty-profile__contact-item">
+                  <dt>{{ 'Phone number'|t }}</dt>
+                  <dd>{{ rendered_phone }}</dd>
+                </div>
+              {% endif %}
+              {% if rendered_office|striptags|trim %}
+                <div class="moody26-faculty-profile__contact-item">
+                  <dt>{{ 'Office'|t }}</dt>
+                  <dd>{{ rendered_office }}</dd>
+                </div>
+              {% endif %}
+            </dl>
+          </section>
+        {% endif %}
+
+        {% if has_actions %}
+          <nav class="moody26-faculty-profile__actions" aria-label="{{ 'Faculty profile actions'|t }}">
+            {% if faculty_cv_url %}
+              <a class="ut-btn moody-btn--arrow" href="{{ faculty_cv_url }}">{{ 'Download CV (PDF)'|t }}</a>
+            {% endif %}
+            {% if faculty_directory_url %}
+              <a class="ut-btn moody-btn--arrow" href="{{ faculty_directory_url }}">{{ 'View UT directory'|t }}</a>
+            {% endif %}
+          </nav>
+        {% endif %}
+
+        {% if has_resources %}
+          <section class="moody26-faculty-profile__resources" aria-labelledby="faculty-links-{{ node.id }}">
+            <h2 id="faculty-links-{{ node.id }}" class="moody26-faculty-profile__overview-title">{{ 'Related links'|t }}</h2>
+            {% if rendered_personal_links|striptags|trim %}
+              <div class="moody26-faculty-profile__personal-links">{{ rendered_personal_links }}</div>
+            {% endif %}
+            {% if rendered_social|striptags|trim %}
+              <div class="moody26-faculty-profile__social-links">{{ rendered_social }}</div>
+            {% endif %}
+          </section>
+        {% endif %}
+      </div>
+    </div>
+
+    {% if faculty_sections %}
+      <div class="moody26-faculty-profile__tabs flex-tabs" data-flex-tabs>
+        <div class="flex-tabs__index">
+          <ul class="flex-tabs__list" role="list" aria-label="{{ 'Profile sections'|t }}" data-flex-tab-list>
+            {% for section in faculty_sections %}
+              <li class="flex-tabs__item">
+                <a
+                  id="{{ section.tab_id }}"
+                  class="flex-tabs__tab"
+                  href="#{{ section.panel_id }}"
+                  data-flex-tab
+                  {% if section.active %}data-flex-tab-active{% endif %}
+                >{{ section.title }}</a>
+              </li>
+            {% endfor %}
+          </ul>
+        </div>
+
+        <div class="flex-tabs__panels">
+          {% for section in faculty_sections %}
+            <section
+              id="{{ section.panel_id }}"
+              class="flex-tabs__panel moody26-faculty-profile__section"
+              aria-labelledby="{{ section.tab_id }}"
+              data-flex-tab-panel
+            >
+              <h2 class="moody26-faculty-profile__section-title">{{ section.title }}</h2>
+              <div class="flex-tabs__body moody26-faculty-profile__section-body">{{ section.content }}</div>
+            </section>
+          {% endfor %}
+        </div>
+      </div>
+    {% endif %}
+
+    {{ content.links }}
+    {{ content._layout_builder }}
+  </div>
+</article>
