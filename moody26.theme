@@ -80,6 +80,9 @@ function moody26_library_info_alter(array &$libraries, string $extension): void 
     unset($libraries['moody_flip_image_grid']);
     unset($libraries['moody_dynamic_flip_grid']);
   }
+  if ($extension === 'moody_image_grid') {
+    unset($libraries['moody_image_grid']);
+  }
 }
 
 /**
@@ -1046,6 +1049,52 @@ function moody26_preprocess_moody_dynamic_flip_grid(array &$variables): void {
   }
 
   $variables['pair_grid_items'] = $pairs;
+}
+
+/**
+ * Prepares the legacy Moody Image Grid as a semantic destination index.
+ */
+function moody26_preprocess_moody_image_grid(array &$variables): void {
+  $variables['destination_grid_heading_id'] = Html::getUniqueId('moody26-destination-grid-heading');
+  $variables['headline'] = trim((string) ($variables['headline'] ?? ''));
+  $items = [];
+
+  foreach (($variables['items'] ?? []) as $item) {
+    if (!is_array($item)) {
+      continue;
+    }
+
+    $headline = trim((string) ($item['headline'] ?? ''));
+    $media_id = (string) ($item['image'] ?? '');
+    $media_description = '';
+    $image = moody26_media_image(
+      $media_id,
+      $variables,
+      $media_description,
+      'moody26-destination-grid__image',
+      'moody_image_style_560w_x_315h',
+    );
+    $link_url = trim((string) ($item['link_url'] ?? ''));
+    if ($link_url !== '' && UrlHelper::stripDangerousProtocols($link_url) !== $link_url) {
+      $link_url = '';
+    }
+    $media_unavailable = $media_id !== '' && !$image;
+
+    if ($headline === '' && !$image && !$media_unavailable && $link_url === '') {
+      continue;
+    }
+
+    $items[] = [
+      'headline' => $headline,
+      'image' => $image,
+      'link_url' => $link_url,
+      'media_unavailable' => $media_unavailable,
+      'media_description' => $media_description,
+      'title_id' => $variables['destination_grid_heading_id'] . '-item-' . (count($items) + 1),
+    ];
+  }
+
+  $variables['destination_grid_items'] = $items;
 }
 
 /**

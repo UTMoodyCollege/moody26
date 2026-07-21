@@ -1,5 +1,5 @@
 global:
-  version: 0.48.0
+  version: 0.49.0
   css:
     base:
       css/fonts.css: { weight: 90 }
@@ -14,6 +14,7 @@ global:
       css/components/discovery-index.css: { weight: 130 }
       css/components/flip-image-grid.css: { weight: 131 }
       css/components/dynamic-pair-grid.css: { weight: 131.5 }
+      css/components/image-grid.css: { weight: 131.75 }
       css/components/accordion.css: { weight: 132 }
       css/components/featured-highlight.css: { weight: 133 }
       css/components/promo-list.css: { weight: 134 }
@@ -57,14 +58,14 @@ global:
     - core/once
 
 motion:
-  version: 0.48.0
+  version: 0.49.0
   js:
     js/dist/motion.min.js: { minified: true }
   dependencies:
     - moody26/global
 
 settings:
-  version: 0.48.0
+  version: 0.49.0
   css:
     theme:
       css/components/theme-settings.css: {}

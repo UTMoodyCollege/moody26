@@ -163,26 +163,6 @@
   }
 }
 
-/* Home program indexes retain their content and links while dropping
-   equal-column card repetition and large burnt-orange surfaces. */
-.node-page .moody-image-grid-container {
-  padding: var(--space-3xl) var(--page-gutter);
-  background: var(--color-ink);
-  color: var(--color-paper);
-}
-
-.node-page .moody-image-grid-container > .container {
-  width: min(100%, var(--content-max));
-  margin-inline: auto;
-  padding: 0;
-}
-
-.node-page .moody-image-grid-container :where(h2, h3, h4, h5, p, .headline) {
-  color: var(--color-paper);
-  font-style: normal;
-  text-transform: none;
-}
-
 /* UTDK Promo Units form an asymmetric resource ledger rather than six equal
    cards. Authored media remains content-owned and the links stay discrete. */
 :where(.node-moody_landing_page, .node-moody_standard_page) .utexas-promo-unit-container {

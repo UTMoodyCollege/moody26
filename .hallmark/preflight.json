@@ -1,6 +1,6 @@
 {
   "date": "2026-07-21",
-  "package_version": "0.48.0",
+  "package_version": "0.49.0",
   "framework": "Drupal 11 / UT Drupal Kit",
   "base_theme": false,
   "font_stack": "Charis SIL + Libre Franklin bundled locally by Moody26",
@@ -61,6 +61,7 @@
     "static Moody Focal Point overview-and-detail rails with editor-owned crops, semantic caption order, provider motion removal, and truthful source-media failure recovery",
     "static Moody Flip Image Grid portrait triptychs with editor-owned media and copy, semantic reading order, hover-flip removal, and truthful media failure recovery",
     "static Moody Dynamic Flip Grid contact sheets with paired source order, always-visible sides, provider runtime removal, and alt-derived missing-media recovery",
+    "semantic Moody Image Grid destination indexes with real editor-owned media, explicit actions, provider CSS removal, and truthful media failure recovery",
     "failure-safe Shorthand story boundaries that preserve valid provider markup and replace empty exports with a truthful semantic status",
     "keyboard-safe PDF document boundaries that replace legacy canvas flipbooks with native links and truthful unavailable states",
     "semantic Life After Moody directories with one destination per story, honest result counts, content-derived missing-media fallbacks, and one visible profile h1",

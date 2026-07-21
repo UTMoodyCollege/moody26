@@ -899,6 +899,48 @@ not belong outside the token and font declaration files.
   loading and success are test fixtures rather than invented public state.
   `/test123` is the browser integration fixture.
 
+### Moody Image Grid
+
+- Treat `moody_image_grid_image_grid` as a shared editor-curated destination
+  index, not as permission to place heading text over background images. Keep
+  the section heading, item order, media selections, authored alternatives and
+  titles, destinations, cacheability, and Layout Builder placement under
+  Drupal and editor control. Do not edit the Composer-installed provider.
+- Moody26 owns `moody-image-grid.html.twig` and the
+  `moody26-destination-grid__*` contract. Render one labelled section, one
+  semantic list with direct list items, and one article per non-empty item.
+  The section heading is `h2`; item names are subordinate `h3` headings.
+- Do not attach the provider’s public Moody Image Grid library in Moody26. Its
+  Bootstrap-dependent columns, CSS background images, text overlays,
+  repeating orange tint, and viewport-based padding conflict with the theme’s
+  responsive, media, and brand contracts. Keep its Layout Builder editor form
+  available.
+- Validate Media and File view access, contextual translation, source field,
+  physical file, and image validity. Output a real lazy-loaded image with
+  intrinsic dimensions, authored alternative and title, cacheability, and the
+  provider’s available `moody_image_style_560w_x_315h` style. The provider does
+  not expose its stored image-style selector to the theme hook; do not claim
+  that unused setting controls output until upstream passes it through.
+- Begin with one safe source-ordered track and use two safe tracks only after
+  the component reaches 48rem. At 64rem, use a balanced 7/5 then 5/7 editorial
+  rhythm without changing DOM, reading, or keyboard order. Every image-bearing
+  track uses `minmax(0, …)` and long names must reflow without horizontal
+  scrolling at 320 CSS pixels and 200% text zoom.
+- Keep long authored item names as non-interactive headings. Give each supplied
+  destination one separate, single-line `Visit site` action with a destination-
+  specific accessible name, a 44 CSS-pixel target, default and visited
+  treatment, capability-gated hover, immediate focus, active, and authored-
+  disabled states. Its CSS-drawn arrow is decorative and never underlined.
+- When server validation or browser loading fails, hide only the affected
+  figure, preserve the title and destination, and expose one translated
+  `Image unavailable` status containing the authored alternative when
+  available. Never invent replacement art, a retry promise, a school name,
+  destination, metric, or description.
+- The production component is static. Do not add card lift, image zoom,
+  scroll reveal, parallax, or text visibility tied to hover. Maintain an
+  eight-state preview; loading and success remain regression fixtures rather
+  than fabricated public lifecycle messaging. `/` is the browser fixture.
+
 ### Moody Showcases
 
 - Treat Moody Showcase as a shared editorial media ledger, not a route-specific
@@ -1866,6 +1908,10 @@ Texas requirements. The current University compliance date is March 1, 2026.
   `templates/components/moody-flip-things-image-grid.html.twig`: semantic
   source-ordered portrait triptychs that keep every people narrative readable
   without the provider’s hover-only flip runtime.
+- `css/components/image-grid.css`, its eight-state preview, and
+  `templates/components/moody-image-grid.html.twig`: semantic destination
+  indexes with real editor-owned images, explicit site actions, responsive
+  asymmetric rhythm, and honest missing-media recovery without provider CSS.
 - `css/components/contact-info.css`: page-safe, container-aware editorial
   service bands with independently optional authored fields.
 - `css/components/call-to-action.css`: portable formatter-owned action rules,

@@ -1,0 +1,83 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Moody Image Grid states</title>
+  <link rel="stylesheet" href="../fonts.css">
+  <link rel="stylesheet" href="../../tokens.css">
+  <link rel="stylesheet" href="image-grid.css">
+  <style>
+    *, *::before, *::after { box-sizing: border-box; }
+    body { margin: 0; background: var(--color-paper); color: var(--color-ink); font-family: var(--font-body); }
+    .preview { display: grid; gap: var(--space-2xl); padding: var(--space-xl) var(--page-gutter) var(--space-3xl); }
+    .preview > h1, .preview-state > h2 { margin: 0; font-family: var(--font-display); font-style: normal; }
+    .preview-state { display: grid; gap: var(--space-md); min-inline-size: 0; }
+    .preview-state .moody26-destination-grid { padding-block: var(--space-xl); }
+    .preview-state .moody26-destination-grid__header { display: none; }
+    .preview-state .moody26-destination-grid__list { grid-template-columns: minmax(0, 1fr); }
+    .preview-media { display: grid; place-items: center; min-block-size: 10rem; padding: var(--space-md); color: var(--color-ink-2); font-weight: 700; }
+  </style>
+</head>
+<body>
+  <main class="preview">
+    <h1>Moody Image Grid states</h1>
+
+    <section class="preview-state">
+      <h2>Default</h2>
+      <section class="moody26-destination-grid" aria-label="Default destination">
+        <ul class="moody26-destination-grid__list" role="list"><li class="moody26-destination-grid__item"><article class="moody26-destination-grid__entry"><div class="moody26-destination-grid__media preview-media" aria-hidden="true">Authored image</div><div class="moody26-destination-grid__content"><h3 class="moody26-destination-grid__title">Communication Studies</h3><a class="moody26-destination-grid__link" href="#default"><span>Visit site</span><span class="moody26-destination-grid__link-arrow" aria-hidden="true"></span></a></div></article></li></ul>
+      </section>
+    </section>
+
+    <section class="preview-state">
+      <h2>Hover</h2>
+      <section class="moody26-destination-grid" aria-label="Hover destination">
+        <ul class="moody26-destination-grid__list" role="list"><li class="moody26-destination-grid__item"><article class="moody26-destination-grid__entry"><div class="moody26-destination-grid__media preview-media" aria-hidden="true">Authored image</div><div class="moody26-destination-grid__content"><h3 class="moody26-destination-grid__title">Communication &amp; Leadership</h3><a class="moody26-destination-grid__link is-hover" href="#hover"><span>Visit site</span><span class="moody26-destination-grid__link-arrow" aria-hidden="true"></span></a></div></article></li></ul>
+      </section>
+    </section>
+
+    <section class="preview-state">
+      <h2>Focus</h2>
+      <section class="moody26-destination-grid" aria-label="Focused destination">
+        <ul class="moody26-destination-grid__list" role="list"><li class="moody26-destination-grid__item"><article class="moody26-destination-grid__entry"><div class="moody26-destination-grid__media preview-media" aria-hidden="true">Authored image</div><div class="moody26-destination-grid__content"><h3 class="moody26-destination-grid__title">Radio-Television-Film</h3><a class="moody26-destination-grid__link is-focus" href="#focus"><span>Visit site</span><span class="moody26-destination-grid__link-arrow" aria-hidden="true"></span></a></div></article></li></ul>
+      </section>
+    </section>
+
+    <section class="preview-state">
+      <h2>Active</h2>
+      <section class="moody26-destination-grid" aria-label="Active destination">
+        <ul class="moody26-destination-grid__list" role="list"><li class="moody26-destination-grid__item"><article class="moody26-destination-grid__entry"><div class="moody26-destination-grid__media preview-media" aria-hidden="true">Authored image</div><div class="moody26-destination-grid__content"><h3 class="moody26-destination-grid__title">Journalism &amp; Media</h3><a class="moody26-destination-grid__link is-active" href="#active"><span>Visit site</span><span class="moody26-destination-grid__link-arrow" aria-hidden="true"></span></a></div></article></li></ul>
+      </section>
+    </section>
+
+    <section class="preview-state">
+      <h2>Disabled</h2>
+      <section class="moody26-destination-grid" aria-label="Disabled destination">
+        <ul class="moody26-destination-grid__list" role="list"><li class="moody26-destination-grid__item"><article class="moody26-destination-grid__entry"><div class="moody26-destination-grid__media preview-media" aria-hidden="true">Authored image</div><div class="moody26-destination-grid__content"><h3 class="moody26-destination-grid__title">Advertising &amp; Public Relations</h3><a class="moody26-destination-grid__link is-disabled" aria-disabled="true"><span>Visit site</span><span class="moody26-destination-grid__link-arrow" aria-hidden="true"></span></a></div></article></li></ul>
+      </section>
+    </section>
+
+    <section class="preview-state">
+      <h2>Loading</h2>
+      <section class="moody26-destination-grid is-loading" aria-label="Loading destination" aria-busy="true">
+        <ul class="moody26-destination-grid__list" role="list"><li class="moody26-destination-grid__item"><article class="moody26-destination-grid__entry"><div class="moody26-destination-grid__media preview-media" aria-hidden="true">Loading authored image</div><div class="moody26-destination-grid__content"><h3 class="moody26-destination-grid__title">Communication Studies</h3><a class="moody26-destination-grid__link" href="#loading"><span>Visit site</span><span class="moody26-destination-grid__link-arrow" aria-hidden="true"></span></a></div></article></li></ul>
+      </section>
+    </section>
+
+    <section class="preview-state">
+      <h2>Error</h2>
+      <section class="moody26-destination-grid" aria-label="Destination with unavailable media">
+        <ul class="moody26-destination-grid__list" role="list"><li class="moody26-destination-grid__item is-error"><article class="moody26-destination-grid__entry"><div class="moody26-destination-grid__content"><p class="moody26-destination-grid__status" role="status">Image unavailable: students working together</p><h3 class="moody26-destination-grid__title">Communication &amp; Leadership</h3><a class="moody26-destination-grid__link" href="#error"><span>Visit site</span><span class="moody26-destination-grid__link-arrow" aria-hidden="true"></span></a></div></article></li></ul>
+      </section>
+    </section>
+
+    <section class="preview-state">
+      <h2>Success</h2>
+      <section class="moody26-destination-grid" aria-label="Loaded destination">
+        <ul class="moody26-destination-grid__list" role="list"><li class="moody26-destination-grid__item is-success"><article class="moody26-destination-grid__entry"><div class="moody26-destination-grid__media preview-media" aria-hidden="true">Authored image loaded</div><div class="moody26-destination-grid__content"><p class="moody26-destination-grid__status" role="status">Destination available</p><h3 class="moody26-destination-grid__title">Speech, Language, &amp; Hearing Sciences</h3><a class="moody26-destination-grid__link" href="#success"><span>Visit site</span><span class="moody26-destination-grid__link-arrow" aria-hidden="true"></span></a></div></article></li></ul>
+      </section>
+    </section>
+  </main>
+</body>
+</html>

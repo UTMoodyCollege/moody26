@@ -57,6 +57,8 @@ const files = {
   flipImageGridPreview: 'css/components/flip-image-grid.preview.html',
   dynamicPairGridCss: 'css/components/dynamic-pair-grid.css',
   dynamicPairGridPreview: 'css/components/dynamic-pair-grid.preview.html',
+  imageGridCss: 'css/components/image-grid.css',
+  imageGridPreview: 'css/components/image-grid.preview.html',
   discoveryIndex: 'css/components/discovery-index.css',
   accordionCss: 'css/components/accordion.css',
   peopleDirectory: 'css/components/people-directory.css',
@@ -141,6 +143,7 @@ const files = {
   focalPointTemplate: 'templates/components/moody-focal-point.html.twig',
   flipImageGridTemplate: 'templates/components/moody-flip-things-image-grid.html.twig',
   dynamicPairGridTemplate: 'templates/components/moody-dynamic-flip-grid.html.twig',
+  imageGridTemplate: 'templates/components/moody-image-grid.html.twig',
   heroTemplate: 'templates/components/moody-hero.html.twig',
   heroStyle1Template: 'templates/components/moody-hero-1.html.twig',
   heroStyle2Template: 'templates/components/moody-hero-2.html.twig',
@@ -227,8 +230,8 @@ const forbidPattern = (file, pattern, message) => {
 
 try {
   const packageJson = JSON.parse(contents.package ?? '');
-  if (packageJson.version !== '0.48.0') {
-    errors.push('The accessible Moody Dynamic Flip Grid release must remain versioned as 0.48.0.');
+  if (packageJson.version !== '0.49.0') {
+    errors.push('The accessible Moody Image Grid release must remain versioned as 0.49.0.');
   }
   for (const [dependency, version] of [
     ['animejs', '4.5.0'],
@@ -316,8 +319,9 @@ requireText('libraries', 'css/components/scroll-reveal-media.css', 'Accessible M
 requireText('libraries', 'css/components/focal-point.css', 'Accessible Moody Focal Point styles must remain attached.');
 requireText('libraries', 'css/components/flip-image-grid.css', 'Accessible Moody Flip Image Grid styles must remain attached.');
 requireText('libraries', 'css/components/dynamic-pair-grid.css', 'Accessible Moody Dynamic Flip Grid styles must remain attached.');
+requireText('libraries', 'css/components/image-grid.css', 'Accessible Moody Image Grid styles must remain attached.');
 requireText('libraries', 'js/dist/motion.min.js', 'The built motion integration must remain attached.');
-requireText('libraries', 'version: 0.48.0', 'The Drupal asset version must match the accessible Moody Dynamic Flip Grid release.');
+requireText('libraries', 'version: 0.49.0', 'The Drupal asset version must match the accessible Moody Image Grid release.');
 forbidText('info', '- moody26/motion', 'Optional motion must be attached from theme settings rather than globally.');
 
 requireText('settings', "header_social_links_block: ''", 'Header social links must be optional for new installs.');
@@ -1046,6 +1050,51 @@ requireText('accessibility', "once('moody26-pair-grid-image'", 'Moody Dynamic Fl
 requireText('accessibility', "side.classList.add('is-error')", 'Failed Moody Dynamic Flip Grid media must expose a non-color error state.');
 requireText('accessibility', "Drupal.t('Image unavailable: @description'", 'Failed Moody Dynamic Flip Grid media must retain its authored alternative.');
 forbidText('motion', 'moody-dynamic-flip-grid', 'Optional theme motion must not target the static Moody Dynamic Flip Grid.');
+requireText('imageGridCss', 'component: Moody Image Grid', 'Moody Image Grid must retain its Hallmark component contract.');
+requireText('imageGridCss', 'macrostructure: asymmetric destination index + open media plates', 'Moody Image Grid must retain its destination-index composition.');
+requireText('imageGridCss', 'states: default · hover · focus · active · disabled · loading · error · success', 'Moody Image Grid must retain all eight states.');
+requireText('imageGridCss', 'container: moody26-destination-grid / inline-size;', 'Moody Image Grid must remain container-aware in Layout Builder.');
+requireText('imageGridCss', 'grid-template-columns: repeat(2, minmax(0, 1fr));', 'Moody Image Grid two-column layouts must use safe tracks.');
+requireText('imageGridCss', 'grid-template-columns: repeat(12, minmax(0, 1fr));', 'Wide Moody Image Grid layouts must use safe tracks.');
+requireText('imageGridCss', 'grid-column: span 7;', 'Wide Moody Image Grid layouts must retain the asymmetric editorial rhythm.');
+requireText('imageGridCss', '.moody26-destination-grid__link:is(:focus-visible, .is-focus)', 'Moody Image Grid actions need immediate visible focus.');
+requireText('imageGridCss', 'min-block-size: var(--target-min);', 'Moody Image Grid actions must retain 44 CSS-pixel targets.');
+requireText('imageGridCss', 'white-space: nowrap;', 'Moody Image Grid action labels must remain single-line affordances.');
+requireText('imageGridCss', '@media (hover: hover) and (pointer: fine)', 'Moody Image Grid hover feedback must be capability-gated.');
+requireText('imageGridCss', '@media (forced-colors: active)', 'Moody Image Grid boundaries must survive forced colors.');
+requireText('imageGridCss', ':is([aria-disabled="true"], .is-disabled)', 'Moody Image Grid actions must honor an authored disabled state.');
+requireText('imageGridCss', '@supports not (container-type: inline-size)', 'Moody Image Grid needs a restrained fallback for older supported browsers.');
+forbidPattern('imageGridCss', /(?:^|\s)(?:#(?:[\da-f]{3}){1,2}|(?:rgb|hsl|oklch)\()/im, 'Moody Image Grid styles must use locked color tokens.');
+forbidText('imageGridCss', '100vh', 'Moody Image Grid must not force viewport-height panels.');
+forbidText('imageGridCss', 'background-image', 'Moody Image Grid must use real image elements.');
+forbidText('imageGridCss', 'animation:', 'Moody Image Grid content must never depend on animation.');
+forbidText('imageGridCss', 'transition:', 'Moody Image Grid must retain its static editorial interaction contract.');
+for (const state of ['Default', 'Hover', 'Focus', 'Active', 'Disabled', 'Loading', 'Error', 'Success']) {
+  requireText('imageGridPreview', `<h2>${state}</h2>`, `The Moody Image Grid preview must include its ${state.toLowerCase()} state.`);
+}
+requireText('imageGridPreview', 'box-sizing: border-box;', 'The Moody Image Grid preview must remain padding-safe at narrow widths.');
+requireText('imageGridPreview', 'Destination available', 'The Moody Image Grid success preview must not rely on color alone.');
+requireText('imageGridTemplate', '<section class="moody26-destination-grid"', 'Moody Image Grid must expose one labelled section.');
+requireText('imageGridTemplate', '<ul class="moody26-destination-grid__list" role="list">', 'Moody Image Grid must expose one semantic destination list.');
+requireText('imageGridTemplate', '<article class="moody26-destination-grid__entry"', 'Moody Image Grid destinations must remain articles.');
+requireText('imageGridTemplate', '<figure class="moody26-destination-grid__media">', 'Moody Image Grid images must retain figure semantics.');
+requireText('imageGridTemplate', '<h3 class="moody26-destination-grid__title"', 'Moody Image Grid item titles must remain subordinate headings.');
+requireText('imageGridTemplate', 'aria-label="{{ link_name }}"', 'Moody Image Grid actions need destination-specific accessible names.');
+requireText('imageGridTemplate', "'Image unavailable: @description'|t", 'Server-side Moody Image Grid failures must retain authored alternatives.');
+forbidText('imageGridTemplate', 'moody-image-grid-container', 'Moody26 must not reactivate provider Moody Image Grid selectors.');
+forbidText('imageGridTemplate', '|raw', 'Moody Image Grid must not bypass Drupal render safety.');
+forbidText('imageGridTemplate', 'attach_library', 'Moody Image Grid must use the global theme layer without duplicate attachments.');
+forbidText('imageGridTemplate', 'background-image', 'Moody Image Grid templates must use real image elements.');
+requireText('theme', "$extension === 'moody_image_grid'", 'Moody26 library removal must remain Moody Image Grid provider scoped.');
+requireText('theme', "unset($libraries['moody_image_grid'])", 'Moody26 must remove only the provider public Moody Image Grid library.');
+requireText('theme', 'function moody26_preprocess_moody_image_grid', 'Moody Image Grid must retain theme-owned preprocessing.');
+requireText('theme', "'moody_image_style_560w_x_315h'", 'Moody Image Grid must retain the provider image style.');
+requireText('theme', 'UrlHelper::stripDangerousProtocols($link_url)', 'Moody Image Grid must reject unsafe authored link protocols.');
+requireText('accessibility', "once('moody26-destination-grid-image'", 'Moody Image Grid source failure recovery must remain once-bound.');
+requireText('accessibility', "item.classList.add('is-error')", 'Failed Moody Image Grid media must expose a non-color error state.');
+requireText('accessibility', "status.className = 'moody26-destination-grid__status'", 'Failed Moody Image Grid media must expose one truthful status.');
+forbidText('motion', 'moody26-destination-grid', 'Optional theme motion must not target the static Moody Image Grid.');
+forbidText('discoveryIndex', 'moody-image-grid-container', 'Discovery styles must not target the retired provider Moody Image Grid markup.');
 requireText('discoveryIndex', 'repeat(12, minmax(0, 1fr))', 'Discovery grids must use safe image-bearing tracks.');
 requireText('discoveryIndex', '.linked-focus-area-item:focus-visible', 'Focus Area tasks need immediate visible focus.');
 requireText('discoveryIndex', '.utexas-promo-unit .data-wrapper > a:focus-visible', 'Promo Unit links need immediate visible focus.');
@@ -1688,6 +1737,7 @@ const runtimeFiles = [
   'socialLinksCss', 'socialLinksTemplate', 'imageGalleryCss',
   'scrollRevealMediaCss', 'scrollRevealMediaTemplate', 'focalPointCss', 'focalPointTemplate',
   'flipImageGridCss', 'flipImageGridTemplate', 'dynamicPairGridCss', 'dynamicPairGridTemplate',
+  'imageGridCss', 'imageGridTemplate',
   'heroTemplate', 'heroStyle1Template', 'heroStyle2Template', 'heroStyle3Template',
   'heroStyle4Template', 'heroStyle5Template', 'heroStyle6Template', 'heroStyle6ShortTemplate',
   'heroStyle7Template', 'heroStyle8Template',
@@ -1719,7 +1769,7 @@ for (const file of runtimeFiles) {
   }
 }
 
-const cssFiles = ['css', 'headerSocialCss', 'quickActionsCss', 'landingHero', 'richTextCss', 'editorialSections', 'featuredHighlightCss', 'promoListCss', 'flexContentCss', 'imageLinkCss', 'flexColorBlocksCss', 'quotationCss', 'flexGridCss', 'impactFactsCss', 'showcaseCss', 'contactInfoCss', 'callToActionCss', 'resourceGroupCss', 'flexTabsCss', 'heroCarouselCss', 'photoContentCss', 'socialLinksCss', 'imageGalleryCss', 'scrollRevealMediaCss', 'focalPointCss', 'flipImageGridCss', 'dynamicPairGridCss', 'discoveryIndex', 'accordionCss', 'peopleDirectory', 'studentStoriesCss', 'eventsListingCss', 'newsroom', 'featureStoryCss', 'shorthandStoryCss', 'pdfDocumentCss', 'eventDetailCss', 'motionCss', 'settingsCss'];
+const cssFiles = ['css', 'headerSocialCss', 'quickActionsCss', 'landingHero', 'richTextCss', 'editorialSections', 'featuredHighlightCss', 'promoListCss', 'flexContentCss', 'imageLinkCss', 'flexColorBlocksCss', 'quotationCss', 'flexGridCss', 'impactFactsCss', 'showcaseCss', 'contactInfoCss', 'callToActionCss', 'resourceGroupCss', 'flexTabsCss', 'heroCarouselCss', 'photoContentCss', 'socialLinksCss', 'imageGalleryCss', 'scrollRevealMediaCss', 'focalPointCss', 'flipImageGridCss', 'dynamicPairGridCss', 'imageGridCss', 'discoveryIndex', 'accordionCss', 'peopleDirectory', 'studentStoriesCss', 'eventsListingCss', 'newsroom', 'featureStoryCss', 'shorthandStoryCss', 'pdfDocumentCss', 'eventDetailCss', 'motionCss', 'settingsCss'];
 const forbiddenCss = [
   [/#(?:[0-9a-f]{3}|[0-9a-f]{6}|[0-9a-f]{8})\b/i, 'Raw hex colors belong only in tokens.css.'],
   [/\b(?:rgb|rgba|hsl|hsla|oklch)\(/i, 'Raw color functions belong only in tokens.css.'],
@@ -1750,7 +1800,7 @@ for (const file of ['preflight', 'log']) {
     errors.push(`${file} must contain valid JSON.`);
   }
 }
-requireText('preflight', '"package_version": "0.48.0"', 'Hallmark preflight must match the accessible Moody Dynamic Flip Grid release.');
+requireText('preflight', '"package_version": "0.49.0"', 'Hallmark preflight must match the accessible Moody Image Grid release.');
 requireText('log', 'Index-First profile dossier within the Ecosystem Index', 'Hallmark memory must record the shared faculty-profile composition.');
 requireText('log', 'Split Studio event brief within the Ecosystem Index', 'Hallmark memory must record the shared event-detail composition.');
 requireText('log', 'Long Document feature story within the Ecosystem Index', 'Hallmark memory must record the shared feature-story composition.');
@@ -1816,6 +1866,8 @@ requireText('readme', 'Shared Moody Flip Image Grid', 'README must document the 
 requireText('readme', 'provider’s public flip CSS', 'README must document removal of the hover-only provider runtime.');
 requireText('readme', 'Shared Moody Dynamic Flip Grid', 'README must document the static shared Moody Dynamic Flip Grid layer.');
 requireText('readme', 'provider’s public dynamic flip CSS', 'README must document removal of the dynamic hover-only provider runtime.');
+requireText('readme', 'Shared Moody Image Grid', 'README must document the semantic shared Moody Image Grid layer.');
+requireText('readme', 'provider’s Bootstrap columns', 'README must document removal of the provider grid dependency.');
 requireText('agents', '`header_social_links_block`', 'AGENTS.md must preserve the header Social Links contract.');
 requireText('agents', 'Missing, unpublished, non-reusable, inaccessible, wrong-bundle, or malformed', 'AGENTS.md must require Social Links to fail closed.');
 requireText('agents', '### People directories', 'AGENTS.md must preserve the people-directory contract.');
@@ -1856,6 +1908,8 @@ requireText('agents', '### Moody Flip Image Grid', 'AGENTS.md must preserve the 
 requireText('agents', 'Do not attach the provider’s public Flip Image Grid library', 'AGENTS.md must keep people-grid content independent from provider flip behavior.');
 requireText('agents', '### Moody Dynamic Flip Grid', 'AGENTS.md must preserve the static Moody Dynamic Flip Grid component contract.');
 requireText('agents', 'Do not attach the provider’s public Dynamic Flip Grid library', 'AGENTS.md must keep paired media independent from provider flip behavior.');
+requireText('agents', '### Moody Image Grid', 'AGENTS.md must preserve the semantic Moody Image Grid component contract.');
+requireText('agents', 'Do not attach the provider’s public Moody Image Grid library', 'AGENTS.md must keep the destination index independent from provider CSS.');
 requireText('agents', '### Moody Showcases', 'AGENTS.md must preserve the Moody Showcase component contract.');
 requireText('agents', '### Moody Heroes', 'AGENTS.md must preserve the Moody Hero component contract.');
 requireText('agents', 'do not expose native error events', 'AGENTS.md must preserve the CSS-background Hero failure contract.');
@@ -1880,5 +1934,5 @@ if (errors.length) {
   process.exitCode = 1;
 }
 else {
-  console.log(`Moody26 verification passed (${Object.keys(files).length} source files, ${fonts.length} local fonts, standalone shell, UT brand, Basic and Rich Text, accessible directories, student-story directories and profiles, UTProf Profile Listings, and faculty profile dossiers, accessible ambient-video heroes, resource hubs, Resource Groups, Flex Tabs, UT Drupal Kit Flex Lists, Hero Carousels, Photo Content Areas, Moody Newsletter destination bands, UT Drupal Kit Quick Links, semantic Social Links, Moody Anchor and interactive image galleries, static Scroll Reveal Media sequences, Focal Point narratives, Flip Image Grid portrait triptychs, and Dynamic Flip Grid paired-media contact sheets, failure-safe Shorthand stories, keyboard-safe PDF documents, and API-backed upcoming-event ledgers, newsroom, feature stories, event details, accordions, Featured Highlights, Moody Promotions, Promo Lists, Flex Content Areas, Image Links, Flex Color Blocks, Moody Quotations, Moody Flex Grids, Moody Impact Facts, Moody and UT Drupal Kit Heroes, Moody Showcases, Moody Contact Info, and Call to Action blocks, header social links, motion, responsive, and Hallmark gates).`);
+  console.log(`Moody26 verification passed (${Object.keys(files).length} source files, ${fonts.length} local fonts, standalone shell, UT brand, Basic and Rich Text, accessible directories, student-story directories and profiles, UTProf Profile Listings, and faculty profile dossiers, accessible ambient-video heroes, resource hubs, Resource Groups, Flex Tabs, UT Drupal Kit Flex Lists, Hero Carousels, Photo Content Areas, Moody Newsletter destination bands, UT Drupal Kit Quick Links, semantic Social Links, Moody Anchor and interactive image galleries, static Scroll Reveal Media sequences, Focal Point narratives, Flip Image Grid portrait triptychs, Dynamic Flip Grid paired-media contact sheets, and Moody Image Grid destination indexes, failure-safe Shorthand stories, keyboard-safe PDF documents, and API-backed upcoming-event ledgers, newsroom, feature stories, event details, accordions, Featured Highlights, Moody Promotions, Promo Lists, Flex Content Areas, Image Links, Flex Color Blocks, Moody Quotations, Moody Flex Grids, Moody Impact Facts, Moody and UT Drupal Kit Heroes, Moody Showcases, Moody Contact Info, and Call to Action blocks, header social links, motion, responsive, and Hallmark gates).`);
 }
