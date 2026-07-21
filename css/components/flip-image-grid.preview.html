@@ -1,0 +1,70 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Moody26 Flip Image Grid states</title>
+    <link rel="stylesheet" href="../fonts.css">
+    <link rel="stylesheet" href="../../tokens.css">
+    <link rel="stylesheet" href="flip-image-grid.css">
+    <style>
+      *,
+      *::before,
+      *::after {
+        box-sizing: border-box;
+      }
+      body {
+        margin: 0;
+        padding: var(--space-lg);
+        background: var(--color-paper);
+        color: var(--color-ink);
+        font-family: var(--font-body);
+      }
+      main {
+        width: min(100%, var(--content-max));
+        margin-inline: auto;
+      }
+      .preview-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(min(100%, 20rem), 1fr));
+        gap: var(--space-xl);
+      }
+      .preview-state {
+        min-width: 0;
+      }
+      .preview-state > h2 {
+        margin: 0 0 var(--space-sm);
+        font: 700 var(--text-base) / var(--leading-body) var(--font-body);
+      }
+      .preview-state .moody26-people-grid {
+        padding: var(--space-md);
+      }
+      .preview-state .moody26-people-grid__list {
+        display: block;
+      }
+      .preview-media {
+        display: grid;
+        min-block-size: 10rem;
+        place-items: center;
+        background: var(--color-paper-2);
+        color: var(--color-muted);
+        font: 700 var(--text-display-s) / 1 var(--font-display);
+      }
+    </style>
+  </head>
+  <body>
+    <main>
+      <h1>Flip Image Grid states</h1>
+      <div class="preview-grid">
+        <section class="preview-state"><h2>Default</h2><article class="moody26-people-grid"><ul class="moody26-people-grid__list"><li class="moody26-people-grid__item"><div class="moody26-people-grid__entry"><div class="preview-media" aria-hidden="true">01</div><div class="moody26-people-grid__content"><h3 class="moody26-people-grid__title">Editorial portrait</h3><p>Editor-owned description.</p><a class="moody26-people-grid__link" href="#default"><span>Learn more</span><span class="moody26-people-grid__link-arrow" aria-hidden="true"></span></a></div></div></li></ul></article></section>
+        <section class="preview-state"><h2>Hover</h2><article class="moody26-people-grid"><ul class="moody26-people-grid__list"><li class="moody26-people-grid__item"><div class="moody26-people-grid__entry"><div class="preview-media" aria-hidden="true">02</div><div class="moody26-people-grid__content"><h3 class="moody26-people-grid__title">Hovered portrait</h3><a class="moody26-people-grid__link is-hover" href="#hover"><span>Learn more</span><span class="moody26-people-grid__link-arrow" aria-hidden="true"></span></a></div></div></li></ul></article></section>
+        <section class="preview-state"><h2>Focus</h2><article class="moody26-people-grid"><ul class="moody26-people-grid__list"><li class="moody26-people-grid__item"><div class="moody26-people-grid__entry"><div class="preview-media" aria-hidden="true">03</div><div class="moody26-people-grid__content"><h3 class="moody26-people-grid__title">Focused portrait</h3><a class="moody26-people-grid__link is-focus" href="#focus"><span>Learn more</span><span class="moody26-people-grid__link-arrow" aria-hidden="true"></span></a></div></div></li></ul></article></section>
+        <section class="preview-state"><h2>Active</h2><article class="moody26-people-grid"><ul class="moody26-people-grid__list"><li class="moody26-people-grid__item"><div class="moody26-people-grid__entry"><div class="preview-media" aria-hidden="true">04</div><div class="moody26-people-grid__content"><h3 class="moody26-people-grid__title">Active portrait</h3><a class="moody26-people-grid__link is-active" href="#active"><span>Learn more</span><span class="moody26-people-grid__link-arrow" aria-hidden="true"></span></a></div></div></li></ul></article></section>
+        <section class="preview-state"><h2>Disabled</h2><article class="moody26-people-grid"><ul class="moody26-people-grid__list"><li class="moody26-people-grid__item"><div class="moody26-people-grid__entry"><div class="preview-media" aria-hidden="true">05</div><div class="moody26-people-grid__content"><h3 class="moody26-people-grid__title">Unavailable portrait</h3><a class="moody26-people-grid__link is-disabled" aria-disabled="true"><span>Learn more</span><span class="moody26-people-grid__link-arrow" aria-hidden="true"></span></a></div></div></li></ul></article></section>
+        <section class="preview-state"><h2>Loading</h2><article class="moody26-people-grid is-loading" aria-busy="true"><ul class="moody26-people-grid__list"><li class="moody26-people-grid__item"><div class="moody26-people-grid__entry"><div class="preview-media" aria-hidden="true">06</div><div class="moody26-people-grid__content"><h3 class="moody26-people-grid__title">Loading portrait</h3><p>Loading media…</p></div></div></li></ul></article></section>
+        <section class="preview-state"><h2>Error</h2><article class="moody26-people-grid"><ul class="moody26-people-grid__list"><li class="moody26-people-grid__item is-error"><div class="moody26-people-grid__entry"><div class="moody26-people-grid__content"><p class="moody26-people-grid__status" role="status">Image unavailable: portrait description</p><h3 class="moody26-people-grid__title">Portrait details remain</h3></div></div></li></ul></article></section>
+        <section class="preview-state"><h2>Success</h2><article class="moody26-people-grid"><ul class="moody26-people-grid__list"><li class="moody26-people-grid__item is-success"><div class="moody26-people-grid__entry"><div class="preview-media" aria-hidden="true">08</div><div class="moody26-people-grid__content"><h3 class="moody26-people-grid__title">Portrait ready</h3><p>Media available.</p></div></div></li></ul></article></section>
+      </div>
+    </main>
+  </body>
+</html>

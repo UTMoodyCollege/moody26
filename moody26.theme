@@ -7,6 +7,7 @@
 
 use Drupal\Component\Uuid\Uuid;
 use Drupal\Component\Utility\Html;
+use Drupal\Component\Utility\UrlHelper;
 use Drupal\Core\Cache\CacheableMetadata;
 use Drupal\Core\Entity\ContentEntityInterface;
 use Drupal\Core\Form\FormStateInterface;
@@ -64,8 +65,9 @@ function moody26_preprocess_html(array &$variables): void {
  * Implements hook_library_info_alter().
  *
  * Moody26 owns static, readable presentations for provider components whose
- * public libraries otherwise force scroll-scrub timelines. Separate Layout
- * Builder administration libraries remain available to editors.
+ * public libraries otherwise force scroll-scrub or hover-only interaction.
+ * Separate Layout Builder administration libraries remain available to
+ * editors.
  */
 function moody26_library_info_alter(array &$libraries, string $extension): void {
   if ($extension === 'moody_scroll_reveal_media') {
@@ -73,6 +75,9 @@ function moody26_library_info_alter(array &$libraries, string $extension): void 
   }
   if ($extension === 'moody_focal_point') {
     unset($libraries['moody_focal_point']);
+  }
+  if ($extension === 'moody_flip_things') {
+    unset($libraries['moody_flip_image_grid']);
   }
 }
 
@@ -924,6 +929,118 @@ function moody26_preprocess_moody_focal_point(array &$variables): void {
   }
 
   $variables['focal_points'] = $points;
+}
+
+/**
+ * Prepares the legacy Flip Image Grid as a static people triptych.
+ */
+function moody26_preprocess_moody_flip_things_image_grid(array &$variables): void {
+  $variables['people_grid_heading_id'] = Html::getUniqueId('moody26-people-grid-heading');
+  $variables['headline'] = trim((string) ($variables['headline'] ?? ''));
+  $items = [];
+
+  foreach (($variables['items'] ?? []) as $item) {
+    if (!is_array($item)) {
+      continue;
+    }
+
+    $headline = trim((string) ($item['headline'] ?? ''));
+    $body_text = is_string($item['body'] ?? NULL) ? $item['body'] : '';
+    $has_body = trim(strip_tags($body_text)) !== '';
+    $media_id = (string) ($item['image'] ?? '');
+    $media_description = '';
+    $image = moody26_people_grid_image($media_id, $variables, $media_description);
+    $link_url = trim((string) ($item['link_url'] ?? ''));
+    if ($link_url !== '' && UrlHelper::stripDangerousProtocols($link_url) !== $link_url) {
+      $link_url = '';
+    }
+
+    if ($headline === '' && !$has_body && !$image && $link_url === '') {
+      continue;
+    }
+
+    $items[] = [
+      'headline' => $headline,
+      'has_body' => $has_body,
+      'body_rendered' => $has_body ? ($item['body_rendered'] ?? []) : [],
+      'image' => $image,
+      'link_url' => $link_url,
+      'media_unavailable' => $media_id !== '' && !$image,
+      'media_description' => $media_description,
+      'title_id' => $variables['people_grid_heading_id'] . '-item-' . (count($items) + 1),
+    ];
+  }
+
+  $variables['people_grid_items'] = $items;
+}
+
+/**
+ * Builds one access-checked, cacheable people-grid image from provider media.
+ */
+function moody26_people_grid_image(string $media_id, array &$variables, string &$description): array {
+  if ($media_id === '' || !ctype_digit($media_id)) {
+    return [];
+  }
+
+  $entity_type_manager = \Drupal::entityTypeManager();
+  $media = $entity_type_manager->getStorage('media')->load($media_id);
+  if (!$media instanceof MediaInterface) {
+    return [];
+  }
+
+  $media = \Drupal::service('entity.repository')->getTranslationFromContext($media);
+  $cacheability = (new CacheableMetadata())->addCacheableDependency($media);
+  $media_access = $media->access('view', NULL, TRUE);
+  $cacheability->addCacheableDependency($media_access);
+  if (!$media_access->isAllowed()) {
+    $cacheability->applyTo($variables);
+    return [];
+  }
+
+  $source_field = $media->getSource()->getConfiguration()['source_field'] ?? NULL;
+  $image_item = is_string($source_field) && $media->hasField($source_field)
+    ? $media->get($source_field)->first()
+    : NULL;
+  $description = trim((string) ($image_item?->alt ?? ''));
+  $file = $image_item?->entity;
+  if (!$file instanceof FileInterface) {
+    $cacheability->applyTo($variables);
+    return [];
+  }
+
+  $file_access = $file->access('view', NULL, TRUE);
+  $cacheability
+    ->addCacheableDependency($file)
+    ->addCacheableDependency($file_access);
+  $uri = $file->getFileUri();
+  $image = \Drupal::service('image.factory')->get($uri);
+  if (!$file_access->isAllowed() || !file_exists($uri) || !$image->isValid()) {
+    $cacheability->applyTo($variables);
+    return [];
+  }
+
+  $style = $entity_type_manager->getStorage('image_style')->load('moody_image_style_960w_x_540h');
+  $build = [
+    '#theme' => $style ? 'image_style' : 'image',
+    '#uri' => $uri,
+    '#width' => $image_item->width ?: $image->getWidth(),
+    '#height' => $image_item->height ?: $image->getHeight(),
+    '#alt' => (string) ($image_item->alt ?? ''),
+    '#title' => (string) ($image_item->title ?? ''),
+    '#attributes' => [
+      'class' => ['moody26-people-grid__image'],
+      'loading' => 'lazy',
+      'decoding' => 'async',
+    ],
+  ];
+  if ($style) {
+    $build['#style_name'] = $style->id();
+    $cacheability->addCacheableDependency($style);
+  }
+
+  $cacheability->applyTo($build);
+  $cacheability->applyTo($variables);
+  return $build;
 }
 
 /**

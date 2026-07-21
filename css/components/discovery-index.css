@@ -163,64 +163,24 @@
   }
 }
 
-/* Home people and program indexes retain their content and links while
-   dropping equal-column card repetition and large burnt-orange surfaces. */
-.node-page .moody-flip-things-image-grid-container,
+/* Home program indexes retain their content and links while dropping
+   equal-column card repetition and large burnt-orange surfaces. */
 .node-page .moody-image-grid-container {
   padding: var(--space-3xl) var(--page-gutter);
   background: var(--color-ink);
   color: var(--color-paper);
 }
 
-.node-page :where(.moody-flip-things-image-grid-container, .moody-image-grid-container) > .container {
+.node-page .moody-image-grid-container > .container {
   width: min(100%, var(--content-max));
   margin-inline: auto;
   padding: 0;
 }
 
-.node-page :where(.moody-flip-things-image-grid-container, .moody-image-grid-container) :where(h2, h3, h4, h5, p, .headline) {
+.node-page .moody-image-grid-container :where(h2, h3, h4, h5, p, .headline) {
   color: var(--color-paper);
   font-style: normal;
   text-transform: none;
-}
-
-.node-page .moody-flip-things-image-grid-container .contents-row-max-w {
-  display: grid;
-  grid-template-columns: minmax(0, 1fr);
-  gap: var(--space-xl);
-  margin: 0;
-}
-
-.node-page .moody-flip-things-image-grid-container .contents-row-max-w > .col {
-  min-width: 0;
-  padding: 0;
-}
-
-.node-page .moody-flip-things-image-grid {
-  height: 100%;
-  border-block-start: var(--rule-hair) solid var(--color-rule-strong);
-}
-
-.node-page .moody-flip-things-image-grid :where(a, button) {
-  color: var(--color-paper);
-}
-
-@container (min-width: 48rem) {
-  .node-page .moody-flip-things-image-grid-container .contents-row-max-w {
-    grid-template-columns: repeat(12, minmax(0, 1fr));
-  }
-
-  .node-page .moody-flip-things-image-grid-container .contents-row-max-w > .col {
-    grid-column: span 4;
-  }
-
-  .node-page .moody-flip-things-image-grid-container .contents-row-max-w > .col:first-child {
-    grid-column: span 7;
-  }
-
-  .node-page .moody-flip-things-image-grid-container .contents-row-max-w > .col:nth-child(2) {
-    grid-column: span 5;
-  }
 }
 
 /* UTDK Promo Units form an asymmetric resource ledger rather than six equal

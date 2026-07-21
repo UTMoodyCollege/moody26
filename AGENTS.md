@@ -818,6 +818,48 @@ not belong outside the token and font declaration files.
   loading and success are regression fixtures, not fabricated public lifecycle
   messaging. `/technology/new-components` is the browser fixture.
 
+### Moody Flip Image Grid
+
+- Treat `moody_flip_things_flip_image_grid` as an editor-curated people
+  narrative, not permission to make content depend on hover or animation. Keep
+  section heading, item order, media selection, authored alternatives and
+  titles, processed body, optional destinations, cacheability, and Layout
+  Builder placement under Drupal and editor control. Do not edit the
+  Composer-installed provider.
+- Moody26 owns `moody-flip-things-image-grid.html.twig` and the
+  `moody26-people-grid__*` presentation contract. Render one labelled section,
+  one semantic list with direct list items, and one article per item. The
+  section heading is `h2`; authored item titles are subordinate `h3` headings.
+- Do not attach the provider’s public Flip Image Grid library in Moody26. Its
+  hover-only jQuery flip runtime, transforms, circular crops, duplicate raw SVG
+  arrows, and reduced-motion failure conflict with the theme’s reading and
+  motion contracts. Keep the provider’s administration integration available
+  to editors.
+- Validate Media and File view access, translation, image source, physical file,
+  and image validity before output. Preserve authored alternative and title
+  text, intrinsic dimensions, lazy loading, cacheability, and the available
+  image style. Never invent replacement art, a person name, role, metric,
+  destination, or image description.
+- Begin with one safe source-ordered track, allow two tracks at a 42rem
+  component width, and adopt a three-item 12-column portrait triptych only at
+  64rem. A restrained offset may distinguish the middle item without changing
+  DOM, reading, or keyboard order. Every image-bearing track uses
+  `minmax(0, …)` and long content must reflow at 320 CSS pixels.
+- When server validation or a browser load fails, hide only the affected
+  figure, keep title, processed copy, and destination, and expose one translated
+  `Image unavailable` status that includes the authored alternative when it is
+  available. Do not promise retry or remove the complete item.
+- Optional destinations use an explicit visible `Learn more` label and a
+  destination-specific accessible name. Preserve default, visited,
+  capability-gated hover, immediate focus, active, and authored-disabled
+  states with a 44 CSS-pixel target. The CSS-drawn arrow is decorative and must
+  never receive its own accessible name or underline.
+- The production component is static. Do not restore flipping, perspective,
+  image zoom, scroll reveal, or content visibility tied to pointer position.
+  Maintain an eight-state preview; loading and success remain regression
+  fixtures rather than fabricated production messaging. `/` is the browser
+  fixture.
+
 ### Moody Showcases
 
 - Treat Moody Showcase as a shared editorial media ledger, not a route-specific
@@ -1781,6 +1823,10 @@ Texas requirements. The current University compliance date is March 1, 2026.
   `templates/components/moody-focal-point.html.twig`: semantic overview/detail
   image narratives, bounded editor-owned crops, and truthful source failure
   recovery without the provider scroll-scrub runtime.
+- `css/components/flip-image-grid.css`, its eight-state preview, and
+  `templates/components/moody-flip-things-image-grid.html.twig`: semantic
+  source-ordered portrait triptychs that keep every people narrative readable
+  without the provider’s hover-only flip runtime.
 - `css/components/contact-info.css`: page-safe, container-aware editorial
   service bands with independently optional authored fields.
 - `css/components/call-to-action.css`: portable formatter-owned action rules,

@@ -139,6 +139,34 @@
         }
       });
 
+      once('moody26-people-grid-image', '.moody26-people-grid__image', context).forEach((image) => {
+        const showUnavailableImage = () => {
+          const item = image.closest('.moody26-people-grid__item');
+          const media = image.closest('.moody26-people-grid__media');
+          const content = item?.querySelector('.moody26-people-grid__content');
+          if (!item || !media || !content || item.classList.contains('is-error')) {
+            return;
+          }
+
+          const description = image.alt.trim();
+          const status = document.createElement('p');
+          status.className = 'moody26-people-grid__status';
+          status.setAttribute('role', 'status');
+          status.textContent = description
+            ? Drupal.t('Image unavailable: @description', { '@description': description })
+            : Drupal.t('Image unavailable');
+
+          media.hidden = true;
+          item.classList.add('is-error');
+          content.prepend(status);
+        };
+
+        image.addEventListener('error', showUnavailableImage, { once: true });
+        if (image.complete && image.currentSrc && !image.naturalWidth) {
+          showUnavailableImage();
+        }
+      });
+
       once(
         'moody26-basic-new-window',
         '.block-bundle-basic .ut-copy a[target="_blank"]',

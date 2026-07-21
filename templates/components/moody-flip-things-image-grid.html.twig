@@ -1,0 +1,54 @@
+{% if people_grid_items %}
+  <section class="moody26-people-grid" aria-labelledby="{{ people_grid_heading_id }}">
+    <header class="moody26-people-grid__header">
+      <h2 class="moody26-people-grid__heading{% if not headline %} visually-hidden{% endif %}" id="{{ people_grid_heading_id }}">
+        {{ headline ?: 'People highlights'|t }}
+      </h2>
+      <span class="moody26-people-grid__header-rule" aria-hidden="true"></span>
+    </header>
+
+    <ul class="moody26-people-grid__list" role="list">
+      {% for item in people_grid_items %}
+        <li class="moody26-people-grid__item{% if item.media_unavailable %} is-error{% endif %}">
+          <article class="moody26-people-grid__entry"{% if item.headline %} aria-labelledby="{{ item.title_id }}"{% endif %}>
+            {% if item.image %}
+              <figure class="moody26-people-grid__media">
+                {{ item.image }}
+              </figure>
+            {% endif %}
+
+            <div class="moody26-people-grid__content">
+              {% if item.media_unavailable %}
+                <p class="moody26-people-grid__status" role="status">
+                  {{ item.media_description
+                    ? 'Image unavailable: @description'|t({'@description': item.media_description})
+                    : 'Image unavailable'|t
+                  }}
+                </p>
+              {% endif %}
+
+              {% if item.headline %}
+                <h3 class="moody26-people-grid__title" id="{{ item.title_id }}">{{ item.headline }}</h3>
+              {% endif %}
+
+              {% if item.has_body %}
+                <div class="moody26-people-grid__body">{{ item.body_rendered }}</div>
+              {% endif %}
+
+              {% if item.link_url %}
+                {% set link_name = item.headline
+                  ? 'Learn more about @title'|t({'@title': item.headline})
+                  : 'Learn more'|t
+                %}
+                <a class="moody26-people-grid__link" href="{{ item.link_url }}" aria-label="{{ link_name }}">
+                  <span>{{ 'Learn more'|t }}</span>
+                  <span class="moody26-people-grid__link-arrow" aria-hidden="true"></span>
+                </a>
+              {% endif %}
+            </div>
+          </article>
+        </li>
+      {% endfor %}
+    </ul>
+  </section>
+{% endif %}

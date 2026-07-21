@@ -144,7 +144,6 @@ import { stagger } from 'animejs/utils';
         const group = main.querySelector([
           '.utexas-promo-unit-items',
           '.block-moody-feature-page-feature-pages-editors-picks .row',
-          '.moody-flip-things-image-grid-container .contents-row-max-w',
         ].join(','));
         const items = group ? [...group.children].filter(visible).slice(0, 8) : [];
 

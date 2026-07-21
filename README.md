@@ -6,7 +6,7 @@ visual identity with an accessible, editorial system that can serve academic,
 research, film, journalism, advertising, alumni, event, and public-facing
 sites without requiring the legacy Moody or Speedway themes.
 
-> **Project status:** pre-release (`0.46.0`). The theme is being validated in
+> **Project status:** pre-release (`0.47.0`). The theme is being validated in
 > [Moody Core](https://github.com/UTMoodyCollege/moody-core) before its first
 > stable tag. Pin an exact commit when evaluating the `main` branch.
 
@@ -92,6 +92,9 @@ sites without requiring the legacy Moody or Speedway themes.
 - Shared Moody Focal Point rendered as a full-context image and ordered static
   detail rail with editor-owned crops, readable captions, and no scroll-scrub
   visibility dependency.
+- Shared Moody Flip Image Grids rendered as static semantic portrait
+  triptychs with editor-owned media and copy, complete visible content, and no
+  hover-only flip dependency.
 - Shared people directories with semantic list and heading structure,
   accessible linked profiles, responsive filters, honest result counts, and a
   useful empty state.
@@ -650,6 +653,31 @@ image. If the source image fails, all derived media disappears, captions remain,
 and one translated status retains the authored alternative. The standalone
 preview covers default, hover, focus, active, disabled, loading, error, and
 success states. `/technology/new-components` is the integration fixture.
+
+### Shared Moody Flip Image Grid
+
+Moody26 keeps the `moody_flip_things_flip_image_grid` editor’s section heading,
+item order, media selection, authored alternatives and titles, processed copy,
+optional destinations, cacheability, and Layout Builder placement. It replaces
+the provider’s hover-only circular flip cards with a static portrait triptych,
+so every title and description is readable without hover, animation,
+JavaScript, or a precision pointing device. The provider’s public flip CSS,
+jQuery plugin, decorative SVG arrows, and runtime do not load in Moody26.
+
+Each non-empty component is a labelled section containing one semantic list.
+Every item is an article with an optional figure, an `h3` title beneath the
+section’s `h2`, processed body content, and an optional explicit `Learn more`
+destination whose accessible name includes the item title. Links retain their
+formatter-owned destination and expose default, visited, capability-gated
+hover, immediate focus, active, and authored-disabled states.
+
+The triptych starts as one safe column, becomes two columns when its own
+container has room, and uses three source-ordered portrait plates with a
+restrained middle offset at wide component sizes. It never reorders the DOM.
+If an image is inaccessible, invalid, missing, or fails in the browser, only
+that figure is removed; the title, copy, and destination remain, and one
+translated status preserves the authored alternative when available. `/` is
+the current integration fixture.
 
 ### Shared Moody Showcases
 
@@ -1286,7 +1314,7 @@ than replace manual assistive-technology review.
 | `tokens.css` | Brand, type, spacing, motion, focus, and layout tokens |
 | `css/fonts.css` | Local approved digital font declarations |
 | `css/moody26.css` | Global foundation, shell, navigation, forms, and footer |
-| `css/components/` | Header social, ambient-video and shared Hero, Basic and Rich Text, editorial, discovery, resource-hub, accordion, Featured Highlight and Moody Promotion signal bands, Promo List, Flex Content Area, Image Link, Flex Color Block, Moody Quotation, Moody Flex Grid, Impact Facts, Contact Info, Call to Action, Social Links, Moody Anchor and interactive image galleries, static Scroll Reveal Media and Focal Point narratives, people-directory, student-story, faculty-profile, newsroom, feature-story, Shorthand and PDF document boundaries, event-detail and event-listing, quick-action, and settings components |
+| `css/components/` | Header social, ambient-video and shared Hero, Basic and Rich Text, editorial, discovery, resource-hub, accordion, Featured Highlight and Moody Promotion signal bands, Promo List, Flex Content Area, Image Link, Flex Color Block, Moody Quotation, Moody Flex Grid, Impact Facts, Contact Info, Call to Action, Social Links, Moody Anchor and interactive image galleries, static Scroll Reveal Media and Focal Point narratives, a static Flip Image Grid portrait triptych, people-directory, student-story, faculty-profile, newsroom, feature-story, Shorthand and PDF document boundaries, event-detail and event-listing, quick-action, and settings components |
 | `js/navigation.js` | Drawer and disclosure navigation state |
 | `js/quick-actions.js` | Native dialog and rendered-destination discovery |
 | `js/accessibility.js` | Progressive safeguards for media controls and rendered content components |
