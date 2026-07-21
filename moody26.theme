@@ -12,6 +12,8 @@ use Drupal\Core\Entity\ContentEntityInterface;
 use Drupal\Core\Form\FormStateInterface;
 use Drupal\Core\Link;
 use Drupal\Core\Template\Attribute;
+use Drupal\file\FileInterface;
+use Drupal\media\MediaInterface;
 use Drupal\node\NodeInterface;
 
 /**
@@ -29,6 +31,13 @@ function moody26_preprocess_html(array &$variables): void {
     && mb_strlen(trim($node->label())) > 90
   ) {
     $variables['attributes']['class'][] = 'moody26-feature-story--long-title';
+  }
+  if (
+    $node instanceof NodeInterface
+    && $node->bundle() === 'moody_event'
+    && mb_strlen(trim($node->label())) > 90
+  ) {
+    $variables['attributes']['class'][] = 'moody26-event--long-title';
   }
 
   $directory = moody26_current_directory();
@@ -146,6 +155,85 @@ function moody26_preprocess_node(array &$variables): void {
     $variables['attributes']['class'][] = 'moody26-feature-story';
     $variables['content_attributes']['class'][] = 'moody26-feature-story__content';
   }
+  if ($node instanceof NodeInterface && $node->bundle() === 'moody_event') {
+    $variables['event_image'] = moody26_event_image($node, $variables);
+    $variables['attributes']['class'][] = 'moody26-event';
+    $variables['attributes']['class'][] = $variables['event_image']
+      ? 'moody26-event--has-media'
+      : 'moody26-event--media-unavailable';
+    $variables['content_attributes']['class'][] = 'moody26-event__content';
+
+    foreach ([
+      'field_moodyevent_status',
+      'field_moodyevent_body',
+      'field_moody_event_department',
+      'field_event_target_audience',
+      'field_moodyevent_datetime',
+      'field_moodyevent_location',
+      'field_moodyevent_tags',
+    ] as $field_name) {
+      if (isset($variables['content'][$field_name])) {
+        $variables['content'][$field_name]['#label_display'] = 'hidden';
+      }
+    }
+  }
+}
+
+/**
+ * Builds layout-stable event media only when its source file is available.
+ */
+function moody26_event_image(NodeInterface $node, array &$variables): array {
+  if (!$node->hasField('field_moodyevent_image')) {
+    return [];
+  }
+
+  $media = $node->get('field_moodyevent_image')->entity;
+  if (!$media instanceof MediaInterface) {
+    return [];
+  }
+
+  $media = \Drupal::service('entity.repository')->getTranslationFromContext($media);
+  $access = $media->access('view', NULL, TRUE);
+  CacheableMetadata::createFromObject($access)->applyTo($variables);
+  if (!$access->isAllowed()) {
+    return [];
+  }
+
+  $source_field = $media->getSource()->getConfiguration()['source_field'] ?? NULL;
+  if (!is_string($source_field) || !$media->hasField($source_field)) {
+    return [];
+  }
+
+  $image_item = $media->get($source_field)->first();
+  $file = $image_item?->entity;
+  if (!$file instanceof FileInterface) {
+    return [];
+  }
+
+  $uri = $file->getFileUri();
+  $image = \Drupal::service('image.factory')->get($uri);
+  if (!file_exists($uri) || !$image->isValid()) {
+    return [];
+  }
+
+  $build = [
+    '#theme' => 'image',
+    '#uri' => $uri,
+    '#alt' => (string) ($image_item->alt ?? ''),
+    '#width' => $image->getWidth(),
+    '#height' => $image->getHeight(),
+    '#attributes' => [
+      'decoding' => 'async',
+      'fetchpriority' => 'high',
+    ],
+  ];
+  (new CacheableMetadata())
+    ->addCacheableDependency($node)
+    ->addCacheableDependency($media)
+    ->addCacheableDependency($file)
+    ->applyTo($build);
+
+  return $build;
 }
 
 /**

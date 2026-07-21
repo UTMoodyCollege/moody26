@@ -917,6 +917,40 @@ not belong outside the token and font declaration files.
   scroll reveals, sticky reading progress, fabricated related links, or
   article-only JavaScript.
 
+### Event details
+
+- Treat every published `moody_event` node as one shared fleet event-detail
+  system. Never scope it to a node ID, route, title, component UUID, or stored
+  field position.
+- The page-title block remains the sole document `h1`. Add
+  `moody26-event--long-title` only when the authored title exceeds 90
+  characters, and step down to the shared heading scale rather than clipping,
+  truncating, or rewriting it.
+- Moody26 owns `templates/content/node--moody-event.html.twig`. Keep Event
+  details at `h2`, express available date, location, host, audience, and tag
+  facts with `dl`, `dt`, and `dd`, and preserve Drupal’s formatter render
+  arrays, cache metadata, and semantic `time` output.
+- Hide only redundant field labels in preprocess. Do not flatten formatter
+  output into unescaped strings, rebuild links, invent absent metadata, or
+  change field configuration in the theme.
+- Event fact links and the external source action need a 44 CSS-pixel minimum
+  target, complete static link states, descriptive names, and immediate visible
+  focus. The source action must announce that it is an external link.
+- Preserve the event image’s editor-authored alternative, actual source
+  dimensions, and natural aspect ratio. Do not apply a universal crop. Validate
+  the source file server-side and omit missing or invalid media without a
+  broken-image glyph, placeholder art, or empty media track.
+- Date, location, host, audience, tags, status, body, action, and media are
+  independently optional. Empty facts collapse individually; missing media
+  recomposes the lead while body, action, and available details remain intact.
+  When no facts exist, omit the details heading, list, region, and wide track.
+- Event details remain static and server rendered. Do not add event-only
+  JavaScript, parallax, scroll reveals, a sticky details panel, or fabricated
+  loading, error, success, disabled, or availability states.
+- Test representative events at 320, 375, 414, 768, and 1280 CSS pixels,
+  including a title longer than 90 characters, a missing source image, optional
+  facts, keyboard focus, heading order, 200% zoom, and horizontal reflow.
+
 ### Featured Highlights
 
 - Treat the UT Drupal Kit Featured Highlight as a shared fleet component, not
@@ -1435,6 +1469,10 @@ Texas requirements. The current University compliance date is March 1, 2026.
   long-form fields, inline editorial media, tables, and explicit credits.
 - `templates/components/moody-feature-credit.html.twig`: translated byline,
   supplied contributor name, and optional supplied role.
+- `css/components/event-detail.css`: length-aware event mastheads, uncropped
+  media, responsive Split Studio layout, and semantic attendance-fact ledger.
+- `templates/content/node--moody-event.html.twig`: event body, external source
+  action, resilient image output, and page-safe `h2`/definition-list details.
 - `templates/`: theme-owned document, page, shell, block, menu, shared
   component, and targeted View markup.
 - `js/navigation.js`: the sole drawer and disclosure state owner.

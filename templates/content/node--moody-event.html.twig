@@ -1,0 +1,93 @@
+{#
+/**
+ * @file
+ * Accessible Moody event detail page.
+ *
+ * Preserves Drupal field formatter output while supplying one page-safe
+ * heading sequence, a semantic details ledger, and failure-safe event media.
+ */
+#}
+{% set rendered_status = content.field_moodyevent_status|default([])|render %}
+{% set rendered_body = content.field_moodyevent_body|default([])|render %}
+{% set rendered_host = content.field_moody_event_department|default([])|render %}
+{% set rendered_audience = content.field_event_target_audience|default([])|render %}
+{% set rendered_datetime = content.field_moodyevent_datetime|default([])|render %}
+{% set rendered_location = content.field_moodyevent_location|default([])|render %}
+{% set rendered_tags = content.field_moodyevent_tags|default([])|render %}
+{% set has_details = rendered_datetime|striptags|trim
+  or rendered_location|striptags|trim
+  or rendered_host|striptags|trim
+  or rendered_audience|striptags|trim
+  or rendered_tags|striptags|trim
+%}
+
+<article{{ attributes.addClass(has_details ? 'moody26-event--has-details' : 'moody26-event--details-unavailable') }}>
+  <div{{ content_attributes }}>
+    {% if rendered_status|striptags|trim %}
+      <div class="moody26-event__status">{{ rendered_status }}</div>
+    {% endif %}
+
+    <div class="moody26-event__layout">
+      <div class="moody26-event__primary">
+        <div class="moody26-event__lead">
+          {% if event_image %}
+            <figure class="moody26-event__media">{{ event_image }}</figure>
+          {% endif %}
+
+          {% if rendered_body|striptags|trim %}
+            <div class="ut-copy moody26-event__body">{{ rendered_body }}</div>
+          {% endif %}
+        </div>
+
+        {% if external_link %}
+          <div class="moody26-event__action">
+            <a href="{{ external_link }}" class="ut-btn moody-btn--arrow">
+              {{ 'View event details'|t }}
+              <span class="visually-hidden">; {{ 'external link'|t }}</span>
+            </a>
+          </div>
+        {% endif %}
+      </div>
+
+      {% if has_details %}
+        <aside class="moody26-event__details" aria-label="{{ 'Event details'|t }}">
+          <h2 class="moody26-event__details-title">{{ 'Event details'|t }}</h2>
+          <dl class="moody26-event__details-list">
+            {% if rendered_datetime|striptags|trim %}
+              <div class="moody26-event__detail moody26-event__detail--datetime">
+                <dt>{{ 'Date and time'|t }}</dt>
+                <dd>{{ rendered_datetime }}</dd>
+              </div>
+            {% endif %}
+            {% if rendered_location|striptags|trim %}
+              <div class="moody26-event__detail moody26-event__detail--location">
+                <dt>{{ 'Location'|t }}</dt>
+                <dd>{{ rendered_location }}</dd>
+              </div>
+            {% endif %}
+            {% if rendered_host|striptags|trim %}
+              <div class="moody26-event__detail moody26-event__detail--host">
+                <dt>{{ 'Hosted by'|t }}</dt>
+                <dd>{{ rendered_host }}</dd>
+              </div>
+            {% endif %}
+            {% if rendered_audience|striptags|trim %}
+              <div class="moody26-event__detail moody26-event__detail--audience">
+                <dt>{{ 'For'|t }}</dt>
+                <dd>{{ rendered_audience }}</dd>
+              </div>
+            {% endif %}
+            {% if rendered_tags|striptags|trim %}
+              <div class="moody26-event__detail moody26-event__detail--tags">
+                <dt>{{ 'Topics'|t }}</dt>
+                <dd>{{ rendered_tags }}</dd>
+              </div>
+            {% endif %}
+          </dl>
+        </aside>
+      {% endif %}
+    </div>
+
+    {{ content._layout_builder }}
+  </div>
+</article>

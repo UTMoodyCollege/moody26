@@ -52,6 +52,7 @@ const files = {
   peopleDirectory: 'css/components/people-directory.css',
   newsroom: 'css/components/newsroom.css',
   featureStoryCss: 'css/components/feature-story.css',
+  eventDetailCss: 'css/components/event-detail.css',
   motionCss: 'css/components/motion.css',
   settingsCss: 'css/components/theme-settings.css',
   accessibility: 'js/accessibility.js',
@@ -77,6 +78,7 @@ const files = {
   newsRows: 'templates/views/views-view-unformatted--news-filtered--block-filtered.html.twig',
   newsFields: 'templates/views/views-view-fields--news-filtered--block-filtered.html.twig',
   featureCreditTemplate: 'templates/components/moody-feature-credit.html.twig',
+  eventTemplate: 'templates/content/node--moody-event.html.twig',
   focusAreas: 'templates/components/moody-focus-areas.html.twig',
   promoUnits: 'templates/components/utexas-promo-unit.html.twig',
   featuredHighlightTemplate: 'templates/components/utexas-featured-highlight.html.twig',
@@ -196,8 +198,8 @@ const forbidPattern = (file, pattern, message) => {
 
 try {
   const packageJson = JSON.parse(contents.package ?? '');
-  if (packageJson.version !== '0.37.0') {
-    errors.push('The accessible feature-story release must remain versioned as 0.37.0.');
+  if (packageJson.version !== '0.38.0') {
+    errors.push('The accessible event-detail release must remain versioned as 0.38.0.');
   }
   for (const [dependency, version] of [
     ['animejs', '4.5.0'],
@@ -253,6 +255,7 @@ forbidPattern('richTextCss', /(?:online-teaching|deans-ambassadors|node-\d+|bloc
 requireText('libraries', 'css/components/people-directory.css', 'Shared people-directory styles must remain attached.');
 requireText('libraries', 'css/components/newsroom.css', 'Shared newsroom styles must remain attached.');
 requireText('libraries', 'css/components/feature-story.css', 'Shared feature-story styles must remain attached.');
+requireText('libraries', 'css/components/event-detail.css', 'Shared event-detail styles must remain attached.');
 requireText('libraries', 'css/components/accordion.css', 'Shared accordion styles must remain attached.');
 requireText('libraries', 'css/components/featured-highlight.css', 'Shared Featured Highlight styles must remain attached.');
 requireText('libraries', 'css/components/promo-list.css', 'Shared Promo List styles must remain attached.');
@@ -275,7 +278,7 @@ requireText('libraries', 'css/components/quick-links.css', 'Shared UT Drupal Kit
 requireText('libraries', 'css/components/social-links.css', 'Shared UT Drupal Kit Social Links styles must remain attached.');
 requireText('libraries', 'css/components/anchor-gallery.css', 'Shared Moody Anchor gallery styles must remain attached.');
 requireText('libraries', 'js/dist/motion.min.js', 'The built motion integration must remain attached.');
-requireText('libraries', 'version: 0.37.0', 'The Drupal asset version must match the accessible feature-story release.');
+requireText('libraries', 'version: 0.38.0', 'The Drupal asset version must match the accessible event-detail release.');
 forbidText('info', '- moody26/motion', 'Optional motion must be attached from theme settings rather than globally.');
 
 requireText('settings', "header_social_links_block: ''", 'Header social links must be optional for new installs.');
@@ -830,6 +833,39 @@ requireText('theme', "t('Story credits')", 'Feature-story credits must expose a 
 requireText('featureCreditTemplate', "{{ 'By'|t }}", 'Feature-story credits must expose a translated assistive byline.');
 requireText('featureCreditTemplate', 'moody-feature-credit__name', 'Feature-story credits must preserve the contributor name.');
 requireText('featureCreditTemplate', '{% if title %}', 'Feature-story credits must omit empty contributor roles.');
+requireText('eventDetailCss', 'macrostructure: Split Studio', 'Event details must retain the Hallmark Split Studio contract.');
+requireText('eventDetailCss', '.moody26-event--long-title', 'Long event titles must retain their length-aware masthead.');
+requireText('eventDetailCss', 'overflow-wrap: anywhere;', 'Event titles and body copy must survive long unbroken text.');
+requireText('eventDetailCss', 'grid-template-columns: minmax(0, 2fr) minmax(0, 5fr);', 'Event leads must retain safe responsive media and context tracks.');
+requireText('eventDetailCss', 'grid-template-columns: minmax(0, 8fr) minmax(16rem, 4fr);', 'Event pages must retain the wide Split Studio composition.');
+requireText('eventDetailCss', '.moody26-event--media-unavailable', 'Event pages must retain missing-media reflow.');
+requireText('eventDetailCss', '.moody26-event--details-unavailable', 'Event pages must collapse an unavailable details track.');
+requireText('eventDetailCss', 'min-height: var(--target-min);', 'Event links must retain accessible minimum targets.');
+forbidPattern('eventDetailCss', /(?:node|page)-\d+/, 'Event-detail styling must not depend on route-specific node or page IDs.');
+forbidText('eventDetailCss', 'transition:', 'Event details must remain static without unnecessary motion.');
+forbidText('eventDetailCss', 'object-fit:', 'Event media must retain its authored aspect ratio without a universal crop.');
+requireText('theme', 'moody26_event_image($node, $variables)', 'Event preprocess must use the failure-safe image builder.');
+requireText('theme', "$media->access('view', NULL, TRUE)", 'Event media output must respect entity access.');
+requireText('theme', 'if (!file_exists($uri) || !$image->isValid())', 'Event media must fail closed when its source is unavailable.');
+requireText('theme', "'#width' => $image->getWidth()", 'Event media must expose actual intrinsic width.');
+requireText('theme', "'#height' => $image->getHeight()", 'Event media must expose actual intrinsic height.');
+requireText('theme', "'fetchpriority' => 'high'", 'Event lead media must retain its loading priority.');
+requireText('theme', 'addCacheableDependency($file)', 'Event media output must retain file cache metadata.');
+requireText('theme', "'moody26-event--media-unavailable'", 'Event preprocess must expose the failed-media composition.');
+requireText('eventTemplate', '<h2 class="moody26-event__details-title">', 'Event details must follow the page h1 with an h2.');
+requireText('eventTemplate', '<dl class="moody26-event__details-list">', 'Event facts must retain definition-list semantics.');
+requireText('eventTemplate', "{% if has_details %}", 'Event pages must omit an empty details region.');
+requireText('eventTemplate', "'moody26-event--details-unavailable'", 'Event pages must expose an unavailable-details composition.');
+requireText('eventTemplate', "<dt>{{ 'Date and time'|t }}</dt>", 'Event dates need a visible translated label.');
+requireText('eventTemplate', "<dt>{{ 'Hosted by'|t }}</dt>", 'Event hosts need a concise translated label.');
+requireText('eventTemplate', "<dt>{{ 'For'|t }}</dt>", 'Event audiences need a concise translated label.');
+requireText('eventTemplate', "<dt>{{ 'Topics'|t }}</dt>", 'Event topics need a concise translated label.');
+requireText('eventTemplate', '{{ rendered_datetime }}', 'Event dates must preserve formatter output.');
+requireText('eventTemplate', 'class="ut-btn moody-btn--arrow"', 'Event source actions must use the shared accessible CTA treatment.');
+requireText('eventTemplate', "'external link'|t", 'Event source actions must announce external behavior.');
+requireText('eventTemplate', '{{ content._layout_builder }}', 'Event pages must preserve Layout Builder extensions.');
+forbidText('eventTemplate', '<h3', 'Event templates must not skip from the page h1 to an h3.');
+forbidText('eventTemplate', 'col-md', 'Event templates must not depend on legacy Bootstrap layout classes.');
 requireText('accordionCss', 'macrostructure: Conversational FAQ', 'Accordions must retain the Hallmark macrostructure contract.');
 requireText('accordionCss', '.moody-accordion__summary:focus-visible', 'Accordion summaries need immediate visible focus.');
 requireText('accordionCss', '.moody-accordion__item[open]', 'Accordions need a non-color expanded-state signal.');
@@ -1260,7 +1296,7 @@ const runtimeFiles = [
   'peopleDirectory', 'peopleDirectoryView', 'peopleDirectoryRows', 'peopleDirectoryFields',
   'profileListingBlock', 'profileDesignationField',
   'newsroom', 'newsRows', 'newsFields',
-  'featureStoryCss', 'featureCreditTemplate',
+  'featureStoryCss', 'featureCreditTemplate', 'eventDetailCss', 'eventTemplate',
   'focusAreas', 'promoUnits',
   'motionCss', 'settingsCss', 'accessibility', 'navigation', 'quickActions', 'motion', 'html', 'page', 'brandbar',
   'header', 'footer', 'brandingBlock', 'menuBlock', 'menu',
@@ -1280,7 +1316,7 @@ for (const file of runtimeFiles) {
   }
 }
 
-const cssFiles = ['css', 'headerSocialCss', 'quickActionsCss', 'landingHero', 'richTextCss', 'editorialSections', 'featuredHighlightCss', 'promoListCss', 'flexContentCss', 'imageLinkCss', 'flexColorBlocksCss', 'quotationCss', 'flexGridCss', 'impactFactsCss', 'showcaseCss', 'contactInfoCss', 'callToActionCss', 'resourceGroupCss', 'flexTabsCss', 'heroCarouselCss', 'photoContentCss', 'socialLinksCss', 'discoveryIndex', 'accordionCss', 'peopleDirectory', 'newsroom', 'featureStoryCss', 'motionCss', 'settingsCss'];
+const cssFiles = ['css', 'headerSocialCss', 'quickActionsCss', 'landingHero', 'richTextCss', 'editorialSections', 'featuredHighlightCss', 'promoListCss', 'flexContentCss', 'imageLinkCss', 'flexColorBlocksCss', 'quotationCss', 'flexGridCss', 'impactFactsCss', 'showcaseCss', 'contactInfoCss', 'callToActionCss', 'resourceGroupCss', 'flexTabsCss', 'heroCarouselCss', 'photoContentCss', 'socialLinksCss', 'discoveryIndex', 'accordionCss', 'peopleDirectory', 'newsroom', 'featureStoryCss', 'eventDetailCss', 'motionCss', 'settingsCss'];
 const forbiddenCss = [
   [/#(?:[0-9a-f]{3}|[0-9a-f]{6}|[0-9a-f]{8})\b/i, 'Raw hex colors belong only in tokens.css.'],
   [/\b(?:rgb|rgba|hsl|hsla|oklch)\(/i, 'Raw color functions belong only in tokens.css.'],
@@ -1311,7 +1347,8 @@ for (const file of ['preflight', 'log']) {
     errors.push(`${file} must contain valid JSON.`);
   }
 }
-requireText('preflight', '"package_version": "0.37.0"', 'Hallmark preflight must match the accessible feature-story release.');
+requireText('preflight', '"package_version": "0.38.0"', 'Hallmark preflight must match the accessible event-detail release.');
+requireText('log', 'Split Studio event brief within the Ecosystem Index', 'Hallmark memory must record the shared event-detail composition.');
 requireText('log', 'Long Document feature story within the Ecosystem Index', 'Hallmark memory must record the shared feature-story composition.');
 requireText('log', 'Conversational FAQ within the Ecosystem Index', 'Hallmark memory must record the shared accordion macrostructure.');
 requireText('log', 'Editorial media directory within the Ecosystem Index', 'Hallmark memory must record the shared Moody Flex Grid component.');
@@ -1338,6 +1375,7 @@ requireText('readme', 'Shared Basic and Rich Text', 'README must document the re
 requireText('readme', 'Shared resource hubs', 'README must document the reusable resource-hub layer.');
 requireText('readme', 'Shared newsroom components', 'README must document the reusable newsroom layer.');
 requireText('readme', 'Shared feature stories', 'README must document the reusable feature-story layer.');
+requireText('readme', 'Shared event details', 'README must document the reusable event-detail layer.');
 requireText('readme', 'Shared accordions', 'README must document the native shared accordion layer.');
 requireText('readme', 'Shared Featured Highlights', 'README must document the reusable Featured Highlight layer.');
 requireText('readme', 'Shared Moody Promotions', 'README must document the reusable Moody Promotion layer.');
@@ -1373,6 +1411,7 @@ requireText('agents', '### Basic and Rich Text blocks', 'AGENTS.md must preserve
 requireText('agents', '### Resource hubs', 'AGENTS.md must preserve the resource-hub contract.');
 requireText('agents', '### Newsroom components', 'AGENTS.md must preserve the newsroom component contract.');
 requireText('agents', '### Feature stories', 'AGENTS.md must preserve the feature-story component contract.');
+requireText('agents', '### Event details', 'AGENTS.md must preserve the event-detail component contract.');
 requireText('agents', '### Accordions', 'AGENTS.md must preserve the native accordion contract.');
 requireText('agents', '### Featured Highlights', 'AGENTS.md must preserve the Featured Highlight component contract.');
 requireText('agents', '### Moody Promotions', 'AGENTS.md must preserve the Moody Promotion component contract.');
@@ -1407,5 +1446,5 @@ if (errors.length) {
   process.exitCode = 1;
 }
 else {
-  console.log(`Moody26 verification passed (${Object.keys(files).length} source files, ${fonts.length} local fonts, standalone shell, UT brand, Basic and Rich Text, accessible directories and UTProf Profile Listings, accessible ambient-video heroes, resource hubs, Resource Groups, Flex Tabs, UT Drupal Kit Flex Lists, Hero Carousels, Photo Content Areas, Moody Newsletter destination bands, UT Drupal Kit Quick Links, semantic Social Links, and Moody Anchor galleries, newsroom, feature stories, accordions, Featured Highlights, Moody Promotions, Promo Lists, Flex Content Areas, Image Links, Flex Color Blocks, Moody Quotations, Moody Flex Grids, Moody Impact Facts, Moody and UT Drupal Kit Heroes, Moody Showcases, Moody Contact Info, and Call to Action blocks, header social links, motion, responsive, and Hallmark gates).`);
+  console.log(`Moody26 verification passed (${Object.keys(files).length} source files, ${fonts.length} local fonts, standalone shell, UT brand, Basic and Rich Text, accessible directories and UTProf Profile Listings, accessible ambient-video heroes, resource hubs, Resource Groups, Flex Tabs, UT Drupal Kit Flex Lists, Hero Carousels, Photo Content Areas, Moody Newsletter destination bands, UT Drupal Kit Quick Links, semantic Social Links, and Moody Anchor galleries, newsroom, feature stories, event details, accordions, Featured Highlights, Moody Promotions, Promo Lists, Flex Content Areas, Image Links, Flex Color Blocks, Moody Quotations, Moody Flex Grids, Moody Impact Facts, Moody and UT Drupal Kit Heroes, Moody Showcases, Moody Contact Info, and Call to Action blocks, header social links, motion, responsive, and Hallmark gates).`);
 }

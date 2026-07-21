@@ -6,7 +6,7 @@ visual identity with an accessible, editorial system that can serve academic,
 research, film, journalism, advertising, alumni, event, and public-facing
 sites without requiring the legacy Moody or Speedway themes.
 
-> **Project status:** pre-release (`0.37.0`). The theme is being validated in
+> **Project status:** pre-release (`0.38.0`). The theme is being validated in
 > [Moody Core](https://github.com/UTMoodyCollege/moody-core) before its first
 > stable tag. Pin an exact commit when evaluating the `main` branch.
 
@@ -91,6 +91,8 @@ sites without requiring the legacy Moody or Speedway themes.
   mentions, and reusable Layout Builder callouts.
 - Shared feature-story detail pages with length-aware mastheads, explicit
   ledes and dates, measured long-form content, and named story credits.
+- Shared event-detail pages with length-aware titles, semantic attendance
+  facts, intrinsic editor-owned media, and honest missing-file recovery.
 - Native shared accordions with truthful browser-owned disclosure state,
   44-pixel controls, visible focus, and no runtime JavaScript dependency.
 - A restrained GSAP + Anime.js motion layer with no CDN requests, no functional
@@ -703,6 +705,29 @@ causes placeholder art or an empty media track. Feature stories are static by
 default and introduce no article-only JavaScript, scroll effects, or fabricated
 metadata.
 
+### Shared event details
+
+Every published `moody_event` node uses the Split Studio composition: the
+page-owned title leads into one media-and-context column and a compact Event
+details ledger. Titles longer than 90 characters step down one type-scale rung
+instead of clipping, truncating, or forcing an oversized masthead.
+
+The page-title block remains the sole document `h1`; “Event details” is an
+`h2`, and its available date, location, host, audience, and topic facts are
+expressed as a semantic definition list. Drupal’s date formatter retains its
+machine-readable `time` element. Optional facts disappear individually without
+empty labels; when no facts exist, the entire details region disappears. Every
+rendered detail link and the external source action retain a 44 CSS-pixel target
+and visible keyboard focus. The source action’s accessible name also announces
+that it leaves the site.
+
+Event images keep the editor-authored alternative, real source dimensions, and
+natural aspect ratio. Moody26 checks the underlying source before emitting the
+image, so missing or invalid imported files recompose to text without a broken
+image, placeholder art, or empty media rail. The body, action, and remaining
+details stay available. Event pages add no event-only JavaScript, universal
+crop, sticky panel, decorative motion, or fabricated content.
+
 ### Shared Featured Highlights
 
 Moody26 provides theme-owned markup and presentation for the UT Drupal Kit
@@ -1030,7 +1055,7 @@ than replace manual assistive-technology review.
 | `tokens.css` | Brand, type, spacing, motion, focus, and layout tokens |
 | `css/fonts.css` | Local approved digital font declarations |
 | `css/moody26.css` | Global foundation, shell, navigation, forms, and footer |
-| `css/components/` | Header social, ambient-video and shared Hero, Basic and Rich Text, editorial, discovery, resource-hub, accordion, Featured Highlight and Moody Promotion signal bands, Promo List, Flex Content Area, Image Link, Flex Color Block, Moody Quotation, Moody Flex Grid, Impact Facts, Contact Info, Call to Action, Social Links, Moody Anchor gallery, people-directory, newsroom, feature-story, quick-action, and settings components |
+| `css/components/` | Header social, ambient-video and shared Hero, Basic and Rich Text, editorial, discovery, resource-hub, accordion, Featured Highlight and Moody Promotion signal bands, Promo List, Flex Content Area, Image Link, Flex Color Block, Moody Quotation, Moody Flex Grid, Impact Facts, Contact Info, Call to Action, Social Links, Moody Anchor gallery, people-directory, newsroom, feature-story, event-detail, quick-action, and settings components |
 | `js/navigation.js` | Drawer and disclosure navigation state |
 | `js/quick-actions.js` | Native dialog and rendered-destination discovery |
 | `js/accessibility.js` | Progressive safeguards for media controls and rendered content components |
