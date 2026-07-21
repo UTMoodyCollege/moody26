@@ -1,6 +1,6 @@
 {
   "date": "2026-07-20",
-  "package_version": "0.26.0",
+  "package_version": "0.27.0",
   "framework": "Drupal 11 / UT Drupal Kit",
   "base_theme": false,
   "font_stack": "Charis SIL + Libre Franklin bundled locally by Moody26",
@@ -42,6 +42,7 @@
     "formatter-owned Call to Action blocks as responsive branded action rules",
     "shared Moody and UT Drupal Kit Resource Groups as semantic responsive resource ledgers",
     "progressively enhanced Moody Flex Tabs with resilient stored-state normalization and complete keyboard operation",
-    "all UT Drupal Kit Flex List displays through one heading-safe editorial ledger, native disclosures, and the existing progressive tab controller"
+    "all UT Drupal Kit Flex List displays through one heading-safe editorial ledger, native disclosures, and the existing progressive tab controller",
+    "progressively enhanced UT Drupal Kit Hero Carousels with bounded autoplay, focus and hover pausing, reduced-motion protection, concise native controls, and a complete no-JavaScript reading order"
   ]
 }

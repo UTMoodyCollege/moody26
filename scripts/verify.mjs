@@ -40,6 +40,7 @@ const files = {
   resourceGroupCss: 'css/components/resource-group.css',
   flexTabsCss: 'css/components/flex-tabs.css',
   flexListCss: 'css/components/flex-list.css',
+  heroCarouselCss: 'css/components/hero-carousel.css',
   discoveryIndex: 'css/components/discovery-index.css',
   accordionCss: 'css/components/accordion.css',
   peopleDirectory: 'css/components/people-directory.css',
@@ -93,6 +94,7 @@ const files = {
   flexListTemplate: 'templates/components/field--utexas-flex-list.html.twig',
   flexListAccordionTemplate: 'templates/components/field--utexas-flex-list--accordion.html.twig',
   flexListTabsTemplate: 'templates/components/field--utexas-flex-list--htabs.html.twig',
+  heroCarouselTemplate: 'templates/components/field--block-content--utexas-hero-carousel.html.twig',
   heroTemplate: 'templates/components/moody-hero.html.twig',
   heroStyle1Template: 'templates/components/moody-hero-1.html.twig',
   heroStyle2Template: 'templates/components/moody-hero-2.html.twig',
@@ -179,8 +181,8 @@ const forbidPattern = (file, pattern, message) => {
 
 try {
   const packageJson = JSON.parse(contents.package ?? '');
-  if (packageJson.version !== '0.26.0') {
-    errors.push('The shared UT Drupal Kit Flex List release must remain versioned as 0.26.0.');
+  if (packageJson.version !== '0.27.0') {
+    errors.push('The accessible UT Drupal Kit Hero Carousel release must remain versioned as 0.27.0.');
   }
   for (const [dependency, version] of [
     ['animejs', '4.5.0'],
@@ -242,8 +244,9 @@ requireText('libraries', 'css/components/call-to-action.css', 'Shared Call to Ac
 requireText('libraries', 'css/components/resource-group.css', 'Shared Resource Group styles must remain attached.');
 requireText('libraries', 'css/components/flex-tabs.css', 'Shared Flex Tabs styles must remain attached.');
 requireText('libraries', 'css/components/flex-list.css', 'Shared UT Drupal Kit Flex List styles must remain attached.');
+requireText('libraries', 'css/components/hero-carousel.css', 'Accessible UT Drupal Kit Hero Carousel styles must remain attached.');
 requireText('libraries', 'js/dist/motion.min.js', 'The built motion integration must remain attached.');
-requireText('libraries', 'version: 0.26.0', 'The Drupal asset version must match the shared Flex List release.');
+requireText('libraries', 'version: 0.27.0', 'The Drupal asset version must match the Hero Carousel release.');
 forbidText('info', '- moody26/motion', 'Optional motion must be attached from theme settings rather than globally.');
 
 requireText('settings', "header_social_links_block: ''", 'Header social links must be optional for new installs.');
@@ -582,6 +585,35 @@ forbidText('flexListTabsTemplate', 'data-bs-toggle', 'Flex List horizontal tabs 
 forbidText('flexListTabsTemplate', 'role="tab"', 'Flex List tabs must add ARIA tab semantics only after enhancement.');
 forbidText('flexListTabsTemplate', '|raw', 'Flex List horizontal tabs must not bypass Drupal render safety.');
 forbidText('flexListTabsTemplate', ' hidden', 'Flex List fallback panels must remain visible before enhancement.');
+requireText('heroCarouselCss', 'component: UT Drupal Kit Hero Carousel', 'Hero Carousels must retain the Hallmark component contract.');
+requireText('heroCarouselCss', 'container: hero-carousel / inline-size;', 'Hero Carousels must respond to their Layout Builder container.');
+requireText('heroCarouselCss', '.hero-carousel__controls:not([hidden])', 'Hero Carousel controls must appear only after complete enhancement.');
+requireText('heroCarouselCss', '.hero-carousel__button:focus-visible', 'Hero Carousel controls need immediate visible focus.');
+requireText('heroCarouselCss', '@media (hover: hover) and (pointer: fine)', 'Hero Carousel hover feedback must be capability-gated.');
+requireText('heroCarouselCss', '@media (prefers-reduced-motion: reduce)', 'Hero Carousel transitions must honor reduced motion.');
+requireText('heroCarouselTemplate', "attributes.removeAttribute('id')", 'Hero Carousels must remove the provider field’s duplicate root ID.');
+requireText('heroCarouselTemplate', 'role="group"', 'Hero Carousel slides and controls must expose meaningful group semantics.');
+requireText('heroCarouselTemplate', 'aria-roledescription="{{ \'slide\'|t }}"', 'Hero Carousel slides must expose translated slide semantics.');
+requireText('heroCarouselTemplate', 'aria-label="{{ \'Slide @current of @total\'|t', 'Hero Carousel slides must expose their position and total.');
+requireText('heroCarouselTemplate', 'hidden data-hero-carousel-controls', 'Hero Carousel controls must stay absent from the no-JavaScript tab order.');
+forbidText('heroCarouselTemplate', 'data-bs-', 'Hero Carousel templates must not depend on Bootstrap state.');
+forbidText('heroCarouselTemplate', 'carousel-indicators', 'Hero Carousels must not create an unbounded indicator control rail.');
+forbidText('heroCarouselTemplate', '|raw', 'Hero Carousels must not bypass Drupal render safety.');
+requireText('theme', "$block_content->bundle() === 'utexas_hero_carousel'", 'Hero Carousel preprocessing must remain bundle scoped.');
+requireText('theme', "'utexas_hero_carousel/formatter'", 'Hero Carousels must remove only the provider’s Bootstrap behavior attachment.');
+requireText('theme', "$legacy_classes = ['utexas-hero-carousel', 'carousel', 'slide', 'carousel-fade'];", 'Hero Carousels must remove the provider’s competing Bootstrap classes.');
+requireText('theme', "['data-hero-carousel-autoplay']", 'Hero Carousels must preserve the editor’s autoplay choice.');
+requireText('theme', "['data-hero-carousel-interval']", 'Hero Carousels must preserve a bounded editor speed choice.');
+requireText('theme', "['aria-roledescription'] = t('carousel')", 'Hero Carousels must expose a translated carousel region.');
+requireText('theme', 'CacheableMetadata::createFromObject($block_content)', 'Hero Carousel entity metadata must remain cacheable.');
+requireText('accessibility', "once('moody26-hero-carousel'", 'Hero Carousel enhancement must remain idempotent.');
+requireText('accessibility', "window.matchMedia('(prefers-reduced-motion: reduce)')", 'Hero Carousel autoplay must honor reduced motion.');
+requireText('accessibility', "slide.setAttribute('aria-hidden', 'true')", 'Inactive Hero Carousel slides must leave the accessibility tree.');
+requireText('accessibility', 'slide.inert = !active;', 'Inactive Hero Carousel content must leave the keyboard order.');
+requireText('accessibility', "carousel.addEventListener('focusin'", 'Hero Carousel autoplay must pause while keyboard focus is inside.');
+requireText('accessibility', "carousel.addEventListener('pointerenter'", 'Hero Carousel autoplay must pause while a pointer is inside.');
+requireText('accessibility', "document.addEventListener('visibilitychange', schedule)", 'Hero Carousel autoplay must stop in a hidden document.');
+forbidText('accessibility', 'bootstrap.Carousel', 'Hero Carousel behavior must not depend on Bootstrap.');
 requireText('discoveryIndex', 'repeat(12, minmax(0, 1fr))', 'Discovery grids must use safe image-bearing tracks.');
 requireText('discoveryIndex', '.linked-focus-area-item:focus-visible', 'Focus Area tasks need immediate visible focus.');
 requireText('discoveryIndex', '.utexas-promo-unit .data-wrapper > a:focus-visible', 'Promo Unit links need immediate visible focus.');
@@ -984,6 +1016,7 @@ const runtimeFiles = [
   'contactInfoCss', 'contactInfoTemplate', 'callToActionCss',
   'resourceGroupCss', 'utexasResourcesTemplate', 'moodyResourceGroupTemplate',
   'flexTabsCss', 'flexTabsTemplate',
+  'heroCarouselCss', 'heroCarouselTemplate',
   'heroTemplate', 'heroStyle1Template', 'heroStyle2Template', 'heroStyle3Template',
   'heroStyle4Template', 'heroStyle5Template', 'heroStyle6Template', 'heroStyle6ShortTemplate',
   'heroStyle7Template', 'heroStyle8Template',
@@ -1011,7 +1044,7 @@ for (const file of runtimeFiles) {
   }
 }
 
-const cssFiles = ['css', 'headerSocialCss', 'quickActionsCss', 'landingHero', 'editorialSections', 'featuredHighlightCss', 'promoListCss', 'flexContentCss', 'imageLinkCss', 'flexColorBlocksCss', 'quotationCss', 'flexGridCss', 'impactFactsCss', 'showcaseCss', 'contactInfoCss', 'callToActionCss', 'resourceGroupCss', 'flexTabsCss', 'discoveryIndex', 'accordionCss', 'peopleDirectory', 'newsroom', 'motionCss', 'settingsCss'];
+const cssFiles = ['css', 'headerSocialCss', 'quickActionsCss', 'landingHero', 'editorialSections', 'featuredHighlightCss', 'promoListCss', 'flexContentCss', 'imageLinkCss', 'flexColorBlocksCss', 'quotationCss', 'flexGridCss', 'impactFactsCss', 'showcaseCss', 'contactInfoCss', 'callToActionCss', 'resourceGroupCss', 'flexTabsCss', 'heroCarouselCss', 'discoveryIndex', 'accordionCss', 'peopleDirectory', 'newsroom', 'motionCss', 'settingsCss'];
 const forbiddenCss = [
   [/#(?:[0-9a-f]{3}|[0-9a-f]{6}|[0-9a-f]{8})\b/i, 'Raw hex colors belong only in tokens.css.'],
   [/\b(?:rgb|rgba|hsl|hsla|oklch)\(/i, 'Raw color functions belong only in tokens.css.'],
@@ -1042,7 +1075,7 @@ for (const file of ['preflight', 'log']) {
     errors.push(`${file} must contain valid JSON.`);
   }
 }
-requireText('preflight', '"package_version": "0.26.0"', 'Hallmark preflight must match the shared Flex List release.');
+requireText('preflight', '"package_version": "0.27.0"', 'Hallmark preflight must match the Hero Carousel release.');
 requireText('log', 'Conversational FAQ within the Ecosystem Index', 'Hallmark memory must record the shared accordion macrostructure.');
 requireText('log', 'Editorial media directory within the Ecosystem Index', 'Hallmark memory must record the shared Moody Flex Grid component.');
 requireText('log', 'Editorial Signal Band within the Ecosystem Index', 'Hallmark memory must record the shared Moody Promotion signal band.');
@@ -1080,6 +1113,7 @@ requireText('readme', 'Shared Call to Action blocks', 'README must document the 
 requireText('readme', 'Shared Resource Groups', 'README must document the shared Resource Group layer.');
 requireText('readme', 'Shared Flex Tabs', 'README must document the progressive shared Flex Tabs layer.');
 requireText('readme', 'Shared UT Drupal Kit Flex Lists', 'README must document all UT Drupal Kit Flex List displays.');
+requireText('readme', 'Accessible UT Drupal Kit Hero Carousels', 'README must document the progressive Hero Carousel layer.');
 requireText('agents', '`header_social_links_block`', 'AGENTS.md must preserve the header Social Links contract.');
 requireText('agents', 'Missing, unpublished, non-reusable, inaccessible, wrong-bundle, or malformed', 'AGENTS.md must require Social Links to fail closed.');
 requireText('agents', '### People directories', 'AGENTS.md must preserve the people-directory contract.');
@@ -1097,6 +1131,7 @@ requireText('agents', '### Moody Flex Grids', 'AGENTS.md must preserve the Moody
 requireText('agents', '### Moody Impact Facts', 'AGENTS.md must preserve the Moody Impact Facts component contract.');
 requireText('agents', '### Flex Tabs', 'AGENTS.md must preserve the progressive Flex Tabs component contract.');
 requireText('agents', '### UT Drupal Kit Flex Lists', 'AGENTS.md must preserve the shared Flex List component contract.');
+requireText('agents', '### UT Drupal Kit Hero Carousels', 'AGENTS.md must preserve the accessible Hero Carousel component contract.');
 requireText('agents', '### Moody Showcases', 'AGENTS.md must preserve the Moody Showcase component contract.');
 requireText('agents', '### Moody Heroes', 'AGENTS.md must preserve the Moody Hero component contract.');
 requireText('agents', '### UT Drupal Kit Heroes', 'AGENTS.md must preserve the UT Drupal Kit Hero component contract.');
@@ -1112,5 +1147,5 @@ if (errors.length) {
   process.exitCode = 1;
 }
 else {
-  console.log(`Moody26 verification passed (${Object.keys(files).length} source files, ${fonts.length} local fonts, standalone shell, UT brand, accessible directories, resource hubs, Resource Groups, Flex Tabs, UT Drupal Kit Flex Lists, newsroom, accordions, Featured Highlights, Moody Promotions, Promo Lists, Flex Content Areas, Image Links, Flex Color Blocks, Moody Quotations, Moody Flex Grids, Moody Impact Facts, Moody and UT Drupal Kit Heroes, Moody Showcases, Moody Contact Info, and Call to Action blocks, header social links, motion, responsive, and Hallmark gates).`);
+  console.log(`Moody26 verification passed (${Object.keys(files).length} source files, ${fonts.length} local fonts, standalone shell, UT brand, accessible directories, resource hubs, Resource Groups, Flex Tabs, UT Drupal Kit Flex Lists and Hero Carousels, newsroom, accordions, Featured Highlights, Moody Promotions, Promo Lists, Flex Content Areas, Image Links, Flex Color Blocks, Moody Quotations, Moody Flex Grids, Moody Impact Facts, Moody and UT Drupal Kit Heroes, Moody Showcases, Moody Contact Info, and Call to Action blocks, header social links, motion, responsive, and Hallmark gates).`);
 }

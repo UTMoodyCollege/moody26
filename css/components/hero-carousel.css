@@ -1,0 +1,180 @@
+/* Hallmark · component: UT Drupal Kit Hero Carousel · macrostructure: editorial viewport
+ * genre: editorial · theme: UT custom · media: content-owned · motion: authored cut/fade
+ * states: default/hover/focus/active/disabled, playing/paused, reduced motion
+ * contrast: pass (40–41) · slop: pass (1–58) · icons/tokens: pass (30, 48)
+ * mobile: pass (34, 49–57) · responsive: 320/375/414/768 · no-JS: sequential slides
+ */
+/* Hallmark · pre-emit critique: P5 H5 E5 S5 R5 V5 */
+
+.block-bundle-utexas-hero-carousel,
+.moody26-hero-carousel,
+.hero-carousel__slides,
+.hero-carousel__slide,
+.hero-carousel__controls {
+  min-width: 0;
+}
+
+.block-bundle-utexas-hero-carousel {
+  container: hero-carousel / inline-size;
+  max-width: none;
+}
+
+.moody26-hero-carousel {
+  position: relative;
+  isolation: isolate;
+  overflow: clip;
+  background: var(--color-ink);
+  color: var(--color-ut-white);
+}
+
+.hero-carousel__slides {
+  display: grid;
+  gap: var(--space-md);
+}
+
+.hero-carousel__slide {
+  position: relative;
+}
+
+.moody26-hero-carousel--enhanced .hero-carousel__slides {
+  gap: 0;
+}
+
+.moody26-hero-carousel--enhanced .hero-carousel__slide {
+  grid-area: 1 / 1;
+  visibility: hidden;
+  opacity: 0;
+  pointer-events: none;
+}
+
+.moody26-hero-carousel--enhanced .hero-carousel__slide[data-hero-carousel-active] {
+  z-index: var(--z-media);
+  visibility: visible;
+  opacity: 1;
+  pointer-events: auto;
+}
+
+.moody26-hero-carousel--fade.moody26-hero-carousel--enhanced .hero-carousel__slide {
+  transition: opacity var(--dur-long) var(--ease-in-out), visibility 0s linear var(--dur-long);
+}
+
+.moody26-hero-carousel--fade.moody26-hero-carousel--enhanced .hero-carousel__slide[data-hero-carousel-active] {
+  transition-delay: 0s;
+}
+
+.hero-carousel__controls:not([hidden]) {
+  position: relative;
+  z-index: var(--z-raised);
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: var(--space-xs);
+  align-items: center;
+  padding: var(--space-sm) var(--page-gutter);
+  border-block-start: var(--rule-strong) solid var(--color-accent);
+  background: var(--color-paper-2);
+  color: var(--color-ink);
+}
+
+.hero-carousel__status {
+  grid-column: 1 / -1;
+  margin: 0;
+  color: var(--color-muted);
+  font-family: var(--font-body);
+  font-size: var(--text-sm);
+  font-variant-numeric: tabular-nums;
+  font-weight: 600;
+  line-height: var(--leading-body);
+}
+
+.hero-carousel__controls .hero-carousel__button {
+  display: inline-flex;
+  width: 100%;
+  min-width: 0;
+  min-height: var(--target-min);
+  align-items: center;
+  justify-content: center;
+  gap: var(--space-xs);
+  padding: var(--space-xs) var(--space-sm);
+  border: var(--rule-strong) solid var(--color-control-border);
+  border-radius: var(--radius-sm);
+  background: var(--color-paper);
+  color: var(--color-ink);
+  font-family: var(--font-body);
+  font-size: var(--text-sm);
+  font-weight: 700;
+  line-height: 1.25;
+  text-align: center;
+  text-decoration: none;
+  transition: var(--transition-control);
+  white-space: nowrap;
+}
+
+.hero-carousel__controls .hero-carousel__button:focus-visible {
+  outline: var(--focus-outline);
+  outline-offset: var(--space-2xs);
+  box-shadow: var(--focus-halo);
+}
+
+.hero-carousel__controls .hero-carousel__button:active {
+  background: var(--color-ink);
+  color: var(--color-ut-white);
+  transform: translateY(var(--space-3xs));
+}
+
+.hero-carousel__controls .hero-carousel__button:disabled,
+.hero-carousel__controls .hero-carousel__button[aria-disabled="true"] {
+  cursor: not-allowed;
+  opacity: 0.55;
+}
+
+.hero-carousel__button-icon {
+  flex: 0 0 auto;
+  font-family: var(--font-body);
+  font-size: var(--text-lead);
+  font-weight: 600;
+  line-height: 1;
+  text-decoration: none;
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .hero-carousel__controls .hero-carousel__button:hover:not(:disabled, [aria-disabled="true"]) {
+    background: var(--color-paper-3);
+    color: var(--color-ink);
+  }
+}
+
+@container hero-carousel (min-width: 40rem) {
+  .hero-carousel__controls:not([hidden]) {
+    grid-template-columns: minmax(0, 1fr) auto auto auto;
+  }
+
+  .hero-carousel__status {
+    grid-column: auto;
+  }
+
+  .hero-carousel__controls .hero-carousel__button {
+    width: auto;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .moody26-hero-carousel--enhanced .hero-carousel__slide,
+  .hero-carousel__controls .hero-carousel__button {
+    transition: none;
+  }
+
+  .moody26-hero-carousel--enhanced .hero-carousel__slide {
+    transition-duration: 0s !important;
+  }
+
+  .hero-carousel__controls .hero-carousel__button:active {
+    transform: none;
+  }
+}
+
+@media (forced-colors: active) {
+  .hero-carousel__controls:not([hidden]),
+  .hero-carousel__controls .hero-carousel__button {
+    border-color: ButtonText;
+  }
+}

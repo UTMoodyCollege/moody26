@@ -6,7 +6,7 @@ visual identity with an accessible, editorial system that can serve academic,
 research, film, journalism, advertising, alumni, event, and public-facing
 sites without requiring the legacy Moody or Speedway themes.
 
-> **Project status:** pre-release (`0.26.0`). The theme is being validated in
+> **Project status:** pre-release (`0.27.0`). The theme is being validated in
 > [Moody Core](https://github.com/UTMoodyCollege/moody-core) before its first
 > stable tag. Pin an exact commit when evaluating the `main` branch.
 
@@ -35,6 +35,9 @@ sites without requiring the legacy Moody or Speedway themes.
   adaptive heading levels, resilient optional media, and migration-safe views.
 - Shared UT Drupal Kit Flex Lists with a heading-safe editorial ledger, native
   disclosures, and progressive horizontal tabs that do not require Bootstrap.
+- Accessible UT Drupal Kit Hero Carousels with concise native controls,
+  focus/hover pausing, reduced-motion protection, and a complete no-JavaScript
+  reading order.
 - Shared Featured Highlights with resilient image and video handling,
   text-only composition, editor-owned links, and normalized legacy variants.
 - Shared Moody Promotions with page-safe headings, optional fields, empty-block
@@ -412,6 +415,31 @@ CSS while preserving its formatter behavior. The shared component provides
 real heading and paragraph semantics, readable image fallbacks, safe narrow
 tracks, 44-pixel CTA targets, complete keyboard states, and tested reflow at
 320, 375, 414, and 768 CSS pixels without page-specific selectors.
+
+### Accessible UT Drupal Kit Hero Carousels
+
+Moody26 progressively enhances the UT Drupal Kit Hero Carousel without editing
+the Composer-managed provider. Drupal and editors continue to own slide order,
+Hero output, media alternatives, links, preload and responsive-background
+attachments, autoplay, speed, fade, cacheability, and Layout Builder placement.
+The theme removes only the provider’s Bootstrap behavior and presentation
+classes, then applies its own bounded, dependency-free controller.
+
+Without JavaScript, every authored slide remains visible in document order and
+no inert controls enter the keyboard sequence. With enhancement, one labelled
+slide is exposed at a time, inactive slides are both `aria-hidden` and inert,
+and the control band uses Previous, Play/Pause, and Next buttons plus a concise
+“Slide N of total” status instead of an unbounded indicator rail. Controls have
+44 CSS-pixel targets, immediate focus, non-color active feedback, and safe
+reflow from 320 CSS pixels upward.
+
+Editor-enabled autoplay pauses while a pointer is within the component and
+while the document is hidden, then resumes when that temporary condition
+clears. Keyboard focus stops automatic rotation until the visitor explicitly
+requests Play. `prefers-reduced-motion` prevents automatic startup and removes
+fades; a visitor may still explicitly request Play. Manual navigation remains
+immediate, announces the new slide position, and never moves focus or page
+position.
 
 ### Shared newsroom components
 

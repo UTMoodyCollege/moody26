@@ -1,0 +1,38 @@
+{#
+/**
+ * @file
+ * Progressive, Bootstrap-free UT Drupal Kit Hero Carousel field adapter.
+ */
+#}
+{% set total = items|length %}
+
+<div{{ attributes.removeAttribute('id').addClass('hero-carousel__slides') }} data-hero-carousel-slides>
+  {% for item in items %}
+    <div{{ item.attributes.addClass('hero-carousel__slide') }}
+      role="group"
+      aria-roledescription="{{ 'slide'|t }}"
+      aria-label="{{ 'Slide @current of @total'|t({'@current': loop.index, '@total': total}) }}"
+      data-hero-carousel-slide>
+      {{ item.content }}
+    </div>
+  {% endfor %}
+</div>
+
+{% if total > 1 %}
+  <div class="hero-carousel__controls" role="group" aria-label="{{ 'Carousel controls'|t }}" hidden data-hero-carousel-controls>
+    <p class="hero-carousel__status" aria-atomic="true" aria-live="off" data-hero-carousel-status>
+      {{ 'Slide 1 of @total'|t({'@total': total}) }}
+    </p>
+    <button class="hero-carousel__button hero-carousel__button--previous" type="button" data-hero-carousel-previous>
+      <span class="hero-carousel__button-icon" aria-hidden="true">←</span>
+      <span>{{ 'Previous'|t }}</span>
+    </button>
+    <button class="hero-carousel__button hero-carousel__button--toggle" type="button" data-hero-carousel-toggle>
+      <span data-hero-carousel-toggle-label>{{ 'Pause'|t }}</span>
+    </button>
+    <button class="hero-carousel__button hero-carousel__button--next" type="button" data-hero-carousel-next>
+      <span>{{ 'Next'|t }}</span>
+      <span class="hero-carousel__button-icon" aria-hidden="true">→</span>
+    </button>
+  </div>
+{% endif %}

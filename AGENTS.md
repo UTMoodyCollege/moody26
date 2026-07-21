@@ -536,6 +536,39 @@ not belong outside the token and font declaration files.
   authored content readable on the ink fallback. Never insert placeholder art
   or duplicate a destination.
 
+### UT Drupal Kit Hero Carousels
+
+- Treat `utexas_hero_carousel` as a progressive wrapper around the shared UT
+  Drupal Kit Hero contract. Preserve slide order, Hero render arrays, media
+  alternatives, destinations, preload and responsive-background attachments,
+  autoplay, speed, fade, cacheability, and Layout Builder placement. Do not edit
+  the Composer-managed provider or reconstruct slide content.
+- Remove only `utexas_hero_carousel/formatter` and its block-local settings in
+  `moody26_preprocess_block()`. Strip the provider’s Bootstrap presentation
+  classes, retain its unique root ID, and never suppress field-level media or
+  preload attachments.
+- The no-JavaScript contract is every authored slide in document order with the
+  controls hidden. Enhancement may expose one slide at a time only after it can
+  also mark inactive slides `aria-hidden="true"` and inert. Never hide fallback
+  content in Twig or require Bootstrap to restore it.
+- Name the root as a carousel region from the reusable block label. Name each
+  slide with its current position and total, and expose Previous, Play/Pause,
+  Next, and a concise live position status. Do not generate one button per slide
+  or restore the provider’s full-height overlay controls.
+- Editor-enabled autoplay must pause while a pointer is within the component
+  and while the document is hidden. Keyboard focus stops automatic rotation
+  until an explicit Play action. Reduced motion prevents automatic startup and
+  removes fades; only an explicit Play action may opt in. Manual navigation
+  announces position without moving focus or scroll.
+- Keep every control at least 44 CSS pixels, with one-line labels, immediate
+  visible focus, non-color active feedback, capability-gated hover, and honest
+  disabled treatment. The synchronous controller does not fabricate loading,
+  error, or success states.
+- Verify 320, 375, 414, 768, and wide layouts; keyboard traversal; focus and
+  pointer pausing; Play/Pause state; wraparound navigation; hidden-document and
+  reduced-motion behavior; no-JavaScript reading order; and long carousels that
+  do not create an indicator rail or document overflow.
+
 ### Newsroom components
 
 - Treat the `news_filtered` View’s `block_filtered` display as the reference
@@ -1019,6 +1052,9 @@ Texas requirements. The current University compliance date is March 1, 2026.
   for the native Drupal visual-options form.
 - `css/components/landing-hero.css`: semantic Moody Hero overlay/split system
   and restrained ambient-video composition.
+- `css/components/hero-carousel.css`: progressively enhanced UT Drupal Kit
+  Hero Carousel viewport, compact controls, no-JavaScript flow, and motion
+  preference safeguards.
 - `css/components/editorial-sections.css`: shared editorial pairings, proof,
   CTA, and form treatments for Layout Builder output not yet promoted to a
   dedicated component contract.

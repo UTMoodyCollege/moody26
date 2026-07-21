@@ -8,6 +8,7 @@
 use Drupal\Component\Uuid\Uuid;
 use Drupal\Component\Utility\Html;
 use Drupal\Core\Cache\CacheableMetadata;
+use Drupal\Core\Entity\ContentEntityInterface;
 use Drupal\Core\Form\FormStateInterface;
 use Drupal\Core\Template\Attribute;
 use Drupal\node\NodeInterface;
@@ -237,6 +238,47 @@ function moody26_add_intrinsic_image_dimensions(mixed &$media): void {
  * Implements hook_preprocess_block().
  */
 function moody26_preprocess_block(array &$variables): void {
+  $block_content = $variables['content']['#block_content'] ?? NULL;
+  if ($block_content instanceof ContentEntityInterface && $block_content->bundle() === 'utexas_hero_carousel') {
+    $autoplay = $block_content->hasField('field_hero_carousel_autoplay')
+      && $block_content->get('field_hero_carousel_autoplay')->getString() === '1';
+    $fade = $block_content->hasField('field_hero_carousel_fade')
+      && $block_content->get('field_hero_carousel_fade')->getString() === '1';
+    $speed = $block_content->hasField('field_hero_carousel_speed')
+      ? (float) $block_content->get('field_hero_carousel_speed')->getString()
+      : 5.0;
+    $interval = (int) round(max(1.0, min(10.0, $speed ?: 5.0)) * 1000);
+    $label = trim((string) $block_content->label());
+
+    $legacy_classes = ['utexas-hero-carousel', 'carousel', 'slide', 'carousel-fade'];
+    $variables['attributes']['class'] = array_values(array_diff(
+      $variables['attributes']['class'] ?? [],
+      $legacy_classes,
+    ));
+    $variables['attributes']['class'][] = 'moody26-hero-carousel';
+    $variables['attributes']['class'][] = $fade
+      ? 'moody26-hero-carousel--fade'
+      : 'moody26-hero-carousel--cut';
+    $variables['attributes']['data-hero-carousel'] = '';
+    $variables['attributes']['data-hero-carousel-autoplay'] = $autoplay ? 'true' : 'false';
+    $variables['attributes']['data-hero-carousel-interval'] = (string) $interval;
+    $variables['attributes']['role'] = 'region';
+    $variables['attributes']['aria-roledescription'] = t('carousel');
+    $variables['attributes']['aria-label'] = $label === ''
+      ? t('Image carousel')
+      : t('@title image carousel', ['@title' => $label]);
+
+    $libraries = $variables['content']['#attached']['library'] ?? [];
+    if (is_array($libraries)) {
+      $variables['content']['#attached']['library'] = array_values(array_filter(
+        $libraries,
+        static fn (string $library): bool => $library !== 'utexas_hero_carousel/formatter',
+      ));
+    }
+    unset($variables['content']['#attached']['drupalSettings']['utexas_hero_carousel']);
+    CacheableMetadata::createFromObject($block_content)->applyTo($variables);
+  }
+
   $plugin_id = $variables['base_plugin_id'] ?? '';
 
   // The news landing page's authored lead predates the one-h1 page contract.

@@ -346,6 +346,145 @@
         component.classList.add('flex-tabs--enhanced');
         activate(hashIndex >= 0 ? hashIndex : Math.max(0, authoredIndex));
       });
+
+      once('moody26-hero-carousel', '[data-hero-carousel]', context).forEach((carousel) => {
+        const slides = [...carousel.querySelectorAll('[data-hero-carousel-slide]')];
+        const controls = carousel.querySelector('[data-hero-carousel-controls]');
+        const previous = controls?.querySelector('[data-hero-carousel-previous]');
+        const next = controls?.querySelector('[data-hero-carousel-next]');
+        const toggle = controls?.querySelector('[data-hero-carousel-toggle]');
+        const toggleLabel = toggle?.querySelector('[data-hero-carousel-toggle-label]');
+        const status = controls?.querySelector('[data-hero-carousel-status]');
+        if (slides.length < 2 || !controls || !previous || !next || !toggle || !toggleLabel || !status) {
+          return;
+        }
+
+        const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)');
+        const authoredAutoplay = carousel.dataset.heroCarouselAutoplay === 'true';
+        const parsedInterval = Number.parseInt(carousel.dataset.heroCarouselInterval ?? '', 10);
+        const interval = Number.isFinite(parsedInterval)
+          ? Math.max(1000, Math.min(10000, parsedInterval))
+          : 5000;
+        let activeIndex = 0;
+        let timer = 0;
+        let pointerInside = false;
+        let focusInside = false;
+        let togglePointerDown = false;
+        let userOverrodePlayback = false;
+        let playRequested = authoredAutoplay && !reducedMotion.matches;
+
+        const updateToggle = () => {
+          toggleLabel.textContent = playRequested ? Drupal.t('Pause') : Drupal.t('Play');
+        };
+
+        const stopTimer = () => {
+          window.clearTimeout(timer);
+          timer = 0;
+        };
+
+        const canAdvance = () => (
+          playRequested
+          && !pointerInside
+          && !focusInside
+          && !document.hidden
+        );
+
+        const schedule = () => {
+          stopTimer();
+          if (!canAdvance()) {
+            return;
+          }
+          timer = window.setTimeout(() => {
+            activate(activeIndex + 1);
+            schedule();
+          }, interval);
+        };
+
+        const activate = (requestedIndex, announce = false) => {
+          activeIndex = (requestedIndex + slides.length) % slides.length;
+          slides.forEach((slide, index) => {
+            const active = index === activeIndex;
+            slide.toggleAttribute('data-hero-carousel-active', active);
+            if (active) {
+              slide.removeAttribute('aria-hidden');
+            }
+            else {
+              slide.setAttribute('aria-hidden', 'true');
+            }
+            slide.inert = !active;
+          });
+          status.setAttribute('aria-live', announce ? 'polite' : 'off');
+          status.textContent = Drupal.t('Slide @current of @total', {
+            '@current': activeIndex + 1,
+            '@total': slides.length,
+          });
+        };
+
+        previous.addEventListener('click', () => {
+          activate(activeIndex - 1, true);
+          schedule();
+        });
+        next.addEventListener('click', () => {
+          activate(activeIndex + 1, true);
+          schedule();
+        });
+        toggle.addEventListener('pointerdown', () => {
+          togglePointerDown = true;
+        });
+        toggle.addEventListener('pointerup', () => {
+          togglePointerDown = false;
+        });
+        toggle.addEventListener('pointercancel', () => {
+          togglePointerDown = false;
+        });
+        toggle.addEventListener('click', () => {
+          userOverrodePlayback = true;
+          playRequested = !playRequested;
+          updateToggle();
+          schedule();
+        });
+
+        carousel.addEventListener('pointerenter', () => {
+          pointerInside = true;
+          stopTimer();
+        });
+        carousel.addEventListener('pointerleave', () => {
+          pointerInside = false;
+          schedule();
+        });
+        carousel.addEventListener('focusin', (event) => {
+          focusInside = true;
+          stopTimer();
+          if (event.target !== toggle || !togglePointerDown) {
+            userOverrodePlayback = true;
+            playRequested = false;
+            updateToggle();
+          }
+        });
+        carousel.addEventListener('focusout', (event) => {
+          if (!carousel.contains(event.relatedTarget)) {
+            focusInside = false;
+            schedule();
+          }
+        });
+        document.addEventListener('visibilitychange', schedule);
+        reducedMotion.addEventListener('change', (event) => {
+          if (event.matches) {
+            playRequested = false;
+          }
+          else if (!userOverrodePlayback) {
+            playRequested = authoredAutoplay;
+          }
+          updateToggle();
+          schedule();
+        });
+
+        activate(0);
+        updateToggle();
+        carousel.classList.add('moody26-hero-carousel--enhanced');
+        controls.hidden = false;
+        schedule();
+      });
     },
   };
 })(Drupal, once);
