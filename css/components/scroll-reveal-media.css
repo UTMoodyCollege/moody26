@@ -1,0 +1,387 @@
+/* Hallmark · component: Moody Scroll Reveal Media · genre: editorial
+ * tone: youthful academic restraint · anchor hue: exact UT burnt orange
+ * macrostructure: static media sequence · states: default · hover · focus · active · disabled · loading · error · success
+ * slop: pass (component-scope universal gates) · contrast: pass (40–41) · responsive: pass (34, 49–57)
+ * honest: pass (46) · chrome: pass (47) · tokens: pass (48) · icons: pass (30) · motion: provider scroll scrub removed
+ */
+/* Hallmark · pre-emit critique: P5 H5 E5 S5 R5 V5 */
+
+.moody26-scroll-media {
+  container: moody26-scroll-media / inline-size;
+  min-inline-size: 0;
+  margin-inline: auto;
+  padding-block: var(--space-lg) var(--space-2xl);
+  border-block-start: var(--rule-strong) solid var(--color-accent);
+  color: var(--color-ink);
+  font-family: var(--font-body);
+}
+
+.moody26-scroll-media__header,
+.moody26-scroll-media__list,
+.moody26-scroll-media__item,
+.moody26-scroll-media__media,
+.moody26-scroll-media__media-inner,
+.moody26-scroll-media__content,
+.moody26-scroll-media__overlay,
+.moody26-scroll-media__overlay-copy {
+  min-inline-size: 0;
+}
+
+.moody26-scroll-media__header {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  gap: var(--space-sm);
+  margin-block-end: var(--space-xl);
+}
+
+.moody26-scroll-media__header::after {
+  inline-size: min(100%, 12rem);
+  block-size: var(--rule-hair);
+  background: var(--color-rule-strong);
+  content: "";
+}
+
+.moody26-scroll-media__headline {
+  max-inline-size: 20ch;
+  margin: 0;
+  color: var(--color-ink);
+  font-family: var(--font-display);
+  font-size: var(--text-heading);
+  font-style: normal;
+  font-weight: 700;
+  line-height: var(--leading-heading);
+  overflow-wrap: anywhere;
+}
+
+.moody26-scroll-media__list {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  gap: var(--space-xl);
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.moody26-scroll-media__item {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  gap: var(--component-gap);
+  margin: 0;
+  padding-block-start: var(--space-lg);
+  border-block-start: var(--rule-hair) solid var(--color-rule-strong);
+  background: var(--color-paper);
+  color: var(--color-ink);
+}
+
+.moody26-scroll-media__item:first-child {
+  padding-block-start: 0;
+  border-block-start: 0;
+}
+
+.moody26-scroll-media__media {
+  display: grid;
+}
+
+.moody26-scroll-media__media-inner {
+  position: relative;
+  display: grid;
+  overflow: clip;
+  background: var(--color-paper-2);
+}
+
+.moody26-scroll-media__media-inner > *,
+.moody26-scroll-media__media-inner :where(.field, .field__item, .media, .utexas-field, .utexas-image-link) {
+  min-inline-size: 0;
+  max-inline-size: 100%;
+}
+
+.moody26-scroll-media__media-inner img {
+  display: block;
+  inline-size: 100%;
+  block-size: auto;
+}
+
+.moody26-scroll-media__media-inner :where(video, iframe) {
+  display: block;
+  inline-size: 100%;
+  block-size: auto;
+  aspect-ratio: var(--media-feature-ratio);
+  border: 0;
+  background: var(--color-ink);
+  object-fit: contain;
+}
+
+.moody26-scroll-media__media-inner :where(video, iframe):focus-visible {
+  outline: var(--focus-outline);
+  outline-offset: calc(-1 * var(--space-xs));
+  box-shadow: var(--focus-halo);
+}
+
+.moody26-scroll-media__overlay {
+  position: absolute;
+  inset: 0;
+  z-index: var(--z-media);
+  display: flex;
+  align-items: flex-end;
+  justify-content: flex-start;
+  padding: clamp(var(--space-md), 4cqi, var(--space-xl));
+  pointer-events: none;
+}
+
+.moody26-scroll-media__overlay-copy {
+  display: grid;
+  gap: var(--space-sm);
+  max-inline-size: min(34rem, 100%);
+  padding: clamp(var(--space-md), 3cqi, var(--space-xl));
+  border-block-start: var(--rule-strong) solid var(--color-accent);
+  background: var(--color-ink);
+  color: var(--color-accent-ink);
+  pointer-events: auto;
+}
+
+.moody26-scroll-media__content {
+  align-content: center;
+  display: grid;
+  gap: var(--space-md);
+  max-inline-size: var(--content-narrow);
+}
+
+.moody26-scroll-media__eyebrow {
+  margin: 0;
+  color: var(--color-accent);
+  font-size: var(--text-sm);
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  line-height: var(--leading-body);
+  text-transform: uppercase;
+}
+
+.moody26-scroll-media__title {
+  max-inline-size: 22ch;
+  margin: 0;
+  color: var(--color-ink);
+  font-family: var(--font-display);
+  font-size: var(--text-heading);
+  font-style: normal;
+  font-weight: 700;
+  line-height: var(--leading-heading);
+  overflow-wrap: anywhere;
+}
+
+.moody26-scroll-media__title--overlay {
+  max-inline-size: 18ch;
+  color: var(--color-accent-ink);
+  font-size: var(--text-heading);
+  line-height: var(--leading-tight);
+}
+
+.moody26-scroll-media__body {
+  max-inline-size: var(--measure);
+  font-size: var(--text-base);
+  line-height: var(--leading-body);
+}
+
+.moody26-scroll-media__body > :first-child {
+  margin-block-start: 0;
+}
+
+.moody26-scroll-media__body > :last-child {
+  margin-block-end: 0;
+}
+
+.moody26-scroll-media__body--overlay {
+  color: var(--color-accent-ink);
+}
+
+.moody26-scroll-media__body--overlay :where(p, ul, ol, blockquote) {
+  color: inherit;
+}
+
+.moody26-scroll-media__body a,
+.moody26-scroll-media__link {
+  display: inline-flex;
+  min-block-size: var(--target-min);
+  align-items: center;
+  color: var(--color-link);
+  font-weight: 700;
+  text-decoration-line: underline;
+  text-decoration-thickness: var(--rule-hair);
+  text-underline-offset: var(--space-2xs);
+  transition: var(--transition-color), var(--transition-background);
+}
+
+.moody26-scroll-media__body--overlay a {
+  color: var(--color-accent-ink);
+}
+
+.moody26-scroll-media__body a:visited,
+.moody26-scroll-media__link:visited {
+  color: var(--color-ink-2);
+}
+
+.moody26-scroll-media__body--overlay a:visited {
+  color: var(--color-accent-ink);
+}
+
+.moody26-scroll-media__body a:is(:focus-visible, .is-focus),
+.moody26-scroll-media__link:is(:focus-visible, .is-focus) {
+  outline: var(--focus-outline);
+  outline-offset: var(--space-2xs);
+  box-shadow: var(--focus-halo);
+}
+
+.moody26-scroll-media__body a:is(:active, .is-active),
+.moody26-scroll-media__link:is(:active, .is-active) {
+  background: var(--color-paper-3);
+  color: var(--color-ink);
+  text-decoration-thickness: var(--rule-strong);
+}
+
+.moody26-scroll-media__body a:is([aria-disabled="true"], .is-disabled),
+.moody26-scroll-media__link:is([aria-disabled="true"], .is-disabled) {
+  color: var(--color-muted);
+  cursor: not-allowed;
+  opacity: 0.68;
+  pointer-events: none;
+}
+
+.moody26-scroll-media__status {
+  display: grid;
+  min-block-size: 12rem;
+  margin: 0;
+  padding: var(--space-xl);
+  place-items: center;
+  color: var(--color-muted);
+  font-size: var(--text-base);
+  font-weight: 700;
+  line-height: var(--leading-body);
+  text-align: center;
+}
+
+.moody26-scroll-media__item.is-loading .moody26-scroll-media__media-inner {
+  cursor: progress;
+}
+
+.moody26-scroll-media__item.is-error .moody26-scroll-media__media-inner {
+  border: var(--rule-strong) solid var(--color-error);
+}
+
+.moody26-scroll-media__item.is-error .moody26-scroll-media__status {
+  color: var(--color-error);
+}
+
+.moody26-scroll-media__item.is-success .moody26-scroll-media__media-inner {
+  border: var(--rule-strong) solid var(--color-success);
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .moody26-scroll-media__body a:not([aria-disabled="true"]):is(:hover, .is-hover),
+  .moody26-scroll-media__link:not([aria-disabled="true"]):is(:hover, .is-hover) {
+    color: var(--color-accent);
+  }
+}
+
+@container moody26-scroll-media (min-width: 40rem) {
+  .moody26-scroll-media__list {
+    gap: clamp(var(--space-xl), 7cqi, var(--space-3xl));
+  }
+
+  .moody26-scroll-media__header {
+    grid-template-columns: minmax(0, 7fr) minmax(0, 5fr);
+    align-items: end;
+  }
+
+  .moody26-scroll-media__header::after {
+    inline-size: 100%;
+    margin-block-end: var(--space-xs);
+  }
+
+  .moody26-scroll-media__title--overlay {
+    font-size: var(--text-display-s);
+  }
+
+  .moody26-scroll-media__overlay--top-left,
+  .moody26-scroll-media__overlay--top-center,
+  .moody26-scroll-media__overlay--top-right {
+    align-items: flex-start;
+  }
+
+  .moody26-scroll-media__overlay--center-left,
+  .moody26-scroll-media__overlay--center,
+  .moody26-scroll-media__overlay--center-right {
+    align-items: center;
+  }
+
+  .moody26-scroll-media__overlay--bottom-left,
+  .moody26-scroll-media__overlay--bottom-center,
+  .moody26-scroll-media__overlay--bottom-right {
+    align-items: flex-end;
+  }
+
+  .moody26-scroll-media__overlay--top-center,
+  .moody26-scroll-media__overlay--center,
+  .moody26-scroll-media__overlay--bottom-center {
+    justify-content: center;
+  }
+
+  .moody26-scroll-media__overlay--top-right,
+  .moody26-scroll-media__overlay--center-right,
+  .moody26-scroll-media__overlay--bottom-right {
+    justify-content: flex-end;
+  }
+}
+
+@container moody26-scroll-media (min-width: 52rem) {
+  .moody26-scroll-media__item--split {
+    grid-template-columns: minmax(0, 7fr) minmax(0, 5fr);
+    align-items: center;
+  }
+
+  .moody26-scroll-media__item--media-only:nth-child(3n + 2) {
+    inline-size: 82%;
+    max-inline-size: 52rem;
+    margin-inline-start: auto;
+  }
+
+  .moody26-scroll-media__item--media-only:nth-child(3n) {
+    inline-size: 91%;
+    max-inline-size: 60rem;
+  }
+
+  .moody26-scroll-media__item--media-only:nth-child(3n + 1) {
+    max-inline-size: 64rem;
+  }
+}
+
+@supports not (container-type: inline-size) {
+  @media (min-width: 60rem) {
+    .moody26-scroll-media__list {
+      gap: var(--space-3xl);
+    }
+
+    .moody26-scroll-media__item--split {
+      grid-template-columns: minmax(0, 7fr) minmax(0, 5fr);
+      align-items: center;
+    }
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .moody26-scroll-media__body a,
+  .moody26-scroll-media__link {
+    transition: none;
+  }
+}
+
+@media (forced-colors: active) {
+  .moody26-scroll-media__item,
+  .moody26-scroll-media__media-inner,
+  .moody26-scroll-media__overlay-copy {
+    border: var(--rule-hair) solid CanvasText;
+  }
+
+  .moody26-scroll-media__body a:is(:focus-visible, .is-focus),
+  .moody26-scroll-media__link:is(:focus-visible, .is-focus) {
+    outline: var(--rule-strong) solid Highlight;
+  }
+}

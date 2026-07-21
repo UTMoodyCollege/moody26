@@ -367,6 +367,58 @@
         }
       });
 
+      once('moody26-scroll-media-image', '.moody26-scroll-media__media img', context).forEach((image) => {
+        const showUnavailableMedia = () => {
+          const item = image.closest('.moody26-scroll-media__item');
+          const media = image.closest('.moody26-scroll-media__media-inner');
+          if (!item || !media || item.classList.contains('is-error')) {
+            return;
+          }
+
+          const description = image.alt.trim();
+          const status = document.createElement('p');
+          status.className = 'moody26-scroll-media__status';
+          status.setAttribute('role', 'status');
+          status.textContent = description
+            ? Drupal.t('Media unavailable: @description', { '@description': description })
+            : Drupal.t('Media unavailable');
+          (image.closest('picture') ?? image).hidden = true;
+          item.classList.add('is-error');
+          media.append(status);
+        };
+
+        image.addEventListener('error', showUnavailableMedia, { once: true });
+        if (image.complete && image.currentSrc && !image.naturalWidth) {
+          showUnavailableMedia();
+        }
+      });
+
+      once('moody26-scroll-media-video', '.moody26-scroll-media__media video', context).forEach((video) => {
+        const showUnavailableMedia = () => {
+          const item = video.closest('.moody26-scroll-media__item');
+          const media = video.closest('.moody26-scroll-media__media-inner');
+          if (!item || !media || item.classList.contains('is-error')) {
+            return;
+          }
+
+          const status = document.createElement('p');
+          status.className = 'moody26-scroll-media__status';
+          status.setAttribute('role', 'status');
+          status.textContent = Drupal.t('Video unavailable');
+          video.hidden = true;
+          item.classList.add('is-error');
+          media.append(status);
+        };
+
+        video.removeAttribute('autoplay');
+        video.removeAttribute('loop');
+        video.autoplay = false;
+        video.loop = false;
+        video.controls = true;
+        video.pause();
+        video.addEventListener('error', showUnavailableMedia, { once: true });
+      });
+
       once('moody26-ambient-video', '.moody-ambient-video', context).forEach((hero) => {
         const video = hero.querySelector('video');
         const control = hero.querySelector('#play-pause');

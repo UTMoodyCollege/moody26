@@ -743,6 +743,43 @@ not belong outside the token and font declaration files.
   Maintain a standalone preview for all eight Hallmark states; loading and
   success are regression fixtures, not fabricated production lifecycle UI.
 
+### Moody Scroll Reveal Media
+
+- Treat `moody_scroll_reveal_media_block` as a shared authored media sequence,
+  not permission to force viewport panels or scroll-driven reading. Keep the
+  headline, eyebrow, title, processed body, media, overlay position, order,
+  alternatives, cacheability, and Layout Builder placement under Drupal and
+  editor control. Do not edit the Composer-installed provider.
+- Moody26 owns `moody-scroll-reveal-media.html.twig` and the
+  `moody26-scroll-media__*` presentation contract. Render one semantic ordered
+  list in source order; a supplied section headline is `h2` and makes item
+  titles `h3`, while title-led sequences without a section headline use `h2`
+  item titles. Do not generate visible numbering or generic reveal labels.
+- Do not attach the provider’s public scroll-scrub library in Moody26. Its
+  forced viewport geometry, scroll listener, reduced-motion gap, and second
+  GSAP owner conflict with the theme’s motion settings and reading contract.
+  Keep the provider’s separate administration library available to editors.
+- Use one safe column in narrow component containers and a 7/5 media-copy split
+  only when the component reaches 52rem. Media-only entries may vary width on
+  wide containers without changing DOM, reading, or keyboard order. Every
+  image-bearing track uses `minmax(0, …)` and images retain intrinsic aspect.
+- Playback is visitor-controlled. Direct video uses native controls without
+  autoplay or looping. Vimeo embeds retain fullscreen and picture-in-picture
+  but normalize autoplay, background mode, and looping off while restoring
+  controls. Give every video a descriptive name derived from editor content,
+  never its stored slide delta.
+- Overlay copy uses an opaque ink plate with exact burnt-orange rule so text
+  contrast does not depend on a video frame or photograph. Preserve the
+  editor’s nine-position choice only when the component is wide enough; narrow
+  overlays use the safe lower-start position.
+- A failed image or direct video hides only that media node, keeps authored
+  text, and exposes translated `Media unavailable` or `Video unavailable`
+  status text. Never insert placeholder art, infer copy, or promise retry.
+- The production component is static. Hover is capability-gated, focus is
+  immediate, links retain visited/active/authored-disabled states, and no
+  decorative motion survives. Maintain an eight-state preview; loading and
+  success remain regression fixtures rather than fabricated production states.
+
 ### Moody Showcases
 
 - Treat Moody Showcase as a shared editorial media ledger, not a route-specific
@@ -1698,6 +1735,10 @@ Texas requirements. The current University compliance date is March 1, 2026.
 - `css/components/showcase.css`: semantic editorial media ledgers, intrinsic
   media, migration-aware view modes, resilient CTA states, and static sticky
   media options.
+- `css/components/scroll-reveal-media.css`, its eight-state preview, and
+  `templates/components/moody-scroll-reveal-media.html.twig`: semantic static
+  media sequences, user-controlled playback, intrinsic media, and truthful
+  media failure recovery without the provider scroll-scrub runtime.
 - `css/components/contact-info.css`: page-safe, container-aware editorial
   service bands with independently optional authored fields.
 - `css/components/call-to-action.css`: portable formatter-owned action rules,

@@ -1,6 +1,6 @@
 {
   "date": "2026-07-21",
-  "package_version": "0.44.0",
+  "package_version": "0.45.0",
   "framework": "Drupal 11 / UT Drupal Kit",
   "base_theme": false,
   "font_stack": "Charis SIL + Libre Franklin bundled locally by Moody26",
@@ -57,6 +57,7 @@
     "semantic UT Drupal Kit Social Links as compact destination rails with page-safe headings, provider-owned icon assets, container-aware targets, and complete static link states",
     "semantic Moody Anchor fields as editor-repairable, public-failure-safe portrait galleries with provider-owned responsive media, authored alternatives and destinations, container-aware layout, and complete static link states",
     "accessible Moody image galleries with container-aware editorial mosaics, provider-owned modal behavior, announced image changes, visible focus, and truthful media failure recovery",
+    "static Moody Scroll Reveal Media sequences with editor-owned media, user-controlled playback, provider motion removal, semantic list order, and truthful media failure recovery",
     "failure-safe Shorthand story boundaries that preserve valid provider markup and replace empty exports with a truthful semantic status",
     "keyboard-safe PDF document boundaries that replace legacy canvas flipbooks with native links and truthful unavailable states",
     "semantic Life After Moody directories with one destination per story, honest result counts, content-derived missing-media fallbacks, and one visible profile h1",

@@ -49,6 +49,8 @@ const files = {
   anchorGalleryCss: 'css/components/anchor-gallery.css',
   imageGalleryCss: 'css/components/image-gallery.css',
   imageGalleryPreview: 'css/components/image-gallery.preview.html',
+  scrollRevealMediaCss: 'css/components/scroll-reveal-media.css',
+  scrollRevealMediaPreview: 'css/components/scroll-reveal-media.preview.html',
   discoveryIndex: 'css/components/discovery-index.css',
   accordionCss: 'css/components/accordion.css',
   peopleDirectory: 'css/components/people-directory.css',
@@ -129,6 +131,7 @@ const files = {
   quickLinksTemplate: 'templates/components/utexas-quick-links.html.twig',
   socialLinksTemplate: 'templates/components/field--utexas-social-link-field.html.twig',
   anchorGalleryTemplate: 'templates/components/field--block-content--field-anchor-image--moody-anchors-block.html.twig',
+  scrollRevealMediaTemplate: 'templates/components/moody-scroll-reveal-media.html.twig',
   heroTemplate: 'templates/components/moody-hero.html.twig',
   heroStyle1Template: 'templates/components/moody-hero-1.html.twig',
   heroStyle2Template: 'templates/components/moody-hero-2.html.twig',
@@ -215,8 +218,8 @@ const forbidPattern = (file, pattern, message) => {
 
 try {
   const packageJson = JSON.parse(contents.package ?? '');
-  if (packageJson.version !== '0.44.0') {
-    errors.push('The accessible image-gallery release must remain versioned as 0.44.0.');
+  if (packageJson.version !== '0.45.0') {
+    errors.push('The accessible Scroll Reveal Media release must remain versioned as 0.45.0.');
   }
   for (const [dependency, version] of [
     ['animejs', '4.5.0'],
@@ -300,8 +303,9 @@ requireText('libraries', 'css/components/quick-links.css', 'Shared UT Drupal Kit
 requireText('libraries', 'css/components/social-links.css', 'Shared UT Drupal Kit Social Links styles must remain attached.');
 requireText('libraries', 'css/components/anchor-gallery.css', 'Shared Moody Anchor gallery styles must remain attached.');
 requireText('libraries', 'css/components/image-gallery.css', 'Accessible Moody image-gallery styles must remain attached.');
+requireText('libraries', 'css/components/scroll-reveal-media.css', 'Accessible Moody Scroll Reveal Media styles must remain attached.');
 requireText('libraries', 'js/dist/motion.min.js', 'The built motion integration must remain attached.');
-requireText('libraries', 'version: 0.44.0', 'The Drupal asset version must match the accessible image-gallery release.');
+requireText('libraries', 'version: 0.45.0', 'The Drupal asset version must match the accessible Scroll Reveal Media release.');
 forbidText('info', '- moody26/motion', 'Optional motion must be attached from theme settings rather than globally.');
 
 requireText('settings', "header_social_links_block: ''", 'Header social links must be optional for new installs.');
@@ -843,6 +847,43 @@ requireText('accessibility', 'capture: true', 'Moody image-gallery opener focus 
 requireText('accessibility', "status.textContent = Drupal.t('Image unavailable')", 'Failed Moody image thumbnails need a truthful visible status.');
 requireText('accessibility', 'tile.disabled = true;', 'Failed Moody image thumbnails must not remain operable.');
 requireText('accessibility', "image.addEventListener('error'", 'Moody image galleries must retain native media failure recovery.');
+requireText('scrollRevealMediaCss', 'component: Moody Scroll Reveal Media', 'Moody Scroll Reveal Media must retain its Hallmark component contract.');
+requireText('scrollRevealMediaCss', 'macrostructure: static media sequence', 'Moody Scroll Reveal Media must retain its static editorial structure.');
+requireText('scrollRevealMediaCss', 'states: default · hover · focus · active · disabled · loading · error · success', 'The Scroll Reveal Media preview must retain all eight states.');
+requireText('scrollRevealMediaCss', 'container: moody26-scroll-media / inline-size;', 'Scroll Reveal Media must remain container-aware in Layout Builder.');
+requireText('scrollRevealMediaCss', 'grid-template-columns: minmax(0, 7fr) minmax(0, 5fr);', 'Wide Scroll Reveal Media splits must use safe image-bearing tracks.');
+requireText('scrollRevealMediaCss', '@supports not (container-type: inline-size)', 'Scroll Reveal Media needs a restrained fallback for older supported browsers.');
+requireText('scrollRevealMediaCss', ':where(video, iframe):focus-visible', 'Scroll Reveal Media playback surfaces need immediate visible focus.');
+requireText('scrollRevealMediaCss', '@media (hover: hover) and (pointer: fine)', 'Scroll Reveal Media hover feedback must be capability-gated.');
+requireText('scrollRevealMediaCss', '@media (prefers-reduced-motion: reduce)', 'Scroll Reveal Media must retain an explicit motion-free preference path.');
+requireText('scrollRevealMediaCss', '@media (forced-colors: active)', 'Scroll Reveal Media focus and state boundaries must survive forced colors.');
+forbidPattern('scrollRevealMediaCss', /(?:^|\s)(?:#(?:[\da-f]{3}){1,2}|(?:rgb|hsl|oklch)\()/im, 'Scroll Reveal Media styles must use locked color tokens.');
+forbidText('scrollRevealMediaCss', '100vh', 'Scroll Reveal Media must not restore forced viewport-height panels.');
+forbidText('scrollRevealMediaCss', 'position: sticky', 'Scroll Reveal Media must remain in ordinary document flow.');
+for (const state of ['Default', 'Hover', 'Focus', 'Active', 'Disabled', 'Loading', 'Error', 'Success']) {
+  requireText('scrollRevealMediaPreview', `<h2>${state}</h2>`, `The Scroll Reveal Media preview must include its ${state.toLowerCase()} state.`);
+}
+requireText('scrollRevealMediaTemplate', '<ol class="moody26-scroll-media__list" role="list"', 'Scroll Reveal Media must expose one semantic ordered list.');
+requireText('scrollRevealMediaTemplate', '<li class="{{ item_classes|join(\' \') }}"', 'Scroll Reveal Media entries must remain direct list items.');
+requireText('scrollRevealMediaTemplate', 'data-video-autoplay="false"', 'Scroll Reveal Media must disable provider autoplay in rendered markup.');
+requireText('scrollRevealMediaTemplate', 'controls', 'Direct Scroll Reveal Media video must expose native playback controls.');
+requireText('scrollRevealMediaTemplate', '{{ slide.media }}', 'Scroll Reveal Media must preserve provider-rendered media.');
+requireText('scrollRevealMediaTemplate', '{{ slide.body }}', 'Scroll Reveal Media must preserve processed editor copy.');
+forbidText('scrollRevealMediaTemplate', 'moody-scroll-reveal-media__', 'Moody26 must not reactivate the provider scroll-scrub selectors.');
+forbidPattern('scrollRevealMediaTemplate', /\sautoplay(?:\s|>)/i, 'Scroll Reveal Media markup must not request automatic playback.');
+forbidText('scrollRevealMediaTemplate', '|raw', 'Scroll Reveal Media must not bypass Drupal render safety.');
+forbidText('scrollRevealMediaTemplate', 'attach_library', 'Scroll Reveal Media must use the global theme layer without duplicate attachments.');
+requireText('theme', 'function moody26_library_info_alter', 'Moody26 must own removal of the provider public scroll-scrub library.');
+requireText('theme', "$extension === 'moody_scroll_reveal_media'", 'Moody26 library removal must remain provider scoped.');
+requireText('theme', "unset($libraries['moody_scroll_reveal_media'])", 'Moody26 must remove only the provider public scroll-scrub library.');
+requireText('theme', 'function moody26_preprocess_moody_scroll_reveal_media', 'Scroll Reveal Media must retain theme-owned preprocessing.');
+requireText('theme', "t('Video: @title'", 'Scroll Reveal Media video needs an editor-derived accessible name.');
+requireText('theme', "t('Video for media item @number'", 'Untitled Scroll Reveal Media video needs a truthful positional name.');
+requireText('theme', "$query['autoplay'] = '0';", 'Vimeo Scroll Reveal Media must disable autoplay.');
+requireText('theme', "$query['controls'] = '1';", 'Vimeo Scroll Reveal Media must restore visitor controls.');
+requireText('accessibility', "Drupal.t('Media unavailable: @description'", 'Failed Scroll Reveal Media images must retain their authored description.');
+requireText('accessibility', "Drupal.t('Video unavailable')", 'Failed Scroll Reveal Media video needs a translated factual status.');
+requireText('accessibility', "video.removeAttribute('autoplay')", 'Scroll Reveal Media direct video must remain autoplay-free after behavior attachment.');
 requireText('discoveryIndex', 'repeat(12, minmax(0, 1fr))', 'Discovery grids must use safe image-bearing tracks.');
 requireText('discoveryIndex', '.linked-focus-area-item:focus-visible', 'Focus Area tasks need immediate visible focus.');
 requireText('discoveryIndex', '.utexas-promo-unit .data-wrapper > a:focus-visible', 'Promo Unit links need immediate visible focus.');
@@ -1483,6 +1524,7 @@ const runtimeFiles = [
   'heroCarouselCss', 'heroCarouselTemplate',
   'photoContentCss', 'photoContentTemplate',
   'socialLinksCss', 'socialLinksTemplate', 'imageGalleryCss',
+  'scrollRevealMediaCss', 'scrollRevealMediaTemplate',
   'heroTemplate', 'heroStyle1Template', 'heroStyle2Template', 'heroStyle3Template',
   'heroStyle4Template', 'heroStyle5Template', 'heroStyle6Template', 'heroStyle6ShortTemplate',
   'heroStyle7Template', 'heroStyle8Template',
@@ -1514,7 +1556,7 @@ for (const file of runtimeFiles) {
   }
 }
 
-const cssFiles = ['css', 'headerSocialCss', 'quickActionsCss', 'landingHero', 'richTextCss', 'editorialSections', 'featuredHighlightCss', 'promoListCss', 'flexContentCss', 'imageLinkCss', 'flexColorBlocksCss', 'quotationCss', 'flexGridCss', 'impactFactsCss', 'showcaseCss', 'contactInfoCss', 'callToActionCss', 'resourceGroupCss', 'flexTabsCss', 'heroCarouselCss', 'photoContentCss', 'socialLinksCss', 'imageGalleryCss', 'discoveryIndex', 'accordionCss', 'peopleDirectory', 'studentStoriesCss', 'eventsListingCss', 'newsroom', 'featureStoryCss', 'shorthandStoryCss', 'pdfDocumentCss', 'eventDetailCss', 'motionCss', 'settingsCss'];
+const cssFiles = ['css', 'headerSocialCss', 'quickActionsCss', 'landingHero', 'richTextCss', 'editorialSections', 'featuredHighlightCss', 'promoListCss', 'flexContentCss', 'imageLinkCss', 'flexColorBlocksCss', 'quotationCss', 'flexGridCss', 'impactFactsCss', 'showcaseCss', 'contactInfoCss', 'callToActionCss', 'resourceGroupCss', 'flexTabsCss', 'heroCarouselCss', 'photoContentCss', 'socialLinksCss', 'imageGalleryCss', 'scrollRevealMediaCss', 'discoveryIndex', 'accordionCss', 'peopleDirectory', 'studentStoriesCss', 'eventsListingCss', 'newsroom', 'featureStoryCss', 'shorthandStoryCss', 'pdfDocumentCss', 'eventDetailCss', 'motionCss', 'settingsCss'];
 const forbiddenCss = [
   [/#(?:[0-9a-f]{3}|[0-9a-f]{6}|[0-9a-f]{8})\b/i, 'Raw hex colors belong only in tokens.css.'],
   [/\b(?:rgb|rgba|hsl|hsla|oklch)\(/i, 'Raw color functions belong only in tokens.css.'],
@@ -1545,7 +1587,7 @@ for (const file of ['preflight', 'log']) {
     errors.push(`${file} must contain valid JSON.`);
   }
 }
-requireText('preflight', '"package_version": "0.44.0"', 'Hallmark preflight must match the accessible image-gallery release.');
+requireText('preflight', '"package_version": "0.45.0"', 'Hallmark preflight must match the accessible Scroll Reveal Media release.');
 requireText('log', 'Index-First profile dossier within the Ecosystem Index', 'Hallmark memory must record the shared faculty-profile composition.');
 requireText('log', 'Split Studio event brief within the Ecosystem Index', 'Hallmark memory must record the shared event-detail composition.');
 requireText('log', 'Long Document feature story within the Ecosystem Index', 'Hallmark memory must record the shared feature-story composition.');
@@ -1604,6 +1646,7 @@ requireText('readme', 'Shared UT Drupal Kit Quick Links', 'README must document 
 requireText('readme', 'Shared UT Drupal Kit Social Links', 'README must document the shared Social Links layer.');
 requireText('readme', 'Shared Moody Anchor galleries', 'README must document the shared Moody Anchor gallery layer.');
 requireText('readme', 'Accessible Moody image galleries', 'README must document the interactive Moody image-gallery layer.');
+requireText('readme', 'Shared Moody Scroll Reveal Media', 'README must document the static shared Scroll Reveal Media layer.');
 requireText('agents', '`header_social_links_block`', 'AGENTS.md must preserve the header Social Links contract.');
 requireText('agents', 'Missing, unpublished, non-reusable, inaccessible, wrong-bundle, or malformed', 'AGENTS.md must require Social Links to fail closed.');
 requireText('agents', '### People directories', 'AGENTS.md must preserve the people-directory contract.');
@@ -1637,6 +1680,7 @@ requireText('agents', '### UT Drupal Kit Quick Links', 'AGENTS.md must preserve 
 requireText('agents', '### UT Drupal Kit Social Links', 'AGENTS.md must preserve the Social Links component contract.');
 requireText('agents', '### Moody Anchor galleries', 'AGENTS.md must preserve the Moody Anchor gallery component contract.');
 requireText('agents', '### Moody image galleries', 'AGENTS.md must preserve the interactive Moody image-gallery component contract.');
+requireText('agents', '### Moody Scroll Reveal Media', 'AGENTS.md must preserve the static Scroll Reveal Media component contract.');
 requireText('agents', '### Moody Showcases', 'AGENTS.md must preserve the Moody Showcase component contract.');
 requireText('agents', '### Moody Heroes', 'AGENTS.md must preserve the Moody Hero component contract.');
 requireText('agents', 'do not expose native error events', 'AGENTS.md must preserve the CSS-background Hero failure contract.');
@@ -1661,5 +1705,5 @@ if (errors.length) {
   process.exitCode = 1;
 }
 else {
-  console.log(`Moody26 verification passed (${Object.keys(files).length} source files, ${fonts.length} local fonts, standalone shell, UT brand, Basic and Rich Text, accessible directories, student-story directories and profiles, UTProf Profile Listings, and faculty profile dossiers, accessible ambient-video heroes, resource hubs, Resource Groups, Flex Tabs, UT Drupal Kit Flex Lists, Hero Carousels, Photo Content Areas, Moody Newsletter destination bands, UT Drupal Kit Quick Links, semantic Social Links, Moody Anchor and interactive image galleries, failure-safe Shorthand stories, keyboard-safe PDF documents, and API-backed upcoming-event ledgers, newsroom, feature stories, event details, accordions, Featured Highlights, Moody Promotions, Promo Lists, Flex Content Areas, Image Links, Flex Color Blocks, Moody Quotations, Moody Flex Grids, Moody Impact Facts, Moody and UT Drupal Kit Heroes, Moody Showcases, Moody Contact Info, and Call to Action blocks, header social links, motion, responsive, and Hallmark gates).`);
+  console.log(`Moody26 verification passed (${Object.keys(files).length} source files, ${fonts.length} local fonts, standalone shell, UT brand, Basic and Rich Text, accessible directories, student-story directories and profiles, UTProf Profile Listings, and faculty profile dossiers, accessible ambient-video heroes, resource hubs, Resource Groups, Flex Tabs, UT Drupal Kit Flex Lists, Hero Carousels, Photo Content Areas, Moody Newsletter destination bands, UT Drupal Kit Quick Links, semantic Social Links, Moody Anchor and interactive image galleries, static Scroll Reveal Media sequences, failure-safe Shorthand stories, keyboard-safe PDF documents, and API-backed upcoming-event ledgers, newsroom, feature stories, event details, accordions, Featured Highlights, Moody Promotions, Promo Lists, Flex Content Areas, Image Links, Flex Color Blocks, Moody Quotations, Moody Flex Grids, Moody Impact Facts, Moody and UT Drupal Kit Heroes, Moody Showcases, Moody Contact Info, and Call to Action blocks, header social links, motion, responsive, and Hallmark gates).`);
 }

@@ -1,0 +1,100 @@
+{% if slides %}
+  {% set component_heading_id = block_id ~ '-heading' %}
+  <div class="moody26-scroll-media" id="{{ block_id }}">
+    {% if headline %}
+      <header class="moody26-scroll-media__header">
+        <h2 class="moody26-scroll-media__headline" id="{{ component_heading_id }}">{{ headline }}</h2>
+      </header>
+    {% endif %}
+
+    <ol class="moody26-scroll-media__list" role="list"{% if headline %} aria-labelledby="{{ component_heading_id }}"{% endif %}>
+      {% for slide in slides %}
+        {% set title_id = block_id ~ '-item-' ~ loop.index ~ '-title' %}
+        {% set item_classes = ['moody26-scroll-media__item'] %}
+        {% if slide.has_media and slide.render_inline %}
+          {% set item_classes = item_classes|merge(['moody26-scroll-media__item--split']) %}
+        {% elseif slide.has_media %}
+          {% set item_classes = item_classes|merge(['moody26-scroll-media__item--media-only']) %}
+        {% else %}
+          {% set item_classes = item_classes|merge(['moody26-scroll-media__item--content-only']) %}
+        {% endif %}
+        {% if slide.render_overlay %}
+          {% set item_classes = item_classes|merge(['moody26-scroll-media__item--overlay']) %}
+        {% endif %}
+
+        <li class="{{ item_classes|join(' ') }}"{% if slide.title %} aria-labelledby="{{ title_id }}"{% endif %}>
+          {% if slide.has_media %}
+            <div class="moody26-scroll-media__media">
+              <div class="moody26-scroll-media__media-inner">
+                {% if slide.video %}
+                  {% if slide.video.kind == 'file' %}
+                    <video
+                      class="moody26-scroll-media__video"
+                      data-html5-video
+                      data-video-autoplay="false"
+                      id="{{ slide.video.player_id }}"
+                      controls
+                      playsinline
+                      preload="metadata"
+                      title="{{ slide.video.title }}"
+                      aria-label="{{ slide.video.title }}">
+                      <source src="{{ slide.video.src }}" type="video/mp4">
+                    </video>
+                  {% else %}
+                    <iframe
+                      class="moody26-scroll-media__video"
+                      data-vimeo-player
+                      data-video-autoplay="false"
+                      id="{{ slide.video.player_id }}"
+                      src="{{ slide.video.src }}"
+                      title="{{ slide.video.title }}"
+                      allow="fullscreen; picture-in-picture"
+                      loading="lazy"
+                      allowfullscreen></iframe>
+                  {% endif %}
+                {% else %}
+                  {{ slide.media }}
+                {% endif %}
+
+                {% if slide.render_overlay %}
+                  <div class="moody26-scroll-media__overlay moody26-scroll-media__overlay--{{ slide.title_position }}">
+                    <div class="moody26-scroll-media__overlay-copy">
+                      {% if slide.title %}
+                        {% if headline %}
+                          <h3 class="moody26-scroll-media__title moody26-scroll-media__title--overlay" id="{{ title_id }}">{{ slide.title }}</h3>
+                        {% else %}
+                          <h2 class="moody26-scroll-media__title moody26-scroll-media__title--overlay" id="{{ title_id }}">{{ slide.title }}</h2>
+                        {% endif %}
+                      {% endif %}
+                      {% if slide.has_body %}
+                        <div class="moody26-scroll-media__body moody26-scroll-media__body--overlay">{{ slide.body }}</div>
+                      {% endif %}
+                    </div>
+                  </div>
+                {% endif %}
+              </div>
+            </div>
+          {% endif %}
+
+          {% if slide.render_inline %}
+            <div class="moody26-scroll-media__content">
+              {% if slide.eyebrow %}
+                <p class="moody26-scroll-media__eyebrow">{{ slide.eyebrow }}</p>
+              {% endif %}
+              {% if slide.title %}
+                {% if headline %}
+                  <h3 class="moody26-scroll-media__title" id="{{ title_id }}">{{ slide.title }}</h3>
+                {% else %}
+                  <h2 class="moody26-scroll-media__title" id="{{ title_id }}">{{ slide.title }}</h2>
+                {% endif %}
+              {% endif %}
+              {% if slide.has_body %}
+                <div class="moody26-scroll-media__body">{{ slide.body }}</div>
+              {% endif %}
+            </div>
+          {% endif %}
+        </li>
+      {% endfor %}
+    </ol>
+  </div>
+{% endif %}
