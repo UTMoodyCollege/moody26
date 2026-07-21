@@ -269,6 +269,62 @@ not belong outside the token and font declaration files.
   equivalent. Keep the card flat with a hairline rule; do not add repeated
   rounded containers, image zoom, or decorative scroll animation.
 
+### Student-story directories and profiles
+
+- Treat `life_after_moody_explorer` and `life_after_moody_page` as one shared
+  student-story journey: a filterable discovery index followed by a readable
+  first-person profile. Do not solve either route with node IDs, individual
+  profile paths, block UUIDs, Bootstrap grid assumptions, or stored-content
+  changes.
+- Keep View configuration, filtering, sort order, profile text, majors, media,
+  Layout Builder overrides, and destinations under Drupal and editor control.
+  Moody26 owns the targeted View templates, failure-safe directory media,
+  profile title composition, and `student-stor*` presentation contract.
+- Render the result set as one labelled semantic list with direct list items.
+  Each entry is one article with one profile destination containing its
+  decorative preview, visible major, `h3` name, and concise `View story` cue.
+  Never restore the provider View’s separate linked image and linked title.
+- Treat index portraits as decorative inside the already named profile link.
+  Validate Media and File access and the physical source before output. A
+  missing, inaccessible, invalid, or unrestored image becomes a
+  content-derived initial without removing the real name, major, destination,
+  or grid rhythm; never emit broken media or invented replacement art.
+- Keep the exposed form visibly labelled and name it `Filter student stories`.
+  Use `Search by name`, a native Major select, controls and action of equal
+  height, immediate focus without border-width shift, and one-line `Update
+  results` copy. Do not use instructional placeholder text or replace the
+  native full-page GET workflow with speculative search-as-you-type behavior.
+- Include an honest translated result count. A no-match response is a
+  server-rendered status with the factual `No student stories matched`
+  heading, a recovery instruction, and one `Clear filters` link. Do not add
+  `aria-live` to the ordinary full-page response or preserve the provider’s
+  duplicate generic empty copy.
+- Start with one compact media-object track at narrow component widths, then
+  use two, three, and four `minmax(0, 1fr)` tracks as the component grows.
+  Mirror those breakpoints with a scoped media-query fallback when the browser
+  does not support container queries.
+  Long names and majors may wrap without clipping or document overflow. Keep
+  all destinations at least 44 CSS pixels high with readable visited color,
+  immediate focus, active feedback, an authored disabled treatment, and
+  capability-gated hover.
+- On a `life_after_moody_page`, remove the Page Title block’s legacy
+  `visually-hidden` class and let its real route title own the only visible
+  document `h1`. Suppress only a Moody Showcase headline that exactly repeats
+  that node title; preserve unrelated Showcases. Validate the profile’s main
+  Media before showing the lead track, retain an available external video,
+  and collapse an unavailable migrated image without a broken-image gap.
+- Preserve the authored interview, quotations, links, and Layout Builder
+  sequence. The editorial story surface is static: no card lift, image zoom,
+  scroll reveal, fabricated loading/error/success UI, or rewritten interview
+  questions. The standalone preview may demonstrate all eight interaction
+  states, but preview-only state attributes must never become production
+  behavior.
+- Keep `/students/life-after-moody` as the directory fixture and at least one
+  legacy/default-layout profile plus one overridden profile as detail fixtures.
+  Test the form, result count, one-link cards, missing-image initials,
+  one-visible-`h1` ownership, source-order keyboard traversal, and 320, 375,
+  414, 768, and wide CSS-pixel reflow.
+
 ### UTProf Profile Listings
 
 - Treat the UTProf `utprof_profile_listing` content block as the compact,

@@ -13,21 +13,23 @@
 {% set rendered_headline = headline|default('')|render %}
 {% set rendered_copy = copy|default('')|render %}
 {% set rendered_cta = cta|default('')|render %}
-{% set has_media = rendered_image|trim or rendered_video|trim %}
+{% set has_media = not showcase_suppress_media|default(false) and (rendered_image|trim or rendered_video|trim) %}
 {% set has_headline = rendered_headline|striptags|trim %}
+{% set show_headline = has_headline and not showcase_suppress_duplicate_heading|default(false) %}
 {% set has_copy = rendered_copy|striptags|trim %}
 {% set has_cta = rendered_cta|striptags|trim %}
 {% set component_classes = [
   'showcase',
   'moody-showcase',
   has_media ? 'showcase--with-media' : 'showcase--without-media',
-  (has_headline or has_copy or has_cta) ? 'showcase--with-content' : 'showcase--without-content',
+  (show_headline or has_copy or has_cta) ? 'showcase--with-content' : 'showcase--without-content',
+  showcase_is_profile_lead|default(false) ? 'student-story-profile__lead',
   sticky_image ? 'showcase--sticky-media',
   full_media ? 'showcase--full-media',
   pinned_reveal_image ? 'showcase--pinned-reveal',
 ] %}
 
-{% if has_media or has_headline or has_copy or has_cta %}
+{% if has_media or show_headline or has_copy or has_cta %}
   <article class="{{ component_classes|join(' ')|trim }}">
     {% if has_media %}
       <div class="showcase__media{{ rendered_video|trim ? ' showcase__media--video showcase-video' : ' showcase-image' }}">
@@ -39,9 +41,9 @@
       </div>
     {% endif %}
 
-    {% if has_headline or has_copy or has_cta %}
+    {% if show_headline or has_copy or has_cta %}
       <div class="showcase__content showcase-text">
-        {% if has_headline %}
+        {% if show_headline %}
           <h2 class="showcase__title showcase-headline">{{ rendered_headline }}</h2>
         {% endif %}
         {% if has_copy %}

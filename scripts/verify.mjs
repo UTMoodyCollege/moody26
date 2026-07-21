@@ -50,6 +50,8 @@ const files = {
   discoveryIndex: 'css/components/discovery-index.css',
   accordionCss: 'css/components/accordion.css',
   peopleDirectory: 'css/components/people-directory.css',
+  studentStoriesCss: 'css/components/student-stories.css',
+  studentStoriesPreview: 'css/components/student-stories.preview.html',
   newsroom: 'css/components/newsroom.css',
   featureStoryCss: 'css/components/feature-story.css',
   eventDetailCss: 'css/components/event-detail.css',
@@ -77,6 +79,9 @@ const files = {
   peopleDirectoryView: 'templates/views/views-view--faculty-bio-view.html.twig',
   peopleDirectoryRows: 'templates/views/views-view-unformatted--faculty-bio-view.html.twig',
   peopleDirectoryFields: 'templates/views/views-view-fields--faculty-bio-view.html.twig',
+  studentStoriesView: 'templates/views/views-view--life-after-moody-explorer--block-1.html.twig',
+  studentStoriesRows: 'templates/views/views-view-unformatted--life-after-moody-explorer--block-1.html.twig',
+  studentStoriesFields: 'templates/views/views-view-fields--life-after-moody-explorer--block-1.html.twig',
   profileListingBlock: 'templates/blocks/block--block-content--utprof-profile-listing.html.twig',
   profileDesignationField: 'templates/components/field--node--field-utprof-designation.html.twig',
   newsRows: 'templates/views/views-view-unformatted--news-filtered--block-filtered.html.twig',
@@ -205,8 +210,8 @@ const forbidPattern = (file, pattern, message) => {
 
 try {
   const packageJson = JSON.parse(contents.package ?? '');
-  if (packageJson.version !== '0.41.0') {
-    errors.push('The keyboard-safe PDF-document release must remain versioned as 0.41.0.');
+  if (packageJson.version !== '0.42.0') {
+    errors.push('The semantic student-story release must remain versioned as 0.42.0.');
   }
   for (const [dependency, version] of [
     ['animejs', '4.5.0'],
@@ -260,6 +265,7 @@ requireText('richTextCss', 'Hallmark · pre-emit critique: P5 H5 E5 S5 R5 V4', '
 requireText('richTextCss', 'overflow-wrap: anywhere;', 'Pasted rich-text destinations must not widen the page.');
 forbidPattern('richTextCss', /(?:online-teaching|deans-ambassadors|node-\d+|block-[\da-f]{8}-[\da-f-]{27,})/i, 'Basic and Rich Text styling must not depend on routes, node IDs, or block UUIDs.');
 requireText('libraries', 'css/components/people-directory.css', 'Shared people-directory styles must remain attached.');
+requireText('libraries', 'css/components/student-stories.css', 'Shared student-story styles must remain attached.');
 requireText('libraries', 'css/components/newsroom.css', 'Shared newsroom styles must remain attached.');
 requireText('libraries', 'css/components/feature-story.css', 'Shared feature-story styles must remain attached.');
 requireText('libraries', 'css/components/event-detail.css', 'Shared event-detail styles must remain attached.');
@@ -288,7 +294,7 @@ requireText('libraries', 'css/components/quick-links.css', 'Shared UT Drupal Kit
 requireText('libraries', 'css/components/social-links.css', 'Shared UT Drupal Kit Social Links styles must remain attached.');
 requireText('libraries', 'css/components/anchor-gallery.css', 'Shared Moody Anchor gallery styles must remain attached.');
 requireText('libraries', 'js/dist/motion.min.js', 'The built motion integration must remain attached.');
-requireText('libraries', 'version: 0.41.0', 'The Drupal asset version must match the keyboard-safe PDF-document release.');
+requireText('libraries', 'version: 0.42.0', 'The Drupal asset version must match the semantic student-story release.');
 forbidText('info', '- moody26/motion', 'Optional motion must be attached from theme settings rather than globally.');
 
 requireText('settings', "header_social_links_block: ''", 'Header social links must be optional for new installs.');
@@ -817,6 +823,40 @@ requireText('peopleDirectory', '.profile-listing.utexas-fourcol .utprof__views-l
 requireText('peopleDirectory', ':where(.utprof__directory-link, .utprof__email) a:focus-visible', 'Profile directory and email links need immediate visible focus.');
 requireText('peopleDirectory', ':where(.utprof__directory-link, .utprof__email) a[aria-disabled="true"]', 'Profile links must honor an authored disabled state.');
 forbidPattern('peopleDirectory', /(?:entertainment-media-industries|node-4097|block-[\da-f]{8}-[\da-f-]{27,})/i, 'UTProf Profile Listing styles must not depend on a route, node ID, or block UUID.');
+requireText('studentStoriesCss', 'component: student-story index and profile lead', 'Student stories must retain the Hallmark component contract.');
+requireText('studentStoriesCss', 'container: student-stories / inline-size;', 'Student-story indexes must remain container-aware.');
+requireText('studentStoriesCss', 'repeat(4, minmax(0, 1fr))', 'Student-story image grids must retain safe wide tracks.');
+requireText('studentStoriesCss', '.student-story-card__link:focus-visible', 'Student-story links need immediate visible focus.');
+requireText('studentStoriesCss', '@media (hover: hover) and (pointer: fine)', 'Student-story hover feedback must be capability-gated.');
+requireText('studentStoriesCss', '@supports not (container-type: inline-size)', 'Student-story grids need a responsive fallback when container queries are unavailable.');
+requireText('studentStoriesCss', '.student-story-card__link[aria-disabled="true"]', 'Student-story links must preserve an authored disabled treatment.');
+requireText('studentStoriesCss', '.node-life_after_moody_page .moody26-page-title h1', 'Life After Moody profiles must retain one visible document title.');
+requireText('studentStoriesCss', 'grid-template-columns: var(--space-3xl) minmax(0, 1fr);', 'Narrow student-story cards must retain one safe text track.');
+forbidPattern('studentStoriesCss', /(?:students\/life-after-moody\/(?:emily|julia)|node-\d+|block-[\da-f]{8}-[\da-f-]{27,})/i, 'Student-story styling must not depend on a profile path, node ID, or block UUID.');
+forbidText('studentStoriesCss', 'transition:', 'The editorial student-story index must remain static without decorative motion.');
+for (const state of ['default', 'hover', 'focus', 'active', 'disabled', 'loading', 'error', 'success']) {
+  requireText('studentStoriesPreview', `data-preview-state="${state}"`, `The student-story preview must demonstrate its ${state} state.`);
+}
+requireText('studentStoriesRows', '<ul id="moody26-student-story-results"', 'Student-story results must render as one semantic list.');
+requireText('studentStoriesRows', '<li{{ row.attributes.addClass(row_classes) }}>', 'Student-story result entries must remain direct list items.');
+requireText('studentStoriesFields', 'class="student-story-card__link"', 'Each student-story card must expose one primary destination.');
+requireText('studentStoriesFields', 'aria-labelledby="{{ student_story_title_id }}"', 'Student-story destinations must use their visible title as the accessible name.');
+requireText('studentStoriesFields', '<h3 class="student-story-card__title"', 'Story names must follow the directory section heading without a level skip.');
+requireText('studentStoriesFields', 'aria-hidden="true"', 'Directory media must remain decorative inside the named story link.');
+forbidText('studentStoriesFields', 'fields.field_lam_preview_img', 'Student-story cards must not render the provider’s broken linked thumbnail field.');
+requireText('studentStoriesView', "{{ 'No student stories matched'|t }}", 'Filtered student stories need a translated factual empty state.');
+requireText('studentStoriesView', "{{ 'Clear filters'|t }}", 'Filtered student stories need one recovery action.');
+requireText('theme', "$view_id === 'life_after_moody_explorer'", 'Student-story preprocessing must remain View scoped.');
+requireText('theme', "$display_id === 'block_1'", 'Student-story cards must remain display scoped.');
+requireText('theme', "$variables['view']->total_rows", 'Student-story result summaries must remain honest when pagination is enabled.');
+requireText('theme', "moody26_student_story_preview_image($story, $variables)", 'Student-story cards must use the failure-safe preview image builder.');
+requireText('theme', "!file_exists($uri)", 'Student-story directory media must fail closed when the physical source is unavailable.');
+requireText('theme', "'#alt' => ''", 'Linked directory portraits must remain decorative.');
+requireText('theme', "t('Filter student stories')", 'Student-story filters need a concise accessible form name.');
+requireText('theme', "t('Search by name')", 'Student-story name filters need a specific visible label.');
+requireText('theme', "unset($form['title']['#attributes']['placeholder']", 'Student-story filters must not use instructional placeholder copy.');
+requireText('theme', "['visually-hidden']", 'Student-story profile titles must leave the visually-hidden migration state.');
+requireText('showcaseTemplate', 'showcase_suppress_duplicate_heading', 'Student-story profile leads must not repeat the page title as an h2.');
 requireText('newsroom', 'component: shared newsroom index', 'Newsroom components must retain the Hallmark component contract.');
 requireText('newsroom', 'container: news-index / inline-size;', 'News indexes must remain container-aware.');
 requireText('newsroom', 'repeat(12, minmax(0, 1fr))', 'News indexes must retain safe asymmetric tracks.');
@@ -1435,7 +1475,7 @@ for (const file of ['preflight', 'log']) {
     errors.push(`${file} must contain valid JSON.`);
   }
 }
-requireText('preflight', '"package_version": "0.41.0"', 'Hallmark preflight must match the keyboard-safe PDF-document release.');
+requireText('preflight', '"package_version": "0.42.0"', 'Hallmark preflight must match the semantic student-story release.');
 requireText('log', 'Index-First profile dossier within the Ecosystem Index', 'Hallmark memory must record the shared faculty-profile composition.');
 requireText('log', 'Split Studio event brief within the Ecosystem Index', 'Hallmark memory must record the shared event-detail composition.');
 requireText('log', 'Long Document feature story within the Ecosystem Index', 'Hallmark memory must record the shared feature-story composition.');
@@ -1457,6 +1497,7 @@ requireText('readme', 'Interface motion (Anime.js)', 'README must document the A
 requireText('readme', 'Header social links', 'README must document the responsive Social Links option.');
 requireText('readme', 'stores the selected block’s UUID', 'README must explain Social Links configuration portability.');
 requireText('readme', 'Shared people directories', 'README must document the reusable directory layer.');
+requireText('readme', 'Shared student-story directories and profiles', 'README must document the reusable student-story layer.');
 requireText('readme', 'Page-title ownership', 'README must document one-document-h1 ownership.');
 requireText('readme', 'Shared UTProf Profile Listings', 'README must document the shared UTProf listing layer.');
 requireText('readme', 'Shared ambient-video heroes', 'README must document the accessible ambient-video layer.');
@@ -1494,6 +1535,7 @@ requireText('readme', 'Shared Moody Anchor galleries', 'README must document the
 requireText('agents', '`header_social_links_block`', 'AGENTS.md must preserve the header Social Links contract.');
 requireText('agents', 'Missing, unpublished, non-reusable, inaccessible, wrong-bundle, or malformed', 'AGENTS.md must require Social Links to fail closed.');
 requireText('agents', '### People directories', 'AGENTS.md must preserve the people-directory contract.');
+requireText('agents', '### Student-story directories and profiles', 'AGENTS.md must preserve the student-story contract.');
 requireText('agents', '### Page-title ownership', 'AGENTS.md must preserve the one-document-h1 contract.');
 requireText('agents', '### UTProf Profile Listings', 'AGENTS.md must preserve the UTProf listing contract.');
 requireText('agents', '### Ambient-video heroes', 'AGENTS.md must preserve the ambient-video component contract.');
@@ -1545,5 +1587,5 @@ if (errors.length) {
   process.exitCode = 1;
 }
 else {
-  console.log(`Moody26 verification passed (${Object.keys(files).length} source files, ${fonts.length} local fonts, standalone shell, UT brand, Basic and Rich Text, accessible directories, UTProf Profile Listings, and faculty profile dossiers, accessible ambient-video heroes, resource hubs, Resource Groups, Flex Tabs, UT Drupal Kit Flex Lists, Hero Carousels, Photo Content Areas, Moody Newsletter destination bands, UT Drupal Kit Quick Links, semantic Social Links, Moody Anchor galleries, failure-safe Shorthand stories, and keyboard-safe PDF documents, newsroom, feature stories, event details, accordions, Featured Highlights, Moody Promotions, Promo Lists, Flex Content Areas, Image Links, Flex Color Blocks, Moody Quotations, Moody Flex Grids, Moody Impact Facts, Moody and UT Drupal Kit Heroes, Moody Showcases, Moody Contact Info, and Call to Action blocks, header social links, motion, responsive, and Hallmark gates).`);
+  console.log(`Moody26 verification passed (${Object.keys(files).length} source files, ${fonts.length} local fonts, standalone shell, UT brand, Basic and Rich Text, accessible directories, student-story directories and profiles, UTProf Profile Listings, and faculty profile dossiers, accessible ambient-video heroes, resource hubs, Resource Groups, Flex Tabs, UT Drupal Kit Flex Lists, Hero Carousels, Photo Content Areas, Moody Newsletter destination bands, UT Drupal Kit Quick Links, semantic Social Links, Moody Anchor galleries, failure-safe Shorthand stories, and keyboard-safe PDF documents, newsroom, feature stories, event details, accordions, Featured Highlights, Moody Promotions, Promo Lists, Flex Content Areas, Image Links, Flex Color Blocks, Moody Quotations, Moody Flex Grids, Moody Impact Facts, Moody and UT Drupal Kit Heroes, Moody Showcases, Moody Contact Info, and Call to Action blocks, header social links, motion, responsive, and Hallmark gates).`);
 }

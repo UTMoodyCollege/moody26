@@ -1,0 +1,29 @@
+{#
+/**
+ * @file
+ * Semantic result list for the Life After Moody directory.
+ */
+#}
+{% if title %}
+  <h2>{{ title }}</h2>
+{% endif %}
+
+<section class="student-stories__results" aria-labelledby="student-stories-results-title">
+  <div class="student-stories__result-heading">
+    <h2 id="student-stories-results-title">{{ 'Student stories'|t }}</h2>
+    {% if student_story_result_summary %}
+      <p class="student-stories__summary">{{ student_story_result_summary }}</p>
+    {% endif %}
+  </div>
+  <ul id="moody26-student-story-results" class="student-stories__grid" role="list">
+    {% for row in rows %}
+      {% set row_classes = [
+        default_row_class ? 'views-row',
+        'student-stories__item',
+      ] %}
+      <li{{ row.attributes.addClass(row_classes) }}>
+        {{- row.content -}}
+      </li>
+    {% endfor %}
+  </ul>
+</section>

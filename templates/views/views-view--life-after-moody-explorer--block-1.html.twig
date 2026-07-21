@@ -1,0 +1,46 @@
+{#
+/**
+ * @file
+ * Accessible shell and recovery state for the Life After Moody directory.
+ */
+#}
+{% set classes = [
+  'student-stories',
+  dom_id ? 'js-view-dom-id-' ~ dom_id,
+] %}
+<div{{ attributes.addClass(classes) }}>
+  {{ title_prefix }}
+  {{ title }}
+  {{ title_suffix }}
+
+  {% if header %}
+    <header>
+      {{ header }}
+    </header>
+  {% endif %}
+
+  {{ exposed }}
+  {{ attachment_before }}
+
+  {% if rows %}
+    {{ rows }}
+  {% else %}
+    <section class="student-stories__empty" role="status" aria-labelledby="student-stories-empty-title">
+      <h2 id="student-stories-empty-title">{{ 'No student stories matched'|t }}</h2>
+      <p>{{ 'Try a different name or major, then update the results.'|t }}</p>
+      <a class="student-stories__clear" href="{{ path('<current>') }}">{{ 'Clear filters'|t }}</a>
+    </section>
+  {% endif %}
+
+  {{ pager }}
+  {{ attachment_after }}
+  {{ more }}
+
+  {% if footer %}
+    <footer>
+      {{ footer }}
+    </footer>
+  {% endif %}
+
+  {{ feed_icons }}
+</div>

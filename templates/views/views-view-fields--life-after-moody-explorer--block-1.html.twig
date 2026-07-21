@@ -1,0 +1,36 @@
+{#
+/**
+ * @file
+ * Single-destination student-story card with a resilient media fallback.
+ */
+#}
+{% if student_story_title and student_story_url %}
+  <article class="student-story-card">
+    <a
+      class="student-story-card__link"
+      href="{{ student_story_url }}"
+      aria-labelledby="{{ student_story_title_id }}"
+      {% if student_story_major %}aria-describedby="{{ student_story_major_id }}"{% endif %}
+    >
+      <div class="student-story-card__media" aria-hidden="true">
+        <span class="student-story-card__monogram">{{ student_story_initial }}</span>
+        {% if student_story_image %}
+          {{ student_story_image }}
+        {% endif %}
+      </div>
+      <div class="student-story-card__body">
+        {% if student_story_major %}
+          <p class="student-story-card__major" id="{{ student_story_major_id }}">{{ student_story_major }}</p>
+        {% endif %}
+        <h3 class="student-story-card__title" id="{{ student_story_title_id }}">{{ student_story_title }}</h3>
+        <span class="student-story-card__cue" aria-hidden="true">
+          {{ 'View story'|t }} <span class="student-story-card__arrow">→</span>
+        </span>
+      </div>
+    </a>
+  </article>
+{% else %}
+  {% for field in fields %}
+    {{ field.separator }}{{ field.content }}
+  {% endfor %}
+{% endif %}

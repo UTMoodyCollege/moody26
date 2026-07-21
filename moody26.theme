@@ -827,6 +827,95 @@ function moody26_preprocess_block(array &$variables): void {
   if (isset($utility_classes[$plugin_id])) {
     $variables['attributes']['class'][] = $utility_classes[$plugin_id];
   }
+
+  $node = \Drupal::routeMatch()->getParameter('node');
+  if (
+    $plugin_id === 'page_title_block'
+    && $node instanceof NodeInterface
+    && $node->bundle() === 'life_after_moody_page'
+  ) {
+    $variables['attributes']['class'] = array_values(array_diff(
+      $variables['attributes']['class'] ?? [],
+      ['visually-hidden'],
+    ));
+  }
+}
+
+/**
+ * Keeps a student-story profile lead subordinate to the document title.
+ */
+function moody26_preprocess_moody_showcase(array &$variables): void {
+  $node = \Drupal::routeMatch()->getParameter('node');
+  if (!$node instanceof NodeInterface || $node->bundle() !== 'life_after_moody_page') {
+    return;
+  }
+
+  $headline = $variables['headline'] ?? '';
+  if (!is_scalar($headline) && !$headline instanceof \Stringable) {
+    return;
+  }
+
+  $headline_text = trim(preg_replace(
+    '/\s+/u',
+    ' ',
+    Html::decodeEntities(strip_tags((string) $headline)),
+  ));
+  $is_profile_lead = $headline_text === trim($node->label());
+  $variables['showcase_is_profile_lead'] = $is_profile_lead;
+  $variables['showcase_suppress_duplicate_heading'] = $is_profile_lead;
+  $variables['showcase_suppress_media'] = $is_profile_lead
+    && !moody26_student_story_lead_media_available($node, $variables);
+  CacheableMetadata::createFromObject($node)->applyTo($variables);
+}
+
+/**
+ * Confirms that a student-story lead media source can render publicly.
+ */
+function moody26_student_story_lead_media_available(NodeInterface $story, array &$variables): bool {
+  if (!$story->hasField('field_lam_main_img') || $story->get('field_lam_main_img')->isEmpty()) {
+    return FALSE;
+  }
+
+  $media = $story->get('field_lam_main_img')->entity;
+  if (!$media instanceof MediaInterface) {
+    return FALSE;
+  }
+
+  $media = \Drupal::service('entity.repository')->getTranslationFromContext($media);
+  $cacheability = (new CacheableMetadata())->addCacheableDependency($media);
+  $access = $media->access('view', NULL, TRUE);
+  $cacheability->addCacheableDependency($access);
+  if (!$access->isAllowed()) {
+    $cacheability->applyTo($variables);
+    return FALSE;
+  }
+
+  if ($media->bundle() === 'utexas_video_external') {
+    $cacheability->applyTo($variables);
+    return TRUE;
+  }
+
+  $source_field = $media->getSource()->getConfiguration()['source_field'] ?? NULL;
+  $file = is_string($source_field) && $media->hasField($source_field)
+    ? $media->get($source_field)->entity
+    : NULL;
+  if (!$file instanceof FileInterface) {
+    $cacheability->applyTo($variables);
+    return FALSE;
+  }
+
+  $file_access = $file->access('view', NULL, TRUE);
+  $uri = $file->getFileUri();
+  $image = $media->bundle() === 'utexas_image'
+    ? \Drupal::service('image.factory')->get($uri)
+    : NULL;
+  $cacheability
+    ->addCacheableDependency($file)
+    ->addCacheableDependency($file_access)
+    ->applyTo($variables);
+  return $file_access->isAllowed()
+    && file_exists($uri)
+    && (!$image || $image->isValid());
 }
 
 /**
@@ -958,7 +1047,18 @@ function moody26_extract_media_id(mixed $value): ?int {
  * Implements hook_preprocess_views_view_unformatted().
  */
 function moody26_preprocess_views_view_unformatted(array &$variables): void {
-  if (($variables['view']->id() ?? '') !== 'faculty_bio_view') {
+  $view_id = $variables['view']->id() ?? '';
+  if ($view_id === 'life_after_moody_explorer') {
+    $count = (int) ($variables['view']->total_rows ?? count($variables['rows'] ?? []));
+    $variables['student_story_result_summary'] = \Drupal::translation()->formatPlural(
+      $count,
+      '1 student story',
+      '@count student stories',
+    );
+    return;
+  }
+
+  if ($view_id !== 'faculty_bio_view') {
     return;
   }
 
@@ -976,6 +1076,23 @@ function moody26_preprocess_views_view_unformatted(array &$variables): void {
 function moody26_preprocess_views_view_fields(array &$variables): void {
   $view_id = $variables['view']->id() ?? '';
   $display_id = $variables['view']->current_display ?? '';
+
+  if ($view_id === 'life_after_moody_explorer' && $display_id === 'block_1') {
+    $story = $variables['row']->_entity ?? NULL;
+    if (!$story instanceof NodeInterface) {
+      return;
+    }
+
+    $variables['student_story_title'] = $story->label();
+    $variables['student_story_title_id'] = 'moody26-student-story-' . $story->id();
+    $variables['student_story_major_id'] = $variables['student_story_title_id'] . '-major';
+    $variables['student_story_url'] = $story->toUrl('canonical')->toString();
+    $variables['student_story_initial'] = mb_strtoupper(mb_substr($story->label(), 0, 1));
+    $variables['student_story_major'] = moody26_student_story_major($story, $variables);
+    $variables['student_story_image'] = moody26_student_story_preview_image($story, $variables);
+    CacheableMetadata::createFromObject($story)->applyTo($variables);
+    return;
+  }
 
   if ($view_id === 'news_filtered' && $display_id === 'block_filtered') {
     $story = $variables['row']->_entity ?? NULL;
@@ -1061,6 +1178,97 @@ function moody26_preprocess_views_view_fields(array &$variables): void {
 }
 
 /**
+ * Returns the readable major labels for one student story.
+ */
+function moody26_student_story_major(NodeInterface $story, array &$variables): string {
+  $labels = [];
+  $cacheability = new CacheableMetadata();
+
+  foreach (['field_lam_major', 'field_lam_addtl_majors'] as $field_name) {
+    if (!$story->hasField($field_name) || $story->get($field_name)->isEmpty()) {
+      continue;
+    }
+
+    foreach ($story->get($field_name)->referencedEntities() as $term) {
+      $term = \Drupal::service('entity.repository')->getTranslationFromContext($term);
+      $access = $term->access('view', NULL, TRUE);
+      $cacheability
+        ->addCacheableDependency($term)
+        ->addCacheableDependency($access);
+      if ($access->isAllowed()) {
+        $labels[] = trim($term->label());
+      }
+    }
+  }
+
+  $cacheability->applyTo($variables);
+  return implode(', ', array_values(array_unique(array_filter($labels))));
+}
+
+/**
+ * Builds a directory portrait only while its migrated source is available.
+ */
+function moody26_student_story_preview_image(NodeInterface $story, array &$variables): array {
+  if (!$story->hasField('field_lam_preview_img') || $story->get('field_lam_preview_img')->isEmpty()) {
+    return [];
+  }
+
+  $media = $story->get('field_lam_preview_img')->entity;
+  if (!$media instanceof MediaInterface) {
+    return [];
+  }
+
+  $media = \Drupal::service('entity.repository')->getTranslationFromContext($media);
+  $cacheability = (new CacheableMetadata())->addCacheableDependency($media);
+  $media_access = $media->access('view', NULL, TRUE);
+  $cacheability->addCacheableDependency($media_access);
+  if (!$media_access->isAllowed()) {
+    $cacheability->applyTo($variables);
+    return [];
+  }
+
+  $source_field = $media->getSource()->getConfiguration()['source_field'] ?? NULL;
+  $image_item = is_string($source_field) && $media->hasField($source_field)
+    ? $media->get($source_field)->first()
+    : NULL;
+  $file = $image_item?->entity;
+  if (!$file instanceof FileInterface) {
+    $cacheability->applyTo($variables);
+    return [];
+  }
+
+  $file_access = $file->access('view', NULL, TRUE);
+  $cacheability
+    ->addCacheableDependency($file)
+    ->addCacheableDependency($file_access);
+  $uri = $file->getFileUri();
+  $image = \Drupal::service('image.factory')->get($uri);
+  $style = \Drupal::entityTypeManager()->getStorage('image_style')->load('faculty_bio_image');
+  if (!$file_access->isAllowed() || !file_exists($uri) || !$image->isValid() || !$style) {
+    $cacheability->addCacheableDependency($style)->applyTo($variables);
+    return [];
+  }
+
+  $build = [
+    '#theme' => 'image_style',
+    '#style_name' => 'faculty_bio_image',
+    '#uri' => $uri,
+    '#width' => $image_item->width ?: $image->getWidth(),
+    '#height' => $image_item->height ?: $image->getHeight(),
+    '#alt' => '',
+    '#attributes' => [
+      'loading' => 'lazy',
+      'decoding' => 'async',
+    ],
+  ];
+  $cacheability
+    ->addCacheableDependency($style)
+    ->applyTo($build);
+  $cacheability->applyTo($variables);
+  return $build;
+}
+
+/**
  * Returns the active landing page's directory term, when one is available.
  */
 function moody26_current_directory(): ?object {
@@ -1087,4 +1295,32 @@ function moody26_form_search_block_form_alter(array &$form, FormStateInterface $
   $form['keys']['#attributes']['class'][] = 'moody26-search__input';
   $form['actions']['submit']['#value'] = t('Search');
   $form['actions']['submit']['#attributes']['class'][] = 'moody26-search__submit';
+}
+
+/**
+ * Implements hook_form_FORM_ID_alter() for exposed Views filters.
+ */
+function moody26_form_views_exposed_form_alter(array &$form, FormStateInterface $form_state): void {
+  $view = $form_state->get('view');
+  if (!$view || $view->id() !== 'life_after_moody_explorer') {
+    return;
+  }
+
+  $form['#attributes']['class'][] = 'student-stories__filters';
+  $form['#attributes']['aria-label'] = t('Filter student stories');
+  if (isset($form['title'])) {
+    $form['title']['#title'] = t('Search by name');
+    $form['title']['#attributes']['aria-controls'] = 'moody26-student-story-results';
+    unset($form['title']['#attributes']['placeholder'], $form['title']['#attributes']['title']);
+  }
+  if (isset($form['#info']['filter-title'])) {
+    $form['#info']['filter-title']['label'] = t('Search by name');
+  }
+  if (isset($form['field_lam_major_target_id'])) {
+    $form['field_lam_major_target_id']['#attributes']['aria-controls'] = 'moody26-student-story-results';
+  }
+  if (isset($form['actions']['submit'])) {
+    $form['actions']['submit']['#value'] = t('Update results');
+    $form['actions']['submit']['#attributes']['class'][] = 'student-stories__submit';
+  }
 }

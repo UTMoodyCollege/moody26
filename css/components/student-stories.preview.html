@@ -1,0 +1,118 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Moody26 student-story states</title>
+    <link rel="stylesheet" href="../fonts.css">
+    <link rel="stylesheet" href="../../tokens.css">
+    <link rel="stylesheet" href="student-stories.css">
+    <style>
+      body {
+        margin: 0;
+        padding: var(--space-lg);
+        background: var(--color-paper);
+        color: var(--color-ink);
+        font-family: var(--font-body);
+      }
+      main {
+        max-width: var(--content-max);
+        margin-inline: auto;
+      }
+      h1 {
+        font-family: var(--font-display);
+      }
+      .preview-label {
+        margin: 0 0 var(--space-xs);
+        font-size: var(--text-sm);
+        font-weight: 700;
+      }
+      .student-stories__grid {
+        grid-template-columns: repeat(auto-fit, minmax(min(100%, 15rem), 1fr));
+      }
+    </style>
+  </head>
+  <body>
+    <main class="student-stories">
+      <h1>Student-story link states</h1>
+      <ul class="student-stories__grid" role="list">
+        <li class="student-stories__item">
+          <p class="preview-label">Default</p>
+          <article class="student-story-card" data-preview-state="default">
+            <a class="student-story-card__link" href="#default">
+              <div class="student-story-card__media" aria-hidden="true"><span class="student-story-card__monogram">E</span></div>
+              <div class="student-story-card__body">
+                <p class="student-story-card__major">Communication &amp; Leadership</p>
+                <h2 class="student-story-card__title">Emily Berk</h2>
+                <span class="student-story-card__cue">View story <span class="student-story-card__arrow">→</span></span>
+              </div>
+            </a>
+          </article>
+        </li>
+        <li class="student-stories__item">
+          <p class="preview-label">Hover</p>
+          <article class="student-story-card" data-preview-state="hover">
+            <a class="student-story-card__link" href="#hover">
+              <div class="student-story-card__media" aria-hidden="true"><span class="student-story-card__monogram">A</span></div>
+              <div class="student-story-card__body"><p class="student-story-card__major">Public Relations</p><h2 class="student-story-card__title">Adriana Kelly</h2><span class="student-story-card__cue">View story <span class="student-story-card__arrow">→</span></span></div>
+            </a>
+          </article>
+        </li>
+        <li class="student-stories__item">
+          <p class="preview-label">Focus</p>
+          <article class="student-story-card" data-preview-state="focus">
+            <a class="student-story-card__link" href="#focus">
+              <div class="student-story-card__media" aria-hidden="true"><span class="student-story-card__monogram">E</span></div>
+              <div class="student-story-card__body"><p class="student-story-card__major">Speech, Language, &amp; Hearing Sciences</p><h2 class="student-story-card__title">Erica Eng</h2><span class="student-story-card__cue">View story <span class="student-story-card__arrow">→</span></span></div>
+            </a>
+          </article>
+        </li>
+        <li class="student-stories__item">
+          <p class="preview-label">Active</p>
+          <article class="student-story-card" data-preview-state="active">
+            <a class="student-story-card__link is-active" href="#active">
+              <div class="student-story-card__media" aria-hidden="true"><span class="student-story-card__monogram">C</span></div>
+              <div class="student-story-card__body"><p class="student-story-card__major">Radio-Television-Film</p><h2 class="student-story-card__title">Christopher Yates</h2><span class="student-story-card__cue">View story <span class="student-story-card__arrow">→</span></span></div>
+            </a>
+          </article>
+        </li>
+        <li class="student-stories__item">
+          <p class="preview-label">Disabled</p>
+          <article class="student-story-card" data-preview-state="disabled">
+            <a class="student-story-card__link" href="#disabled" aria-disabled="true">
+              <div class="student-story-card__media" aria-hidden="true"><span class="student-story-card__monogram">B</span></div>
+              <div class="student-story-card__body"><p class="student-story-card__major">Communication Studies</p><h2 class="student-story-card__title">Benjamin Cohen</h2><span class="student-story-card__cue">View story <span class="student-story-card__arrow">→</span></span></div>
+            </a>
+          </article>
+        </li>
+        <li class="student-stories__item">
+          <p class="preview-label">Loading</p>
+          <article class="student-story-card" data-preview-state="loading" aria-busy="true">
+            <a class="student-story-card__link" href="#loading">
+              <div class="student-story-card__media" aria-hidden="true"><span class="student-story-card__monogram">M</span></div>
+              <div class="student-story-card__body"><p class="student-story-card__major">Journalism</p><h2 class="student-story-card__title">Megan Fee</h2><span class="student-story-card__cue">Loading story…</span></div>
+            </a>
+          </article>
+        </li>
+        <li class="student-stories__item">
+          <p class="preview-label">Error</p>
+          <article class="student-story-card" data-preview-state="error">
+            <a class="student-story-card__link" href="#error">
+              <div class="student-story-card__media" aria-hidden="true"><span class="student-story-card__monogram">O</span></div>
+              <div class="student-story-card__body"><p class="student-story-card__major">Advertising</p><h2 class="student-story-card__title">Orlan Elizarraraz</h2><span class="student-story-card__cue">Story unavailable · Try again</span></div>
+            </a>
+          </article>
+        </li>
+        <li class="student-stories__item">
+          <p class="preview-label">Success</p>
+          <article class="student-story-card" data-preview-state="success">
+            <a class="student-story-card__link" href="#success">
+              <div class="student-story-card__media" aria-hidden="true"><span class="student-story-card__monogram">V</span></div>
+              <div class="student-story-card__body"><p class="student-story-card__major">Communication &amp; Leadership</p><h2 class="student-story-card__title">Valerie Faudoa</h2><span class="student-story-card__cue">Story ready · View story</span></div>
+            </a>
+          </article>
+        </li>
+      </ul>
+    </main>
+  </body>
+</html>

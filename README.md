@@ -6,7 +6,7 @@ visual identity with an accessible, editorial system that can serve academic,
 research, film, journalism, advertising, alumni, event, and public-facing
 sites without requiring the legacy Moody or Speedway themes.
 
-> **Project status:** pre-release (`0.41.0`). The theme is being validated in
+> **Project status:** pre-release (`0.42.0`). The theme is being validated in
 > [Moody Core](https://github.com/UTMoodyCollege/moody-core) before its first
 > stable tag. Pin an exact commit when evaluating the `main` branch.
 
@@ -276,6 +276,35 @@ narrow widths, then become a two-, three-, and four-column editorial index as
 their own container grows. Future fleet directory Views should reuse the
 `people-directory__*` vocabulary and add a targeted template suggestion rather
 than broadening selectors to every Drupal View.
+
+### Shared student-story directories and profiles
+
+Moody26 treats the Life After Moody explorer and its profile pages as one
+portable student-story system. The explorer retains Drupal’s configured name
+and major filters, ordering, profile content, and canonical destinations while
+the theme supplies a labelled result list, one link per story, an honest result
+count, and a useful clear-filters state. Visible labels replace instructional
+placeholder copy, and the native GET form remains fully usable without
+JavaScript.
+
+Every story card has one destination containing its visible major and name.
+The preview media is decorative in that already named link. Moody26 validates
+Media and File access plus the physical source before rendering it; if a
+migrated portrait is unavailable, a content-derived initial keeps the entry
+complete without showing a broken image or fabricating replacement artwork.
+The flat editorial ledger grows from one compact media-object column to two,
+three, and four safe tracks as its own container allows, with equivalent
+viewport fallbacks for browsers that do not support container queries.
+
+On profile pages, the route title is the visible document `h1`. A Moody
+Showcase headline is omitted only when it exactly repeats that title, so the
+page no longer announces the person’s name twice at adjacent heading levels.
+Unrelated Showcases remain unchanged. The lead also validates its editor-owned
+media before reserving a media track; unavailable migration files collapse
+cleanly while the real role, major, graduation year, interview, and quotations
+remain in source order. `/students/life-after-moody` is the directory fixture;
+validate both a default-layout profile and a Layout Builder override when
+adopting the component in another fleet site.
 
 ### Shared UTProf Profile Listings
 
@@ -1139,7 +1168,7 @@ than replace manual assistive-technology review.
 | `tokens.css` | Brand, type, spacing, motion, focus, and layout tokens |
 | `css/fonts.css` | Local approved digital font declarations |
 | `css/moody26.css` | Global foundation, shell, navigation, forms, and footer |
-| `css/components/` | Header social, ambient-video and shared Hero, Basic and Rich Text, editorial, discovery, resource-hub, accordion, Featured Highlight and Moody Promotion signal bands, Promo List, Flex Content Area, Image Link, Flex Color Block, Moody Quotation, Moody Flex Grid, Impact Facts, Contact Info, Call to Action, Social Links, Moody Anchor gallery, people-directory, faculty-profile, newsroom, feature-story, Shorthand and PDF document boundaries, event-detail, quick-action, and settings components |
+| `css/components/` | Header social, ambient-video and shared Hero, Basic and Rich Text, editorial, discovery, resource-hub, accordion, Featured Highlight and Moody Promotion signal bands, Promo List, Flex Content Area, Image Link, Flex Color Block, Moody Quotation, Moody Flex Grid, Impact Facts, Contact Info, Call to Action, Social Links, Moody Anchor gallery, people-directory, student-story, faculty-profile, newsroom, feature-story, Shorthand and PDF document boundaries, event-detail, quick-action, and settings components |
 | `js/navigation.js` | Drawer and disclosure navigation state |
 | `js/quick-actions.js` | Native dialog and rendered-destination discovery |
 | `js/accessibility.js` | Progressive safeguards for media controls and rendered content components |
