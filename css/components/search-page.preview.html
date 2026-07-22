@@ -1,0 +1,37 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Moody26 site search — eight states</title>
+  <link rel="stylesheet" href="../fonts.css">
+  <link rel="stylesheet" href="../../tokens.css">
+  <link rel="stylesheet" href="../moody26.css">
+  <link rel="stylesheet" href="search-page.css">
+  <style>
+    body { margin: 0; }
+    .preview-grid { display: grid; gap: var(--space-2xl); }
+    .preview-state { min-width: 0; }
+    .preview-state > h2 {
+      width: min(100%, var(--content-max));
+      margin: 0 auto;
+      padding: var(--space-md) var(--page-gutter);
+      font: 700 var(--text-base) / var(--leading-body) var(--font-body);
+    }
+  </style>
+</head>
+<body>
+  <main class="moody26-main">
+    <div class="preview-grid">
+      <section class="preview-state"><h2>Default</h2><form class="search-form google-cse"><div class="container-inline"><div class="form-item"><label for="search-default">Enter your keywords</label><input class="form-search" id="search-default" type="search" value="student media"></div><button class="form-submit" type="button">Search</button></div><details><summary>About searching</summary><p>Use quotes to search for a phrase.</p></details></form></section>
+      <section class="preview-state"><h2>Hover</h2><form class="search-form google-cse"><div class="container-inline"><div class="form-item"><label for="search-hover">Enter your keywords</label><input class="form-search" id="search-hover" type="search" value="research"></div><button class="form-submit is-hover" type="button">Search</button></div></form></section>
+      <section class="preview-state"><h2>Focus</h2><form class="search-form google-cse"><div class="container-inline"><div class="form-item"><label for="search-focus">Enter your keywords</label><input class="form-search is-focus" id="search-focus" type="search" value="advising"></div><button class="form-submit is-focus" type="button">Search</button></div></form></section>
+      <section class="preview-state"><h2>Active</h2><form class="search-form google-cse"><div class="container-inline"><div class="form-item"><label for="search-active">Enter your keywords</label><input class="form-search" id="search-active" type="search" value="events"></div><button class="form-submit is-active" type="button">Search</button></div></form></section>
+      <section class="preview-state"><h2>Disabled</h2><form class="search-form google-cse"><div class="container-inline"><div class="form-item"><label for="search-disabled">Enter your keywords</label><input class="form-search" id="search-disabled" type="search" value="Search unavailable" disabled></div><button class="form-submit is-disabled" type="button" disabled>Search</button></div></form></section>
+      <section class="preview-state"><h2>Loading</h2><form class="search-form google-cse" aria-busy="true"><div class="container-inline"><div class="form-item"><label for="search-loading">Enter your keywords</label><input class="form-search" id="search-loading" type="search" value="journalism"></div><button class="form-submit is-loading" type="button" aria-busy="true">Searching</button></div><p class="moody26-search-state" role="status">Searching Moody College</p></form></section>
+      <section class="preview-state"><h2>Error</h2><form class="search-form google-cse"><div class="container-inline"><div class="form-item"><label for="search-error">Enter your keywords</label><input class="form-search is-error" id="search-error" type="search" value="" aria-invalid="true" aria-describedby="search-error-message"></div><button class="form-submit is-error" type="button">Search</button></div><p class="moody26-search-state moody26-search-state--error" id="search-error-message" role="alert">Enter at least one keyword.</p></form></section>
+      <section class="preview-state"><h2>Success</h2><form class="search-form google-cse"><div class="container-inline"><div class="form-item"><label for="search-success">Enter your keywords</label><input class="form-search is-success" id="search-success" type="search" value="communication careers"></div><button class="form-submit is-success" type="button">Search</button></div><p class="moody26-search-state" role="status">Results are ready below.</p></form></section>
+    </div>
+  </main>
+</body>
+</html>

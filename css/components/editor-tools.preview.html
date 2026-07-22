@@ -1,0 +1,33 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Moody26 Drupal editor tools — eight states</title>
+  <link rel="stylesheet" href="../fonts.css">
+  <link rel="stylesheet" href="../../tokens.css">
+  <link rel="stylesheet" href="../moody26.css">
+  <link rel="stylesheet" href="editor-tools.css">
+  <style>
+    * { box-sizing: border-box; }
+    body { margin: 0; padding: var(--space-lg) var(--page-gutter); }
+    main { width: min(100%, var(--content-max)); margin-inline: auto; }
+    .preview-grid { display: grid; gap: var(--space-xl); }
+    .preview-state > h2 { margin: 0; font: 700 var(--text-base) / var(--leading-body) var(--font-body); }
+  </style>
+</head>
+<body>
+  <main>
+    <div class="preview-grid">
+      <section class="preview-state"><h2>Default</h2><nav class="moody26-local-tasks" aria-label="Default page tools"><span class="moody26-editor-tools__label" aria-hidden="true">Page tools</span><ul><li class="is-active"><a class="is-active" href="#default" aria-current="page">View</a></li><li><a href="#default">Edit</a></li><li><a href="#default">Layout</a></li><li><a href="#default">Revisions</a></li></ul></nav></section>
+      <section class="preview-state"><h2>Hover</h2><nav class="moody26-local-tasks" aria-label="Hover page tools"><span class="moody26-editor-tools__label" aria-hidden="true">Page tools</span><ul><li><a href="#hover">View</a></li><li><a class="is-hover" href="#hover">Edit</a></li><li><a href="#hover">Layout</a></li></ul></nav></section>
+      <section class="preview-state"><h2>Focus</h2><nav class="moody26-local-tasks" aria-label="Focus page tools"><span class="moody26-editor-tools__label" aria-hidden="true">Page tools</span><ul><li><a href="#focus">View</a></li><li><a class="is-focus" href="#focus">Edit</a></li><li><a href="#focus">Layout</a></li></ul></nav></section>
+      <section class="preview-state"><h2>Active</h2><nav class="moody26-local-actions" aria-label="Active administration actions"><span class="moody26-editor-tools__label" aria-hidden="true">Available actions</span><ul class="moody26-local-actions__list"><li><a class="is-active-state" href="#active">Add content</a></li></ul></nav></section>
+      <section class="preview-state"><h2>Disabled</h2><nav class="moody26-local-actions" aria-label="Disabled administration actions"><span class="moody26-editor-tools__label" aria-hidden="true">Available actions</span><ul class="moody26-local-actions__list"><li><a class="is-disabled" href="#disabled" aria-disabled="true" tabindex="-1">Add content</a></li></ul></nav></section>
+      <section class="preview-state"><h2>Loading</h2><nav class="moody26-local-actions" aria-label="Loading administration actions"><span class="moody26-editor-tools__label" aria-hidden="true">Available actions</span><ul class="moody26-local-actions__list"><li><a class="is-loading" href="#loading" aria-busy="true">Adding content</a></li></ul><p class="moody26-editor-tools__status" role="status">Preparing the content form.</p></nav></section>
+      <section class="preview-state"><h2>Error</h2><nav class="moody26-local-actions" aria-label="Error administration actions"><span class="moody26-editor-tools__label" aria-hidden="true">Available actions</span><ul class="moody26-local-actions__list"><li><a class="is-error" href="#error">Try again</a></li></ul><p class="moody26-editor-tools__status moody26-editor-tools__status--error" role="alert">The page action could not be loaded.</p></nav></section>
+      <section class="preview-state"><h2>Success</h2><nav class="moody26-local-actions" aria-label="Success administration actions"><span class="moody26-editor-tools__label" aria-hidden="true">Available actions</span><ul class="moody26-local-actions__list"><li><a class="is-success" href="#success">View saved page</a></li></ul><p class="moody26-editor-tools__status" role="status">The layout is saved.</p></nav></section>
+    </div>
+  </main>
+</body>
+</html>

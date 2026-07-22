@@ -362,6 +362,33 @@
         }
       });
 
+      once('moody26-media-story-image', '.moody26-media-story__image', context).forEach((image) => {
+        const showUnavailableImage = () => {
+          const story = image.closest('.moody26-media-story');
+          const media = image.closest('.moody26-media-story__media');
+          const content = story?.querySelector('.moody26-media-story__content');
+          if (!story || !media || !content || story.classList.contains('is-error')) {
+            return;
+          }
+
+          const description = image.alt.trim();
+          const status = document.createElement('p');
+          status.className = 'moody26-media-story__status';
+          status.setAttribute('role', 'status');
+          status.textContent = description
+            ? Drupal.t('Image unavailable: @description', { '@description': description })
+            : Drupal.t('Image unavailable');
+
+          media.hidden = true;
+          story.classList.add('is-error');
+          content.querySelector('.moody26-media-story__heading')?.after(status);
+        };
+        image.addEventListener('error', showUnavailableImage, { once: true });
+        if (image.complete && image.currentSrc && !image.naturalWidth) {
+          showUnavailableImage();
+        }
+      });
+
       once('moody26-promo-list-image', '.promo-list__media img', context).forEach((image) => {
         const hideFailedMedia = () => {
           image.closest('.promo-list__media')?.setAttribute('hidden', '');

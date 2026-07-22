@@ -689,6 +689,12 @@ function moody26_add_intrinsic_image_dimensions(mixed &$media): void {
  */
 function moody26_theme_suggestions_block_alter(array &$suggestions, array $variables): void {
   $plugin_id = $variables['elements']['#plugin_id'] ?? '';
+  $block_content = $variables['elements']['content']['#block_content']
+    ?? $variables['elements']['#block_content']
+    ?? NULL;
+  if (moody26_is_legacy_media_story($block_content)) {
+    $suggestions[] = 'block__moody26_legacy_media_story';
+  }
   if ($plugin_id === 'moody_shorthand_zip_shorthand_zip_story') {
     $suggestions[] = 'block__moody_shorthand_zip_shorthand_zip_story';
   }
@@ -829,6 +835,17 @@ function moody26_preprocess_block(array &$variables): void {
   // content, so retain every authored attribute and word while lowering only
   // a nested h1 tag to the first valid section level.
   if ($block_content instanceof ContentEntityInterface && $block_content->bundle() === 'basic') {
+    $media_story = moody26_legacy_media_story($block_content, $variables);
+    if ($media_story) {
+      $variables['moody26_media_story'] = $media_story;
+      $variables['attributes']['class'][] = 'moody26-media-story';
+      $variables['attributes']['class'][] = 'moody26-media-story--media-' . $media_story['media_position'];
+      if ($media_story['media_unavailable']) {
+        $variables['attributes']['class'][] = 'is-error';
+      }
+      CacheableMetadata::createFromObject($block_content)->applyTo($variables);
+    }
+
     $body_text = $variables['content']['body'][0]['#text'] ?? NULL;
     if (is_string($body_text) && stripos($body_text, '<h1') !== FALSE) {
       $normalized_body = preg_replace('/<(\/?)h1(\b[^>]*)>/i', '<$1h2$2>', $body_text);
@@ -864,6 +881,188 @@ function moody26_preprocess_block(array &$variables): void {
       ['visually-hidden'],
     ));
   }
+}
+
+/**
+ * Identifies the retired Bootstrap media-story pattern without page coupling.
+ */
+function moody26_is_legacy_media_story(mixed $block_content): bool {
+  if (
+    !$block_content instanceof ContentEntityInterface
+    || $block_content->bundle() !== 'basic'
+    || !$block_content->hasField('body')
+    || $block_content->get('body')->isEmpty()
+  ) {
+    return FALSE;
+  }
+
+  $markup = (string) $block_content->get('body')->value;
+  return stripos($markup, '<drupal-media') !== FALSE
+    && preg_match('/class=(?:"[^"]*\brow\b[^"]*"|\'[^\']*\brow\b[^\']*\')/i', $markup) === 1
+    && substr_count(strtolower($markup), 'col-md-6') >= 2
+    && stripos($markup, 'ut-font-weight-black') !== FALSE
+    && stripos($markup, 'ut-text-4xl') !== FALSE;
+}
+
+/**
+ * Converts one legacy Basic-block media split into a safe component model.
+ */
+function moody26_legacy_media_story(ContentEntityInterface $block_content, array &$variables): array {
+  if (!moody26_is_legacy_media_story($block_content)) {
+    return [];
+  }
+
+  $body = $block_content->get('body')->first();
+  $markup = (string) ($body?->value ?? '');
+  $format = (string) ($body?->format ?? '');
+  if ($markup === '' || $format === '') {
+    return [];
+  }
+
+  $document = new \DOMDocument('1.0', 'UTF-8');
+  $previous_errors = libxml_use_internal_errors(TRUE);
+  $loaded = $document->loadHTML(
+    '<?xml encoding="UTF-8"><div id="moody26-legacy-media-story-root">' . $markup . '</div>',
+    LIBXML_NONET | LIBXML_HTML_NOIMPLIED | LIBXML_HTML_NODEFDTD,
+  );
+  libxml_clear_errors();
+  libxml_use_internal_errors($previous_errors);
+  if (!$loaded) {
+    return [];
+  }
+
+  $xpath = new \DOMXPath($document);
+  $rows = $xpath->query(
+    '//*[@id="moody26-legacy-media-story-root"]//*[contains(concat(" ", normalize-space(@class), " "), " row ")][.//drupal-media[@data-entity-uuid]]',
+  );
+  $row = $rows?->item(0);
+  if (!$row instanceof \DOMElement) {
+    return [];
+  }
+
+  $columns = $xpath->query(
+    './*[contains(concat(" ", normalize-space(@class), " "), " col-md-6 ")]',
+    $row,
+  );
+  $heading_nodes = $xpath->query(
+    './/*[contains(concat(" ", normalize-space(@class), " "), " ut-font-weight-black ") and contains(concat(" ", normalize-space(@class), " "), " ut-text-4xl ")]',
+    $row,
+  );
+  $media_nodes = $xpath->query('.//drupal-media[@data-entity-uuid]', $row);
+  $heading_node = $heading_nodes?->item(0);
+  $media_node = $media_nodes?->item(0);
+  if (
+    !$columns
+    || $columns->length !== 2
+    || !$heading_node instanceof \DOMElement
+    || !$media_node instanceof \DOMElement
+  ) {
+    return [];
+  }
+
+  $heading = trim(preg_replace('/\s+/u', ' ', $heading_node->textContent));
+  if ($heading === '') {
+    return [];
+  }
+
+  $paragraphs = [];
+  foreach ($xpath->query('.//p[normalize-space(.) != "" and not(.//a)]', $row) ?: [] as $paragraph) {
+    if (!$paragraph instanceof \DOMElement) {
+      continue;
+    }
+    $paragraph_markup = moody26_dom_inner_html($paragraph);
+    if (trim(strip_tags($paragraph_markup)) === '') {
+      continue;
+    }
+    $paragraphs[] = [
+      '#type' => 'processed_text',
+      '#text' => $paragraph_markup,
+      '#format' => $format,
+    ];
+  }
+
+  $links = [];
+  foreach ($xpath->query('.//a[@href and normalize-space(.) != ""]', $row) ?: [] as $link) {
+    if (!$link instanceof \DOMElement) {
+      continue;
+    }
+    $url = trim($link->getAttribute('href'));
+    $label = trim(preg_replace('/\s+/u', ' ', $link->textContent));
+    if (
+      $url === ''
+      || $label === ''
+      || UrlHelper::stripDangerousProtocols($url) !== $url
+    ) {
+      continue;
+    }
+    $context = trim((string) preg_replace(
+      '/^(?:learn\s+more(?:\s+about)?|learn\s+about|explore|discover|visit|view|read)\s*/iu',
+      '',
+      $label,
+    ));
+    if ($context === '') {
+      $context = $heading;
+    }
+    $action_label = preg_match('/^visit\b/iu', $label) ? t('Visit') : t('Explore');
+    $accessible_name = preg_match('/^(?:learn|read)\s+more$/iu', $label)
+      ? t('@action @context', ['@action' => $action_label, '@context' => $context])
+      : $label;
+    $links[] = [
+      'url' => $url,
+      'context' => $context,
+      'action_label' => $action_label,
+      'accessible_name' => $accessible_name,
+    ];
+  }
+
+  $media_column = NULL;
+  foreach ($columns as $index => $column) {
+    if (
+      $column instanceof \DOMElement
+      && $xpath->query('.//drupal-media[@data-entity-uuid]', $column)?->length
+    ) {
+      $media_column = $index;
+      break;
+    }
+  }
+
+  $media_uuid = trim($media_node->getAttribute('data-entity-uuid'));
+  $media_matches = \Drupal::entityTypeManager()->getStorage('media')->loadByProperties([
+    'uuid' => $media_uuid,
+  ]);
+  $media = reset($media_matches);
+  $media_description = '';
+  $image = $media instanceof MediaInterface
+    ? moody26_media_image(
+      (string) $media->id(),
+      $variables,
+      $media_description,
+      'moody26-media-story__image',
+      'utexas_image_style_1600w',
+    )
+    : [];
+
+  return [
+    'heading' => $heading,
+    'heading_id' => Html::getUniqueId('moody26-media-story-heading'),
+    'body' => $paragraphs,
+    'links' => $links,
+    'image' => $image,
+    'media_position' => $media_column === 0 ? 'first' : 'last',
+    'media_unavailable' => $media_uuid !== '' && !$image,
+    'media_description' => $media_description,
+  ];
+}
+
+/**
+ * Returns an element's filtered child markup without its wrapper tag.
+ */
+function moody26_dom_inner_html(\DOMElement $element): string {
+  $markup = '';
+  foreach ($element->childNodes as $child) {
+    $markup .= $element->ownerDocument?->saveHTML($child) ?: '';
+  }
+  return $markup;
 }
 
 /**

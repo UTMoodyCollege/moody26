@@ -6,7 +6,7 @@ visual identity with an accessible, editorial system that can serve academic,
 research, film, journalism, advertising, alumni, event, and public-facing
 sites without requiring the legacy Moody or Speedway themes.
 
-> **Project status:** pre-release (`0.49.0`). The theme is being validated in
+> **Project status:** pre-release (`0.52.0`). The theme is being validated in
 > [Moody Core](https://github.com/UTMoodyCollege/moody-core) before its first
 > stable tag. Pin an exact commit when evaluating the `main` branch.
 
@@ -278,6 +278,72 @@ Text links and lists. `/students/deans-ambassadors` verifies the one-`h1`
 document contract. Browser coverage checks both routes at narrow and wide
 viewports, including relationship preservation, shared descriptions, focus,
 and horizontal reflow.
+
+### Shared legacy Basic media stories
+
+Moody26 includes a narrow migration adapter for Basic blocks authored with the
+fleet’s retired Bootstrap media-story recipe: one `.row`, two `.col-md-6`
+columns, an embedded Drupal image, and an explicit large black-weight heading.
+The adapter recognizes that structural signature rather than a route, node,
+block UUID, administrative label, or sentence. New content should use the UT
+Drupal Kit Photo Content Area; the adapter keeps existing editor-owned stories
+usable while pre-production content is migrated deliberately.
+
+At render time the theme reads—but never changes—the stored body. It promotes
+the legacy visual title to a real `h2`, retains filtered paragraph markup,
+validates authored destination protocols, and renders each destination as a
+wrap-safe context label plus a compact `Explore` or `Visit` action in a
+semantic list. The stored descriptive label remains the link's accessible
+name. The embedded Media entity uses the same access, translation, File,
+source-image, intrinsic-dimension, and cacheability checks as other Moody26
+components. The original Basic block and text-format workflow remain available
+in Layout Builder.
+
+The component uses one source-ordered column at narrow sizes and a safe
+asymmetric 5/7 or 7/5 spread only when its own container reaches 52rem. Media
+may move visually to its authored edge without changing reading or keyboard
+order. A missing or browser-failed image removes only the figure and exposes
+an alt-derived status; real copy and destinations remain. Actions keep
+single-line compact labels, while their noninteractive context can wrap safely
+at 200% zoom. They retain 44-pixel targets, immediate focus, complete static
+states, and an un-underlined CSS arrow. `/` is the integration fixture for all
+three published legacy stories.
+
+### Shared site search
+
+Moody26 treats Drupal’s Google CSE page form as a contained editorial utility,
+not as a page-wide layout mode. The visible page title, query form, help
+disclosure, results heading, and results host receive the shared responsive
+gutter and content measure. This fixes edge collisions on search and other
+ordinary page titles without padding `.moody26-main` itself, so Layout Builder
+sections retain deliberate full-width and full-bleed behavior.
+
+The existing form remains the source of truth for its visible label, query,
+submission, help text, and Google result integration. Its native input and
+submit control retain 44-pixel targets and visible focus; the two-column query
+row becomes one safe column based on its own container, with a viewport fallback
+for older browsers. `css/components/search-page.preview.html` records default,
+hover, focus, active, disabled, loading, error, and success presentations.
+`/search/google?keys=test` is the integration fixture.
+
+### Drupal editor tools
+
+Moody26 keeps Drupal's placeholder-rendered local tasks and local actions in
+the page render tree, so authenticated editors can reach route-owned View,
+Edit, Layout, Revisions, and related actions from the front-end theme. The
+theme does not duplicate routes, permissions, or action labels: Drupal remains
+the source of truth and continues to apply access checks and cache contexts.
+
+The page-tools treatment is a compact, labelled editorial ledger rather than a
+pill row. Core active-page semantics receive a visible underline and rule,
+every action retains a 44-pixel target and immediate focus, and controlled
+labels stay on one line while their list wraps without page overflow. Local
+actions use valid list and navigation semantics. Layout Builder's existing
+Save, Discard, preview, and Revert controls share the same static responsive
+surface and become full-width only when their own action container is narrow.
+`css/components/editor-tools.preview.html` records default, hover, focus,
+active, disabled, loading, error, and success presentations. A node canonical
+route and its `/layout` route are the integration fixtures.
 
 ### Shared people directories
 
@@ -1373,7 +1439,7 @@ than replace manual assistive-technology review.
 | `tokens.css` | Brand, type, spacing, motion, focus, and layout tokens |
 | `css/fonts.css` | Local approved digital font declarations |
 | `css/moody26.css` | Global foundation, shell, navigation, forms, and footer |
-| `css/components/` | Header social, ambient-video and shared Hero, Basic and Rich Text, editorial, discovery, resource-hub, accordion, Featured Highlight and Moody Promotion signal bands, Promo List, Flex Content Area, Image Link, Flex Color Block, Moody Quotation, Moody Flex Grid, Impact Facts, Contact Info, Call to Action, Social Links, Moody Anchor and interactive image galleries, static Scroll Reveal Media and Focal Point narratives, Flip and Dynamic Flip contact sheets, a semantic destination Image Grid, people-directory, student-story, faculty-profile, newsroom, feature-story, Shorthand and PDF document boundaries, event-detail and event-listing, quick-action, and settings components |
+| `css/components/` | Header social, ambient-video and shared Hero, Basic and Rich Text, semantic legacy media stories, contained site search, Drupal editor tools, editorial, discovery, resource-hub, accordion, Featured Highlight and Moody Promotion signal bands, Promo List, Flex Content Area, Image Link, Flex Color Block, Moody Quotation, Moody Flex Grid, Impact Facts, Contact Info, Call to Action, Social Links, Moody Anchor and interactive image galleries, static Scroll Reveal Media and Focal Point narratives, Flip and Dynamic Flip contact sheets, a semantic destination Image Grid, people-directory, student-story, faculty-profile, newsroom, feature-story, Shorthand and PDF document boundaries, event-detail and event-listing, quick-action, and settings components |
 | `js/navigation.js` | Drawer and disclosure navigation state |
 | `js/quick-actions.js` | Native dialog and rendered-destination discovery |
 | `js/accessibility.js` | Progressive safeguards for media controls and rendered content components |

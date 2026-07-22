@@ -1,0 +1,64 @@
+{% if moody26_media_story %}
+  {% set story = moody26_media_story %}
+  {% set story_classes = [
+    'moody26-media-story',
+    'moody26-media-story--media-' ~ story.media_position,
+    story.media_unavailable ? 'is-error',
+  ] %}
+  <section{{ attributes.addClass(story_classes) }} aria-labelledby="{{ story.heading_id }}">
+    {{ title_prefix }}
+    {{ title_suffix }}
+
+    <div class="moody26-media-story__inner">
+      <div class="moody26-media-story__content">
+        <h2 class="moody26-media-story__heading" id="{{ story.heading_id }}">{{ story.heading }}</h2>
+
+        {% if story.media_unavailable %}
+          <p class="moody26-media-story__status" role="status">
+            {{ story.media_description
+              ? 'Image unavailable: @description'|t({'@description': story.media_description})
+              : 'Image unavailable'|t
+            }}
+          </p>
+        {% endif %}
+
+        {% if story.body %}
+          <div class="moody26-media-story__body">
+            {% for paragraph in story.body %}
+              <p>{{ paragraph }}</p>
+            {% endfor %}
+          </div>
+        {% endif %}
+
+        {% if story.links %}
+          <ul class="moody26-media-story__links" role="list">
+            {% for link in story.links %}
+              <li>
+                <span class="moody26-media-story__link-context">{{ link.context }}</span>
+                <a class="moody26-media-story__link" href="{{ link.url }}" aria-label="{{ link.accessible_name }}">
+                  <span>{{ link.action_label }}</span>
+                  <span class="moody26-media-story__link-arrow" aria-hidden="true"></span>
+                </a>
+              </li>
+            {% endfor %}
+          </ul>
+        {% endif %}
+      </div>
+
+      {% if story.image %}
+        <figure class="moody26-media-story__media">
+          {{ story.image }}
+        </figure>
+      {% endif %}
+    </div>
+  </section>
+{% else %}
+  <div{{ attributes }}>
+    {{ title_prefix }}
+    {% if label %}
+      <h2{{ title_attributes }}>{{ label }}</h2>
+    {% endif %}
+    {{ title_suffix }}
+    <div{{ content_attributes }}>{{ content }}</div>
+  </div>
+{% endif %}

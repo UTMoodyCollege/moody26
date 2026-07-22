@@ -1,0 +1,168 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Moody26 media story — eight states</title>
+  <link rel="stylesheet" href="../../tokens.css">
+  <link rel="stylesheet" href="media-story.css">
+  <style>
+    *, *::before, *::after { box-sizing: border-box; }
+    html, body { overflow-x: clip; }
+    body {
+      margin: 0;
+      padding: var(--space-lg);
+      background: var(--color-paper);
+      color: var(--color-ink);
+      font-family: var(--font-body);
+    }
+    main {
+      display: grid;
+      width: min(100%, var(--content-max));
+      gap: var(--space-2xl);
+      margin-inline: auto;
+    }
+    .preview-state {
+      display: grid;
+      min-width: 0;
+      gap: var(--space-sm);
+    }
+    .preview-state > h2 {
+      margin: 0;
+      font-family: var(--font-body);
+      font-size: var(--text-base);
+    }
+    .preview-image {
+      display: grid !important;
+      place-items: center;
+      padding: var(--space-lg);
+      color: var(--color-ink-2);
+      font-size: var(--text-sm);
+      font-weight: 700;
+    }
+    .preview-success {
+      max-width: var(--measure);
+      margin: 0;
+      color: var(--color-ink-2);
+      font-size: var(--text-sm);
+      font-weight: 700;
+    }
+  </style>
+</head>
+<body>
+  <main>
+    <section class="preview-state" aria-labelledby="preview-default">
+      <h2 id="preview-default">Default</h2>
+      <article class="moody26-media-story moody26-media-story--media-first" aria-labelledby="default-story">
+        <div class="moody26-media-story__inner">
+          <div class="moody26-media-story__content">
+            <h3 class="moody26-media-story__heading" id="default-story">Experience Moody</h3>
+            <div class="moody26-media-story__body"><p>Learn with people who bring communication research and practice together.</p></div>
+            <ul class="moody26-media-story__links" role="list"><li><span class="moody26-media-story__link-context">Experience Moody</span><a class="moody26-media-story__link" href="#default" aria-label="Explore Experience Moody"><span>Explore</span><span class="moody26-media-story__link-arrow" aria-hidden="true"></span></a></li></ul>
+          </div>
+          <figure class="moody26-media-story__media"><div class="preview-image">Editor-owned image</div></figure>
+        </div>
+      </article>
+    </section>
+
+    <section class="preview-state" aria-labelledby="preview-hover">
+      <h2 id="preview-hover">Hover</h2>
+      <article class="moody26-media-story moody26-media-story--media-last" aria-labelledby="hover-story">
+        <div class="moody26-media-story__inner">
+          <div class="moody26-media-story__content">
+            <h3 class="moody26-media-story__heading" id="hover-story">Creative Innovation</h3>
+            <div class="moody26-media-story__body"><p>Follow research and creative work across the college.</p></div>
+            <ul class="moody26-media-story__links" role="list"><li><span class="moody26-media-story__link-context">Moody research</span><a class="moody26-media-story__link is-hover" href="#hover" aria-label="Explore Moody research"><span>Explore</span><span class="moody26-media-story__link-arrow" aria-hidden="true"></span></a></li></ul>
+          </div>
+          <figure class="moody26-media-story__media"><div class="preview-image">Editor-owned image</div></figure>
+        </div>
+      </article>
+    </section>
+
+    <section class="preview-state" aria-labelledby="preview-focus">
+      <h2 id="preview-focus">Focus</h2>
+      <article class="moody26-media-story moody26-media-story--media-first" aria-labelledby="focus-story">
+        <div class="moody26-media-story__inner">
+          <div class="moody26-media-story__content">
+            <h3 class="moody26-media-story__heading" id="focus-story">Experience Moody</h3>
+            <div class="moody26-media-story__body"><p>Keyboard focus appears immediately and remains independent of color.</p></div>
+            <ul class="moody26-media-story__links" role="list"><li><span class="moody26-media-story__link-context">Experience Moody</span><a class="moody26-media-story__link is-focus" href="#focus" aria-label="Explore Experience Moody"><span>Explore</span><span class="moody26-media-story__link-arrow" aria-hidden="true"></span></a></li></ul>
+          </div>
+          <figure class="moody26-media-story__media"><div class="preview-image">Editor-owned image</div></figure>
+        </div>
+      </article>
+    </section>
+
+    <section class="preview-state" aria-labelledby="preview-active">
+      <h2 id="preview-active">Active</h2>
+      <article class="moody26-media-story moody26-media-story--media-last" aria-labelledby="active-story">
+        <div class="moody26-media-story__inner">
+          <div class="moody26-media-story__content">
+            <h3 class="moody26-media-story__heading" id="active-story">Creative Innovation</h3>
+            <div class="moody26-media-story__body"><p>The pressed state strengthens the action underline without shifting layout.</p></div>
+            <ul class="moody26-media-story__links" role="list"><li><span class="moody26-media-story__link-context">Moody research</span><a class="moody26-media-story__link is-active" href="#active" aria-label="Explore Moody research"><span>Explore</span><span class="moody26-media-story__link-arrow" aria-hidden="true"></span></a></li></ul>
+          </div>
+          <figure class="moody26-media-story__media"><div class="preview-image">Editor-owned image</div></figure>
+        </div>
+      </article>
+    </section>
+
+    <section class="preview-state" aria-labelledby="preview-disabled">
+      <h2 id="preview-disabled">Disabled</h2>
+      <article class="moody26-media-story moody26-media-story--media-first" aria-labelledby="disabled-story">
+        <div class="moody26-media-story__inner">
+          <div class="moody26-media-story__content">
+            <h3 class="moody26-media-story__heading" id="disabled-story">Experience Moody</h3>
+            <div class="moody26-media-story__body"><p>An unavailable authored destination remains visibly inactive.</p></div>
+            <ul class="moody26-media-story__links" role="list"><li><span class="moody26-media-story__link-context">Experience Moody</span><a class="moody26-media-story__link is-disabled" href="#disabled" aria-label="Explore Experience Moody" aria-disabled="true"><span>Explore</span><span class="moody26-media-story__link-arrow" aria-hidden="true"></span></a></li></ul>
+          </div>
+          <figure class="moody26-media-story__media"><div class="preview-image">Editor-owned image</div></figure>
+        </div>
+      </article>
+    </section>
+
+    <section class="preview-state" aria-labelledby="preview-loading">
+      <h2 id="preview-loading">Loading</h2>
+      <article class="moody26-media-story moody26-media-story--media-last" aria-labelledby="loading-story">
+        <div class="moody26-media-story__inner">
+          <div class="moody26-media-story__content">
+            <h3 class="moody26-media-story__heading" id="loading-story">Creative Innovation</h3>
+            <div class="moody26-media-story__body"><p>The action keeps its readable label while an external workflow is busy.</p></div>
+            <ul class="moody26-media-story__links" role="list"><li><span class="moody26-media-story__link-context">Moody research</span><a class="moody26-media-story__link is-loading" href="#loading" aria-label="Explore Moody research" aria-busy="true"><span>Loading</span><span class="moody26-media-story__link-arrow" aria-hidden="true"></span></a></li></ul>
+          </div>
+          <figure class="moody26-media-story__media"><div class="preview-image">Editor-owned image</div></figure>
+        </div>
+      </article>
+    </section>
+
+    <section class="preview-state" aria-labelledby="preview-error">
+      <h2 id="preview-error">Error</h2>
+      <article class="moody26-media-story moody26-media-story--media-first is-error" aria-labelledby="error-story">
+        <div class="moody26-media-story__inner">
+          <div class="moody26-media-story__content">
+            <h3 class="moody26-media-story__heading" id="error-story">Experience Moody</h3>
+            <p class="moody26-media-story__status" role="status">Image unavailable: students learning together</p>
+            <div class="moody26-media-story__body"><p>Copy and actions remain available when the source image fails.</p></div>
+            <ul class="moody26-media-story__links" role="list"><li><span class="moody26-media-story__link-context">Experience Moody</span><a class="moody26-media-story__link is-error" href="#error" aria-label="Explore Experience Moody"><span>Explore</span><span class="moody26-media-story__link-arrow" aria-hidden="true"></span></a></li></ul>
+          </div>
+        </div>
+      </article>
+    </section>
+
+    <section class="preview-state" aria-labelledby="preview-success">
+      <h2 id="preview-success">Success</h2>
+      <article class="moody26-media-story moody26-media-story--media-last is-success" aria-labelledby="success-story">
+        <div class="moody26-media-story__inner">
+          <div class="moody26-media-story__content">
+            <h3 class="moody26-media-story__heading" id="success-story">Creative Innovation</h3>
+            <p class="preview-success" role="status">Image available</p>
+            <div class="moody26-media-story__body"><p>The complete story preserves the author’s media, message, and destinations.</p></div>
+            <ul class="moody26-media-story__links" role="list"><li><span class="moody26-media-story__link-context">Moody research</span><a class="moody26-media-story__link is-success" href="#success" aria-label="Explore Moody research"><span>Explore</span><span class="moody26-media-story__link-arrow" aria-hidden="true"></span></a></li></ul>
+          </div>
+          <figure class="moody26-media-story__media"><div class="preview-image">Editor-owned image</div></figure>
+        </div>
+      </article>
+    </section>
+  </main>
+</body>
+</html>

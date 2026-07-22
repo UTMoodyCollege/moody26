@@ -1,0 +1,12 @@
+{#
+/**
+ * @file
+ * Exposes Drupal's route-owned local tasks as a labelled page-tools nav.
+ */
+#}
+<nav{{ attributes.addClass('moody26-local-tasks') }} aria-label="{{ 'Page tools'|t }}">
+  {{ title_prefix }}
+  <span class="moody26-editor-tools__label" aria-hidden="true">{{ 'Page tools'|t }}</span>
+  {{ title_suffix }}
+  {{ content }}
+</nav>

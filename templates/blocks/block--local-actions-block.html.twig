@@ -1,0 +1,14 @@
+{#
+/**
+ * @file
+ * Gives Drupal's route-owned local actions valid list and nav semantics.
+ */
+#}
+<nav{{ attributes.addClass('moody26-local-actions') }} aria-label="{{ 'Page administration actions'|t }}">
+  {{ title_prefix }}
+  <span class="moody26-editor-tools__label" aria-hidden="true">{{ 'Available actions'|t }}</span>
+  {{ title_suffix }}
+  <ul class="moody26-local-actions__list" role="list">
+    {{ content }}
+  </ul>
+</nav>

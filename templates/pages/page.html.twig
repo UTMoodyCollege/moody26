@@ -3,17 +3,16 @@
 
 {{ page.site_announcement }}
 
-{% set highlighted_content = page.highlighted|render %}
-{% set help_content = page.help|render %}
-
 {% if page.breadcrumb %}
   <div class="moody26-container moody26-breadcrumb">{{ page.breadcrumb }}</div>
 {% endif %}
 
-{% if highlighted_content|striptags|trim or help_content|striptags|trim %}
+{# Keep placeholder-capable local tasks/actions in the render tree. Testing a
+   pre-rendered string drops Drupal's lazy placeholders before replacement. #}
+{% if page.highlighted or page.help %}
   <div class="moody26-container moody26-system-messages">
-    {{ highlighted_content }}
-    {{ help_content }}
+    {{ page.highlighted }}
+    {{ page.help }}
   </div>
 {% endif %}
 

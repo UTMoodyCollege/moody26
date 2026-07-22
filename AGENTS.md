@@ -137,6 +137,50 @@ not belong outside the token and font declaration files.
 - Keep the safeguard generic across page bundles and fleet sites. Site owners
   remain responsible for deleting the redundant placement from configuration.
 
+### Shared site search
+
+- Treat `.search-form.google-cse` as the stable Drupal/provider component
+  boundary. Do not target a route, query string, site-specific block ID, or
+  Google’s remotely injected presentation classes.
+- Contain the visible page title, query form, help disclosure, results heading,
+  and `#google-cse-results` host with the shared content width and responsive
+  gutter. Do not add padding or a max-width to `.moody26-main`; Layout Builder
+  regions must retain deliberate full-width and full-bleed behavior.
+- Preserve Drupal’s visible label, current query, submit semantics, native
+  `<details>` help, form action, hidden state, and Google CSE result host. The
+  theme owns presentation only and must not create a second search workflow.
+- Keep query and submit controls at least 44 CSS pixels, stack them based on the
+  form container with an older-browser viewport fallback, preserve immediate
+  focus and forced-colors boundaries, and test at 320, 375, 414, and 768 CSS
+  pixels plus 200% text sizing.
+- Keep the eight-state preview for default, hover, focus, active, disabled,
+  loading, error, and success. Production search is static; do not animate
+  results or fabricate application state around Google’s response.
+
+### Drupal editor tools
+
+- Keep placeholder-capable Highlighted and Help region render arrays in the
+  Twig render tree. Never pre-render them and then decide visibility from
+  stripped text; that discards lazy local-task and local-action placeholders.
+- Treat Drupal's `local_tasks_block` and `local_actions_block` as the only
+  sources of page-mode routes, labels, access, active state, and cacheability.
+  Do not hard-code View, Edit, Layout, Revisions, Clone, or add-action URLs.
+- Render local tasks and actions as separately labelled navigation landmarks.
+  Local actions must have valid list semantics. Preserve Drupal's
+  `aria-current`, link order, route access checks, contextual links, and
+  translation.
+- Use a flat editorial task ledger, exact theme tokens, one-line controlled
+  labels, wrap-safe parents, 44 CSS-pixel targets, immediate visible focus,
+  forced-colors boundaries, and non-color current/error/success cues. Do not
+  use pill tabs, toolbar icons, transforms, or animation.
+- Style Layout Builder's existing `[data-drupal-selector="edit-actions"]`
+  controls without replacing its form, submit inputs, preview checkbox, or
+  provider behavior. Actions may become full-width based on their own
+  container; editor canvas content and full-bleed regions remain untouched.
+- Keep the eight-state editor-tools preview and verify authenticated canonical
+  node and Layout Builder routes at 320, 375, 414, and 768 CSS pixels, 200%
+  text sizing, sequential keyboard order, and with the toolbar tray closed.
+
 ### Motion and animation
 
 - Expose motion through Drupal’s native `Appearance → Settings → Moody 26`
@@ -238,6 +282,58 @@ not belong outside the token and font declaration files.
 - Basic and Rich Text content is static server-rendered editorial content. Do
   not add decorative reveal motion or fabricate loading, error, success, or
   disabled controls that the editor did not author.
+
+### Legacy Basic media stories
+
+- Treat the retired Basic-block `.row` plus two `.col-md-6` media split as a
+  narrow migration source for one shared story component, not as permission to
+  reintroduce Bootstrap or target homepage routes, node IDs, block UUIDs,
+  administrative labels, or supplied copy. New authoring should use the UT
+  Drupal Kit Photo Content Area; keep this adapter until migrated stories no
+  longer exist.
+- Moody26 owns `block--moody26-legacy-media-story.html.twig`,
+  `css/components/media-story.css`, `moody26_is_legacy_media_story()`, and
+  `moody26_legacy_media_story()`. The classifier must require the complete
+  structural signature: a Basic body, one legacy row, two legacy half-width
+  columns, an embedded Drupal Media UUID, and the established large
+  black-weight title classes. Do not broaden it to arbitrary `.row`, image, or
+  Basic content.
+- Read the editor-owned body without changing stored markup. Parse it with the
+  native non-networked DOM implementation, preserve inline paragraph markup
+  through its configured text format, normalize whitespace only in labels,
+  retain action order, and reject a destination whose dangerous-protocol-
+  stripped form differs from the stored value. Never use `|raw` or invent copy.
+- Resolve the embedded Media UUID to its current translation and validate
+  Media and File view access, source field, physical file, and image validity.
+  Emit a real lazy image with intrinsic dimensions, authored alternative and
+  title, complete cacheability, and the scale-only
+  `utexas_image_style_1600w` style. Never render the original `<drupal-media>`
+  string or fabricate replacement art.
+- Render one labelled section, one page-safe `h2`, filtered paragraphs, one
+  semantic action list, and an optional figure. Split each stored destination
+  into a wrap-safe, noninteractive context label and a compact `Explore` or
+  `Visit` action only when its leading legacy action phrase is recognized;
+  retain the full descriptive stored label as the accessible name. Keep copy
+  before media in DOM and keyboard order; the authored first/last media
+  position may affect only CSS grid placement. Begin with one safe column and
+  add a 12-track asymmetric spread only when the component reaches 52rem.
+  Include an older-browser fallback whose image-bearing tracks use
+  `minmax(0, ...)`.
+- When server validation or browser loading fails, remove only the figure,
+  retain heading, copy, links, and component position, and expose one
+  translated `Image unavailable` status containing the complete authored
+  alternative when available. The runtime handler must be once-bound and must
+  not duplicate an existing server-side status.
+- Actions need 44 CSS-pixel targets, compact one-line labels, readable visited
+  color, capability-gated hover, immediate visible focus, active, authored
+  disabled, loading, error, and success fixtures. Their adjacent context label
+  may wrap at narrow widths and 200% zoom. The CSS-drawn arrow is decorative
+  and never receives an underline or accessible name. Never clip or truncate
+  editor-owned destination context.
+- The production story is static. Do not add card lift, image zoom, overlay
+  copy, scroll reveal, parallax, or animation. Keep the eight-state preview and
+  test `/` at 320, 375, 414, and 768 CSS pixels, 200% text zoom, forced colors,
+  reduced motion, server and browser media failure, and keyboard-only use.
 
 ### People directories
 
@@ -1912,6 +2008,16 @@ Texas requirements. The current University compliance date is March 1, 2026.
   `templates/components/moody-image-grid.html.twig`: semantic destination
   indexes with real editor-owned images, explicit site actions, responsive
   asymmetric rhythm, and honest missing-media recovery without provider CSS.
+- `css/components/media-story.css`, its eight-state preview, and
+  `templates/blocks/block--moody26-legacy-media-story.html.twig`: a narrow
+  semantic migration adapter for Basic media splits that replaces retired
+  Bootstrap layout while preserving editor-owned copy, media, and actions.
+- `css/components/search-page.css` and its eight-state preview: contained,
+  full-bleed-safe presentation for the shared Drupal Google CSE form, help,
+  results heading, and results host.
+- `css/components/editor-tools.css`, its eight-state preview, and the local
+  task/action block templates: placeholder-safe semantic page-mode navigation
+  and responsive Layout Builder actions without duplicating Drupal routes.
 - `css/components/contact-info.css`: page-safe, container-aware editorial
   service bands with independently optional authored fields.
 - `css/components/call-to-action.css`: portable formatter-owned action rules,

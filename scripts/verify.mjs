@@ -59,6 +59,12 @@ const files = {
   dynamicPairGridPreview: 'css/components/dynamic-pair-grid.preview.html',
   imageGridCss: 'css/components/image-grid.css',
   imageGridPreview: 'css/components/image-grid.preview.html',
+  mediaStoryCss: 'css/components/media-story.css',
+  mediaStoryPreview: 'css/components/media-story.preview.html',
+  searchPageCss: 'css/components/search-page.css',
+  searchPagePreview: 'css/components/search-page.preview.html',
+  editorToolsCss: 'css/components/editor-tools.css',
+  editorToolsPreview: 'css/components/editor-tools.preview.html',
   discoveryIndex: 'css/components/discovery-index.css',
   accordionCss: 'css/components/accordion.css',
   peopleDirectory: 'css/components/people-directory.css',
@@ -144,6 +150,9 @@ const files = {
   flipImageGridTemplate: 'templates/components/moody-flip-things-image-grid.html.twig',
   dynamicPairGridTemplate: 'templates/components/moody-dynamic-flip-grid.html.twig',
   imageGridTemplate: 'templates/components/moody-image-grid.html.twig',
+  mediaStoryTemplate: 'templates/blocks/block--moody26-legacy-media-story.html.twig',
+  localTasksBlock: 'templates/blocks/block--local-tasks-block.html.twig',
+  localActionsBlock: 'templates/blocks/block--local-actions-block.html.twig',
   heroTemplate: 'templates/components/moody-hero.html.twig',
   heroStyle1Template: 'templates/components/moody-hero-1.html.twig',
   heroStyle2Template: 'templates/components/moody-hero-2.html.twig',
@@ -230,8 +239,8 @@ const forbidPattern = (file, pattern, message) => {
 
 try {
   const packageJson = JSON.parse(contents.package ?? '');
-  if (packageJson.version !== '0.49.0') {
-    errors.push('The accessible Moody Image Grid release must remain versioned as 0.49.0.');
+  if (packageJson.version !== '0.52.0') {
+    errors.push('The accessible Drupal editor-tools release must remain versioned as 0.52.0.');
   }
   for (const [dependency, version] of [
     ['animejs', '4.5.0'],
@@ -277,6 +286,7 @@ requireText('libraries', 'js/quick-actions.js', 'Quick actions must remain attac
 requireText('libraries', 'css/components/motion.css', 'Motion safeguards must remain attached.');
 requireText('libraries', 'css/components/header-social.css', 'Responsive header social styles must remain attached.');
 requireText('libraries', 'css/components/rich-text.css', 'Shared Basic and Rich Text styles must remain attached.');
+requireText('libraries', 'css/components/editor-tools.css', 'Placeholder-safe Drupal editor-tool styles must remain attached.');
 requireText('richTextCss', 'container: moody26-rich-text / inline-size;', 'Basic blocks must expose a portable component container.');
 requireText('richTextCss', '.block-bundle-basic .ut-copy li::marker', 'Basic lists must retain a restrained non-color-independent marker treatment.');
 requireText('richTextCss', 'a[target="_blank"]', 'Basic new-window links need a visible behavior signal.');
@@ -320,8 +330,10 @@ requireText('libraries', 'css/components/focal-point.css', 'Accessible Moody Foc
 requireText('libraries', 'css/components/flip-image-grid.css', 'Accessible Moody Flip Image Grid styles must remain attached.');
 requireText('libraries', 'css/components/dynamic-pair-grid.css', 'Accessible Moody Dynamic Flip Grid styles must remain attached.');
 requireText('libraries', 'css/components/image-grid.css', 'Accessible Moody Image Grid styles must remain attached.');
+requireText('libraries', 'css/components/media-story.css', 'Accessible legacy Basic media-story styles must remain attached.');
 requireText('libraries', 'js/dist/motion.min.js', 'The built motion integration must remain attached.');
-requireText('libraries', 'version: 0.49.0', 'The Drupal asset version must match the accessible Moody Image Grid release.');
+requireText('libraries', 'version: 0.52.0', 'The Drupal asset version must match the accessible editor-tools release.');
+requireText('libraries', 'css/components/search-page.css', 'Shared site-search styles must remain attached globally.');
 forbidText('info', '- moody26/motion', 'Optional motion must be attached from theme settings rather than globally.');
 
 requireText('settings', "header_social_links_block: ''", 'Header social links must be optional for new installs.');
@@ -390,7 +402,10 @@ requirePattern('logo', /#333f48/i, 'The approved Moody mark must retain UT charc
 
 requireText('html', 'href="#main-content"', 'The HTML shell needs a skip link.');
 requireText('page', '<main{{ main_content_attributes }}>', 'The page shell must own the main landmark.');
-requireText('page', 'highlighted_content|striptags|trim', 'Empty rendered utility regions must not create layout gaps.');
+requireText('page', '{% if page.highlighted or page.help %}', 'Placeholder-capable utility regions must remain in the page render tree.');
+requireText('page', '{{ page.highlighted }}', 'The page shell must render lazy local-task and local-action placeholders directly.');
+forbidText('page', 'page.highlighted|render', 'The page shell must not pre-render and discard lazy local-task placeholders.');
+requireText('css', '.moody26-system-messages:has(> *)', 'Empty utility-region wrappers must not create layout gaps.');
 requireText('header', 'id="moody26-header"', 'The theme must own its header shell.');
 requireText('header', 'aria-controls="moody26-primary-navigation"', 'The drawer button must identify its navigation.');
 requireText('header', 'data-moody26-mobile-actions', 'The mobile drawer must provide a canonical site-actions position.');
@@ -1094,6 +1109,127 @@ requireText('accessibility', "once('moody26-destination-grid-image'", 'Moody Ima
 requireText('accessibility', "item.classList.add('is-error')", 'Failed Moody Image Grid media must expose a non-color error state.');
 requireText('accessibility', "status.className = 'moody26-destination-grid__status'", 'Failed Moody Image Grid media must expose one truthful status.');
 forbidText('motion', 'moody26-destination-grid', 'Optional theme motion must not target the static Moody Image Grid.');
+requireText('mediaStoryCss', 'component: legacy Basic media story', 'Legacy Basic media stories must retain their Hallmark component contract.');
+requireText('mediaStoryCss', 'composition: asymmetric open media-and-copy spread', 'Legacy Basic media stories must retain their open editorial composition.');
+requireText('mediaStoryCss', 'states: default · hover · focus · active · disabled · loading · error · success', 'Legacy Basic media-story actions must retain all eight states.');
+requireText('mediaStoryCss', 'container: moody26-media-story / inline-size;', 'Legacy Basic media stories must remain container-aware in Layout Builder.');
+requireText('mediaStoryCss', 'grid-template-columns: repeat(12, minmax(0, 1fr));', 'Legacy Basic media stories must use safe image-bearing tracks.');
+requireText('mediaStoryCss', 'grid-template-columns: minmax(0, 1fr);', 'Legacy Basic media-story copy must retain an intrinsically safe text track.');
+requireText('mediaStoryCss', 'grid-column: 8 / span 5;', 'Media-first stories must retain their asymmetric copy placement.');
+requireText('mediaStoryCss', '.moody26-media-story__link:is(:focus-visible, .is-focus)', 'Legacy Basic media-story actions need immediate visible focus.');
+requireText('mediaStoryCss', 'min-block-size: var(--target-min);', 'Legacy Basic media-story actions must retain 44 CSS-pixel targets.');
+requireText('mediaStoryCss', 'white-space: nowrap;', 'Legacy Basic media-story action labels must remain single-line affordances.');
+requireText('mediaStoryCss', '@container moody26-media-story (max-width: 28rem)', 'Legacy Basic media-story destinations must stack under severe reflow.');
+requireText('mediaStoryCss', '@media (max-width: 28rem)', 'Legacy Basic media-story destinations must stack under severe reflow without container-query support.');
+requireText('mediaStoryCss', '@media (hover: hover) and (pointer: fine)', 'Legacy Basic media-story hover feedback must be capability-gated.');
+requireText('mediaStoryCss', '@media (forced-colors: active)', 'Legacy Basic media-story boundaries must survive forced colors.');
+requireText('mediaStoryCss', '@media (prefers-reduced-motion: reduce)', 'Legacy Basic media stories must remain motionless under reduced-motion preferences.');
+requireText('mediaStoryCss', ':is([aria-disabled="true"], .is-disabled)', 'Legacy Basic media-story actions must honor an authored disabled state.');
+requireText('mediaStoryCss', ':is([aria-busy="true"], .is-loading)', 'Legacy Basic media-story actions must expose a readable loading fixture.');
+requireText('mediaStoryCss', '@supports not (container-type: inline-size)', 'Legacy Basic media stories need a restrained older-browser fallback.');
+forbidPattern('mediaStoryCss', /(?:^|\s)(?:#(?:[\da-f]{3}){1,2}|(?:rgb|hsl|oklch)\()/im, 'Legacy Basic media-story styles must use locked color tokens.');
+forbidPattern('mediaStoryCss', /(?:path-frontpage|node-\d+|[\da-f]{8}-[\da-f-]{27,})/i, 'Legacy Basic media-story styles must not depend on routes, nodes, or block UUIDs.');
+forbidText('mediaStoryCss', '100vh', 'Legacy Basic media stories must not force viewport-height panels.');
+forbidText('mediaStoryCss', 'background-image', 'Legacy Basic media stories must use real image elements.');
+forbidText('mediaStoryCss', 'animation:', 'Legacy Basic media stories must retain their static editorial contract.');
+forbidText('mediaStoryCss', 'transition:', 'Legacy Basic media stories must retain their static editorial interaction contract.');
+for (const state of ['Default', 'Hover', 'Focus', 'Active', 'Disabled', 'Loading', 'Error', 'Success']) {
+  requireText('mediaStoryPreview', `>${state}</h2>`, `The legacy Basic media-story preview must include its ${state.toLowerCase()} state.`);
+}
+requireText('mediaStoryPreview', 'box-sizing: border-box;', 'The legacy Basic media-story preview must remain padding-safe at narrow widths.');
+requireText('mediaStoryPreview', 'Image unavailable: students learning together', 'The legacy Basic media-story preview must expose a non-color error fixture.');
+requireText('mediaStoryPreview', 'Image available', 'The legacy Basic media-story preview must expose a non-color success fixture.');
+requireText('mediaStoryTemplate', '<section{{ attributes.addClass(story_classes) }}', 'Legacy Basic media stories must expose one labelled section.');
+requireText('mediaStoryTemplate', '<h2 class="moody26-media-story__heading"', 'Legacy visual titles must become page-safe h2 headings.');
+requireText('mediaStoryTemplate', '<ul class="moody26-media-story__links" role="list">', 'Legacy Basic media-story destinations must expose semantic list structure.');
+requireText('mediaStoryTemplate', 'class="moody26-media-story__link-context"', 'Legacy Basic media-story destination context must remain wrap-safe and noninteractive.');
+requireText('mediaStoryTemplate', 'aria-label="{{ link.accessible_name }}"', 'Legacy Basic media-story actions must preserve descriptive accessible names.');
+requireText('mediaStoryTemplate', '<figure class="moody26-media-story__media">', 'Legacy Basic media-story images must retain figure semantics.');
+requireText('mediaStoryTemplate', '{{ paragraph }}', 'Legacy Basic media stories must preserve processed paragraph markup.');
+requireText('mediaStoryTemplate', 'class="moody26-media-story__status" role="status"', 'Server-side legacy media-story failures must expose a semantic status.');
+requireText('mediaStoryTemplate', "'Image unavailable: @description'|t", 'Server-side legacy media-story failures must retain authored alternatives.');
+requireText('mediaStoryTemplate', 'aria-hidden="true"', 'Legacy Basic media-story arrows must remain decorative.');
+forbidText('mediaStoryTemplate', '|raw', 'Legacy Basic media stories must not bypass Drupal render safety.');
+forbidText('mediaStoryTemplate', 'attach_library', 'Legacy Basic media stories must use the global theme layer without duplicate attachments.');
+requireText('theme', "'block__moody26_legacy_media_story'", 'Legacy media-story Basic blocks need a targeted theme suggestion.');
+requireText('theme', 'function moody26_is_legacy_media_story', 'Legacy media-story classification must remain narrowly theme-owned.');
+requireText('theme', 'substr_count(strtolower($markup), \'col-md-6\') >= 2', 'Legacy media-story classification must require two retired Bootstrap columns.');
+requireText('theme', "stripos($markup, '<drupal-media')", 'Legacy media-story classification must require embedded Drupal Media.');
+requireText('theme', 'function moody26_legacy_media_story', 'Legacy media stories need semantic theme-owned preprocessing.');
+requireText('theme', "new \\DOMDocument('1.0', 'UTF-8')", 'Legacy media stories must use the native DOM parser rather than brittle copy matching.');
+requireText('theme', '<?xml encoding="UTF-8">', 'Legacy media-story parsing must preserve authored Unicode punctuation.');
+requireText('theme', 'LIBXML_NONET', 'Legacy media-story parsing must prohibit network access.');
+requireText('theme', "'#type' => 'processed_text'", 'Legacy media-story paragraphs must remain text-format filtered.');
+requireText('theme', 'UrlHelper::stripDangerousProtocols($url)', 'Legacy media stories must reject unsafe authored link protocols.');
+requireText('theme', "t('@action @context'", 'Generic legacy media-story actions must receive a descriptive accessible name.');
+requireText('theme', "'utexas_image_style_1600w'", 'Legacy media stories must use the scale-only UT image style.');
+requireText('theme', "Html::getUniqueId('moody26-media-story-heading')", 'Legacy media-story landmarks must use unique document IDs.');
+requireText('accessibility', "once('moody26-media-story-image'", 'Legacy Basic media-story failure recovery must remain once-bound.');
+requireText('accessibility', "story.classList.add('is-error')", 'Failed legacy media-story media must expose a non-color error state.');
+requireText('accessibility', "status.className = 'moody26-media-story__status'", 'Failed legacy media-story media must expose one truthful status.');
+forbidText('motion', 'moody26-media-story', 'Optional theme motion must not target static legacy media stories.');
+requireText('searchPageCss', 'component: shared site search', 'Site search must retain its Hallmark component contract.');
+requireText('searchPageCss', 'contained query station in a full-bleed-capable page shell', 'Site search must retain its contained-within-full-bleed composition.');
+requireText('searchPageCss', 'states: default · hover · focus · active · disabled · loading · error · success', 'Site-search controls must retain all eight states.');
+requireText('searchPageCss', '.moody26-page-title:not(.visually-hidden)', 'Visible ordinary page titles must receive a safe responsive frame.');
+requireText('searchPageCss', '.search-form.google-cse', 'Site-search styling must use the stable form component boundary.');
+requireText('searchPageCss', '.search-form.google-cse ~ :where(h2, #google-cse-results)', 'Search results and their heading must share the query frame.');
+requireText('searchPageCss', 'container: moody26-site-search / inline-size;', 'Site search must respond to its own available width.');
+requireText('searchPageCss', 'grid-template-columns: minmax(0, 1fr) auto;', 'Wide site-search controls must retain a safe query/action grid.');
+requireText('searchPageCss', '@container moody26-site-search (max-width: 34rem)', 'Site-search controls must stack based on component width.');
+requireText('searchPageCss', '@supports not (container-type: inline-size)', 'Site search must retain an older-browser reflow fallback.');
+requireText('searchPageCss', 'min-height: var(--target-min);', 'Search disclosure controls must retain 44 CSS-pixel targets.');
+requireText('searchPageCss', 'height: var(--target-min);', 'Adjacent site-search inputs and actions must retain one shared control height.');
+requireText('searchPageCss', 'border-width: var(--rule-hair);', 'Site-search field states must retain a layout-stable one-pixel border.');
+requireText('searchPageCss', 'background: var(--color-paper);', 'Site-search fields must retain an explicit readable surface.');
+requireText('searchPageCss', 'color: var(--color-ink);', 'Site-search fields must retain explicit readable ink.');
+requireText('searchPageCss', 'min-height: 1lh;', 'Site-search status copy must reserve a stable message slot.');
+requireText('searchPageCss', 'transform: none;', 'Site-search control feedback must not shift the query row.');
+requireText('searchPageCss', '.form-search:is(:focus-visible, .is-focus)', 'Site-search inputs must retain immediate visible focus.');
+requireText('searchPageCss', '@media (forced-colors: active)', 'Site-search boundaries must survive forced colors.');
+requireText('searchPageCss', '@media (prefers-reduced-motion: reduce)', 'Site search must remain static under reduced-motion preferences.');
+forbidText('searchPageCss', '.moody26-main {', 'Site search must not contain the full main landmark or Layout Builder output.');
+forbidPattern('searchPageCss', /(?:path-search|search\/google|keys=test|block-moody26-main-page-content)/i, 'Site-search styling must not depend on a route, query, or consumer block ID.');
+forbidPattern('searchPageCss', /(?:^|\s)(?:#(?:[\da-f]{3}){1,2}|(?:rgb|hsl|oklch)\()/im, 'Site-search styles must use locked color tokens.');
+forbidText('searchPageCss', 'animation:', 'Site search must retain its static editorial contract.');
+forbidText('searchPageCss', 'transition:', 'Site search must retain its static interaction contract.');
+for (const state of ['Default', 'Hover', 'Focus', 'Active', 'Disabled', 'Loading', 'Error', 'Success']) {
+  requireText('searchPagePreview', `<h2>${state}</h2>`, `The site-search preview must include its ${state.toLowerCase()} state.`);
+}
+requireText('searchPagePreview', 'role="status"', 'The site-search preview must expose non-color loading and success statuses.');
+requireText('searchPagePreview', 'role="alert"', 'The site-search preview must expose a semantic error message.');
+requireText('searchPagePreview', 'aria-invalid="true"', 'The site-search preview must associate invalid state with its query field.');
+forbidText('searchPagePreview', 'Lorem ipsum', 'The site-search preview must use purposeful interface copy.');
+requireText('editorToolsCss', 'component: Drupal editor tools', 'Drupal editor tools must retain their Hallmark component contract.');
+requireText('editorToolsCss', 'labelled task ledger + restrained administration actions', 'Drupal editor tools must retain their flat editorial utility composition.');
+requireText('editorToolsCss', 'states: default · hover · focus · active · disabled · loading · error · success', 'Drupal editor tools must retain all eight states.');
+requireText('editorToolsCss', '.moody26-local-tasks > ul :is(a.is-active, li.is-active > a, a[aria-current="page"])', 'Drupal local tasks must expose a non-color current-page cue.');
+forbidText('editorToolsCss', '.moody26-local-tasks a,', 'Editor-tool selectors must not restyle Drupal contextual administration links.');
+requireText('editorToolsCss', 'min-height: var(--target-min);', 'Drupal editor actions must retain 44 CSS-pixel targets.');
+requireText('editorToolsCss', 'white-space: nowrap;', 'Controlled Drupal task labels must remain single-line affordances.');
+requireText('editorToolsCss', 'flex-wrap: wrap;', 'Drupal task parents must reflow before labels overflow.');
+requireText('editorToolsCss', '.layout-builder-form [data-drupal-selector="edit-actions"]', 'Layout Builder actions must share the editor-tools contract.');
+requireText('editorToolsCss', 'container: moody26-layout-actions / inline-size;', 'Layout Builder actions must respond to their own available width.');
+requireText('editorToolsCss', '@container moody26-layout-actions (max-width: 32rem)', 'Narrow Layout Builder actions must use container-led reflow.');
+requireText('editorToolsCss', '@supports not (container-type: inline-size)', 'Drupal editor tools must retain an older-browser reflow fallback.');
+requireText('editorToolsCss', '@media (hover: hover) and (pointer: fine)', 'Drupal editor-tool hover feedback must be capability-gated.');
+requireText('editorToolsCss', '@media (prefers-reduced-motion: reduce)', 'Drupal editor tools must remain static under reduced-motion preferences.');
+requireText('editorToolsCss', '@media (forced-colors: active)', 'Drupal editor-tool boundaries must survive forced colors.');
+forbidPattern('editorToolsCss', /(?:^|\s)(?:#(?:[\da-f]{3}){1,2}|(?:rgb|hsl|oklch)\()/im, 'Drupal editor-tool styles must use locked color tokens.');
+forbidText('editorToolsCss', '100vh', 'Drupal editor tools must not force viewport-height panels.');
+forbidText('editorToolsCss', 'animation:', 'Drupal editor tools must retain their static interaction contract.');
+for (const state of ['Default', 'Hover', 'Focus', 'Active', 'Disabled', 'Loading', 'Error', 'Success']) {
+  requireText('editorToolsPreview', `<h2>${state}</h2>`, `The Drupal editor-tools preview must include its ${state.toLowerCase()} state.`);
+}
+requireText('editorToolsPreview', 'role="status"', 'The Drupal editor-tools preview must expose non-color loading and success statuses.');
+requireText('editorToolsPreview', 'role="alert"', 'The Drupal editor-tools preview must expose a semantic error message.');
+requireText('editorToolsPreview', 'aria-current="page"', 'The Drupal editor-tools preview must expose the current page semantically.');
+requireText('localTasksBlock', '<nav{{ attributes.addClass(\'moody26-local-tasks\') }}', 'Local tasks must render as a labelled navigation landmark.');
+requireText('localTasksBlock', '{{ content }}', 'The local-task template must preserve Drupal-owned routes and access output.');
+requireText('localActionsBlock', '<ul class="moody26-local-actions__list" role="list">', 'Local actions must have valid list semantics.');
+requireText('localActionsBlock', '{{ content }}', 'The local-action template must preserve Drupal-owned routes and access output.');
+forbidPattern('localTasksBlock', /node\/\d+|\/edit|\/layout|\/revisions/, 'Local-task templates must not hard-code editor routes.');
+forbidPattern('localActionsBlock', /node\/\d+|\/add/, 'Local-action templates must not hard-code administration routes.');
 forbidText('discoveryIndex', 'moody-image-grid-container', 'Discovery styles must not target the retired provider Moody Image Grid markup.');
 requireText('discoveryIndex', 'repeat(12, minmax(0, 1fr))', 'Discovery grids must use safe image-bearing tracks.');
 requireText('discoveryIndex', '.linked-focus-area-item:focus-visible', 'Focus Area tasks need immediate visible focus.');
@@ -1737,7 +1873,8 @@ const runtimeFiles = [
   'socialLinksCss', 'socialLinksTemplate', 'imageGalleryCss',
   'scrollRevealMediaCss', 'scrollRevealMediaTemplate', 'focalPointCss', 'focalPointTemplate',
   'flipImageGridCss', 'flipImageGridTemplate', 'dynamicPairGridCss', 'dynamicPairGridTemplate',
-  'imageGridCss', 'imageGridTemplate',
+  'imageGridCss', 'imageGridTemplate', 'mediaStoryCss', 'mediaStoryTemplate', 'searchPageCss',
+  'editorToolsCss', 'localTasksBlock', 'localActionsBlock',
   'heroTemplate', 'heroStyle1Template', 'heroStyle2Template', 'heroStyle3Template',
   'heroStyle4Template', 'heroStyle5Template', 'heroStyle6Template', 'heroStyle6ShortTemplate',
   'heroStyle7Template', 'heroStyle8Template',
@@ -1769,7 +1906,7 @@ for (const file of runtimeFiles) {
   }
 }
 
-const cssFiles = ['css', 'headerSocialCss', 'quickActionsCss', 'landingHero', 'richTextCss', 'editorialSections', 'featuredHighlightCss', 'promoListCss', 'flexContentCss', 'imageLinkCss', 'flexColorBlocksCss', 'quotationCss', 'flexGridCss', 'impactFactsCss', 'showcaseCss', 'contactInfoCss', 'callToActionCss', 'resourceGroupCss', 'flexTabsCss', 'heroCarouselCss', 'photoContentCss', 'socialLinksCss', 'imageGalleryCss', 'scrollRevealMediaCss', 'focalPointCss', 'flipImageGridCss', 'dynamicPairGridCss', 'imageGridCss', 'discoveryIndex', 'accordionCss', 'peopleDirectory', 'studentStoriesCss', 'eventsListingCss', 'newsroom', 'featureStoryCss', 'shorthandStoryCss', 'pdfDocumentCss', 'eventDetailCss', 'motionCss', 'settingsCss'];
+const cssFiles = ['css', 'headerSocialCss', 'quickActionsCss', 'landingHero', 'richTextCss', 'editorialSections', 'featuredHighlightCss', 'promoListCss', 'flexContentCss', 'imageLinkCss', 'flexColorBlocksCss', 'quotationCss', 'flexGridCss', 'impactFactsCss', 'showcaseCss', 'contactInfoCss', 'callToActionCss', 'resourceGroupCss', 'flexTabsCss', 'heroCarouselCss', 'photoContentCss', 'socialLinksCss', 'imageGalleryCss', 'scrollRevealMediaCss', 'focalPointCss', 'flipImageGridCss', 'dynamicPairGridCss', 'imageGridCss', 'mediaStoryCss', 'searchPageCss', 'editorToolsCss', 'discoveryIndex', 'accordionCss', 'peopleDirectory', 'studentStoriesCss', 'eventsListingCss', 'newsroom', 'featureStoryCss', 'shorthandStoryCss', 'pdfDocumentCss', 'eventDetailCss', 'motionCss', 'settingsCss'];
 const forbiddenCss = [
   [/#(?:[0-9a-f]{3}|[0-9a-f]{6}|[0-9a-f]{8})\b/i, 'Raw hex colors belong only in tokens.css.'],
   [/\b(?:rgb|rgba|hsl|hsla|oklch)\(/i, 'Raw color functions belong only in tokens.css.'],
@@ -1800,7 +1937,10 @@ for (const file of ['preflight', 'log']) {
     errors.push(`${file} must contain valid JSON.`);
   }
 }
-requireText('preflight', '"package_version": "0.49.0"', 'Hallmark preflight must match the accessible Moody Image Grid release.');
+requireText('preflight', '"package_version": "0.52.0"', 'Hallmark preflight must match the accessible Drupal editor-tools release.');
+requireText('preflight', 'semantic legacy Basic media stories', 'Hallmark preflight must record the legacy Basic media-story migration adapter.');
+requireText('preflight', 'contained shared site-search framing', 'Hallmark preflight must record the full-bleed-safe site-search frame.');
+requireText('preflight', 'placeholder-safe Drupal page tools', 'Hallmark preflight must record the authenticated Drupal editor-tool surface.');
 requireText('log', 'Index-First profile dossier within the Ecosystem Index', 'Hallmark memory must record the shared faculty-profile composition.');
 requireText('log', 'Split Studio event brief within the Ecosystem Index', 'Hallmark memory must record the shared event-detail composition.');
 requireText('log', 'Long Document feature story within the Ecosystem Index', 'Hallmark memory must record the shared feature-story composition.');
@@ -1810,6 +1950,7 @@ requireText('log', 'Editorial Signal Band within the Ecosystem Index', 'Hallmark
 requireText('log', 'Progressive tab index within the Ecosystem Index', 'Hallmark memory must record the shared Flex Tabs component.');
 requireText('log', 'Editorial Content Ledger within the Ecosystem Index', 'Hallmark memory must record the shared Flex List component.');
 requireText('log', 'Compact destination rail within the Ecosystem Index', 'Hallmark memory must record the shared Social Links component.');
+requireText('log', 'Editorial task ledger within the Ecosystem Index', 'Hallmark memory must record the authenticated Drupal editor-tool surface.');
 
 requirePattern('readme', /standalone/i, 'README must describe the standalone architecture.');
 forbidText('readme', 'Base theme | `moody`', 'README must not advertise the legacy base theme.');
@@ -1868,6 +2009,13 @@ requireText('readme', 'Shared Moody Dynamic Flip Grid', 'README must document th
 requireText('readme', 'provider’s public dynamic flip CSS', 'README must document removal of the dynamic hover-only provider runtime.');
 requireText('readme', 'Shared Moody Image Grid', 'README must document the semantic shared Moody Image Grid layer.');
 requireText('readme', 'provider’s Bootstrap columns', 'README must document removal of the provider grid dependency.');
+requireText('readme', 'Shared legacy Basic media stories', 'README must document the legacy Basic media-story migration adapter.');
+requireText('readme', 'New content should use the UT', 'README must identify the preferred authoring migration path.');
+requireText('readme', 'Drupal Kit Photo Content Area', 'README must name the preferred replacement component.');
+requireText('readme', 'Shared site search', 'README must document the contained shared site-search layer.');
+requireText('readme', 'without padding `.moody26-main` itself', 'README must preserve full-bleed Layout Builder behavior.');
+requireText('readme', '### Drupal editor tools', 'README must document the authenticated Drupal editor-tool surface.');
+requireText('readme', 'does not duplicate routes, permissions, or action labels', 'README must keep editor actions under Drupal ownership.');
 requireText('agents', '`header_social_links_block`', 'AGENTS.md must preserve the header Social Links contract.');
 requireText('agents', 'Missing, unpublished, non-reusable, inaccessible, wrong-bundle, or malformed', 'AGENTS.md must require Social Links to fail closed.');
 requireText('agents', '### People directories', 'AGENTS.md must preserve the people-directory contract.');
@@ -1910,6 +2058,12 @@ requireText('agents', '### Moody Dynamic Flip Grid', 'AGENTS.md must preserve th
 requireText('agents', 'Do not attach the provider’s public Dynamic Flip Grid library', 'AGENTS.md must keep paired media independent from provider flip behavior.');
 requireText('agents', '### Moody Image Grid', 'AGENTS.md must preserve the semantic Moody Image Grid component contract.');
 requireText('agents', 'Do not attach the provider’s public Moody Image Grid library', 'AGENTS.md must keep the destination index independent from provider CSS.');
+requireText('agents', '### Legacy Basic media stories', 'AGENTS.md must preserve the legacy Basic media-story migration contract.');
+requireText('agents', 'The classifier must require the complete', 'AGENTS.md must keep the legacy media-story classifier narrow.');
+requireText('agents', '### Shared site search', 'AGENTS.md must preserve the shared site-search contract.');
+requireText('agents', 'Do not add padding or a max-width to `.moody26-main`', 'AGENTS.md must preserve full-bleed Layout Builder output.');
+requireText('agents', '### Drupal editor tools', 'AGENTS.md must preserve the authenticated editor-tool contract.');
+requireText('agents', 'Never pre-render them and then decide visibility from', 'AGENTS.md must preserve lazy Drupal task placeholders.');
 requireText('agents', '### Moody Showcases', 'AGENTS.md must preserve the Moody Showcase component contract.');
 requireText('agents', '### Moody Heroes', 'AGENTS.md must preserve the Moody Hero component contract.');
 requireText('agents', 'do not expose native error events', 'AGENTS.md must preserve the CSS-background Hero failure contract.');
@@ -1934,5 +2088,5 @@ if (errors.length) {
   process.exitCode = 1;
 }
 else {
-  console.log(`Moody26 verification passed (${Object.keys(files).length} source files, ${fonts.length} local fonts, standalone shell, UT brand, Basic and Rich Text, accessible directories, student-story directories and profiles, UTProf Profile Listings, and faculty profile dossiers, accessible ambient-video heroes, resource hubs, Resource Groups, Flex Tabs, UT Drupal Kit Flex Lists, Hero Carousels, Photo Content Areas, Moody Newsletter destination bands, UT Drupal Kit Quick Links, semantic Social Links, Moody Anchor and interactive image galleries, static Scroll Reveal Media sequences, Focal Point narratives, Flip Image Grid portrait triptychs, Dynamic Flip Grid paired-media contact sheets, and Moody Image Grid destination indexes, failure-safe Shorthand stories, keyboard-safe PDF documents, and API-backed upcoming-event ledgers, newsroom, feature stories, event details, accordions, Featured Highlights, Moody Promotions, Promo Lists, Flex Content Areas, Image Links, Flex Color Blocks, Moody Quotations, Moody Flex Grids, Moody Impact Facts, Moody and UT Drupal Kit Heroes, Moody Showcases, Moody Contact Info, and Call to Action blocks, header social links, motion, responsive, and Hallmark gates).`);
+  console.log(`Moody26 verification passed (${Object.keys(files).length} source files, ${fonts.length} local fonts, standalone shell, UT brand, Basic and Rich Text, semantic legacy Basic media stories, contained site search, placeholder-safe Drupal editor tools, accessible directories, student-story directories and profiles, UTProf Profile Listings, and faculty profile dossiers, accessible ambient-video heroes, resource hubs, Resource Groups, Flex Tabs, UT Drupal Kit Flex Lists, Hero Carousels, Photo Content Areas, Moody Newsletter destination bands, UT Drupal Kit Quick Links, semantic Social Links, Moody Anchor and interactive image galleries, static Scroll Reveal Media sequences, Focal Point narratives, Flip Image Grid portrait triptychs, Dynamic Flip Grid paired-media contact sheets, and Moody Image Grid destination indexes, failure-safe Shorthand stories, keyboard-safe PDF documents, and API-backed upcoming-event ledgers, newsroom, feature stories, event details, accordions, Featured Highlights, Moody Promotions, Promo Lists, Flex Content Areas, Image Links, Flex Color Blocks, Moody Quotations, Moody Flex Grids, Moody Impact Facts, Moody and UT Drupal Kit Heroes, Moody Showcases, Moody Contact Info, and Call to Action blocks, header social links, motion, responsive, and Hallmark gates).`);
 }

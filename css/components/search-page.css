@@ -1,0 +1,208 @@
+/* Hallmark · component: shared site search · genre: editorial utility · theme: UT custom
+ * composition: contained query station in a full-bleed-capable page shell · motion: static
+ * states: default · hover · focus · active · disabled · loading · error · success
+ * audience: all Moody visitors · use: refine a query and review returned destinations
+ * contrast: pass (40–41) · slop: pass (1–58) · mobile: pass (34, 49–57)
+ */
+/* Hallmark · pre-emit critique: P5 H5 E5 S5 R5 V5 */
+
+/* Page titles are ordinary content, not full-bleed sections. This frame stops
+ * at the title and deliberately leaves Layout Builder regions unconstrained. */
+.moody26-main > div > .moody26-page-title:not(.visually-hidden) {
+  width: min(100%, var(--content-max));
+  margin-inline: auto;
+  padding: var(--space-2xl) var(--page-gutter) var(--space-lg);
+}
+
+.moody26-main .search-form.google-cse,
+.moody26-main .search-form.google-cse ~ :where(h2, #google-cse-results) {
+  width: min(100%, var(--content-max));
+  min-width: 0;
+  margin-inline: auto;
+  padding-inline: var(--page-gutter);
+}
+
+.moody26-main .search-form.google-cse {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  gap: var(--space-lg);
+  padding-block: var(--space-lg) var(--space-2xl);
+  border-block-start: var(--rule-strong) solid var(--color-accent);
+  border-block-end: var(--rule-hair) solid var(--color-rule-strong);
+  container: moody26-site-search / inline-size;
+}
+
+.moody26-main .search-form.google-cse .container-inline {
+  display: grid;
+  min-width: 0;
+  grid-template-columns: minmax(0, 1fr) auto;
+  align-items: end;
+  gap: var(--space-md);
+}
+
+.moody26-main .search-form.google-cse :where(.form-item, .form-actions) {
+  min-width: 0;
+  margin: 0;
+}
+
+.moody26-main .search-form.google-cse .form-search {
+  height: var(--target-min);
+  min-width: 0;
+  min-height: var(--target-min);
+  padding-block: 0;
+  border-width: var(--rule-hair);
+  background: var(--color-paper);
+  color: var(--color-ink);
+  line-height: 1.2;
+}
+
+.moody26-main .search-form.google-cse .form-search:is(:focus-visible, .is-focus) {
+  border-color: var(--color-ink);
+  outline: var(--focus-outline);
+  outline-offset: var(--space-2xs);
+  box-shadow: var(--focus-halo);
+}
+
+.moody26-main .search-form.google-cse .form-search:is([aria-invalid="true"], .is-error) {
+  border-color: var(--color-error);
+}
+
+.moody26-main .search-form.google-cse .form-search.is-success {
+  border-color: var(--color-success);
+}
+
+.moody26-main .search-form.google-cse .form-submit {
+  height: var(--target-min);
+  min-height: var(--target-min);
+  align-self: end;
+  padding-block: 0;
+  transform: none;
+}
+
+.moody26-main .search-form.google-cse .form-submit:is(.is-hover, .is-focus, .is-active) {
+  background: var(--color-paper);
+  color: var(--color-ink);
+}
+
+.moody26-main .search-form.google-cse .form-submit.is-focus {
+  outline: var(--focus-outline);
+  outline-offset: var(--space-2xs);
+  box-shadow: var(--focus-halo);
+}
+
+.moody26-main .search-form.google-cse .form-submit:is(:disabled, .is-disabled) {
+  cursor: not-allowed;
+  opacity: 0.55;
+}
+
+.moody26-main .search-form.google-cse .form-submit:is([aria-busy="true"], .is-loading) {
+  cursor: progress;
+  opacity: 0.72;
+}
+
+.moody26-main .search-form.google-cse .form-submit.is-error {
+  border-color: var(--color-error);
+  background: var(--color-paper);
+  color: var(--color-error);
+}
+
+.moody26-main .search-form.google-cse .form-submit.is-success {
+  border-color: var(--color-success);
+  background: var(--color-paper);
+  color: var(--color-ink);
+}
+
+.moody26-main .search-form.google-cse details {
+  min-width: 0;
+  border-block-start: var(--rule-hair) solid var(--color-rule-strong);
+}
+
+.moody26-main .search-form.google-cse summary {
+  min-height: var(--target-min);
+  padding-block: var(--space-sm);
+  color: var(--color-link);
+  font-weight: 700;
+  cursor: pointer;
+}
+
+.moody26-main .search-form.google-cse details > :where(ul, ol, p) {
+  max-width: var(--measure);
+  margin-block: var(--space-sm) 0;
+  padding-inline-start: var(--space-lg);
+  overflow-wrap: anywhere;
+}
+
+.moody26-main .search-form.google-cse .moody26-search-state {
+  max-width: var(--measure);
+  min-height: 1lh;
+  margin: 0;
+  color: var(--color-ink-2);
+  font-size: var(--text-sm);
+  font-weight: 700;
+  overflow-wrap: anywhere;
+}
+
+.moody26-main .search-form.google-cse .moody26-search-state--error {
+  color: var(--color-error);
+}
+
+.moody26-main .search-form.google-cse ~ h2 {
+  padding-block-start: var(--space-2xl);
+}
+
+.moody26-main #google-cse-results {
+  padding-block-end: var(--space-3xl);
+  overflow-wrap: anywhere;
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .moody26-main .search-form.google-cse .form-submit:not(:disabled):hover,
+  .moody26-main .search-form.google-cse .form-submit.is-hover {
+    background: var(--color-paper);
+    color: var(--color-ink);
+  }
+}
+
+@container moody26-site-search (max-width: 34rem) {
+  .moody26-main .search-form.google-cse .container-inline {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  .moody26-main .search-form.google-cse .form-submit {
+    width: 100%;
+  }
+}
+
+@supports not (container-type: inline-size) {
+  @media (max-width: 42rem) {
+    .moody26-main .search-form.google-cse .container-inline {
+      grid-template-columns: minmax(0, 1fr);
+    }
+
+    .moody26-main .search-form.google-cse .form-submit {
+      width: 100%;
+    }
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .moody26-main .search-form.google-cse,
+  .moody26-main .search-form.google-cse * {
+    animation-duration: 0s !important;
+    animation-name: none !important;
+    transition-duration: 0s !important;
+    transition-property: none !important;
+  }
+}
+
+@media (forced-colors: active) {
+  .moody26-main .search-form.google-cse,
+  .moody26-main .search-form.google-cse details {
+    border-color: CanvasText;
+  }
+
+  .moody26-main .search-form.google-cse .form-search,
+  .moody26-main .search-form.google-cse .form-submit {
+    forced-color-adjust: auto;
+  }
+}
