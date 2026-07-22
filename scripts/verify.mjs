@@ -557,6 +557,8 @@ requireText('contactInfoCss', 'component: editorial service band', 'Moody Contac
 requireText('contactInfoCss', 'container: contact-info / inline-size;', 'Moody Contact Info must remain container-aware.');
 requireText('contactInfoCss', '.section-wrapper.moody26-section--contact-info', 'Contact Info closes must remove generic outer section padding without relational-selector support.');
 requireText('contactInfoCss', 'a:focus-visible', 'Contact Info links need immediate visible focus.');
+requireText('contactInfoCss', 'margin-inline: calc(var(--space-sm) * -1);', 'Contact Info CTAs must reserve inset state space without losing their editorial alignment.');
+requireText('contactInfoCss', 'padding: var(--space-xs) var(--space-sm);', 'Contact Info CTA feedback must not crowd its label.');
 requireText('contactInfoCss', '@media (hover: hover) and (pointer: fine)', 'Contact Info hover feedback must be capability-gated.');
 requireText('contactInfoCss', '@container contact-info (min-width: 48rem)', 'Contact Info must retain its component-responsive layout.');
 requireText('contactInfoCss', 'grid-template-columns: minmax(0, 7fr) minmax(0, 5fr);', 'Contact Info must retain its safe asymmetric split.');
@@ -1666,6 +1668,8 @@ requireText('showcaseCss', '.showcase-list__item.moody-showcase-marketing-style'
 requireText('showcaseCss', '.showcase--media-unavailable', 'Moody Showcase must retain resilient failed-media composition.');
 requireText('showcaseCss', 'white-space: nowrap;', 'Moody Showcase CTAs must remain one-line affordances.');
 requireText('showcaseCss', '.showcase__action > a:visited', 'Moody Showcase CTA visited states must preserve compliant link contrast.');
+requireText('showcaseCss', 'margin-inline: calc(var(--space-sm) * -1);', 'Moody Showcase CTAs must reserve inset state space without losing their editorial alignment.');
+requireText('showcaseCss', 'padding: var(--space-xs) var(--space-sm);', 'Moody Showcase CTA feedback must not crowd its label.');
 requireText('showcaseCss', 'var(--sticky-offset)', 'Sticky Showcase media must clear the theme-owned header offset.');
 requireText('showcaseCss', '@media (prefers-reduced-motion: reduce)', 'Sticky Showcase media must return to ordinary flow for reduced motion.');
 requireText('showcaseFieldTemplate', '<ul class="showcase-list" role="list">', 'Moody Showcase collections must expose list semantics.');

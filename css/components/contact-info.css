@@ -138,10 +138,11 @@
   min-height: var(--target-min);
   align-items: center;
   margin: 0;
-  padding: var(--space-xs) 0;
+  margin-inline: calc(var(--space-sm) * -1);
+  padding: var(--space-xs) var(--space-sm);
   border: 0;
   border-block-end: var(--rule-strong) solid var(--color-accent);
-  border-radius: 0;
+  border-radius: var(--radius-sm);
   background: var(--color-transparent);
   color: var(--color-link);
   font-family: var(--font-body);
@@ -164,6 +165,10 @@
   outline-offset: var(--space-2xs);
 }
 
+.contact-info__action > a:focus-visible {
+  background: var(--color-paper-2);
+}
+
 .contact-info :where(.contact-info__copy, .contact-info__action) a:active {
   background: var(--color-paper-3);
   color: var(--color-link);
@@ -183,7 +188,7 @@
   }
 
   .contact-info__action > a:hover {
-    background: var(--color-paper-3);
+    background: var(--color-paper-2);
     color: var(--color-link);
     transform: none;
   }
