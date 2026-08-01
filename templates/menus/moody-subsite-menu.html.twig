@@ -1,0 +1,9 @@
+{% if link_url %}
+  {% set link_attributes = {
+    'class': ['moody26-subsite-menu__link', is_active ? 'is-active'],
+    'aria-current': is_active ? 'page' : false,
+  } %}
+  <li class="moody26-subsite-menu__item">
+    {{ link(title, link_url, link_attributes) }}
+  </li>
+{% endif %}

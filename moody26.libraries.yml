@@ -7,6 +7,7 @@ global:
     theme:
       css/moody26.css: { weight: 100 }
       css/components/header-social.css: { weight: 102 }
+      css/components/subsite-shell.css: { weight: 103 }
       css/components/quick-actions.css: { weight: 105 }
       css/components/landing-hero.css: { weight: 110 }
       css/components/rich-text.css: { weight: 115 }

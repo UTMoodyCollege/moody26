@@ -1,6 +1,12 @@
 <footer class="ut-footer moody26-footer" role="contentinfo">
   <div class="moody26-container">
     <div class="moody26-footer__masthead">
+      {% if subsite_footer_text %}
+        <section class="moody26-footer__subsite" aria-labelledby="moody26-subsite-footer-title">
+          <h2 id="moody26-subsite-footer-title">{{ subsite_title }}</h2>
+          <div class="moody26-footer__subsite-copy">{{ subsite_footer_text }}</div>
+        </section>
+      {% endif %}
       {% if page.footer_left %}
         <div class="moody26-footer__identity">{{ page.footer_left }}</div>
       {% endif %}

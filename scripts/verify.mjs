@@ -22,6 +22,7 @@ const files = {
   tokens: 'tokens.css',
   css: 'css/moody26.css',
   headerSocialCss: 'css/components/header-social.css',
+  subsiteShellCss: 'css/components/subsite-shell.css',
   quickActionsCss: 'css/components/quick-actions.css',
   quickActionsPreview: 'css/components/quick-actions.preview.html',
   landingHero: 'css/components/landing-hero.css',
@@ -92,10 +93,14 @@ const files = {
   page: 'templates/pages/page.html.twig',
   brandbar: 'templates/partials/brandbar.html.twig',
   header: 'templates/partials/header.html.twig',
+  subsiteHeader: 'templates/partials/header-subsite.html.twig',
+  subsiteData: 'templates/partials/subsite-data.html.twig',
   footer: 'templates/partials/footer.html.twig',
   brandingBlock: 'templates/blocks/block--system-branding-block.html.twig',
   menuBlock: 'templates/blocks/block--system-menu-block--primary-menu.html.twig',
   menu: 'templates/menus/menu--primary-menu.html.twig',
+  subsiteMenuField: 'templates/menus/field--moody-subsite-menu.html.twig',
+  subsiteMenuItem: 'templates/menus/moody-subsite-menu.html.twig',
   peopleDirectoryView: 'templates/views/views-view--faculty-bio-view.html.twig',
   peopleDirectoryRows: 'templates/views/views-view-unformatted--faculty-bio-view.html.twig',
   peopleDirectoryFields: 'templates/views/views-view-fields--faculty-bio-view.html.twig',
@@ -312,6 +317,7 @@ requireText('libraries', 'js/navigation.js', 'Theme-owned navigation behavior mu
 requireText('libraries', 'js/quick-actions.js', 'Quick actions must remain attached.');
 requireText('libraries', 'css/components/motion.css', 'Motion safeguards must remain attached.');
 requireText('libraries', 'css/components/header-social.css', 'Responsive header social styles must remain attached.');
+requireText('libraries', 'css/components/subsite-shell.css', 'The optional Moody subsite shell must remain attached.');
 requireText('libraries', 'css/components/rich-text.css', 'Shared Basic and Rich Text styles must remain attached.');
 requireText('libraries', 'css/components/editor-tools.css', 'Placeholder-safe Drupal editor-tool styles must remain attached.');
 requireText('richTextCss', 'container: moody26-rich-text / inline-size;', 'Basic blocks must expose a portable component container.');
@@ -499,6 +505,9 @@ requirePattern('logo', /#333f48/i, 'The approved Moody mark must retain UT charc
 
 requireText('html', 'href="#main-content"', 'The HTML shell needs a skip link.');
 requireText('page', '<main{{ main_content_attributes }}>', 'The page shell must own the main landmark.');
+requireText('page', '{% if moody26_is_subsite %}', 'The page shell must select the shared-data subsite presentation without route selectors.');
+requireText('page', "@moody26/partials/header-subsite.html.twig", 'Subsite pages must use the theme-owned subsite header.');
+requireText('page', "@moody26/partials/subsite-data.html.twig", 'Subsite pages must preserve module-owned lead content.');
 requireText('page', '{% if page.highlighted or page.help %}', 'Placeholder-capable utility regions must remain in the page render tree.');
 requireText('page', '{{ page.highlighted }}', 'The page shell must render lazy local-task and local-action placeholders directly.');
 forbidText('page', 'page.highlighted|render', 'The page shell must not pre-render and discard lazy local-task placeholders.');
@@ -518,6 +527,20 @@ requireText('brandbar', "'Social media'|t", 'Desktop Social Links need an access
 requireText('header', 'header_social_links_mobile', 'The navigation drawer must expose the selected mobile Social Links block.');
 requireText('header', 'page.header_tertiary and not header_social_links_mobile', 'Selected Social Links must replace the legacy mobile utility fallback without duplicates.');
 requireText('header', "'Social media'|t", 'Mobile Social Links need an accessible landmark name.');
+requireText('subsiteHeader', 'data-moody26-force-drawer', 'Subsites must keep the fleet-wide menu behind one disclosure at every viewport.');
+requireText('subsiteHeader', "'Moody menu'|t", 'The fleet-wide subsite drawer needs a specific visible label.');
+requireText('subsiteHeader', 'moody26-subsite-navigation--desktop', 'Subsite local navigation must remain persistent on wide screens.');
+requireText('subsiteHeader', 'moody26-subsite-navigation--mobile', 'Subsite local navigation must remain first in the compact drawer.');
+requireText('subsiteHeader', 'data-moody26-mobile-actions', 'Subsites must reuse the canonical responsive action bar.');
+requireText('subsiteHeader', 'subsite_social and not hide_all_social_accounts', 'Subsite social links must honor the shared entity hide state.');
+requireText('subsiteData', '{{ subsite_hero }}', 'Subsites must preserve the module-selected page or default hero.');
+requireText('subsiteData', '{{ info_bars }}', 'Subsites must preserve module-selected info bars.');
+requireText('subsiteMenuField', '<ul', 'The subsite menu field must retain list semantics.');
+requireText('subsiteMenuItem', "'aria-current': is_active ? 'page' : false", 'Current subsite destinations need a semantic non-color state.');
+requireText('footer', 'moody26-footer__subsite', 'Optional subsite footer copy must precede the fleet footer.');
+requireText('theme', "!file_exists($variables['custom_logo']['#uri'])", 'A missing subsite-logo source must fail back before Twig output.');
+requireText('theme', "Drupal::hasService('redirect.repository')", 'Current subsite destinations must optionally resolve migrated Redirect paths.');
+requireText('theme', "addCacheContexts(['url.path'])", 'Subsite current-page state must vary by the request path.');
 requireText('footer', 'Emergency Information', 'Footer must provide Emergency Information.');
 requireText('footer', 'Site Policies', 'Footer must provide Site Policies.');
 requireText('footer', 'Digital Accessibility Policy', 'Footer must provide Digital Accessibility Policy.');
@@ -543,6 +566,8 @@ requireText('navigation', 'navigation.inert =', 'A closed mobile drawer must lea
 requireText('navigation', "window.matchMedia('(min-width: 75rem)')", 'Navigation must switch at the content-driven desktop breakpoint.');
 requireText('navigation', 'mobileActions.append(actionBar)', 'Mobile navigation must move the canonical action bar into the drawer.');
 requireText('navigation', 'insertBefore(actionBar, desktopActionsMarker)', 'Desktop navigation must restore the canonical action bar without cloning it.');
+requireText('navigation', "header.hasAttribute('data-moody26-force-drawer')", 'Subsite pages must retain disclosure behavior on wide screens.');
+requireText('navigation', "Drupal.t('Close Moody menu')", 'The open subsite drawer must preserve a specific visible action label.');
 forbidText('navigation', 'moody26-drawer-open', 'Drawer state must not change body scrolling or break the sticky header.');
 
 requireText('quickActions', "'aria-keyshortcuts': 'Meta+K Control+K'", 'Quick actions must advertise both platform shortcuts.');
@@ -640,6 +665,12 @@ forbidText('headerSocialCss', ':has(', 'Header social focus must remain compatib
 requireText('headerSocialCss', '@media (hover: hover) and (pointer: fine)', 'Header social hover feedback must be capability-gated.');
 requireText('headerSocialCss', '@media (min-width: 75rem)', 'Header social placement must follow the navigation breakpoint.');
 requireText('headerSocialCss', '@media (prefers-reduced-motion: reduce)', 'Header social feedback must honor reduced motion.');
+requireText('subsiteShellCss', 'component: Moody subsite shell', 'The subsite shell must retain its Hallmark component contract.');
+requireText('subsiteShellCss', '.moody26-subsite-menu__link[aria-current="page"]', 'Subsite current state must not depend on color alone.');
+requireText('subsiteShellCss', 'min-height: var(--target-min);', 'Subsite destinations must preserve 44 CSS-pixel targets.');
+requireText('subsiteShellCss', '@media (hover: hover) and (pointer: fine)', 'Subsite hover feedback must remain capability-gated.');
+requireText('subsiteShellCss', '@media (min-width: 75rem)', 'The subsite task rail and fleet drawer must switch at the shell breakpoint.');
+requireText('subsiteShellCss', '@media (prefers-reduced-motion: reduce)', 'Subsite interaction feedback must honor reduced motion.');
 for (const state of ['Default', 'Hover', 'Focus', 'Active', 'Disabled', 'Loading', 'Error', 'Success']) {
   requireText('quickActionsPreview', `>${state}<`, `The state sheet must include ${state.toLowerCase()}.`);
 }
@@ -1964,7 +1995,7 @@ requireText('newsFields', "'Story topics'|t", 'News topic destinations need a tr
 
 const runtimeFiles = [
   'info', 'libraries', 'theme', 'themeSettings', 'fontsCss', 'css',
-  'headerSocialCss', 'quickActionsCss', 'landingHero', 'richTextCss', 'editorialSections', 'discoveryIndex',
+  'headerSocialCss', 'subsiteShellCss', 'quickActionsCss', 'landingHero', 'richTextCss', 'editorialSections', 'discoveryIndex',
   'featuredHighlightCss', 'featuredHighlightTemplate', 'promoListCss', 'promoListTemplate',
   'flexContentCss', 'flexContentFieldTemplate', 'flexContentTemplate',
   'imageLinkCss', 'imageLinkTemplate',
@@ -1998,7 +2029,8 @@ const runtimeFiles = [
   'eventDetailCss', 'eventTemplate', 'eventsListingCss', 'eventsListingTemplate',
   'focusAreas', 'promoUnits',
   'motionCss', 'settingsCss', 'accessibility', 'navigation', 'quickActions', 'motion', 'html', 'page', 'brandbar',
-  'header', 'footer', 'brandingBlock', 'menuBlock', 'menu',
+  'header', 'subsiteHeader', 'subsiteData', 'footer', 'brandingBlock', 'menuBlock', 'menu',
+  'subsiteMenuField', 'subsiteMenuItem',
 ];
 const forbiddenLegacy = [
   ['base theme: moody', 'legacy Moody base-theme declaration'],
@@ -2015,7 +2047,7 @@ for (const file of runtimeFiles) {
   }
 }
 
-const cssFiles = ['css', 'headerSocialCss', 'quickActionsCss', 'landingHero', 'richTextCss', 'editorialSections', 'featuredHighlightCss', 'promoListCss', 'flexContentCss', 'imageLinkCss', 'flexColorBlocksCss', 'quotationCss', 'flexGridCss', 'impactFactsCss', 'showcaseCss', 'contactInfoCss', 'callToActionCss', 'resourceGroupCss', 'flexTabsCss', 'heroCarouselCss', 'photoContentCss', 'socialLinksCss', 'imageGalleryCss', 'scrollRevealMediaCss', 'focalPointCss', 'flipImageGridCss', 'dynamicPairGridCss', 'imageGridCss', 'mediaStoryCss', 'searchPageCss', 'editorToolsCss', 'discoveryIndex', 'accordionCss', 'peopleDirectory', 'studentStoriesCss', 'eventsListingCss', 'newsroom', 'featureStoryCss', 'shorthandStoryCss', 'pdfDocumentCss', 'eventDetailCss', 'motionCss', 'settingsCss'];
+const cssFiles = ['css', 'headerSocialCss', 'subsiteShellCss', 'quickActionsCss', 'landingHero', 'richTextCss', 'editorialSections', 'featuredHighlightCss', 'promoListCss', 'flexContentCss', 'imageLinkCss', 'flexColorBlocksCss', 'quotationCss', 'flexGridCss', 'impactFactsCss', 'showcaseCss', 'contactInfoCss', 'callToActionCss', 'resourceGroupCss', 'flexTabsCss', 'heroCarouselCss', 'photoContentCss', 'socialLinksCss', 'imageGalleryCss', 'scrollRevealMediaCss', 'focalPointCss', 'flipImageGridCss', 'dynamicPairGridCss', 'imageGridCss', 'mediaStoryCss', 'searchPageCss', 'editorToolsCss', 'discoveryIndex', 'accordionCss', 'peopleDirectory', 'studentStoriesCss', 'eventsListingCss', 'newsroom', 'featureStoryCss', 'shorthandStoryCss', 'pdfDocumentCss', 'eventDetailCss', 'motionCss', 'settingsCss'];
 const forbiddenCss = [
   [/#(?:[0-9a-f]{3}|[0-9a-f]{6}|[0-9a-f]{8})\b/i, 'Raw hex colors belong only in tokens.css.'],
   [/\b(?:rgb|rgba|hsl|hsla|oklch)\(/i, 'Raw color functions belong only in tokens.css.'],
@@ -2060,6 +2092,7 @@ requireText('log', 'Progressive tab index within the Ecosystem Index', 'Hallmark
 requireText('log', 'Editorial Content Ledger within the Ecosystem Index', 'Hallmark memory must record the shared Flex List component.');
 requireText('log', 'Compact destination rail within the Ecosystem Index', 'Hallmark memory must record the shared Social Links component.');
 requireText('log', 'Editorial task ledger within the Ecosystem Index', 'Hallmark memory must record the authenticated Drupal editor-tool surface.');
+requireText('log', 'Ecosystem Index with nested subsite task rail', 'Hallmark memory must record the optional shared-data subsite shell.');
 
 requirePattern('readme', /standalone/i, 'README must describe the standalone architecture.');
 forbidText('readme', 'Base theme | `moody`', 'README must not advertise the legacy base theme.');
@@ -2070,6 +2103,7 @@ requireText('agents', 'all four setting', 'AGENTS.md must require the complete v
 requireText('readme', 'Coordinated page motion (GSAP)', 'README must document the GSAP visual option.');
 requireText('readme', 'Interface motion (Anime.js)', 'README must document the Anime.js visual option.');
 requireText('readme', 'Header social links', 'README must document the responsive Social Links option.');
+requireText('readme', '### Moody subsites', 'README must document the shared Moody subsite integration.');
 requireText('readme', 'stores the selected block’s UUID', 'README must explain Social Links configuration portability.');
 requireText('readme', 'Shared people directories', 'README must document the reusable directory layer.');
 requireText('readme', 'Shared student-story directories and profiles', 'README must document the reusable student-story layer.');
@@ -2126,6 +2160,7 @@ requireText('readme', 'without padding `.moody26-main` itself', 'README must pre
 requireText('readme', '### Drupal editor tools', 'README must document the authenticated Drupal editor-tool surface.');
 requireText('readme', 'does not duplicate routes, permissions, or action labels', 'README must keep editor actions under Drupal ownership.');
 requireText('agents', '`header_social_links_block`', 'AGENTS.md must preserve the header Social Links contract.');
+requireText('agents', '### Moody subsites', 'AGENTS.md must preserve the optional shared-entity subsite contract.');
 requireText('agents', 'Missing, unpublished, non-reusable, inaccessible, wrong-bundle, or malformed', 'AGENTS.md must require Social Links to fail closed.');
 requireText('agents', '### People directories', 'AGENTS.md must preserve the people-directory contract.');
 requireText('agents', '### Student-story directories and profiles', 'AGENTS.md must preserve the student-story contract.');

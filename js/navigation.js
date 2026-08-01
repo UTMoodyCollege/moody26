@@ -13,11 +13,15 @@
         const navigation = header.querySelector('[data-moody26-drawer]');
         const actionBar = header.querySelector('.moody26-header__actions');
         const mobileActions = navigation?.querySelector('[data-moody26-mobile-actions]');
+        const forceDrawer = header.hasAttribute('data-moody26-force-drawer');
         const wideMenu = window.matchMedia('(min-width: 75rem)');
         const hoverMenu = window.matchMedia('(hover: hover) and (pointer: fine)');
         const triggers = [...header.querySelectorAll('.moody26-menu__trigger')];
+        const menuLabel = menuButton?.querySelector('.moody26-menu-toggle__label');
+        const closedMenuLabel = menuLabel?.textContent.trim() || Drupal.t('Menu');
         const desktopActionsMarker = document.createComment('Moody26 desktop header actions');
         actionBar?.after(desktopActionsMarker);
+        const usesDrawer = () => forceDrawer || !wideMenu.matches;
 
         const placeActionBar = () => {
           if (!actionBar || !mobileActions) {
@@ -61,11 +65,13 @@
           }
           menuButton.setAttribute('aria-expanded', String(isOpen));
           navigation.toggleAttribute('data-open', isOpen);
-          navigation.setAttribute('aria-hidden', String(!isOpen && !wideMenu.matches));
-          navigation.inert = !isOpen && !wideMenu.matches;
-          menuButton.querySelector('.moody26-menu-toggle__label').textContent = isOpen
-            ? Drupal.t('Close')
-            : Drupal.t('Menu');
+          navigation.setAttribute('aria-hidden', String(!isOpen && usesDrawer()));
+          navigation.inert = !isOpen && usesDrawer();
+          if (menuLabel) {
+            menuLabel.textContent = isOpen
+              ? (forceDrawer ? Drupal.t('Close Moody menu') : Drupal.t('Close'))
+              : closedMenuLabel;
+          }
           if (!isOpen) {
             closeSubmenus();
           }
@@ -73,7 +79,7 @@
 
         const syncViewport = () => {
           placeActionBar();
-          if (wideMenu.matches) {
+          if (!usesDrawer()) {
             navigation?.removeAttribute('aria-hidden');
             if (navigation) {
               navigation.inert = false;
@@ -195,6 +201,9 @@
         document.addEventListener('pointerdown', (event) => {
           if (!header.contains(event.target)) {
             closeSubmenus();
+            if (usesDrawer() && menuButton?.getAttribute('aria-expanded') === 'true') {
+              setDrawerState(false);
+            }
           }
         });
       });

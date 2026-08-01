@@ -131,6 +131,46 @@ not belong outside the token and font declaration files.
 - Preserve Safari’s standard Option+Tab link-navigation path when full webpage
   keyboard navigation is disabled.
 
+### Moody subsites
+
+- Treat the shared `moody_subsite` entity and `moody_subsite_page` bundle as an
+  optional fleet data contract, never as a dependency on the legacy `moody`
+  theme. Standard pages and sites without those modules retain the standard
+  Moody26 shell.
+- Reuse module-preprocessed `subsite_title`, `subsite_base_url`, `subsite_nav`,
+  `custom_logo`, `subsite_social`, `subsite_give_link`, `subsite_hero`,
+  `info_bars`, `page_subtitle`, `subsite_footer_text`, and hide-state values.
+  Do not query duplicate configuration, copy destinations into the theme, or
+  introduce a second subsite content model.
+- Use the approved custom logo as the subsite home link. Verify its source file
+  exists before output; otherwise retain the approved site-branding block and
+  expose the subsite display name as ordinary interface text. Never typeset or
+  recolor a replacement wordmark.
+- Make the flat subsite menu the primary local task rail. Resolve internal
+  aliases and, when available, Redirect targets so exactly the visible current
+  destination carries `aria-current="page"`; keep `url.path` in cache context.
+- At less than 75rem, order the one drawer as subsite navigation, canonical
+  Search/Quick actions/Give controls, and the fleet-wide Moody College menu.
+  At 75rem and wider, retain the local navigation as a visible horizontal rail
+  while the fleet-wide menu remains in a bounded trailing-edge disclosure.
+- The global-menu trigger stays present on subsite pages at every viewport and
+  is visibly named `Moody menu`. Its `aria-expanded`, `aria-hidden`, `inert`,
+  Escape, light-dismiss, submenu, focus, and scroll-preservation behavior uses
+  the same `js/navigation.js` state owner as the standard shell.
+- A configured subsite social set replaces the theme-selected or legacy
+  sitewide header social source. `hide_all_social_accounts` suppresses every
+  header source without leaving an empty landmark. Preserve link names,
+  transparent targets, selected icon color, focus, and 44-pixel targets.
+- A non-empty subsite Give link overrides the theme Give link only within the
+  subsite shell. Missing data falls back to the theme setting without an empty
+  control.
+- Render module-owned hero, info bars, subtitle, related-unit link, title-style
+  behavior, custom-homepage suppression, and footer copy without changing
+  editor data or adding route-specific presentation selectors.
+- Verify local and global menu tab order in both directions, current-page state,
+  Escape focus restoration, outside-click dismissal, 200% zoom, scroll
+  preservation, and 320/375/414/768/1200-pixel reflow on a real subsite page.
+
 ### Quick actions
 
 - Expose `Command+K` and `Control+K` with truthful `aria-keyshortcuts`.
@@ -1969,6 +2009,9 @@ Texas requirements. The current University compliance date is March 1, 2026.
   eight-state preview support.
 - `css/components/header-social.css`: responsive placement, targets, icon
   scale, and interaction states for formatter-owned Social Links output.
+- `css/components/subsite-shell.css`: optional shared-entity subsite identity,
+  local task rail, global-menu drawer, supporting lead content, social adapter,
+  and footer-copy presentation.
 - `css/components/social-links.css`: semantic container-aware Social Links
   rails, provider-asset presentation, static link states, and legacy-spacing
   collision protection for content and footer placements.

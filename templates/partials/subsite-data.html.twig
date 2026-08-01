@@ -1,0 +1,16 @@
+{% if info_bars or subsite_hero or page_subtitle or strauss_link %}
+  <div class="moody26-subsite-lead moody26-container">
+    {% if info_bars %}
+      <div class="moody26-subsite-lead__info">{{ info_bars }}</div>
+    {% endif %}
+    {% if subsite_hero %}
+      <div class="moody26-subsite-lead__hero">{{ subsite_hero }}</div>
+    {% endif %}
+    {% if page_subtitle %}
+      <p class="moody26-subsite-lead__subtitle">{{ page_subtitle }}</p>
+    {% endif %}
+    {% if strauss_link %}
+      <div class="moody26-subsite-lead__related">{{ strauss_link }}</div>
+    {% endif %}
+  </div>
+{% endif %}

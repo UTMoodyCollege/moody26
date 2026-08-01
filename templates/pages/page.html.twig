@@ -1,5 +1,9 @@
 {% include '@moody26/partials/brandbar.html.twig' %}
-{% include '@moody26/partials/header.html.twig' %}
+{% if moody26_is_subsite %}
+  {% include '@moody26/partials/header-subsite.html.twig' %}
+{% else %}
+  {% include '@moody26/partials/header.html.twig' %}
+{% endif %}
 
 {{ page.site_announcement }}
 
@@ -24,6 +28,9 @@
   {% endif %}
 
   <main{{ main_content_attributes }}>
+    {% if moody26_is_subsite %}
+      {% include '@moody26/partials/subsite-data.html.twig' %}
+    {% endif %}
     {{ page.content }}
   </main>
 

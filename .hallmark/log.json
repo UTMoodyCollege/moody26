@@ -1,5 +1,17 @@
 [
   {
+    "date": "2026-08-01",
+    "macrostructure": "Ecosystem Index with nested subsite task rail",
+    "theme": "custom standalone Drupal theme",
+    "theme_axes": "light / roman-serif / warm",
+    "vibe": "youthful editorial, academic, unmistakably Texas",
+    "enrichment": "approved editor-owned subsite logo and optional hero",
+    "nav": "N11 local task rail with fleet-wide disclosure drawer",
+    "footer": "Ft1 Mast-headed with optional subsite copy and required University destinations",
+    "variation_knob": "Persistent local navigation plus an always-disclosed-on-demand Moody College menu, using the shared subsite entity without a legacy-theme dependency",
+    "brief": "Present shared Moody subsites with their configured identity and menu across mobile and desktop"
+  },
+  {
     "date": "2026-07-22",
     "macrostructure": "Editorial task ledger within the Ecosystem Index",
     "theme": "custom standalone Drupal theme",

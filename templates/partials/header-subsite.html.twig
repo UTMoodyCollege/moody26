@@ -1,0 +1,81 @@
+<header
+  id="moody26-header"
+  class="moody26-header moody26-header--{{ header_color }} moody26-header--subsite"
+  data-moody26-force-drawer
+>
+  <div class="moody26-container moody26-header__masthead moody26-subsite-masthead">
+    <div class="moody26-header__identity moody26-subsite-identity">
+      {% if custom_logo %}
+        <a
+          class="moody26-subsite-branding"
+          href="{{ subsite_base_url ?: path('<front>') }}"
+          aria-label="{{ subsite_title }} {{ 'home'|t }}"
+          rel="home"
+        >
+          {{ custom_logo }}
+        </a>
+      {% else %}
+        <div class="moody26-subsite-branding__fallback">{{ page.header_primary }}</div>
+        <a class="moody26-subsite-branding__name" href="{{ subsite_base_url ?: path('<front>') }}" rel="home">
+          {{ subsite_title }}
+        </a>
+      {% endif %}
+    </div>
+
+    <div class="moody26-header__actions">
+      {% if page.header_secondary %}
+        <div class="moody26-header__search">{{ page.header_secondary }}</div>
+      {% endif %}
+      {% if moody26_header_give_link %}
+        <a class="moody26-give button" href="{{ moody26_header_give_link }}">{{ 'Give'|t }}</a>
+      {% endif %}
+    </div>
+
+    <button
+      class="moody26-menu-toggle"
+      type="button"
+      aria-controls="moody26-primary-navigation"
+      aria-expanded="false"
+    >
+      <span class="moody26-menu-toggle__icon" aria-hidden="true"></span>
+      <span class="moody26-menu-toggle__label">{{ 'Moody menu'|t }}</span>
+    </button>
+  </div>
+
+  <nav class="moody26-subsite-navigation moody26-subsite-navigation--desktop" aria-label="{{ subsite_title }} {{ 'navigation'|t }}">
+    <div class="moody26-container">{{ subsite_nav }}</div>
+  </nav>
+
+  <div class="moody26-navigation moody26-subsite-drawer" id="moody26-primary-navigation" data-moody26-drawer>
+    <div class="moody26-container moody26-navigation__inner">
+      <nav class="moody26-subsite-navigation moody26-subsite-navigation--mobile" aria-label="{{ subsite_title }} {{ 'navigation'|t }}">
+        <p class="moody26-subsite-navigation__label">{{ subsite_title }}</p>
+        {{ subsite_nav }}
+      </nav>
+
+      <div
+        class="moody26-navigation__actions"
+        data-moody26-mobile-actions
+        role="group"
+        aria-label="{{ 'Site actions'|t }}"
+      ></div>
+
+      <div class="moody26-global-navigation">
+        <p class="moody26-global-navigation__label">{{ 'Moody College'|t }}</p>
+        {{ page.primary_menu }}
+      </div>
+
+      {% if subsite_social and not hide_all_social_accounts %}
+        <nav class="moody26-header-social moody26-header-social--{{ header_social_media_color }} moody26-navigation__social moody26-subsite-social" aria-label="{{ subsite_title }} {{ 'social media'|t }}">
+          {{ subsite_social }}
+        </nav>
+      {% elseif page.header_tertiary and not header_social_links_mobile and not hide_all_social_accounts %}
+        <div class="moody26-navigation__utility">{{ page.header_tertiary }}</div>
+      {% elseif header_social_links_mobile and not hide_all_social_accounts %}
+        <nav class="moody26-header-social moody26-header-social--{{ header_social_media_color }} moody26-navigation__social" aria-label="{{ 'Social media'|t }}">
+          {{ header_social_links_mobile }}
+        </nav>
+      {% endif %}
+    </div>
+  </div>
+</header>

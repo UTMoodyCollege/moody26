@@ -203,6 +203,12 @@ or change the reader’s scroll position. Its order is Search, Quick actions,
 Give, primary navigation, utility destinations, and Social Links when those
 optional sources are available.
 
+Subsite pages use the same action bar and disclosure controller with a distinct
+information hierarchy: the subsite identity and local navigation come first,
+then Search, Quick actions, Give, and the fleet-wide Moody College navigation.
+At 75rem and wider, local navigation becomes a persistent horizontal rail while
+the fleet-wide menu remains behind the clearly named `Moody menu` button.
+
 ### Theme settings
 
 `Appearance → Settings → Moody 26` exposes:
@@ -258,6 +264,41 @@ readable before an administrator saves the new controls. The palette values
 were checked against the official University color guidance on August 1, 2026;
 release review should re-check that source because brand requirements can
 change.
+
+### Moody subsites
+
+Moody26 natively presents the existing `moody_subsite` and
+`moody_subsite_page` data model when those shared Moody modules are enabled.
+No separate Moody26 subsite configuration or migration is required. The theme
+consumes the module-provided display name, homepage, flat local menu, approved
+custom logo, optional social accounts, Give override, default/page hero, info
+bars, subtitle, and footer copy. If the modules are absent—or a page has no
+matched published subsite record—the standard site shell remains unchanged.
+
+On a subsite page:
+
+- The approved subsite logo links to the configured subsite homepage. A
+  missing source file fails back to the approved site-branding block plus the
+  subsite display name; visitors never receive a broken logo as the identity.
+- The local menu is the primary task rail. Its current destination exposes
+  `aria-current="page"`, including when a legacy path reaches the page through
+  Drupal Redirect.
+- The fleet-wide Moody menu stays available from one disclosure button at
+  every viewport. Mobile and tablet place the local menu, canonical action bar,
+  and global menu in one anchored, scroll-preserving drawer. Desktop keeps the
+  local rail visible and uses a bounded trailing-edge drawer for the global
+  menu.
+- A subsite social configuration replaces the sitewide header social links;
+  `Hide all social accounts` suppresses both sources. A subsite Give URL
+  replaces the theme Give URL only for that subsite.
+- Module-owned hero, info-bar, title-style, subtitle, and custom-homepage rules
+  remain authoritative. Moody26 only supplies accessible presentation.
+- Optional subsite footer copy precedes the normal fleet footer identity and
+  required University destinations.
+
+Keep subsite records and directory-term associations under Drupal content
+ownership. Do not copy a subsite menu, logo, or destination into Twig, theme
+settings, or JavaScript. Rebuild Drupal caches after editing a subsite record.
 
 ### Page-title ownership
 
@@ -1459,7 +1500,7 @@ than replace manual assistive-technology review.
 | `tokens.css` | Brand, type, spacing, motion, focus, and layout tokens |
 | `css/fonts.css` | Local approved digital font declarations |
 | `css/moody26.css` | Global foundation, shell, navigation, forms, and footer |
-| `css/components/` | Header social, ambient-video and shared Hero, Basic and Rich Text, semantic legacy media stories, contained site search, Drupal editor tools, editorial, discovery, resource-hub, accordion, Featured Highlight and Moody Promotion signal bands, Promo List, Flex Content Area, Image Link, Flex Color Block, Moody Quotation, Moody Flex Grid, Impact Facts, Contact Info, Call to Action, Social Links, Moody Anchor and interactive image galleries, static Scroll Reveal Media and Focal Point narratives, Flip and Dynamic Flip contact sheets, a semantic destination Image Grid, people-directory, student-story, faculty-profile, newsroom, feature-story, Shorthand and PDF document boundaries, event-detail and event-listing, quick-action, and settings components |
+| `css/components/` | Subsite shell, header social, ambient-video and shared Hero, Basic and Rich Text, semantic legacy media stories, contained site search, Drupal editor tools, editorial, discovery, resource-hub, accordion, Featured Highlight and Moody Promotion signal bands, Promo List, Flex Content Area, Image Link, Flex Color Block, Moody Quotation, Moody Flex Grid, Impact Facts, Contact Info, Call to Action, Social Links, Moody Anchor and interactive image galleries, static Scroll Reveal Media and Focal Point narratives, Flip and Dynamic Flip contact sheets, a semantic destination Image Grid, people-directory, student-story, faculty-profile, newsroom, feature-story, Shorthand and PDF document boundaries, event-detail and event-listing, quick-action, and settings components |
 | `js/navigation.js` | Drawer and disclosure navigation state |
 | `js/quick-actions.js` | Native dialog and rendered-destination discovery |
 | `js/accessibility.js` | Progressive safeguards for media controls and rendered content components |

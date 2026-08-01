@@ -13,7 +13,11 @@
     {% if page.utility_nav %}
       <div class="moody26-brandbar__utility">{{ page.utility_nav }}</div>
     {% endif %}
-    {% if header_social_links_desktop %}
+    {% if subsite_social and not hide_all_social_accounts %}
+      <nav class="moody26-header-social moody26-header-social--{{ header_social_media_color }} moody26-brandbar__social moody26-subsite-social" aria-label="{{ subsite_title }} {{ 'social media'|t }}">
+        {{ subsite_social }}
+      </nav>
+    {% elseif header_social_links_desktop and not hide_all_social_accounts %}
       <nav class="moody26-header-social moody26-header-social--{{ header_social_media_color }} moody26-brandbar__social" aria-label="{{ 'Social media'|t }}">
         {{ header_social_links_desktop }}
       </nav>

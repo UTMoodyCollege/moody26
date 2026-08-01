@@ -97,6 +97,18 @@ function moody26_preprocess_page(array &$variables): void {
   $variables['header_color'] = moody26_brand_color_setting('header_color', 'limestone');
   $variables['header_social_media_color'] = moody26_brand_color_setting('header_social_media_color', 'white');
   $variables['display_utexas'] = (bool) (theme_get_setting('display_utexas') ?? TRUE);
+  if (
+    !empty($variables['custom_logo']['#uri'])
+    && !file_exists($variables['custom_logo']['#uri'])
+  ) {
+    $variables['custom_logo'] = FALSE;
+  }
+  $variables['moody26_is_subsite'] = !empty($variables['subsite_title'])
+    && !empty($variables['subsite_nav']);
+  $variables['moody26_header_give_link'] = $variables['moody26_is_subsite']
+    && !empty($variables['subsite_give_link'])
+      ? $variables['subsite_give_link']
+      : $variables['give_link'];
   $variables['header_social_links_desktop'] = [];
   $variables['header_social_links_mobile'] = [];
   $variables['main_content_attributes'] = (new Attribute())
@@ -136,6 +148,62 @@ function moody26_preprocess_page(array &$variables): void {
     $variables[$slot] = $view_builder->view($block, 'full');
     CacheableMetadata::createFromObject($access)->applyTo($variables[$slot]);
   }
+}
+
+/**
+ * Preprocesses one link from the shared Moody subsite menu field.
+ *
+ * Comparing resolved internal paths lets differently aliased links still
+ * expose the truthful current-page state.
+ */
+function moody26_preprocess_moody_subsite_menu(array &$variables): void {
+  $link = trim((string) ($variables['link'] ?? ''));
+  $variables['link_url'] = NULL;
+  $variables['is_active'] = FALSE;
+
+  if ($link === '') {
+    return;
+  }
+
+  try {
+    $is_external = UrlHelper::isExternal($link);
+    $variables['link_url'] = $is_external
+      ? Url::fromUri($link)
+      : Url::fromUserInput($link);
+
+    if (!$is_external) {
+      $alias_manager = \Drupal::service('path_alias.manager');
+      $current_path = $alias_manager->getPathByAlias(\Drupal::request()->getPathInfo());
+      $link_path = parse_url($link, PHP_URL_PATH) ?: '/';
+      $target_path = $alias_manager->getPathByAlias($link_path);
+
+      if (\Drupal::hasService('redirect.repository')) {
+        $language_id = \Drupal::languageManager()->getCurrentLanguage()->getId();
+        $redirect = \Drupal::service('redirect.repository')->findMatchingRedirect(
+          ltrim($link_path, '/'),
+          [],
+          $language_id,
+        );
+        if ($redirect) {
+          CacheableMetadata::createFromObject($redirect)->applyTo($variables);
+          $redirect_url = $redirect->getRedirectUrl();
+          if (!$redirect_url->isExternal()) {
+            $target_path = '/' . ltrim($redirect_url->getInternalPath(), '/');
+          }
+        }
+      }
+
+      $variables['is_active'] = rtrim($target_path, '/')
+        === rtrim($current_path, '/');
+    }
+  }
+  catch (\InvalidArgumentException) {
+    $variables['link_url'] = NULL;
+  }
+
+  (new CacheableMetadata())
+    ->addCacheContexts(['url.path'])
+    ->applyTo($variables);
 }
 
 /**
