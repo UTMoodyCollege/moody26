@@ -68,9 +68,7 @@
           navigation.setAttribute('aria-hidden', String(!isOpen && usesDrawer()));
           navigation.inert = !isOpen && usesDrawer();
           if (menuLabel) {
-            menuLabel.textContent = isOpen
-              ? (forceDrawer ? Drupal.t('Close Moody menu') : Drupal.t('Close'))
-              : closedMenuLabel;
+            menuLabel.textContent = isOpen ? Drupal.t('Close') : closedMenuLabel;
           }
           if (!isOpen) {
             closeSubmenus();

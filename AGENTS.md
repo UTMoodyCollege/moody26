@@ -143,20 +143,25 @@ not belong outside the token and font declaration files.
   Do not query duplicate configuration, copy destinations into the theme, or
   introduce a second subsite content model.
 - Use the approved custom logo as the subsite home link. Verify its source file
-  exists before output; otherwise retain the approved site-branding block and
-  expose the subsite display name as ordinary interface text. Never typeset or
-  recolor a replacement wordmark.
+  exists before output; otherwise retain only the approved site-branding block
+  in the masthead. The named local navigation preserves the subsite identity
+  without adding a second visible label. Never typeset or recolor a replacement
+  wordmark.
 - Make the flat subsite menu the primary local task rail. Resolve internal
   aliases and, when available, Redirect targets so exactly the visible current
   destination carries `aria-current="page"`; keep `url.path` in cache context.
-- At less than 75rem, order the one drawer as subsite navigation, canonical
-  Search/Quick actions/Give controls, and the fleet-wide Moody College menu.
-  At 75rem and wider, retain the local navigation as a visible horizontal rail
-  while the fleet-wide menu remains in a bounded trailing-edge disclosure.
+- At less than 75rem, place the canonical Search/Quick actions/Give controls
+  first, then render the subsite and fleet-wide Moody College navigation as one
+  continuous dark menu surface with the global menu immediately after the
+  local destinations. At 75rem and wider, retain the local navigation as a
+  visible horizontal rail while the fleet-wide menu remains in a bounded
+  trailing-edge disclosure.
 - The global-menu trigger stays present on subsite pages at every viewport and
-  is visibly named `Moody menu`. Its `aria-expanded`, `aria-hidden`, `inert`,
-  Escape, light-dismiss, submenu, focus, and scroll-preservation behavior uses
-  the same `js/navigation.js` state owner as the standard shell.
+  inherits the standard visible `Menu`/`Close` label, hamburger/close icon,
+  responsive dimensions, and interaction state. Its `aria-expanded`,
+  `aria-hidden`, `inert`, Escape, light-dismiss, submenu, focus, and
+  scroll-preservation behavior uses the same `js/navigation.js` state owner as
+  the standard shell.
 - A configured subsite social set replaces the theme-selected or legacy
   sitewide header social source. `hide_all_social_accounts` suppresses every
   header source without leaving an empty landmark. Preserve link names,

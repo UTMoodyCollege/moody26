@@ -16,9 +16,6 @@
         </a>
       {% else %}
         <div class="moody26-subsite-branding__fallback">{{ page.header_primary }}</div>
-        <a class="moody26-subsite-branding__name" href="{{ subsite_base_url ?: path('<front>') }}" rel="home">
-          {{ subsite_title }}
-        </a>
       {% endif %}
     </div>
 
@@ -38,7 +35,7 @@
       aria-expanded="false"
     >
       <span class="moody26-menu-toggle__icon" aria-hidden="true"></span>
-      <span class="moody26-menu-toggle__label">{{ 'Moody menu'|t }}</span>
+      <span class="moody26-menu-toggle__label">{{ 'Menu'|t }}</span>
     </button>
   </div>
 
@@ -48,17 +45,17 @@
 
   <div class="moody26-navigation moody26-subsite-drawer" id="moody26-primary-navigation" data-moody26-drawer>
     <div class="moody26-container moody26-navigation__inner">
-      <nav class="moody26-subsite-navigation moody26-subsite-navigation--mobile" aria-label="{{ subsite_title }} {{ 'navigation'|t }}">
-        <p class="moody26-subsite-navigation__label">{{ subsite_title }}</p>
-        {{ subsite_nav }}
-      </nav>
-
       <div
         class="moody26-navigation__actions"
         data-moody26-mobile-actions
         role="group"
         aria-label="{{ 'Site actions'|t }}"
       ></div>
+
+      <nav class="moody26-subsite-navigation moody26-subsite-navigation--mobile" aria-label="{{ subsite_title }} {{ 'navigation'|t }}">
+        <p class="moody26-subsite-navigation__label">{{ subsite_title }}</p>
+        {{ subsite_nav }}
+      </nav>
 
       <div class="moody26-global-navigation">
         <p class="moody26-global-navigation__label">{{ 'Moody College'|t }}</p>

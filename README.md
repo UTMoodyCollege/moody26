@@ -204,10 +204,11 @@ Give, primary navigation, utility destinations, and Social Links when those
 optional sources are available.
 
 Subsite pages use the same action bar and disclosure controller with a distinct
-information hierarchy: the subsite identity and local navigation come first,
-then Search, Quick actions, Give, and the fleet-wide Moody College navigation.
-At 75rem and wider, local navigation becomes a persistent horizontal rail while
-the fleet-wide menu remains behind the clearly named `Moody menu` button.
+information hierarchy: Search, Quick actions, and Give lead the compact drawer,
+followed by one continuous menu surface containing the local subsite links and
+then the fleet-wide Moody College navigation. At 75rem and wider, local
+navigation becomes a persistent horizontal rail while the standard visible
+`Menu` disclosure retains access to the fleet-wide navigation.
 
 ### Theme settings
 
@@ -278,14 +279,16 @@ matched published subsite record—the standard site shell remains unchanged.
 On a subsite page:
 
 - The approved subsite logo links to the configured subsite homepage. A
-  missing source file fails back to the approved site-branding block plus the
-  subsite display name; visitors never receive a broken logo as the identity.
+  missing source file fails back to the approved site-branding block without a
+  second visible subsite label; visitors never receive a broken logo as the
+  identity.
 - The local menu is the primary task rail. Its current destination exposes
   `aria-current="page"`, including when a legacy path reaches the page through
   Drupal Redirect.
-- The fleet-wide Moody menu stays available from one disclosure button at
-  every viewport. Mobile and tablet place the local menu, canonical action bar,
-  and global menu in one anchored, scroll-preserving drawer. Desktop keeps the
+- The fleet-wide Moody menu stays available from the standard visible `Menu`
+  disclosure button at every viewport. Mobile and tablet
+  place the canonical action bar first, then blend the local and global menus
+  into one anchored, scroll-preserving navigation surface. Desktop keeps the
   local rail visible and uses a bounded trailing-edge drawer for the global
   menu.
 - A subsite social configuration replaces the sitewide header social links;

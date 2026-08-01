@@ -528,11 +528,18 @@ requireText('header', 'header_social_links_mobile', 'The navigation drawer must 
 requireText('header', 'page.header_tertiary and not header_social_links_mobile', 'Selected Social Links must replace the legacy mobile utility fallback without duplicates.');
 requireText('header', "'Social media'|t", 'Mobile Social Links need an accessible landmark name.');
 requireText('subsiteHeader', 'data-moody26-force-drawer', 'Subsites must keep the fleet-wide menu behind one disclosure at every viewport.');
-requireText('subsiteHeader', "'Moody menu'|t", 'The fleet-wide subsite drawer needs a specific visible label.');
+requireText('subsiteHeader', '<span class="moody26-menu-toggle__label">{{ \'Menu\'|t }}</span>', 'The subsite drawer must reuse the standard visible Menu label.');
+forbidText('subsiteHeader', 'moody26-subsite-branding__name', 'The fallback subsite display name must not add a second visible masthead label.');
 requireText('subsiteHeader', 'moody26-subsite-navigation--desktop', 'Subsite local navigation must remain persistent on wide screens.');
-requireText('subsiteHeader', 'moody26-subsite-navigation--mobile', 'Subsite local navigation must remain first in the compact drawer.');
+requireText('subsiteHeader', 'moody26-subsite-navigation--mobile', 'Subsite local navigation must remain immediately before the fleet menu in the compact drawer.');
 requireText('subsiteHeader', 'data-moody26-mobile-actions', 'Subsites must reuse the canonical responsive action bar.');
 requireText('subsiteHeader', 'subsite_social and not hide_all_social_accounts', 'Subsite social links must honor the shared entity hide state.');
+const subsiteActionsIndex = contents.subsiteHeader?.indexOf('data-moody26-mobile-actions') ?? -1;
+const subsiteLocalIndex = contents.subsiteHeader?.indexOf('moody26-subsite-navigation--mobile') ?? -1;
+const subsiteGlobalIndex = contents.subsiteHeader?.indexOf('moody26-global-navigation') ?? -1;
+if (!(subsiteActionsIndex < subsiteLocalIndex && subsiteLocalIndex < subsiteGlobalIndex)) {
+  errors.push('The compact subsite drawer must place actions first and keep local and global navigation adjacent.');
+}
 requireText('subsiteData', '{{ subsite_hero }}', 'Subsites must preserve the module-selected page or default hero.');
 requireText('subsiteData', '{{ info_bars }}', 'Subsites must preserve module-selected info bars.');
 requireText('subsiteMenuField', '<ul', 'The subsite menu field must retain list semantics.');
@@ -567,7 +574,8 @@ requireText('navigation', "window.matchMedia('(min-width: 75rem)')", 'Navigation
 requireText('navigation', 'mobileActions.append(actionBar)', 'Mobile navigation must move the canonical action bar into the drawer.');
 requireText('navigation', 'insertBefore(actionBar, desktopActionsMarker)', 'Desktop navigation must restore the canonical action bar without cloning it.');
 requireText('navigation', "header.hasAttribute('data-moody26-force-drawer')", 'Subsite pages must retain disclosure behavior on wide screens.');
-requireText('navigation', "Drupal.t('Close Moody menu')", 'The open subsite drawer must preserve a specific visible action label.');
+requireText('navigation', "menuLabel.textContent = isOpen ? Drupal.t('Close') : closedMenuLabel", 'Every drawer must share the same visible Menu and Close states.');
+forbidText('navigation', 'Close Moody menu', 'Subsite drawer labels must not fork from the standard menu contract.');
 forbidText('navigation', 'moody26-drawer-open', 'Drawer state must not change body scrolling or break the sticky header.');
 
 requireText('quickActions', "'aria-keyshortcuts': 'Meta+K Control+K'", 'Quick actions must advertise both platform shortcuts.');
@@ -668,6 +676,8 @@ requireText('headerSocialCss', '@media (prefers-reduced-motion: reduce)', 'Heade
 requireText('subsiteShellCss', 'component: Moody subsite shell', 'The subsite shell must retain its Hallmark component contract.');
 requireText('subsiteShellCss', '.moody26-subsite-menu__link[aria-current="page"]', 'Subsite current state must not depend on color alone.');
 requireText('subsiteShellCss', 'min-height: var(--target-min);', 'Subsite destinations must preserve 44 CSS-pixel targets.');
+forbidText('subsiteShellCss', '.moody26-subsite-masthead .moody26-menu-toggle', 'Subsite mobile toggles must inherit the standard Menu control without a component override.');
+requireText('subsiteShellCss', '.moody26-subsite-navigation--mobile .moody26-subsite-menu__link', 'The compact local and global menus must share one navigation surface.');
 requireText('subsiteShellCss', '@media (hover: hover) and (pointer: fine)', 'Subsite hover feedback must remain capability-gated.');
 requireText('subsiteShellCss', '@media (min-width: 75rem)', 'The subsite task rail and fleet drawer must switch at the shell breakpoint.');
 requireText('subsiteShellCss', '@media (prefers-reduced-motion: reduce)', 'Subsite interaction feedback must honor reduced motion.');
