@@ -213,9 +213,9 @@ optional sources are available.
   contrast around the approved CSU mark add a white clear-space plate without
   recoloring the artwork.
 - **Header social media color:** applies the same allow-listed palette to the
-  provider-owned social marks. Each selected mark color is paired with a
-  contrast backing that works in both the burnt-orange desktop brand bar and
-  the charcoal mobile drawer.
+  provider-owned social marks. Targets remain transparent so the selected mark
+  color is the only persistent fill. Where that color needs more contrast,
+  Moody26 adds a narrow keyline instead of a tile or background panel.
 - **Display utexas.edu:** enabled by default. Disable it to omit that destination
   from the University bar; the required University footer links and copyright
   remain unchanged.

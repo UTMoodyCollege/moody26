@@ -34,6 +34,11 @@
   --filter-social-turtle-pond: brightness(0) saturate(100%) invert(50%) sepia(95%) saturate(328%) hue-rotate(61deg) brightness(90%) contrast(76%);
   --filter-social-light-green: brightness(0) saturate(100%) invert(72%) sepia(31%) saturate(636%) hue-rotate(38deg) brightness(98%) contrast(95%);
   --filter-social-yellow: brightness(0) saturate(100%) invert(73%) sepia(62%) saturate(809%) hue-rotate(359deg) brightness(105%) contrast(104%);
+  --filter-social-keyline-light:
+    drop-shadow(var(--rule-hair) 0 0 var(--color-ut-white))
+    drop-shadow(calc(var(--rule-hair) * -1) 0 0 var(--color-ut-white))
+    drop-shadow(0 var(--rule-hair) 0 var(--color-ut-white))
+    drop-shadow(0 calc(var(--rule-hair) * -1) 0 var(--color-ut-white));
 
   /* Moody26 surfaces lean toward limestone, not orange. */
   --color-paper: #fbfaf7;

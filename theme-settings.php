@@ -56,7 +56,7 @@ function moody26_form_system_theme_settings_alter(array &$form, FormStateInterfa
     '#title' => t('Header social media color'),
     '#default_value' => $header_social_media_color,
     '#options' => $brand_color_options,
-    '#description' => t('Sets the color of the provider-owned social marks. Moody 26 supplies a contrast backing so the marks remain distinguishable in both header placements.'),
+    '#description' => t('Sets the color of the provider-owned social marks on a transparent target. Colors that need more contrast receive a narrow keyline instead of a tile or background fill.'),
   ];
 
   $form['moody26_header']['appearance']['display_utexas'] = [

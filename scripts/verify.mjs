@@ -459,21 +459,23 @@ for (const [label, foreground, background] of [
 ]) {
   requireContrast(label, foreground, background, 4.5);
 }
-for (const [label, mark, backing] of [
-  ['Burnt-orange social mark', '--color-ut-burnt-orange', '--color-ut-white'],
-  ['White social mark', '--color-ut-white', '--color-ink-strong'],
-  ['Charcoal social mark', '--color-ut-charcoal', '--color-ut-white'],
-  ['Light-orange social mark', '--color-ut-light-orange', '--color-ink-strong'],
-  ['Limestone social mark', '--color-ut-limestone', '--color-ink-strong'],
-  ['Shade social mark', '--color-ut-shade', '--color-ink-strong'],
-  ['Bluebonnet social mark', '--color-ut-bluebonnet', '--color-ut-white'],
-  ['Turquoise social mark', '--color-ut-turquoise', '--color-ink-strong'],
-  ['Turtle Pond social mark', '--color-ut-turtle-pond', '--color-ink-strong'],
-  ['Light-green social mark', '--color-ut-light-green', '--color-ink-strong'],
-  ['Yellow social mark', '--color-ut-yellow', '--color-ink-strong'],
+for (const [label, mark, surface] of [
+  ['White desktop social mark', '--color-ut-white', '--color-ut-burnt-orange'],
+  ['Limestone desktop social mark', '--color-ut-limestone', '--color-ut-burnt-orange'],
+  ['Yellow desktop social mark', '--color-ut-yellow', '--color-ut-burnt-orange'],
+  ['White mobile social mark', '--color-ut-white', '--color-ut-charcoal'],
+  ['Light-orange mobile social mark', '--color-ut-light-orange', '--color-ut-charcoal'],
+  ['Limestone mobile social mark', '--color-ut-limestone', '--color-ut-charcoal'],
+  ['Shade mobile social mark', '--color-ut-shade', '--color-ut-charcoal'],
+  ['Turquoise mobile social mark', '--color-ut-turquoise', '--color-ut-charcoal'],
+  ['Turtle Pond mobile social mark', '--color-ut-turtle-pond', '--color-ut-charcoal'],
+  ['Light-green mobile social mark', '--color-ut-light-green', '--color-ut-charcoal'],
+  ['Yellow mobile social mark', '--color-ut-yellow', '--color-ut-charcoal'],
 ]) {
-  requireContrast(label, mark, backing, 3);
+  requireContrast(label, mark, surface, 3);
 }
+requireContrast('Desktop social keyline', '--color-ut-white', '--color-ut-burnt-orange', 3);
+requireContrast('Mobile social keyline', '--color-ut-white', '--color-ut-charcoal', 3);
 requireText('tokens', '--font-display: "CharisSil", Georgia, serif;', 'Use the approved UT digital serif role.');
 requireText('tokens', '--font-body: "LibreFrank", Arial, Helvetica, sans-serif;', 'Use the approved UT digital sans-serif role.');
 requireText('tokens', '--target-min: 2.75rem;', 'Interactive targets must retain the 44 CSS-pixel floor.');
@@ -628,7 +630,9 @@ requireText('headerSocialCss', 'block-size: var(--target-min);', 'Header social 
 requireText('headerSocialCss', 'background-size: var(--space-lg);', 'Header social marks must remain subordinate to their touch targets.');
 requireText('headerSocialCss', 'background-image: var(--social-icon-image);', 'Header social marks must use provider-owned icon artwork.');
 requireText('headerSocialCss', 'filter: var(--moody26-header-social-filter);', 'Header social marks must resolve through the allow-listed color filter.');
-requireText('headerSocialCss', 'background-color: var(--moody26-header-social-surface);', 'Header social marks need an automatic contrast backing.');
+requireText('headerSocialCss', 'background-color: var(--color-transparent);', 'Header social targets must remain visually transparent.');
+requireText('headerSocialCss', 'var(--filter-social-keyline-light)', 'Low-contrast header social colors need a narrow accessibility keyline.');
+forbidText('headerSocialCss', '--moody26-header-social-surface', 'Header social colors must not add a competing tile surface.');
 requireText('headerSocialCss', '-webkit-mask: none;', 'Header social artwork must not retain the provider alpha mask.');
 requireText('headerSocialCss', '.social-links__list', 'Header social placement must support the semantic field template.');
 requireText('headerSocialCss', ':focus-within', 'Header social links must expose visible parent focus without relying on :has().');

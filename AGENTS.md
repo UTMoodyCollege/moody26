@@ -66,9 +66,10 @@ not belong outside the token and font declaration files.
   mark directly; every other allowed masthead color supplies a white
   clear-space plate rather than recoloring, filtering, or replacing the mark.
 - `header_social_media_color` uses the same allow-listed palette for the
-  provider-owned social mark. Pair each mark with a verified light or deep-ink
-  backing so it remains distinguishable in both the burnt-orange desktop bar
-  and charcoal mobile drawer; do not rely on the chosen color alone.
+  provider-owned social mark. Keep every target transparent so the selected
+  mark color is the only persistent fill. Add only a narrow contrast keyline
+  where the mark itself does not reach 3:1 against the burnt-orange desktop bar
+  or charcoal mobile drawer; never add a tile or background panel.
 - `display_utexas` defaults to enabled and controls only the visible
   `utexas.edu` brand-bar destination. Disabling it never removes required
   University footer links, the parent-organization identity, or copyright.
