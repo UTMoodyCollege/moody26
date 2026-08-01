@@ -11,11 +11,29 @@
   --color-ut-burnt-orange: #bf5700;
   --color-ut-white: #fff;
   --color-ut-charcoal: #333f48;
+  --color-ut-light-orange: #f8971f;
   --color-ut-limestone: #d6d2c4;
   --color-ut-shade: #9cadb7;
   --color-ut-bluebonnet: #005f86;
   --color-ut-turquoise: #00a9b7;
   --color-ut-turtle-pond: #579d42;
+  --color-ut-light-green: #a6cd57;
+  --color-ut-yellow: #ffd600;
+  --color-ink-strong: #1e262b;
+
+  /* Provider social artwork is black. These fixed filters recolor only the
+     24px header mark; each mark receives a separately paired backing surface. */
+  --filter-social-burnt-orange: brightness(0) saturate(100%) invert(31%) sepia(99%) saturate(846%) hue-rotate(0deg) brightness(100%) contrast(105%);
+  --filter-social-white: brightness(0) saturate(100%) invert(100%);
+  --filter-social-charcoal: brightness(0) saturate(100%) invert(18%) sepia(33%) saturate(351%) hue-rotate(163deg) brightness(103%) contrast(87%);
+  --filter-social-light-orange: brightness(0) saturate(100%) invert(56%) sepia(88%) saturate(451%) hue-rotate(350deg) brightness(99%) contrast(96%);
+  --filter-social-limestone: brightness(0) saturate(100%) invert(92%) sepia(14%) saturate(185%) hue-rotate(9deg) brightness(93%) contrast(84%);
+  --filter-social-shade: brightness(0) saturate(100%) invert(74%) sepia(8%) saturate(499%) hue-rotate(158deg) brightness(90%) contrast(94%);
+  --filter-social-bluebonnet: brightness(0) saturate(100%) invert(16%) sepia(95%) saturate(2965%) hue-rotate(181deg) brightness(98%) contrast(105%);
+  --filter-social-turquoise: brightness(0) saturate(100%) invert(39%) sepia(86%) saturate(2050%) hue-rotate(156deg) brightness(100%) contrast(101%);
+  --filter-social-turtle-pond: brightness(0) saturate(100%) invert(50%) sepia(95%) saturate(328%) hue-rotate(61deg) brightness(90%) contrast(76%);
+  --filter-social-light-green: brightness(0) saturate(100%) invert(72%) sepia(31%) saturate(636%) hue-rotate(38deg) brightness(98%) contrast(95%);
+  --filter-social-yellow: brightness(0) saturate(100%) invert(73%) sepia(62%) saturate(809%) hue-rotate(359deg) brightness(105%) contrast(104%);
 
   /* Moody26 surfaces lean toward limestone, not orange. */
   --color-paper: #fbfaf7;
@@ -125,11 +143,15 @@
   :root {
     --color-ut-burnt-orange: oklch(57.7767% 0.15453 49.202);
     --color-ut-charcoal: oklch(36.0559% 0.02221 240.657);
+    --color-ut-light-orange: oklch(76.0587% 0.16450 63.942);
     --color-ut-limestone: oklch(86.3096% 0.01948 93.69);
     --color-ut-shade: oklch(73.7596% 0.02391 233.496);
     --color-ut-bluebonnet: oklch(45.8515% 0.09765 235.279);
     --color-ut-turquoise: oklch(67.0592% 0.11456 205.238);
     --color-ut-turtle-pond: oklch(62.9128% 0.14457 139.009);
+    --color-ut-light-green: oklch(79.5901% 0.15218 125.076);
+    --color-ut-yellow: oklch(88.4795% 0.18164 94.897);
+    --color-ink-strong: oklch(26.3008% 0.01475 235.56);
     --color-paper: oklch(97.5% 0.006 93.69);
     --color-paper-2: oklch(94.5% 0.011 93.69);
     --color-ink-2: oklch(43% 0.018 75);

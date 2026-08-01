@@ -13,6 +13,16 @@ use Drupal\Core\Form\FormStateInterface;
 function moody26_form_system_theme_settings_alter(array &$form, FormStateInterface $form_state): void {
   $form['#attached']['library'][] = 'moody26/settings';
 
+  $brand_color_options = moody26_brand_color_options();
+  $header_color = (string) (theme_get_setting('header_color') ?? 'limestone');
+  if (!isset($brand_color_options[$header_color])) {
+    $header_color = 'limestone';
+  }
+  $header_social_media_color = (string) (theme_get_setting('header_social_media_color') ?? 'white');
+  if (!isset($brand_color_options[$header_social_media_color])) {
+    $header_social_media_color = 'white';
+  }
+
   $social_links_options = moody26_social_links_block_options();
   $selected_social_links = (string) (theme_get_setting('header_social_links_block') ?? '');
   if ($selected_social_links !== '' && !isset($social_links_options[$selected_social_links])) {
@@ -25,6 +35,35 @@ function moody26_form_system_theme_settings_alter(array &$form, FormStateInterfa
     '#open' => FALSE,
     '#weight' => -20,
     '#attributes' => ['class' => ['moody26-header-options']],
+  ];
+
+  $form['moody26_header']['appearance'] = [
+    '#type' => 'fieldset',
+    '#title' => t('Header appearance'),
+    '#description' => t('Choose from the official University palette. Secondary and accent colors should be used sparingly so burnt orange remains the primary brand signal.'),
+  ];
+
+  $form['moody26_header']['appearance']['header_color'] = [
+    '#type' => 'select',
+    '#title' => t('Header color'),
+    '#default_value' => $header_color,
+    '#options' => $brand_color_options,
+    '#description' => t('Sets the masthead surface. The University brand bar remains exact burnt orange, and the approved logo receives a white clear-space plate when its original colors need more contrast.'),
+  ];
+
+  $form['moody26_header']['appearance']['header_social_media_color'] = [
+    '#type' => 'select',
+    '#title' => t('Header social media color'),
+    '#default_value' => $header_social_media_color,
+    '#options' => $brand_color_options,
+    '#description' => t('Sets the color of the provider-owned social marks. Moody 26 supplies a contrast backing so the marks remain distinguishable in both header placements.'),
+  ];
+
+  $form['moody26_header']['appearance']['display_utexas'] = [
+    '#type' => 'checkbox',
+    '#title' => t('Display utexas.edu'),
+    '#default_value' => theme_get_setting('display_utexas') ?? TRUE,
+    '#description' => t('Show the utexas.edu destination in the University brand bar. Required University footer destinations remain available when this is disabled.'),
   ];
 
   $form['moody26_header']['give_link'] = [
@@ -95,6 +134,25 @@ function moody26_form_system_theme_settings_alter(array &$form, FormStateInterfa
     '#input' => FALSE,
     '#title' => t('Accessibility safeguards'),
     '#description' => t('Reduced-motion and Save-Data preferences always suppress optional effects. Navigation, Quick actions, focus, and content remain functional in every combination. When both options are disabled, Moody 26 omits its optional motion library.'),
+  ];
+}
+
+/**
+ * Returns the allow-listed University brand palette for header controls.
+ */
+function moody26_brand_color_options(): array {
+  return [
+    'burnt-orange' => t('Burnt orange (#bf5700)'),
+    'white' => t('White (#ffffff)'),
+    'charcoal' => t('Charcoal (#333f48)'),
+    'light-orange' => t('Light orange (#f8971f)'),
+    'limestone' => t('Limestone (#d6d2c4)'),
+    'shade' => t('Shade (#9cadb7)'),
+    'bluebonnet' => t('Bluebonnet (#005f86)'),
+    'turquoise' => t('Turquoise (#00a9b7)'),
+    'turtle-pond' => t('Turtle Pond (#579d42)'),
+    'light-green' => t('Light green (#a6cd57)'),
+    'yellow' => t('Yellow (#ffd600)'),
   ];
 }
 

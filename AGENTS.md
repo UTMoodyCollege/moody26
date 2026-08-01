@@ -56,7 +56,25 @@ not belong outside the token and font declaration files.
 
 ### Header shell
 
-- Keep one limestone masthead above one continuous charcoal navigation rail.
+- Keep one masthead above one continuous charcoal navigation rail. Limestone
+  is the upgrade-safe default; `header_color` may select any exact color in the
+  current official UT primary, supportive, or accent palette. Never accept an
+  arbitrary value or derive a tint.
+- Keep the University brand bar exact burnt orange regardless of masthead
+  selection. The optional parent-unit link remains white and desktop-only.
+- Preserve approved mark colors. White and limestone mastheads may show the
+  mark directly; every other allowed masthead color supplies a white
+  clear-space plate rather than recoloring, filtering, or replacing the mark.
+- `header_social_media_color` uses the same allow-listed palette for the
+  provider-owned social mark. Pair each mark with a verified light or deep-ink
+  backing so it remains distinguishable in both the burnt-orange desktop bar
+  and charcoal mobile drawer; do not rely on the chosen color alone.
+- `display_utexas` defaults to enabled and controls only the visible
+  `utexas.edu` brand-bar destination. Disabling it never removes required
+  University footer links, the parent-organization identity, or copyright.
+- Missing or unrecognized color settings fall back to limestone for the
+  masthead and white for social marks. Never interpolate an unvalidated setting
+  into a Twig class, style attribute, or asset URL.
 - Center the approved mark’s rendered box vertically with the masthead actions.
 - Keep search compact with a visually hidden, accurate label; search is not a
   required field.
@@ -1856,6 +1874,9 @@ legal requirements can change:
 - https://umac.utexas.edu/brand-center/colors/
 - https://umac.utexas.edu/brand-center/typography/
 
+The website and color guidance was last checked for the header-scheme contract
+on August 1, 2026.
+
 The non-negotiable floor is WCAG 2.1 Level AA and the standards incorporated by
 UT Austin’s Digital Accessibility Policy, including applicable Section 508 and
 Texas requirements. The current University compliance date is March 1, 2026.
@@ -1934,8 +1955,9 @@ Texas requirements. The current University compliance date is March 1, 2026.
 - `moody26.theme`: page variables, branding metadata, and search-form
   integration.
 - `theme-settings.php` and `config/`: portable Give, parent-unit, and reusable
-  Social Links block settings. They also own the independently configurable
-  GSAP and Anime.js motion switches and their upgrade-safe defaults.
+  Social Links block settings; allow-listed masthead and header-social color
+  schemes; and the `utexas.edu` display switch. They also own the independently
+  configurable GSAP and Anime.js motion switches and all upgrade-safe defaults.
 - `logo.svg`: approved default Moody CSU artwork.
 - `fonts/`, `LICENSES/`, `css/fonts.css`: locally hosted approved digital fonts
   and their license.

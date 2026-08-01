@@ -11,6 +11,15 @@ moody26.settings:
     parent_link:
       type: uri
       label: 'Parent-unit link URL'
+    header_color:
+      type: string
+      label: 'Header color scheme'
+    header_social_media_color:
+      type: string
+      label: 'Header social media color scheme'
+    display_utexas:
+      type: boolean
+      label: 'Display utexas.edu in the University brand bar'
     header_social_links_block:
       type: string
       label: 'Header Social Links content block UUID'

@@ -237,6 +237,33 @@ const forbidPattern = (file, pattern, message) => {
   }
 };
 
+const colorToken = (name) => {
+  const value = contents.tokens?.match(new RegExp(`${name}:\\s*(#[\\da-f]{3,6});`, 'i'))?.[1];
+  if (!value) {
+    return null;
+  }
+  return value.length === 4
+    ? `#${[...value.slice(1)].map((character) => character.repeat(2)).join('')}`
+    : value;
+};
+
+const contrastRatio = (foreground, background) => {
+  const luminance = (hex) => [1, 3, 5]
+    .map((index) => Number.parseInt(hex.slice(index, index + 2), 16) / 255)
+    .map((channel) => channel <= 0.04045 ? channel / 12.92 : ((channel + 0.055) / 1.055) ** 2.4)
+    .reduce((total, channel, index) => total + channel * [0.2126, 0.7152, 0.0722][index], 0);
+  const values = [luminance(foreground), luminance(background)].sort((a, b) => b - a);
+  return (values[0] + 0.05) / (values[1] + 0.05);
+};
+
+const requireContrast = (label, foregroundToken, backgroundToken, minimum) => {
+  const foreground = colorToken(foregroundToken);
+  const background = colorToken(backgroundToken);
+  if (!foreground || !background || contrastRatio(foreground, background) < minimum) {
+    errors.push(`${label} must retain at least ${minimum}:1 contrast.`);
+  }
+};
+
 try {
   const packageJson = JSON.parse(contents.package ?? '');
   if (packageJson.version !== '0.52.0') {
@@ -338,7 +365,31 @@ forbidText('info', '- moody26/motion', 'Optional motion must be attached from th
 
 requireText('settings', "header_social_links_block: ''", 'Header social links must be optional for new installs.');
 requirePattern('schema', /header_social_links_block:[\s\S]*?type: string/, 'Header social links must have portable string configuration schema.');
+requireText('settings', 'header_color: limestone', 'New installs must retain the compliant limestone masthead default.');
+requireText('settings', 'header_social_media_color: white', 'New installs must default header social marks to white.');
+requireText('settings', 'display_utexas: true', 'New installs must display the University destination by default.');
+requirePattern('schema', /header_color:[\s\S]*?type: string/, 'The header color must have string configuration schema.');
+requirePattern('schema', /header_social_media_color:[\s\S]*?type: string/, 'The header social color must have string configuration schema.');
+requirePattern('schema', /display_utexas:[\s\S]*?type: boolean/, 'The University destination switch must have boolean configuration schema.');
 requireText('themeSettings', "'#type' => 'select'", 'Header social links must use Drupal’s native select control.');
+requireText('themeSettings', "'#title' => t('Header color')", 'The settings form must expose the masthead color selector.');
+requireText('themeSettings', "'#title' => t('Header social media color')", 'The settings form must expose the social mark color selector.');
+requireText('themeSettings', "'#title' => t('Display utexas.edu')", 'The settings form must expose the University destination switch.');
+requireText('themeSettings', "theme_get_setting('display_utexas') ?? TRUE", 'Existing installations must retain the University destination until explicitly disabled.');
+requireText('theme', "moody26_brand_color_setting('header_color', 'limestone')", 'Runtime masthead color must use the allow-list resolver.');
+requireText('theme', "moody26_brand_color_setting('header_social_media_color', 'white')", 'Runtime social color must use the allow-list resolver.');
+requireText('theme', 'in_array($value, $allowed, TRUE)', 'Header color classes must reject values outside the University palette.');
+requireText('theme', "theme_get_setting('display_utexas') ?? TRUE", 'Existing installations must retain the University destination until explicitly disabled.');
+for (const color of ['burnt-orange', 'white', 'charcoal', 'light-orange', 'limestone', 'shade', 'bluebonnet', 'turquoise', 'turtle-pond', 'light-green', 'yellow']) {
+  requireText('themeSettings', `'${color}' => t(`, `The settings form must expose the ${color} University color.`);
+  requireText('theme', `'${color}'`, `Runtime header color must allow the ${color} University color.`);
+}
+for (const color of ['burnt-orange', 'white', 'charcoal', 'light-orange', 'shade', 'bluebonnet', 'turquoise', 'turtle-pond', 'light-green', 'yellow']) {
+  requireText('css', `.moody26-header--${color}`, `The masthead must implement the ${color} scheme.`);
+}
+for (const color of ['burnt-orange', 'charcoal', 'light-orange', 'limestone', 'shade', 'bluebonnet', 'turquoise', 'turtle-pond', 'light-green', 'yellow']) {
+  requireText('headerSocialCss', `.moody26-header-social--${color}`, `Header social marks must implement the ${color} scheme.`);
+}
 requireText('themeSettings', 'moody26_social_links_block_options()', 'The header setting must discover eligible Social Links blocks.');
 requireText('themeSettings', '->accessCheck(TRUE)', 'The Social Links selection query must enforce entity-query access.');
 requireText('themeSettings', "->condition('type', 'social_links')", 'Only Social Links blocks may be selected.');
@@ -379,6 +430,50 @@ requireText('theme', "setAttribute('data-moody26-motion-anime'", 'The document m
 requireText('theme', "$motion_enabled ? 'pending' : 'disabled'", 'The document must expose a truthful disabled motion state.');
 
 requireText('tokens', '--color-ut-burnt-orange: #bf5700;', 'Use exact UT burnt orange #bf5700.');
+for (const color of [
+  '--color-ut-white: #fff;',
+  '--color-ut-charcoal: #333f48;',
+  '--color-ut-light-orange: #f8971f;',
+  '--color-ut-limestone: #d6d2c4;',
+  '--color-ut-shade: #9cadb7;',
+  '--color-ut-bluebonnet: #005f86;',
+  '--color-ut-turquoise: #00a9b7;',
+  '--color-ut-turtle-pond: #579d42;',
+  '--color-ut-light-green: #a6cd57;',
+  '--color-ut-yellow: #ffd600;',
+]) {
+  requireText('tokens', color, `The header palette must retain ${color}`);
+}
+for (const [label, foreground, background] of [
+  ['Burnt-orange masthead', '--color-ut-white', '--color-ut-burnt-orange'],
+  ['White masthead', '--color-ut-charcoal', '--color-ut-white'],
+  ['Charcoal masthead', '--color-ut-white', '--color-ut-charcoal'],
+  ['Light-orange masthead', '--color-ut-charcoal', '--color-ut-light-orange'],
+  ['Limestone masthead', '--color-ut-charcoal', '--color-ut-limestone'],
+  ['Shade masthead', '--color-ut-charcoal', '--color-ut-shade'],
+  ['Bluebonnet masthead', '--color-ut-white', '--color-ut-bluebonnet'],
+  ['Turquoise masthead', '--color-ink-strong', '--color-ut-turquoise'],
+  ['Turtle Pond masthead', '--color-ink-strong', '--color-ut-turtle-pond'],
+  ['Light-green masthead', '--color-ut-charcoal', '--color-ut-light-green'],
+  ['Yellow masthead', '--color-ut-charcoal', '--color-ut-yellow'],
+]) {
+  requireContrast(label, foreground, background, 4.5);
+}
+for (const [label, mark, backing] of [
+  ['Burnt-orange social mark', '--color-ut-burnt-orange', '--color-ut-white'],
+  ['White social mark', '--color-ut-white', '--color-ink-strong'],
+  ['Charcoal social mark', '--color-ut-charcoal', '--color-ut-white'],
+  ['Light-orange social mark', '--color-ut-light-orange', '--color-ink-strong'],
+  ['Limestone social mark', '--color-ut-limestone', '--color-ink-strong'],
+  ['Shade social mark', '--color-ut-shade', '--color-ink-strong'],
+  ['Bluebonnet social mark', '--color-ut-bluebonnet', '--color-ut-white'],
+  ['Turquoise social mark', '--color-ut-turquoise', '--color-ink-strong'],
+  ['Turtle Pond social mark', '--color-ut-turtle-pond', '--color-ink-strong'],
+  ['Light-green social mark', '--color-ut-light-green', '--color-ink-strong'],
+  ['Yellow social mark', '--color-ut-yellow', '--color-ink-strong'],
+]) {
+  requireContrast(label, mark, backing, 3);
+}
 requireText('tokens', '--font-display: "CharisSil", Georgia, serif;', 'Use the approved UT digital serif role.');
 requireText('tokens', '--font-body: "LibreFrank", Arial, Helvetica, sans-serif;', 'Use the approved UT digital sans-serif role.');
 requireText('tokens', '--target-min: 2.75rem;', 'Interactive targets must retain the 44 CSS-pixel floor.');
@@ -407,10 +502,14 @@ requireText('page', '{{ page.highlighted }}', 'The page shell must render lazy l
 forbidText('page', 'page.highlighted|render', 'The page shell must not pre-render and discard lazy local-task placeholders.');
 requireText('css', '.moody26-system-messages:has(> *)', 'Empty utility-region wrappers must not create layout gaps.');
 requireText('header', 'id="moody26-header"', 'The theme must own its header shell.');
+requireText('header', 'moody26-header--{{ header_color }}', 'The masthead must expose only the normalized header color class.');
 requireText('header', 'aria-controls="moody26-primary-navigation"', 'The drawer button must identify its navigation.');
 requireText('header', 'data-moody26-mobile-actions', 'The mobile drawer must provide a canonical site-actions position.');
 requireText('header', "'Site actions'|t", 'The mobile action group needs an accessible name.');
 requireText('brandbar', 'https://www.utexas.edu/', 'The University bar must link to UT Austin.');
+requireText('brandbar', '{% if display_utexas %}', 'The University destination must honor its display setting.');
+requireText('brandbar', 'moody26-brandbar--without-university', 'A hidden University destination must expose the compact brand-bar state.');
+requireText('css', '.moody26-brandbar--without-university', 'An otherwise empty mobile brand bar must collapse to a restrained identity rule.');
 requireText('brandbar', 'ut-parent-entity', 'The optional parent-unit hook must remain available.');
 requireText('brandbar', 'header_social_links_desktop', 'The University bar must expose the selected desktop Social Links block.');
 requireText('brandbar', "'Social media'|t", 'Desktop Social Links need an accessible landmark name.');
@@ -528,6 +627,8 @@ requireText('headerSocialCss', 'inline-size: var(--target-min);', 'Header social
 requireText('headerSocialCss', 'block-size: var(--target-min);', 'Header social links must preserve 44 CSS-pixel targets.');
 requireText('headerSocialCss', 'background-size: var(--space-lg);', 'Header social marks must remain subordinate to their touch targets.');
 requireText('headerSocialCss', 'background-image: var(--social-icon-image);', 'Header social marks must use provider-owned icon artwork.');
+requireText('headerSocialCss', 'filter: var(--moody26-header-social-filter);', 'Header social marks must resolve through the allow-listed color filter.');
+requireText('headerSocialCss', 'background-color: var(--moody26-header-social-surface);', 'Header social marks need an automatic contrast backing.');
 requireText('headerSocialCss', '-webkit-mask: none;', 'Header social artwork must not retain the provider alpha mask.');
 requireText('headerSocialCss', '.social-links__list', 'Header social placement must support the semantic field template.');
 requireText('headerSocialCss', ':focus-within', 'Header social links must expose visible parent focus without relying on :has().');

@@ -9,6 +9,9 @@ favicon:
 give_link: 'https://moody.utexas.edu/about/support-moody-college'
 parent_link_title: ''
 parent_link: ''
+header_color: limestone
+header_social_media_color: white
+display_utexas: true
 header_social_links_block: ''
 motion_gsap_enabled: true
 motion_anime_enabled: true

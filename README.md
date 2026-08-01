@@ -207,6 +207,18 @@ optional sources are available.
 
 `Appearance → Settings → Moody 26` exposes:
 
+- **Header color:** sets the masthead to any color in the current official UT
+  primary, supportive, or accent palette. Limestone is the default. The
+  University bar remains exact burnt orange, and schemes that would reduce
+  contrast around the approved CSU mark add a white clear-space plate without
+  recoloring the artwork.
+- **Header social media color:** applies the same allow-listed palette to the
+  provider-owned social marks. Each selected mark color is paired with a
+  contrast backing that works in both the burnt-orange desktop brand bar and
+  the charcoal mobile drawer.
+- **Display utexas.edu:** enabled by default. Disable it to omit that destination
+  from the University bar; the required University footer links and copyright
+  remain unchanged.
 - **Give link:** leave empty to remove the header action.
 - **Parent-unit label and URL:** optional for subsidiary sites. The link is
   displayed in the University bar at desktop sizes only.
@@ -238,6 +250,14 @@ formatter-provided icon assets, accessible names, access checks, translations,
 and cache metadata remain authoritative. If the selected block becomes
 unpublished, non-reusable, inaccessible, or unavailable, the header omits the
 social landmark instead of rendering stale links.
+
+Header color settings store stable allow-listed slugs rather than arbitrary
+CSS values. Missing or unrecognized values fall back to limestone for the
+masthead and white for social marks, which keeps in-place theme upgrades
+readable before an administrator saves the new controls. The palette values
+were checked against the official University color guidance on August 1, 2026;
+release review should re-check that source because brand requirements can
+change.
 
 ### Page-title ownership
 

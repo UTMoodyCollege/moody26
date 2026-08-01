@@ -15,6 +15,12 @@
   min-block-size: var(--moody26-settings-target-min);
 }
 
+.moody26-header-options .form-item__label.option {
+  display: inline-flex;
+  align-items: center;
+  min-block-size: var(--moody26-settings-target-min);
+}
+
 .moody26-header-options select {
   min-block-size: var(--moody26-settings-target-min);
 }

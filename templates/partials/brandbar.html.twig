@@ -1,8 +1,10 @@
-<div class="ut-brandbar moody26-brandbar">
+<div class="ut-brandbar moody26-brandbar{% if not display_utexas %} moody26-brandbar--without-university{% endif %}">
   <div class="moody26-container moody26-brandbar__inner">
-    <a class="moody26-brandbar__university" href="https://www.utexas.edu/" aria-label="{{ 'The University of Texas at Austin home'|t }}">
-      utexas.edu
-    </a>
+    {% if display_utexas %}
+      <a class="moody26-brandbar__university" href="https://www.utexas.edu/" aria-label="{{ 'The University of Texas at Austin home'|t }}">
+        utexas.edu
+      </a>
+    {% endif %}
     {% if parent_entity_title and parent_entity_link %}
       <a class="ut-parent-entity moody26-brandbar__parent" href="{{ parent_entity_link }}">
         {{ parent_entity_title }}
@@ -12,7 +14,7 @@
       <div class="moody26-brandbar__utility">{{ page.utility_nav }}</div>
     {% endif %}
     {% if header_social_links_desktop %}
-      <nav class="moody26-header-social moody26-brandbar__social" aria-label="{{ 'Social media'|t }}">
+      <nav class="moody26-header-social moody26-header-social--{{ header_social_media_color }} moody26-brandbar__social" aria-label="{{ 'Social media'|t }}">
         {{ header_social_links_desktop }}
       </nav>
     {% endif %}

@@ -1,4 +1,4 @@
-<header id="moody26-header" class="moody26-header">
+<header id="moody26-header" class="moody26-header moody26-header--{{ header_color }}">
   <div class="moody26-container moody26-header__masthead">
     <div class="moody26-header__identity">
       {{ page.header_primary }}
@@ -37,7 +37,7 @@
         <div class="moody26-navigation__utility">{{ page.header_tertiary }}</div>
       {% endif %}
       {% if header_social_links_mobile %}
-        <nav class="moody26-header-social moody26-navigation__social" aria-label="{{ 'Social media'|t }}">
+        <nav class="moody26-header-social moody26-header-social--{{ header_social_media_color }} moody26-navigation__social" aria-label="{{ 'Social media'|t }}">
           {{ header_social_links_mobile }}
         </nav>
       {% endif %}

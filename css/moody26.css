@@ -330,6 +330,11 @@ textarea {
   color: var(--color-accent-ink);
 }
 
+.moody26-brandbar--without-university,
+.moody26-brandbar--without-university .moody26-brandbar__inner {
+  min-height: var(--space-xs);
+}
+
 .moody26-brandbar__inner {
   display: flex;
   min-height: var(--target-min);
@@ -364,11 +369,58 @@ textarea {
 
 /* Theme-owned N11 disclosure navigation. */
 .moody26-header {
+  --moody26-header-surface: var(--color-ut-limestone);
+  --moody26-header-ink: var(--color-ut-charcoal);
   position: sticky;
   inset-block-start: var(--drupal-displace-offset-top, 0px);
   z-index: var(--z-sticky);
-  background: var(--color-paper-2);
-  color: var(--color-ink);
+  background: var(--moody26-header-surface);
+  color: var(--moody26-header-ink);
+}
+
+.moody26-header--white {
+  --moody26-header-surface: var(--color-ut-white);
+}
+
+.moody26-header--burnt-orange {
+  --moody26-header-surface: var(--color-ut-burnt-orange);
+  --moody26-header-ink: var(--color-ut-white);
+}
+
+.moody26-header--charcoal {
+  --moody26-header-surface: var(--color-ut-charcoal);
+  --moody26-header-ink: var(--color-ut-white);
+}
+
+.moody26-header--light-orange {
+  --moody26-header-surface: var(--color-ut-light-orange);
+}
+
+.moody26-header--shade {
+  --moody26-header-surface: var(--color-ut-shade);
+}
+
+.moody26-header--bluebonnet {
+  --moody26-header-surface: var(--color-ut-bluebonnet);
+  --moody26-header-ink: var(--color-ut-white);
+}
+
+.moody26-header--turquoise {
+  --moody26-header-surface: var(--color-ut-turquoise);
+  --moody26-header-ink: var(--color-ink-strong);
+}
+
+.moody26-header--turtle-pond {
+  --moody26-header-surface: var(--color-ut-turtle-pond);
+  --moody26-header-ink: var(--color-ink-strong);
+}
+
+.moody26-header--light-green {
+  --moody26-header-surface: var(--color-ut-light-green);
+}
+
+.moody26-header--yellow {
+  --moody26-header-surface: var(--color-ut-yellow);
 }
 
 .moody26-header__masthead {
@@ -397,6 +449,21 @@ textarea {
   align-items: center;
   color: var(--color-ink);
   text-decoration: none;
+}
+
+:is(
+  .moody26-header--burnt-orange,
+  .moody26-header--charcoal,
+  .moody26-header--light-orange,
+  .moody26-header--shade,
+  .moody26-header--bluebonnet,
+  .moody26-header--turquoise,
+  .moody26-header--turtle-pond,
+  .moody26-header--light-green,
+  .moody26-header--yellow
+) .moody26-site-branding {
+  padding: var(--space-xs);
+  background: var(--color-ut-white);
 }
 
 .moody26-site-branding__logo {

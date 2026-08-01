@@ -94,6 +94,9 @@ function moody26_preprocess_page(array &$variables): void {
   $variables['give_link'] = theme_get_setting('give_link');
   $variables['parent_entity_title'] = theme_get_setting('parent_link_title');
   $variables['parent_entity_link'] = theme_get_setting('parent_link');
+  $variables['header_color'] = moody26_brand_color_setting('header_color', 'limestone');
+  $variables['header_social_media_color'] = moody26_brand_color_setting('header_social_media_color', 'white');
+  $variables['display_utexas'] = (bool) (theme_get_setting('display_utexas') ?? TRUE);
   $variables['header_social_links_desktop'] = [];
   $variables['header_social_links_mobile'] = [];
   $variables['main_content_attributes'] = (new Attribute())
@@ -133,6 +136,30 @@ function moody26_preprocess_page(array &$variables): void {
     $variables[$slot] = $view_builder->view($block, 'full');
     CacheableMetadata::createFromObject($access)->applyTo($variables[$slot]);
   }
+}
+
+/**
+ * Resolves one header color setting against the approved University palette.
+ */
+function moody26_brand_color_setting(string $setting_name, string $default): string {
+  $allowed = [
+    'burnt-orange',
+    'white',
+    'charcoal',
+    'light-orange',
+    'limestone',
+    'shade',
+    'bluebonnet',
+    'turquoise',
+    'turtle-pond',
+    'light-green',
+    'yellow',
+  ];
+  $value = theme_get_setting($setting_name);
+
+  return is_string($value) && in_array($value, $allowed, TRUE)
+    ? $value
+    : $default;
 }
 
 /**
